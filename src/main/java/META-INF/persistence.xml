@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="erpPU" transaction-type="RESOURCE_LOCAL">
+	    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+	    
+	    <class>org.erp.distribution.model.AccAccount</class>
+	    <class>org.erp.distribution.model.AccAccountbalance</class>
+	    <class>org.erp.distribution.model.AccAccountbalancePK</class>
+	    <class>org.erp.distribution.model.AccAccountgroup</class>
+	    <class>org.erp.distribution.model.Accountgroupreport</class>
+
+	    <class>org.erp.distribution.model.AccJournalDetail</class>
+	    <class>org.erp.distribution.model.AccJournalDetailPK</class>
+	    <class>org.erp.distribution.model.AccJournalHeader</class>
+	    
+	    <class>org.erp.distribution.model.FDivision</class>
+	    <class>org.erp.distribution.model.FArea</class>
+	    <class>org.erp.distribution.model.FCustomer</class>
+	    <class>org.erp.distribution.model.FCustomergroup</class>
+	    <class>org.erp.distribution.model.FCustomersubgroup</class>
+	    <class>org.erp.distribution.model.FProduct</class>
+	    <class>org.erp.distribution.model.FProductgroup</class>
+	    <class>org.erp.distribution.model.FProductgroupdept</class>
+	    <class>org.erp.distribution.model.FProductgroupdivisi</class>
+	    <class>org.erp.distribution.model.FSalesman</class>	    
+<!-- 	    
+	    <class>org.erp.distribution.model.FCustomerSpecDisc</class>
+-->	     	    	    
+	    <class>org.erp.distribution.model.FCustomerSpecDiscPK</class>
+	    
+	    <class>org.erp.distribution.model.FtPriceh</class>
+	    <class>org.erp.distribution.model.FtPriced</class>
+	    <class>org.erp.distribution.model.FtPricedPK</class>
+	    <class>org.erp.distribution.model.FtPriceAlth</class>
+	    <class>org.erp.distribution.model.FtPriceAltd</class>
+	    <class>org.erp.distribution.model.FtPriceAltdPK</class>
+	    
+	    <class>org.erp.distribution.model.FStock</class>
+	    <class>org.erp.distribution.model.FSubarea</class>
+	    
+	    <class>org.erp.distribution.model.FtArpaymenth</class>
+	    <class>org.erp.distribution.model.FtArpaymentd</class>
+	    <class>org.erp.distribution.model.FtArpaymentdPK</class>
+
+	    <class>org.erp.distribution.model.FtAppaymenth</class>
+	    <class>org.erp.distribution.model.FtAppaymentd</class>
+	    <class>org.erp.distribution.model.FtAppaymentdPK</class>
+	
+	    <class>org.erp.distribution.model.FtOpnameh</class>
+	    <class>org.erp.distribution.model.FtOpnamed</class>
+	    <class>org.erp.distribution.model.FtOpnamedPK</class>
+	    
+	    <class>org.erp.distribution.model.FtPurchaseh</class>
+	    <class>org.erp.distribution.model.FtPurchased</class>
+	    <class>org.erp.distribution.model.FtPurchasedPK</class>
+	    
+	    <class>org.erp.distribution.model.FtSalesh</class>
+	    <class>org.erp.distribution.model.FtSalesd</class>
+	    <class>org.erp.distribution.model.FtSalesdPK</class>
+	    <class>org.erp.distribution.model.FtSalesdPromoTprb</class>
+	    <class>org.erp.distribution.model.FtSalesdPromoTpruDisc</class>
+	    <class>org.erp.distribution.model.FtSalesdPromoTpruCb</class>
+	
+	    <class>org.erp.distribution.model.FtSaleshRekapTampungan</class>
+	
+	    <class>org.erp.distribution.model.FtStocktransferh</class>
+	    <class>org.erp.distribution.model.FtStocktransferd</class>
+	    <class>org.erp.distribution.model.FtStocktransferdPK</class>
+	
+	    <class>org.erp.distribution.model.FtAdjusth</class>
+	    <class>org.erp.distribution.model.FtAdjustd</class>
+	    <class>org.erp.distribution.model.FtAdjustdPK</class>
+	    
+	    <class>org.erp.distribution.model.FVendor</class>
+	    
+	    <class>org.erp.distribution.model.FWarehouse</class>
+	
+	    <class>org.erp.distribution.model.Sysvar</class>
+	    <class>org.erp.distribution.model.User</class>
+	    <class>org.erp.distribution.model.FPromo</class>
+	    	
+	    <!-- FINANCE -->
+	    <class>org.erp.distribution.model.Bank</class>
+	    <class>org.erp.distribution.model.Bukugiro</class>
+	    <class>org.erp.distribution.model.Bukutransfer</class>
+	    
+	    <!-- PARAMETER DISKON -->
+	    <class>org.erp.distribution.model.FParamDiskonNota</class>
+	    <class>org.erp.distribution.model.FParamDiskonItem</class>
+	    <class>org.erp.distribution.model.FParamDiskonItemVendor</class>
+	    
+	    <!-- TEMPORER LAPORAN -->
+	    <class>org.erp.distribution.model.ZLapAktifitasPromoList</class>
+	    <class>org.erp.distribution.model.ZLapPrestasiKerja</class>
+	    <class>org.erp.distribution.model.ZLapMutasiStock</class>
+	    <class>org.erp.distribution.model.ZLapStockOpname</class>
+	    <class>org.erp.distribution.model.ZLapPackingList</class>
+	    <class>org.erp.distribution.model.ZLapSJPenagihanList</class>
+	    <class>org.erp.distribution.model.ZLapTemplate1</class>
+	    	    
+		<!-- Service -->	    
+	    <class>org.erp.distribution.model.SCustomer</class>
+	    <class>org.erp.distribution.model.STeknisi</class>
+	    <class>org.erp.distribution.model.SMerk</class>
+	    <class>org.erp.distribution.model.StService</class>
+	    <class>org.erp.distribution.model.StServiceItem</class>
+	    <class>org.erp.distribution.model.StServiceItemPK</class>
+	    					
+	    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+	    <properties>
+	      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/erp_db"/>
+	      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+	      <property name="javax.persistence.jdbc.user" value="root"/>
+	      <property name="javax.persistence.jdbc.password" value="hacker"/>
+	      <property name="javax.persistence.schema-generation.database.action" value="create-or-extend-tables"/>
+	    </properties>
+    
+    
+	</persistence-unit>
+</persistence>

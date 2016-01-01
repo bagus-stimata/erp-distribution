@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d5ee116e-d7f0-4555-9034-bfffef62221c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     ftsalesd.`DISC1` AS ftsalesd_DISC1,
+     ftsalesd.`DISC2` AS ftsalesd_DISC2,
+     ftsalesd.`FREEGOOD` AS ftsalesd_FREEGOOD,
+     ftsalesd.`NOURUT` AS ftsalesd_NOURUT,
+     ftsalesd.`QTY` AS ftsalesd_QTY,
+     ftsalesd.`SPRICE` AS ftsalesd_SPRICE,
+     ftsalesd.`id` AS ftsalesd_id,
+     ftsalesd.`refno` AS ftsalesd_refno,
+     ftsalesh.`REFNO` AS ftsalesh_REFNO,
+     ftsalesh.`AMOUNT` AS ftsalesh_AMOUNT,
+     ftsalesh.`AMOUNTAFTERDISC` AS ftsalesh_AMOUNTAFTERDISC,
+     ftsalesh.`AMOUNTAFTERDISCAFTERPPN` AS ftsalesh_AMOUNTAFTERDISCAFTERPPN,
+     ftsalesh.`AMOUNTPAY` AS ftsalesh_AMOUNTPAY,
+     ftsalesh.`DISC` AS ftsalesh_DISC,
+     ftsalesh.`DISC1` AS ftsalesh_DISC1,
+     ftsalesh.`DISC2` AS ftsalesh_DISC2,
+     ftsalesh.`DUEDATE` AS ftsalesh_DUEDATE,
+     ftsalesh.`ENDOFDAY` AS ftsalesh_ENDOFDAY,
+     ftsalesh.`ENTRYDATE` AS ftsalesh_ENTRYDATE,
+     ftsalesh.`INVOICEDATE` AS ftsalesh_INVOICEDATE,
+     ftsalesh.`INVOICENO` AS ftsalesh_INVOICENO,
+     ftsalesh.`ORDERDATE` AS ftsalesh_ORDERDATE,
+     ftsalesh.`ORDERNO` AS ftsalesh_ORDERNO,
+     ftsalesh.`PPNPERCENT` AS ftsalesh_PPNPERCENT,
+     ftsalesh.`PRINTCOUNTER` AS ftsalesh_PRINTCOUNTER,
+     ftsalesh.`SALDO` AS ftsalesh_SALDO,
+     ftsalesh.`TIPEFAKTUR` AS ftsalesh_TIPEFAKTUR,
+     ftsalesh.`TIPEJUAL` AS ftsalesh_TIPEJUAL,
+     ftsalesh.`TOP` AS ftsalesh_TOP,
+     ftsalesh.`TUNAIKREDIT` AS ftsalesh_TUNAIKREDIT,
+     ftsalesh.`fcustomerBean` AS ftsalesh_fcustomerBean,
+     ftsalesh.`fsalesmanBean` AS ftsalesh_fsalesmanBean,
+     ftsalesh.`fwarehouseBean` AS ftsalesh_fwarehouseBean,
+     ftsalesh.`RECAPNO` AS ftsalesh_RECAPNO,
+     ftsalesh.`SURATJALAN` AS ftsalesh_SURATJALAN,
+     ftsalesh.`SURATJALANNO` AS ftsalesh_SURATJALANNO,
+     ftsalesh.`amountreturtampung` AS ftsalesh_amountreturtampung,
+     ftsalesh.`amountrevisi` AS ftsalesh_amountrevisi,
+     ftsalesh.`lunas` AS ftsalesh_lunas,
+     ftsalesh.`returtampunglunas` AS ftsalesh_returtampunglunas,
+     ftsalesh.`terkirim` AS ftsalesh_terkirim,
+     ftsalesh.`tertunda` AS ftsalesh_tertunda,
+     ftsalesh.`tertundacounter` AS ftsalesh_tertundacounter
+FROM
+     `ftsalesh` ftsalesh RIGHT OUTER JOIN `ftsalesd` ftsalesd ON ftsalesh.`REFNO` = ftsalesd.`refno`]]>
+	</queryString>
+	<field name="ftsalesd_DISC1" class="java.lang.Double"/>
+	<field name="ftsalesd_DISC2" class="java.lang.Double"/>
+	<field name="ftsalesd_FREEGOOD" class="java.lang.Boolean"/>
+	<field name="ftsalesd_NOURUT" class="java.lang.Integer"/>
+	<field name="ftsalesd_QTY" class="java.lang.Integer"/>
+	<field name="ftsalesd_SPRICE" class="java.lang.Double"/>
+	<field name="ftsalesd_id" class="java.lang.Long"/>
+	<field name="ftsalesd_refno" class="java.lang.Long"/>
+	<field name="ftsalesh_REFNO" class="java.lang.Long"/>
+	<field name="ftsalesh_AMOUNT" class="java.lang.Double"/>
+	<field name="ftsalesh_AMOUNTAFTERDISC" class="java.lang.Double"/>
+	<field name="ftsalesh_AMOUNTAFTERDISCAFTERPPN" class="java.lang.Double"/>
+	<field name="ftsalesh_AMOUNTPAY" class="java.lang.Double"/>
+	<field name="ftsalesh_DISC" class="java.lang.Double"/>
+	<field name="ftsalesh_DISC1" class="java.lang.Double"/>
+	<field name="ftsalesh_DISC2" class="java.lang.Double"/>
+	<field name="ftsalesh_DUEDATE" class="java.sql.Date"/>
+	<field name="ftsalesh_ENDOFDAY" class="java.lang.Boolean"/>
+	<field name="ftsalesh_ENTRYDATE" class="java.sql.Date"/>
+	<field name="ftsalesh_INVOICEDATE" class="java.sql.Date"/>
+	<field name="ftsalesh_INVOICENO" class="java.lang.String"/>
+	<field name="ftsalesh_ORDERDATE" class="java.sql.Date"/>
+	<field name="ftsalesh_ORDERNO" class="java.lang.String"/>
+	<field name="ftsalesh_PPNPERCENT" class="java.lang.Double"/>
+	<field name="ftsalesh_PRINTCOUNTER" class="java.lang.Integer"/>
+	<field name="ftsalesh_SALDO" class="java.lang.Boolean"/>
+	<field name="ftsalesh_TIPEFAKTUR" class="java.lang.String"/>
+	<field name="ftsalesh_TIPEJUAL" class="java.lang.String"/>
+	<field name="ftsalesh_TOP" class="java.lang.Integer"/>
+	<field name="ftsalesh_TUNAIKREDIT" class="java.lang.String"/>
+	<field name="ftsalesh_fcustomerBean" class="java.lang.Long"/>
+	<field name="ftsalesh_fsalesmanBean" class="java.lang.Long"/>
+	<field name="ftsalesh_fwarehouseBean" class="java.lang.String"/>
+	<field name="ftsalesh_RECAPNO" class="java.lang.String"/>
+	<field name="ftsalesh_SURATJALAN" class="java.lang.Boolean"/>
+	<field name="ftsalesh_SURATJALANNO" class="java.lang.String"/>
+	<field name="ftsalesh_amountreturtampung" class="java.lang.Double"/>
+	<field name="ftsalesh_amountrevisi" class="java.lang.Double"/>
+	<field name="ftsalesh_lunas" class="java.lang.Boolean"/>
+	<field name="ftsalesh_returtampunglunas" class="java.lang.Boolean"/>
+	<field name="ftsalesh_terkirim" class="java.lang.Boolean"/>
+	<field name="ftsalesh_tertunda" class="java.lang.Boolean"/>
+	<field name="ftsalesh_tertundacounter" class="java.lang.Integer"/>
+	<group name="HEADER_GROUP">
+		<groupExpression><![CDATA[$F{ftsalesh_REFNO}]]></groupExpression>
+		<groupHeader>
+			<band height="50"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<group name="DETAIL_GROUP">
+		<groupExpression><![CDATA[$F{ftsalesd_refno}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement x="112" y="27" width="100" height="20" uuid="e9bad414-8b0a-4824-87dd-d754c0eb6e38"/>
+					<textFieldExpression><![CDATA[$F{ftsalesd_id}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="50"/>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="583" leftMargin="6" rightMargin="6" topMargin="7" bottomMargin="6" uuid="f2aec91a-f985-484c-9143-4148fc76c01e">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="paramNorek" class="java.lang.String"/>
+	<parameter name="paramWarehouse" class="java.lang.String"/>
+	<parameter name="paramTrdate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     zlapstockopname.`ID` AS zlapstockopname_ID,
+     zlapstockopname.`AKUMULASINILAIBELI` AS zlapstockopname_AKUMULASINILAIBELI,
+     zlapstockopname.`AKUMULASINILAIJUAL` AS zlapstockopname_AKUMULASINILAIJUAL,
+     zlapstockopname.`GRUP1` AS zlapstockopname_GRUP1,
+     zlapstockopname.`GRUP2` AS zlapstockopname_GRUP2,
+     zlapstockopname.`GRUP3` AS zlapstockopname_GRUP3,
+     zlapstockopname.`PCODE` AS zlapstockopname_PCODE,
+     zlapstockopname.`PENAMBAHANBES` AS zlapstockopname_PENAMBAHANBES,
+     zlapstockopname.`PENAMBAHANKEC` AS zlapstockopname_PENAMBAHANKEC,
+     zlapstockopname.`PENAMBAHANNILAIBELI` AS zlapstockopname_PENAMBAHANNILAIBELI,
+     zlapstockopname.`PENAMBAHANNILAIJUAL` AS zlapstockopname_PENAMBAHANNILAIJUAL,
+     zlapstockopname.`PENAMBAHANPCS` AS zlapstockopname_PENAMBAHANPCS,
+     zlapstockopname.`PENAMBAHANSED` AS zlapstockopname_PENAMBAHANSED,
+     zlapstockopname.`PENGURANGANBES` AS zlapstockopname_PENGURANGANBES,
+     zlapstockopname.`PENJUALANKEC` AS zlapstockopname_PENJUALANKEC,
+     zlapstockopname.`PENGURANGANNILAIBELI` AS zlapstockopname_PENGURANGANNILAIBELI,
+     zlapstockopname.`PENGURANGANNILAIJUAL` AS zlapstockopname_PENGURANGANNILAIJUAL,
+     zlapstockopname.`PENGURANGANPCS` AS zlapstockopname_PENGURANGANPCS,
+     zlapstockopname.`PENGURANGANSED` AS zlapstockopname_PENGURANGANSED,
+     zlapstockopname.`PNAME` AS zlapstockopname_PNAME,
+     zlapstockopname.`STOCKOPNAMEDATE` AS zlapstockopname_STOCKOPNAMEDATE,
+     zlapstockopname.`PENGURANGANKEC` AS zlapstockopname_PENGURANGANKEC,
+     zlapstockopname.`PEMBELIANBES` AS zlapstockopname_PEMBELIANBES,
+     zlapstockopname.`PEMBELIANKEC` AS zlapstockopname_PEMBELIANKEC,
+     zlapstockopname.`PEMBELIANNILAIBELI` AS zlapstockopname_PEMBELIANNILAIBELI,
+     zlapstockopname.`PEMBELIANNILAIJUAL` AS zlapstockopname_PEMBELIANNILAIJUAL,
+     zlapstockopname.`PEMBELIANPCS` AS zlapstockopname_PEMBELIANPCS,
+     zlapstockopname.`PEMBELIANSED` AS zlapstockopname_PEMBELIANSED,
+     zlapstockopname.`PENJUALANBES` AS zlapstockopname_PENJUALANBES,
+     zlapstockopname.`PENJUALANNILAIBELI` AS zlapstockopname_PENJUALANNILAIBELI,
+     zlapstockopname.`PENJUALANNILAIJUAL` AS zlapstockopname_PENJUALANNILAIJUAL,
+     zlapstockopname.`PENJUALANPCS` AS zlapstockopname_PENJUALANPCS,
+     zlapstockopname.`PENJUALANSED` AS zlapstockopname_PENJUALANSED,
+     zlapstockopname.`PEYESUAIANBES` AS zlapstockopname_PEYESUAIANBES,
+     zlapstockopname.`PEYESUAIANKEC` AS zlapstockopname_PEYESUAIANKEC,
+     zlapstockopname.`PEYESUAIANNILAIBELI` AS zlapstockopname_PEYESUAIANNILAIBELI,
+     zlapstockopname.`PEYESUAIANNILAIJUAL` AS zlapstockopname_PEYESUAIANNILAIJUAL,
+     zlapstockopname.`PEYESUAIANPCS` AS zlapstockopname_PEYESUAIANPCS,
+     zlapstockopname.`PEYESUAIANSED` AS zlapstockopname_PEYESUAIANSED,
+     zlapstockopname.`RETURPEMBELIANBES` AS zlapstockopname_RETURPEMBELIANBES,
+     zlapstockopname.`RETURPEMBELIANKEC` AS zlapstockopname_RETURPEMBELIANKEC,
+     zlapstockopname.`RETURPEMBELIANNILAIBELI` AS zlapstockopname_RETURPEMBELIANNILAIBELI,
+     zlapstockopname.`RETURPEMBELIANNILAIJUAL` AS zlapstockopname_RETURPEMBELIANNILAIJUAL,
+     zlapstockopname.`RETURPEMBELIANPCS` AS zlapstockopname_RETURPEMBELIANPCS,
+     zlapstockopname.`RETURPEMBELIANSED` AS zlapstockopname_RETURPEMBELIANSED,
+     zlapstockopname.`RETURPENJUALANBES` AS zlapstockopname_RETURPENJUALANBES,
+     zlapstockopname.`RETURPENJUALANKEC` AS zlapstockopname_RETURPENJUALANKEC,
+     zlapstockopname.`RETURPENJUALANNILAIBELI` AS zlapstockopname_RETURPENJUALANNILAIBELI,
+     zlapstockopname.`RETURPENJUALANNILAIJUAL` AS zlapstockopname_RETURPENJUALANNILAIJUAL,
+     zlapstockopname.`RETURPENJUALANPCS` AS zlapstockopname_RETURPENJUALANPCS,
+     zlapstockopname.`RETURPENJUALANSED` AS zlapstockopname_RETURPENJUALANSED,
+     zlapstockopname.`SALDOAKHIRBES` AS zlapstockopname_SALDOAKHIRBES,
+     zlapstockopname.`SALDOAKHIRKEC` AS zlapstockopname_SALDOAKHIRKEC,
+     zlapstockopname.`SALDOAKHIRNILAIBELI` AS zlapstockopname_SALDOAKHIRNILAIBELI,
+     zlapstockopname.`SALDOAKHIRNILAIJUAL` AS zlapstockopname_SALDOAKHIRNILAIJUAL,
+     zlapstockopname.`SALDOAKHIRPCS` AS zlapstockopname_SALDOAKHIRPCS,
+     zlapstockopname.`SALDOAKHIRSED` AS zlapstockopname_SALDOAKHIRSED,
+     zlapstockopname.`SALDOAWALBES` AS zlapstockopname_SALDOAWALBES,
+     zlapstockopname.`SALDOAWALKEC` AS zlapstockopname_SALDOAWALKEC,
+     zlapstockopname.`SALDOAWALNILAIBELI` AS zlapstockopname_SALDOAWALNILAIBELI,
+     zlapstockopname.`SALDOAWALNILAIJUAL` AS zlapstockopname_SALDOAWALNILAIJUAL,
+     zlapstockopname.`SALDOAWALPCS` AS zlapstockopname_SALDOAWALPCS,
+     zlapstockopname.`SALDOAWALSED` AS zlapstockopname_SALDOAWALSED,
+     zlapstockopname.`TRANSFERINBES` AS zlapstockopname_TRANSFERINBES,
+     zlapstockopname.`TRANSFERINKEC` AS zlapstockopname_TRANSFERINKEC,
+     zlapstockopname.`TRANSFERINNILAIBELI` AS zlapstockopname_TRANSFERINNILAIBELI,
+     zlapstockopname.`TRANSFERINNILAIJUAL` AS zlapstockopname_TRANSFERINNILAIJUAL,
+     zlapstockopname.`TRANSFERINPCS` AS zlapstockopname_TRANSFERINPCS,
+     zlapstockopname.`TRANSFERINSED` AS zlapstockopname_TRANSFERINSED,
+     zlapstockopname.`TRANSFEROUTBES` AS zlapstockopname_TRANSFEROUTBES,
+     zlapstockopname.`TRANSFEROUTKEC` AS zlapstockopname_TRANSFEROUTKEC,
+     zlapstockopname.`TRANSFEROUTNILAIBELI` AS zlapstockopname_TRANSFEROUTNILAIBELI,
+     zlapstockopname.`TRANSFEROUTNILAIJUAL` AS zlapstockopname_TRANSFEROUTNILAIJUAL,
+     zlapstockopname.`TRANSFEROUTPCS` AS zlapstockopname_TRANSFEROUTPCS,
+     zlapstockopname.`TRANSFEROUTSED` AS zlapstockopname_TRANSFEROUTSED,
+     zlapstockopname.`FISIKBES` AS zlapstockopname_FISIKBES,
+     zlapstockopname.`FISIKKEC` AS zlapstockopname_FISIKKEC,
+     zlapstockopname.`FISIKPCS` AS zlapstockopname_FISIKPCS,
+     zlapstockopname.`FISIKSED` AS zlapstockopname_FISIKSED,
+     zlapstockopname.`TEORIBES` AS zlapstockopname_TEORIBES,
+     zlapstockopname.`TEORIKEC` AS zlapstockopname_TEORIKEC,
+     zlapstockopname.`TEORIPCS` AS zlapstockopname_TEORIPCS,
+     zlapstockopname.`TEORISED` AS zlapstockopname_TEORISED
+FROM
+     `zlapstockopname` zlapstockopname
+ORDER BY
+     zlapstockopname.`GRUP3` ASC,
+     zlapstockopname.`GRUP2` ASC,
+     zlapstockopname.`GRUP1` ASC,
+     zlapstockopname.`PCODE` ASC]]>
+	</queryString>
+	<field name="zlapstockopname_ID" class="java.lang.Long"/>
+	<field name="zlapstockopname_AKUMULASINILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_AKUMULASINILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_GRUP1" class="java.lang.String"/>
+	<field name="zlapstockopname_GRUP2" class="java.lang.String"/>
+	<field name="zlapstockopname_GRUP3" class="java.lang.String"/>
+	<field name="zlapstockopname_PCODE" class="java.lang.String"/>
+	<field name="zlapstockopname_PENAMBAHANBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENAMBAHANKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENAMBAHANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_PENAMBAHANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_PENAMBAHANPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENAMBAHANSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENGURANGANBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENJUALANKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENGURANGANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_PENGURANGANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_PENGURANGANPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENGURANGANSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PNAME" class="java.lang.String"/>
+	<field name="zlapstockopname_STOCKOPNAMEDATE" class="java.sql.Date"/>
+	<field name="zlapstockopname_PENGURANGANKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEMBELIANBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEMBELIANKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEMBELIANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_PEMBELIANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_PEMBELIANPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEMBELIANSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENJUALANBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENJUALANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_PENJUALANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_PENJUALANPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PENJUALANSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEYESUAIANBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEYESUAIANKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEYESUAIANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_PEYESUAIANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_PEYESUAIANPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_PEYESUAIANSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPEMBELIANBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPEMBELIANKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPEMBELIANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_RETURPEMBELIANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_RETURPEMBELIANPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPEMBELIANSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPENJUALANBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPENJUALANKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPENJUALANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_RETURPENJUALANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_RETURPENJUALANPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_RETURPENJUALANSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAKHIRBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAKHIRKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAKHIRNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_SALDOAKHIRNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_SALDOAKHIRPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAKHIRSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAWALBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAWALKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAWALNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_SALDOAWALNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_SALDOAWALPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_SALDOAWALSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFERINBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFERINKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFERINNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_TRANSFERINNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_TRANSFERINPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFERINSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFEROUTBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFEROUTKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFEROUTNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapstockopname_TRANSFEROUTNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapstockopname_TRANSFEROUTPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TRANSFEROUTSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_FISIKBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_FISIKKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_FISIKPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_FISIKSED" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TEORIBES" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TEORIKEC" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TEORIPCS" class="java.lang.Integer"/>
+	<field name="zlapstockopname_TEORISED" class="java.lang.Integer"/>
+	<variable name="SUM_PENAMBAHAN_NILAIBELI_DPP" class="java.lang.Double" resetType="Group" resetGroup="GRUP3" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapstockopname_PENAMBAHANNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENAMBAHAN_NILAIJUAL_DPP" class="java.lang.Double" resetType="Group" resetGroup="GRUP3" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapstockopname_PENAMBAHANNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENGURANGAN_NILAIBELI_DPP" class="java.lang.Double" resetType="Group" resetGroup="GRUP3" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapstockopname_PENGURANGANNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENGURANGAN_NILAIJUAL_DPP" class="java.lang.Double" resetType="Group" resetGroup="GRUP3" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapstockopname_PENGURANGANNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENAMBAHAN_NILAIBELI_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENAMBAHAN_NILAIBELI_DPP} * 0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENAMBAHAN_NILAIJUAL_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENAMBAHAN_NILAIJUAL_DPP}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENGURANGAN_NILAIBELI_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENGURANGAN_NILAIBELI_DPP}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENGURANGAN_NILAIJUAL_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENGURANGAN_NILAIJUAL_DPP}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENAMBAHAN_NILAIBELI_DPP_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENAMBAHAN_NILAIBELI_DPP}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENAMBAHAN_NILAIJUAL_DPP_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENAMBAHAN_NILAIJUAL_DPP}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENGURANGAN_NILAIBELI_DPP_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENGURANGAN_NILAIBELI_DPP}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENGURANGAN_NILAIJUAL_DPP_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENGURANGAN_NILAIJUAL_DPP}*1.1]]></variableExpression>
+	</variable>
+	<group name="GRUP3">
+		<groupExpression><![CDATA[$F{zlapstockopname_GRUP3}]]></groupExpression>
+		<groupHeader>
+			<band height="35">
+				<staticText>
+					<reportElement x="0" y="18" width="30" height="13" uuid="025b6c0e-95d5-4c80-a305-944f107e2135"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kode]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="30" y="18" width="164" height="13" uuid="56719967-b2b2-4750-8b97-2f9e73be6643"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nama Barang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="315" y="18" width="55" height="13" uuid="306a865e-0c88-47d8-875a-cf5ce8a831d9"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Penambahan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="377" y="18" width="55" height="13" uuid="a243f80d-ef10-4bee-834e-4d438a2c3917"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Pengurangan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="450" y="18" width="63" height="13" uuid="5efaebb8-0b8f-4376-a2b5-9ca823af0f5a"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Penambahan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="509" y="18" width="70" height="13" uuid="8d7fe9f0-1e3c-4415-93d3-ac924fa2e146"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Pengurangan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="446" y="5" width="133" height="13" uuid="00bd7150-fdf3-4988-b4a8-c3c097598179"/>
+					<textElement textAlignment="Center">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[- - - - - - - - NILAI - - - - - - - - ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="5" width="226" height="13" uuid="da476654-3ffd-4599-9383-e4422f282892"/>
+					<textElement textAlignment="Center">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[- - - - - - - - QUANTITY - - - - - - - - ]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="32" width="550" height="1" uuid="66d1caa7-7e46-4402-985c-2b8b4289d41a"/>
+				</line>
+				<staticText>
+					<reportElement x="201" y="19" width="55" height="13" uuid="6be89bee-a1c7-4583-8ef2-8c6e4f968ee1"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[FISIK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="260" y="19" width="55" height="13" uuid="54ab30a9-3e21-4bce-a8f1-bbaef25d8532"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[KOMPUTER]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="80">
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="450" y="12" width="63" height="13" uuid="7c720068-7787-419d-8e77-e8ccfb7dadb4"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENAMBAHAN_NILAIBELI_DPP}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="450" y="25" width="63" height="13" uuid="4d8d4884-6886-472a-97d4-389c1fd36713"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENAMBAHAN_NILAIBELI_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="450" y="38" width="63" height="13" uuid="ebb7172f-1a75-48b8-a5bb-cb77d6ea68c8"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENAMBAHAN_NILAIBELI_DPP_PPN}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="289" y="12" width="129" height="13" uuid="792176a1-2786-4236-a5ba-12736c251841"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL NILAI BELI DPP]]></text>
+				</staticText>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="516" y="12" width="63" height="13" uuid="ef1495b4-12ab-4a91-8880-345cdc42e807"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENGURANGAN_NILAIBELI_DPP}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="516" y="25" width="63" height="13" uuid="691070b5-fd97-4538-9ea4-c75fa5c92435"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENGURANGAN_NILAIBELI_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="516" y="38" width="63" height="13" uuid="6bf66515-656e-4573-b0d2-2e622552194d"/>
+					<textElement textAlignment="Right">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENGURANGAN_NILAIBELI_DPP_PPN}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="328" y="25" width="90" height="13" uuid="f1cdad53-b244-4cb2-bfa7-193318c16e84"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[PPN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="328" y="38" width="90" height="13" uuid="65888a69-9e0e-4775-a6d5-44d8707e3761"/>
+					<textElement textAlignment="Right">
+						<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[DPP+PPN]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="0" width="550" height="1" uuid="b9aef09f-66f9-4abe-9093-0543d26e4d71"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="64" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="bf745a8e-92f3-4213-b385-62637cb9ee43"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN STOCK OPNAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="90" height="15" uuid="102821f1-95b6-43fa-a887-add98d98cbd3"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Nomor Dokumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="35" width="90" height="15" uuid="cbede729-225e-495b-a5f2-e397c68613c1"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[GUDANG ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="20" width="10" height="15" uuid="e9fe5e5c-d9e4-453d-97f4-81ae8f6aae10"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="35" width="10" height="15" uuid="0d231e42-7396-4787-82d1-d7eb4c30025b"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="49" width="90" height="15" uuid="835148dc-dad8-409e-8345-2456d5bbd790"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="49" width="10" height="15" uuid="20d8e2ae-04f3-4293-80ac-0605d8345556"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="22" width="41" height="13" uuid="5c91c26f-f4f1-4d8c-8391-e9d6868ee5cd"/>
+				<textElement textAlignment="Center">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Printed]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="496" y="22" width="89" height="13" uuid="b9e1664c-87d5-4032-a18a-c44da62119fa"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="22" width="100" height="15" uuid="aea138c6-f1c7-46c7-a024-9a8f74e22a81"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramNorek}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="35" width="100" height="15" uuid="8cf75ab5-df17-4365-b949-56904526a05e"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramWarehouse}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="100" y="49" width="100" height="15" uuid="79db7920-89bf-4ccd-9b47-51710f61b909"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramTrdate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="30" height="11" uuid="3d898096-5a78-43d4-a233-afbe95ad6090"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PCODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="0" width="164" height="11" uuid="c1f4165a-8cbc-4afc-b485-9b1e748e8375"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="349" y="0" width="10" height="11" uuid="1e135d42-06d0-4d25-8de0-f8595cd0f6a1"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENAMBAHANSED}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="359" y="0" width="10" height="11" uuid="1081c58e-82c0-427d-8d7c-3899b10eab5f"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENAMBAHANKEC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="377" y="0" width="29" height="11" uuid="15b11871-82d5-4ce0-ae33-4d995497f741"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENGURANGANBES}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="407" y="0" width="10" height="11" uuid="a55c8bca-4fc4-458d-a53f-fa7b81f6e86b"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENGURANGANSED}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="417" y="0" width="10" height="11" uuid="e632d6e8-dd63-479c-aa49-da02ba251a7e"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENGURANGANKEC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="516" y="0" width="63" height="11" uuid="ad9f53dd-9cb6-4896-89fb-4c1e739bcc03"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENGURANGANNILAIBELI}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="450" y="0" width="63" height="11" uuid="bc1ffed7-8c41-4023-bdd4-d32652073937"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENAMBAHANNILAIBELI}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="320" y="0" width="29" height="11" uuid="26567178-5b38-490f-9d1b-c307ce71177e"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_PENAMBAHANBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="246" y="0" width="10" height="11" uuid="a2e1f6c6-43d1-40d5-aa45-39e1231dfa63"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_FISIKKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="0" width="29" height="11" uuid="539ed468-f76c-4ae4-a94d-cb020d15939f"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_TEORIBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="10" height="11" uuid="9a2f90ac-0707-4bce-9f82-0473c2906517"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_TEORISED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="0" width="10" height="11" uuid="d51014cb-b7d0-4d96-a62d-f17f5a8fcca9"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_TEORIKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="236" y="0" width="10" height="11" uuid="1d51e370-f30b-479c-bf03-43a4c0aa99fd"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_FISIKSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="0" width="29" height="11" uuid="f70e7eb8-3b7e-4369-9b57-66d51feae950"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapstockopname_FISIKBES}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

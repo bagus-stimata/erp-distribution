@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="396" columnWidth="598" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="a8489a6d-d737-435b-96fb-5709a5d08d71">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="194"/>
+	<parameter name="paramCompanyName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["DES (Distribution Enterprise System)"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyDescription" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Software Distributor Solution"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyAddress" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Jl. Kauman Gang IVA 45 Malang"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyPhone" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Telp 082143574692"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyNpwp" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="paramRefno" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT
+     stservice.`REFNO` AS stservice_REFNO,
+     stservice.`ANALISAKERUSAKAN` AS stservice_ANALISAKERUSAKAN,
+     stservice.`BIAYA` AS stservice_BIAYA,
+     stservice.`BIAYASPAREPART` AS stservice_BIAYASPAREPART,
+     stservice.`IMEI` AS stservice_IMEI,
+     stservice.`KELBATTERY` AS stservice_KELBATTERY,
+     stservice.`KELCHARGER` AS stservice_KELCHARGER,
+     stservice.`KELDOSBOX` AS stservice_KELDOSBOX,
+     stservice.`KELLAIN` AS stservice_KELLAIN,
+     stservice.`KELMEMORYCARD` AS stservice_KELMEMORYCARD,
+     stservice.`KELSIMCARD` AS stservice_KELSIMCARD,
+     stservice.`KELENGKAPAN` AS stservice_KELENGKAPAN,
+     stservice.`KELUHAN` AS stservice_KELUHAN,
+     stservice.`LAMAGARANSI` AS stservice_LAMAGARANSI,
+     stservice.`NOJOB` AS stservice_NOJOB,
+     stservice.`NOREG` AS stservice_NOREG,
+     stservice.`PIN` AS stservice_PIN,
+     stservice.`PRINTPENERIMAANCOUNTER` AS stservice_PRINTPENERIMAANCOUNTER,
+     stservice.`PRINTPENGAMBILANCOUNTER` AS stservice_PRINTPENGAMBILANCOUNTER,
+     stservice.`STATUSSELESAISERVICE` AS stservice_STATUSSELESAISERVICE,
+     stservice.`STATUSSSERVICE` AS stservice_STATUSSSERVICE,
+     stservice.`TANGGALMASUK` AS stservice_TANGGALMASUK,
+     stservice.`TANGGALPENGAMBILAN` AS stservice_TANGGALPENGAMBILAN,
+     stservice.`TELAHDIAMBIL` AS stservice_TELAHDIAMBIL,
+     stservice.`TELAHDIAMBILTANGGAL` AS stservice_TELAHDIAMBILTANGGAL,
+     stservice.`TIPE` AS stservice_TIPE,
+     stservice.`UANGMUKA` AS stservice_UANGMUKA,
+     stservice.`YANGMENYERAHKAN` AS stservice_YANGMENYERAHKAN,
+     stservice.`scustomerBean` AS stservice_scustomerBean,
+     stservice.`smerkBean` AS stservice_smerkBean,
+     stservice.`steknisiBean` AS stservice_steknisiBean,
+     stserviceitem.`NOURUT` AS stserviceitem_NOURUT,
+     stserviceitem.`PROMO` AS stserviceitem_PROMO,
+     stserviceitem.`SPRICE` AS stserviceitem_SPRICE,
+     stserviceitem.`id` AS stserviceitem_id,
+     stserviceitem.`refno` AS stserviceitem_refno,
+     smerk.`ID` AS smerk_ID,
+     smerk.`DESCRIPTION` AS smerk_DESCRIPTION,
+     scustomer.`ID` AS scustomer_ID,
+     scustomer.`ADDRESS1` AS scustomer_ADDRESS1,
+     scustomer.`ADDRESS2` AS scustomer_ADDRESS2,
+     scustomer.`CITY1` AS scustomer_CITY1,
+     scustomer.`CITY2` AS scustomer_CITY2,
+     scustomer.`CUSTNAME` AS scustomer_CUSTNAME,
+     scustomer.`CUSTNO` AS scustomer_CUSTNO,
+     scustomer.`EMAIL` AS scustomer_EMAIL,
+     scustomer.`JOINDATE` AS scustomer_JOINDATE,
+     scustomer.`LASTTRANS` AS scustomer_LASTTRANS,
+     scustomer.`NPWP` AS scustomer_NPWP,
+     scustomer.`PHONE1` AS scustomer_PHONE1,
+     scustomer.`PHONE2` AS scustomer_PHONE2,
+     scustomer.`STATE1` AS scustomer_STATE1,
+     scustomer.`STATE2` AS scustomer_STATE2,
+     scustomer.`STATUSACTIVE` AS scustomer_STATUSACTIVE
+FROM
+     `stservice` stservice LEFT OUTER JOIN `stserviceitem` stserviceitem ON stservice.`REFNO` = stserviceitem.`refno`
+     LEFT OUTER JOIN `smerk` smerk ON stservice.`smerkBean` = smerk.`ID`
+     LEFT OUTER JOIN `scustomer` scustomer ON stservice.`scustomerBean` = scustomer.`ID`
+WHERE
+     stservice.`REFNO` = $P{paramRefno}]]>
+	</queryString>
+	<field name="stservice_REFNO" class="java.lang.Long"/>
+	<field name="stservice_ANALISAKERUSAKAN" class="java.lang.String"/>
+	<field name="stservice_BIAYA" class="java.lang.Double"/>
+	<field name="stservice_BIAYASPAREPART" class="java.lang.Double"/>
+	<field name="stservice_IMEI" class="java.lang.String"/>
+	<field name="stservice_KELBATTERY" class="java.lang.Boolean"/>
+	<field name="stservice_KELCHARGER" class="java.lang.Boolean"/>
+	<field name="stservice_KELDOSBOX" class="java.lang.Boolean"/>
+	<field name="stservice_KELLAIN" class="java.lang.Boolean"/>
+	<field name="stservice_KELMEMORYCARD" class="java.lang.Boolean"/>
+	<field name="stservice_KELSIMCARD" class="java.lang.Boolean"/>
+	<field name="stservice_KELENGKAPAN" class="java.lang.String"/>
+	<field name="stservice_KELUHAN" class="java.lang.String"/>
+	<field name="stservice_LAMAGARANSI" class="java.lang.Integer"/>
+	<field name="stservice_NOJOB" class="java.lang.String"/>
+	<field name="stservice_NOREG" class="java.lang.String"/>
+	<field name="stservice_PIN" class="java.lang.String"/>
+	<field name="stservice_PRINTPENERIMAANCOUNTER" class="java.lang.Integer"/>
+	<field name="stservice_PRINTPENGAMBILANCOUNTER" class="java.lang.Integer"/>
+	<field name="stservice_STATUSSELESAISERVICE" class="java.lang.Boolean"/>
+	<field name="stservice_STATUSSSERVICE" class="java.lang.Integer"/>
+	<field name="stservice_TANGGALMASUK" class="java.sql.Date"/>
+	<field name="stservice_TANGGALPENGAMBILAN" class="java.sql.Date"/>
+	<field name="stservice_TELAHDIAMBIL" class="java.lang.Boolean"/>
+	<field name="stservice_TELAHDIAMBILTANGGAL" class="java.sql.Date"/>
+	<field name="stservice_TIPE" class="java.lang.String"/>
+	<field name="stservice_UANGMUKA" class="java.lang.Double"/>
+	<field name="stservice_YANGMENYERAHKAN" class="java.lang.String"/>
+	<field name="stservice_scustomerBean" class="java.lang.Long"/>
+	<field name="stservice_smerkBean" class="java.lang.String"/>
+	<field name="stservice_steknisiBean" class="java.lang.Long"/>
+	<field name="stserviceitem_NOURUT" class="java.lang.Integer"/>
+	<field name="stserviceitem_PROMO" class="java.lang.Boolean"/>
+	<field name="stserviceitem_SPRICE" class="java.lang.Double"/>
+	<field name="stserviceitem_id" class="java.lang.Long"/>
+	<field name="stserviceitem_refno" class="java.lang.Long"/>
+	<field name="smerk_ID" class="java.lang.String"/>
+	<field name="smerk_DESCRIPTION" class="java.lang.String"/>
+	<field name="scustomer_ID" class="java.lang.Long"/>
+	<field name="scustomer_ADDRESS1" class="java.lang.String"/>
+	<field name="scustomer_ADDRESS2" class="java.lang.String"/>
+	<field name="scustomer_CITY1" class="java.lang.String"/>
+	<field name="scustomer_CITY2" class="java.lang.String"/>
+	<field name="scustomer_CUSTNAME" class="java.lang.String"/>
+	<field name="scustomer_CUSTNO" class="java.lang.String"/>
+	<field name="scustomer_EMAIL" class="java.lang.String"/>
+	<field name="scustomer_JOINDATE" class="java.sql.Date"/>
+	<field name="scustomer_LASTTRANS" class="java.sql.Date"/>
+	<field name="scustomer_NPWP" class="java.lang.String"/>
+	<field name="scustomer_PHONE1" class="java.lang.String"/>
+	<field name="scustomer_PHONE2" class="java.lang.String"/>
+	<field name="scustomer_STATE1" class="java.lang.String"/>
+	<field name="scustomer_STATE2" class="java.lang.String"/>
+	<field name="scustomer_STATUSACTIVE" class="java.lang.Boolean"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<textField>
+				<reportElement x="320" y="52" width="270" height="13" uuid="a634a00f-4775-4ff1-a179-45140c3cde05"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramCompanyAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="18" width="270" height="18" uuid="1d68bf53-4341-4c0b-9d7b-4e844df786ab"/>
+				<textElement>
+					<font size="12" isBold="true" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramCompanyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="65" width="270" height="13" uuid="306a9a3c-97e0-42ad-8e36-17a149677ecf"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramCompanyPhone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="18" width="100" height="14" uuid="c2fd3992-7c9a-45d0-b513-6801aa6f6229"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_NOJOB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="34" width="270" height="13" uuid="57051d4e-9fa2-42c5-8da0-22bd89626558"/>
+				<textElement>
+					<font isItalic="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramCompanyDescription}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="45" width="100" height="14" uuid="1ccaecf9-1054-444e-85f3-754a6ba890df"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{scustomer_CUSTNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="57" y="32" width="100" height="14" uuid="7ad99756-6cde-4272-a2c4-2445c93651c7"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_TANGGALMASUK}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="59" width="100" height="14" uuid="b810b311-4250-4f8a-a91b-b227a645b8ea"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{scustomer_ADDRESS1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="73" width="100" height="14" uuid="27bdc14f-3941-4e30-9772-b1f547aa792f"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{scustomer_PHONE1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="17" width="50" height="14" uuid="6f4e8401-58c6-4e49-8a81-a7f2a2ed4320"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[No. Job]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="50" height="14" uuid="4990b761-22f4-4d28-a53a-542e067bbb7f"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="73" width="50" height="14" uuid="61338497-b681-443c-815c-17055d8961e9"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[Telpon]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="50" height="14" uuid="0328dd67-311c-46a9-a4ca-ce836b46ae13"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="59" width="50" height="14" uuid="6b1d381b-b6f9-486e-96cc-e8c8fc990d2c"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="88" width="595" height="1" uuid="0d534f1b-a109-4fa9-bb8e-f16f576415ee"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="50" y="17" width="3" height="14" uuid="2ac47f01-aebe-4b1a-a5e4-eb8940ffcbe6"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="31" width="3" height="14" uuid="cdb9d72b-d593-4616-bb38-8f5ca7f6178d"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="45" width="3" height="14" uuid="c624cac6-8975-45b1-a13a-35edb8143084"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="59" width="3" height="14" uuid="d011fff9-01d4-4d87-9f3e-0afb99cdfb4c"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="73" width="3" height="14" uuid="3a1cec89-fcbc-453d-ab12-04a33fcf0194"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="0" width="129" height="14" uuid="acb394d0-ffe5-475a-b217-4e768609593e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SERVICE MASUK]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="97">
+			<staticText>
+				<reportElement x="4" y="0" width="75" height="14" uuid="c871b431-ce97-4197-8823-6610d229bc97"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[MERK]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="0" width="104" height="14" uuid="95710c0f-244f-45b2-a6f5-1352ffdce442"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{smerk_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="14" width="75" height="14" uuid="b0594099-0572-4ab5-a6a9-cda2bc097ca5"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[TYPE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="14" width="104" height="14" uuid="5815c467-2172-47a9-b732-194b3e023fee"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_TIPE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="28" width="75" height="14" uuid="e9b71a2d-2b0c-4e5f-8dc7-6482d063cb4e"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[IMEI]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="28" width="104" height="14" uuid="ca1cc2d7-d710-4d06-bd67-fa24bba19464"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_IMEI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="42" width="75" height="14" uuid="16b62451-c53f-42eb-8579-748695ce5a86"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[PIN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="42" width="104" height="14" uuid="8d159117-40ce-45be-9a68-e22a1926f257"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_PIN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="56" width="75" height="14" uuid="6db7f01a-aa6f-4536-86ac-43b6236974d2"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[KELUHAN]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="87" y="56" width="448" height="14" uuid="b8a83eeb-36aa-4ebd-89de-80a56fdaf70a"/>
+				<textElement>
+					<font isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_KELUHAN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="70" width="75" height="14" uuid="65fb47b5-2cd2-429a-800a-58885d3b545e"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[KELENGKAPAN]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="87" y="70" width="448" height="14" uuid="acec47be-1717-4031-85e2-c40288d208aa"/>
+				<textElement>
+					<font isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_KELENGKAPAN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="79" y="42" width="3" height="14" uuid="402498e0-a18c-4843-942f-9d0012507fba"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="56" width="3" height="14" uuid="872cd346-4a00-40e3-ba35-730afb94a4c0"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="28" width="3" height="14" uuid="21562580-c3fa-4379-9b95-61eb60a29ed4"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="0" width="3" height="14" uuid="d9838d0e-84ef-4f7e-a61f-8a70a46e615a"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="14" width="3" height="14" uuid="0b3c067b-0d9f-4013-975c-0d76be379458"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="69" width="3" height="14" uuid="82bdeb3a-5856-4e4a-bbca-811bdc5eba68"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="83" width="75" height="14" uuid="081d29da-1c0e-4f9d-b7c1-829ce9cf0371"/>
+				<textElement>
+					<font pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[Uang Muka]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="87" y="83" width="104" height="14" uuid="24f8b9f1-e3ed-4422-9876-9e8741940c40"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_UANGMUKA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="79" y="83" width="3" height="14" uuid="2260844e-86b3-434d-9a80-9b10b1e46b01"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="165">
+			<staticText>
+				<reportElement x="39" y="92" width="100" height="20" uuid="4125cce0-48ec-4981-b2cb-52e671dcdaf1"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Customer (IN)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="237" y="92" width="100" height="20" uuid="937d656f-7c7c-4b03-b816-7a385fb21371"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Customer (OUT)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="5" width="595" height="1" uuid="064b53f7-aae5-4d41-a0a7-64e0f6639968"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="-1" y="14" width="590" height="14" uuid="c85c2fc9-7d00-4ff8-9f1e-3c2fceb53cf5"/>
+				<textElement>
+					<font size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[1. Surat ini harus disertakan pada saat klaim unit. Apabila nota hilang, membawa copy KTP/SIM sesuai nama yang tertera]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="28" width="590" height="14" uuid="39db35ec-6b17-4d3b-9cb9-3380b941dc91"/>
+				<textElement>
+					<font size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[2. Garansi berlaku apabila segel dalam keadaan baik (tidak terbuka, cacat, atau  rusak), nota atau kwitansi masih ada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="42" width="590" height="14" uuid="25e1436c-eda1-4cea-a0b8-9f4352c06856"/>
+				<textElement>
+					<font size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[3. Garansi perbaikan software/pergantian chasing tidak ada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="56" width="590" height="14" uuid="4bd8ac8f-5426-4e25-bfc6-fd50070047af"/>
+				<textElement>
+					<font size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[4. Tidak memberi penggantian untuk kehilangan/kerugian yang disebabkan Force Major (kebakaran, pencurian, bencana alam)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-1" y="88" width="595" height="1" uuid="088d4917-47b3-459c-a386-369d9b5f097c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="-1" y="151" width="352" height="14" uuid="29c34bb6-8832-4035-af25-4f40770def4d"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[*Saya mengerti dan setuju atas syarat dan kondisi service diatas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="422" y="92" width="100" height="20" uuid="08e4fd2c-b3ea-4316-9c78-75d87e7ab338"/>
+				<textElement>
+					<font pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Customer Service]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="566" y="151" width="29" height="13" uuid="17cf044e-acb7-4c12-9a90-5d57d5112d49"/>
+				<textElement>
+					<font fontName="Century Schoolbook L" size="8" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stservice_PRINTPENERIMAANCOUNTER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="494" y="151" width="71" height="13" uuid="e20de2a1-3116-4c07-bcc0-ac228d46a035"/>
+				<textElement textAlignment="Right">
+					<font fontName="Century Schoolbook L" size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[*Cetakan ke-]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

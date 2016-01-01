@@ -1,0 +1,1132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="838" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" uuid="87752ea3-33f4-42c5-8e46-1ff39785a907">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="paramStockdateFrom" class="java.util.Date"/>
+	<parameter name="paramStockdateTo" class="java.util.Date"/>
+	<parameter name="paramGudang" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     zlapmutasistock.`ID` AS zlapmutasistock_ID,
+     zlapmutasistock.`PEMBELIANBES` AS zlapmutasistock_PEMBELIANBES,
+     zlapmutasistock.`PEMBELIANKEC` AS zlapmutasistock_PEMBELIANKEC,
+     zlapmutasistock.`PEMBELIANNILAIBELI` AS zlapmutasistock_PEMBELIANNILAIBELI,
+     zlapmutasistock.`PEMBELIANNILAIJUAL` AS zlapmutasistock_PEMBELIANNILAIJUAL,
+     zlapmutasistock.`PEMBELIANPCS` AS zlapmutasistock_PEMBELIANPCS,
+     zlapmutasistock.`PEMBELIANSED` AS zlapmutasistock_PEMBELIANSED,
+     zlapmutasistock.`PENJUALANBES` AS zlapmutasistock_PENJUALANBES,
+     zlapmutasistock.`PENJUALANKEC` AS zlapmutasistock_PENJUALANKEC,
+     zlapmutasistock.`PENJUALANNILAIBELI` AS zlapmutasistock_PENJUALANNILAIBELI,
+     zlapmutasistock.`PENJUALANNILAIJUAL` AS zlapmutasistock_PENJUALANNILAIJUAL,
+     zlapmutasistock.`PENJUALANPCS` AS zlapmutasistock_PENJUALANPCS,
+     zlapmutasistock.`PENJUALANSED` AS zlapmutasistock_PENJUALANSED,
+     zlapmutasistock.`PEYESUAIANBES` AS zlapmutasistock_PEYESUAIANBES,
+     zlapmutasistock.`PEYESUAIANKEC` AS zlapmutasistock_PEYESUAIANKEC,
+     zlapmutasistock.`PEYESUAIANNILAIBELI` AS zlapmutasistock_PEYESUAIANNILAIBELI,
+     zlapmutasistock.`PEYESUAIANNILAIJUAL` AS zlapmutasistock_PEYESUAIANNILAIJUAL,
+     zlapmutasistock.`PEYESUAIANPCS` AS zlapmutasistock_PEYESUAIANPCS,
+     zlapmutasistock.`PEYESUAIANSED` AS zlapmutasistock_PEYESUAIANSED,
+     zlapmutasistock.`RETURPEMBELIANBES` AS zlapmutasistock_RETURPEMBELIANBES,
+     zlapmutasistock.`RETURPEMBELIANKEC` AS zlapmutasistock_RETURPEMBELIANKEC,
+     zlapmutasistock.`RETURPEMBELIANNILAIBELI` AS zlapmutasistock_RETURPEMBELIANNILAIBELI,
+     zlapmutasistock.`RETURPEMBELIANNILAIJUAL` AS zlapmutasistock_RETURPEMBELIANNILAIJUAL,
+     zlapmutasistock.`RETURPEMBELIANPCS` AS zlapmutasistock_RETURPEMBELIANPCS,
+     zlapmutasistock.`RETURPEMBELIANSED` AS zlapmutasistock_RETURPEMBELIANSED,
+     zlapmutasistock.`RETURPENJUALANBES` AS zlapmutasistock_RETURPENJUALANBES,
+     zlapmutasistock.`RETURPENJUALANKEC` AS zlapmutasistock_RETURPENJUALANKEC,
+     zlapmutasistock.`RETURPENJUALANNILAIBELI` AS zlapmutasistock_RETURPENJUALANNILAIBELI,
+     zlapmutasistock.`RETURPENJUALANNILAIJUAL` AS zlapmutasistock_RETURPENJUALANNILAIJUAL,
+     zlapmutasistock.`RETURPENJUALANPCS` AS zlapmutasistock_RETURPENJUALANPCS,
+     zlapmutasistock.`RETURPENJUALANSED` AS zlapmutasistock_RETURPENJUALANSED,
+     zlapmutasistock.`SALDOAKHIRBES` AS zlapmutasistock_SALDOAKHIRBES,
+     zlapmutasistock.`SALDOAKHIRKEC` AS zlapmutasistock_SALDOAKHIRKEC,
+     zlapmutasistock.`SALDOAKHIRNILAIBELI` AS zlapmutasistock_SALDOAKHIRNILAIBELI,
+     zlapmutasistock.`SALDOAKHIRNILAIJUAL` AS zlapmutasistock_SALDOAKHIRNILAIJUAL,
+     zlapmutasistock.`SALDOAKHIRPCS` AS zlapmutasistock_SALDOAKHIRPCS,
+     zlapmutasistock.`SALDOAKHIRSED` AS zlapmutasistock_SALDOAKHIRSED,
+     zlapmutasistock.`SALDOAWALBES` AS zlapmutasistock_SALDOAWALBES,
+     zlapmutasistock.`SALDOAWALKEC` AS zlapmutasistock_SALDOAWALKEC,
+     zlapmutasistock.`SALDOAWALNILAIBELI` AS zlapmutasistock_SALDOAWALNILAIBELI,
+     zlapmutasistock.`SALDOAWALNILAIJUAL` AS zlapmutasistock_SALDOAWALNILAIJUAL,
+     zlapmutasistock.`SALDOAWALPCS` AS zlapmutasistock_SALDOAWALPCS,
+     zlapmutasistock.`SALDOAWALSED` AS zlapmutasistock_SALDOAWALSED,
+     zlapmutasistock.`TRANSFERINBES` AS zlapmutasistock_TRANSFERINBES,
+     zlapmutasistock.`TRANSFERINKEC` AS zlapmutasistock_TRANSFERINKEC,
+     zlapmutasistock.`TRANSFERINNILAIBELI` AS zlapmutasistock_TRANSFERINNILAIBELI,
+     zlapmutasistock.`TRANSFERINNILAIJUAL` AS zlapmutasistock_TRANSFERINNILAIJUAL,
+     zlapmutasistock.`TRANSFERINPCS` AS zlapmutasistock_TRANSFERINPCS,
+     zlapmutasistock.`TRANSFERINSED` AS zlapmutasistock_TRANSFERINSED,
+     zlapmutasistock.`TRANSFEROUTBES` AS zlapmutasistock_TRANSFEROUTBES,
+     zlapmutasistock.`TRANSFEROUTKEC` AS zlapmutasistock_TRANSFEROUTKEC,
+     zlapmutasistock.`TRANSFEROUTNILAIBELI` AS zlapmutasistock_TRANSFEROUTNILAIBELI,
+     zlapmutasistock.`TRANSFEROUTNILAIJUAL` AS zlapmutasistock_TRANSFEROUTNILAIJUAL,
+     zlapmutasistock.`TRANSFEROUTPCS` AS zlapmutasistock_TRANSFEROUTPCS,
+     zlapmutasistock.`TRANSFEROUTSED` AS zlapmutasistock_TRANSFEROUTSED,
+     zlapmutasistock.`GRUP1` AS zlapmutasistock_GRUP1,
+     zlapmutasistock.`GRUP2` AS zlapmutasistock_GRUP2,
+     zlapmutasistock.`GRUP3` AS zlapmutasistock_GRUP3,
+     zlapmutasistock.`STOCKDATE` AS zlapmutasistock_STOCKDATE,
+     zlapmutasistock.`PCODE` AS zlapmutasistock_PCODE,
+     zlapmutasistock.`PNAME` AS zlapmutasistock_PNAME
+FROM
+     `zlapmutasistock` zlapmutasistock
+ORDER BY
+  zlapmutasistock.`GRUP1` ASC,
+  zlapmutasistock.`GRUP2` ASC,
+  zlapmutasistock.`GRUP3` ASC,
+  zlapmutasistock.`PCODE` ASC,
+  zlapmutasistock.`PNAME` ASC]]>
+	</queryString>
+	<field name="zlapmutasistock_ID" class="java.lang.Long"/>
+	<field name="zlapmutasistock_PEMBELIANBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PEMBELIANKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PEMBELIANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_PEMBELIANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_PEMBELIANPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PEMBELIANSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PENJUALANBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PENJUALANKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PENJUALANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_PENJUALANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_PENJUALANPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PENJUALANSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PEYESUAIANBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PEYESUAIANKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PEYESUAIANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_PEYESUAIANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_PEYESUAIANPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_PEYESUAIANSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPEMBELIANBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPEMBELIANKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPEMBELIANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_RETURPEMBELIANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_RETURPEMBELIANPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPEMBELIANSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPENJUALANBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPENJUALANKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPENJUALANNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_RETURPENJUALANNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_RETURPENJUALANPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_RETURPENJUALANSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAKHIRBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAKHIRKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAKHIRNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_SALDOAKHIRNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_SALDOAKHIRPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAKHIRSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAWALBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAWALKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAWALNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_SALDOAWALNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_SALDOAWALPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_SALDOAWALSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFERINBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFERINKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFERINNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_TRANSFERINNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_TRANSFERINPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFERINSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFEROUTBES" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFEROUTKEC" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFEROUTNILAIBELI" class="java.lang.Double"/>
+	<field name="zlapmutasistock_TRANSFEROUTNILAIJUAL" class="java.lang.Double"/>
+	<field name="zlapmutasistock_TRANSFEROUTPCS" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_TRANSFEROUTSED" class="java.lang.Integer"/>
+	<field name="zlapmutasistock_GRUP1" class="java.lang.String"/>
+	<field name="zlapmutasistock_GRUP2" class="java.lang.String"/>
+	<field name="zlapmutasistock_GRUP3" class="java.lang.String"/>
+	<field name="zlapmutasistock_STOCKDATE" class="java.sql.Date"/>
+	<field name="zlapmutasistock_PCODE" class="java.lang.String"/>
+	<field name="zlapmutasistock_PNAME" class="java.lang.String"/>
+	<variable name="SUM_STOKAWAL_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_SALDOAWALNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAWAL_PPN_BELI" class="java.lang.Double" resetType="None">
+		<variableExpression><![CDATA[$V{SUM_STOKAWAL_NILAIBELI} * 0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAWAL_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_STOKAWAL_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAWAL_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_SALDOAWALNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAWAL_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_STOKAWAL_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAWAL_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_STOKAWAL_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PEMBELIAN_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_PEMBELIANNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PEMBELIAN_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PEMBELIAN_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PEMBELIAN_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PEMBELIAN_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PEMBELIAN_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_PEMBELIANNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PEMBELIAN_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PEMBELIAN_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PEMBELIAN_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PEMBELIAN_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURJUAL_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_RETURPENJUALANNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURJUAL_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURJUAL_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURJUAL_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURJUAL_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURJUAL_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_RETURPENJUALANNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURJUAL_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURJUAL_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURJUAL_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURJUAL_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFERIN_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_TRANSFERINNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFERIN_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFERIN_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFERIN_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFERIN_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFERIN_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_TRANSFERINNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFERIN_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFERIN_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFERIN_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFERIN_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURBELI_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_RETURPEMBELIANNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURBELI_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURBELI_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURBELI_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURBELI_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURBELI_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_RETURPEMBELIANNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURBELI_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURBELI_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_RETURBELI_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_RETURBELI_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENJUALAN_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_PENJUALANNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENJUALAN_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENJUALAN_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENJUALAN_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENJUALAN_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENJUALAN_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_PENJUALANNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENJUALAN_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENJUALAN_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_PENJUALAN_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_PENJUALAN_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFEROUT_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_TRANSFEROUTNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFEROUT_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFEROUT_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFEROUT_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFEROUT_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFEROUT_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_TRANSFEROUTNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFEROUT_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFEROUT_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_TRANSFEROUT_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_TRANSFEROUT_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_ADJUST_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_PEYESUAIANNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_ADJUST_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_ADJUST_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_ADJUST_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_ADJUST_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_ADJUST_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_PEYESUAIANNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_ADJUST_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_ADJUST_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_ADJUST_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_ADJUST_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAKHIR_NILAIBELI" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_SALDOAKHIRNILAIBELI}]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAKHIR_PPN_BELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_STOKAKHIR_NILAIBELI}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAKHIR_PPN_NILAIBELI" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_STOKAKHIR_NILAIBELI}*1.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAKHIR_NILAIJUAL" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapmutasistock_SALDOAKHIRNILAIJUAL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAKHIR_PPN_JUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_STOKAKHIR_NILAIJUAL}*0.1]]></variableExpression>
+	</variable>
+	<variable name="SUM_STOKAKHIR_PPN_NILAIJUAL" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_STOKAKHIR_NILAIJUAL}*1.1]]></variableExpression>
+	</variable>
+	<group name="GRUP3">
+		<groupExpression><![CDATA[$F{zlapmutasistock_GRUP3}]]></groupExpression>
+	</group>
+	<group name="GRUP2">
+		<groupExpression><![CDATA[$F{zlapmutasistock_GRUP2}]]></groupExpression>
+	</group>
+	<group name="GRUP1">
+		<groupExpression><![CDATA[$F{zlapmutasistock_GRUP1}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<line>
+					<reportElement x="0" y="28" width="830" height="1" uuid="a958bd55-fd7d-4bba-aede-f55d289cbc75"/>
+				</line>
+				<staticText>
+					<reportElement x="0" y="14" width="30" height="13" uuid="8247d931-cc12-4d93-916a-24a6075d60c5"/>
+					<textElement markup="none">
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Grup]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="30" y="14" width="40" height="13" uuid="acb5a052-d50a-44a5-88cb-b3582c6c220b"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kode]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="70" y="14" width="110" height="13" uuid="49efa4d4-3aa7-47c7-af20-a4fc26a1e9e1"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nama Barang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="180" y="14" width="80" height="13" uuid="2f894149-57b5-4d8f-8475-8d6491025d8c"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Stok Awal]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="260" y="14" width="70" height="13" uuid="7c8267dd-c36c-4c82-8406-be322bdba48c"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Pembelian]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="260" y="0" width="210" height="13" uuid="ed970ae4-6890-4f91-8aa4-12eaf4fb9272"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[- - - - - - - Penerimaan - - - - - - -]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="330" y="14" width="70" height="13" uuid="e49364d2-4f46-4ee4-8169-5593438255b7"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Retur Jual]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="400" y="14" width="70" height="13" uuid="d04c3a25-5abc-429f-92e7-18b61797381f"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Transfer In]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="543" y="14" width="70" height="13" uuid="4285a9d5-52c3-48a0-ad04-4f1617203e0a"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Penjualan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="613" y="14" width="70" height="13" uuid="989931a9-fb26-4041-b935-6b6f124e32ab"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Transfer Out]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="473" y="14" width="70" height="13" uuid="2a9dea31-86ca-49af-83c7-d0a1b3a14643"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Retur Beli]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="473" y="1" width="210" height="13" uuid="b8673fab-5451-41b4-99b3-5e6e8ba42ed2"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[- - - - - - - Pengeluaran - - - - - - -]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="683" y="14" width="70" height="13" uuid="dde7a792-cd81-4681-af62-d54147a6148d"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[ADJ/Opname]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="753" y="14" width="80" height="13" uuid="ce05d51b-0fce-47ef-b6a4-dfe1b4fc83a6"/>
+					<textElement textAlignment="Center" markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Stok Akhir]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="110">
+				<line>
+					<reportElement x="1" y="2" width="830" height="1" uuid="bc2a4521-6a44-446a-8574-5c69455fed60"/>
+				</line>
+				<staticText>
+					<reportElement x="2" y="8" width="110" height="13" uuid="f6273a85-b19d-4acf-a5b1-aadbcdbf5aa4"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nilai Beli]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="56" width="110" height="13" uuid="7bfe9409-a576-4ec9-a19a-efc4332b645b"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nilai Jual]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="21" width="110" height="13" uuid="3e51bd18-0ce6-4476-bfcc-b73603033789"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[PPn]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="34" width="110" height="13" uuid="e76af875-fe20-4d94-bff5-91df3a003f46"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nilai Beli+PPn]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="69" width="110" height="13" uuid="15c8ef58-9458-4382-adb1-c560d07b9226"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[PPn]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="2" y="83" width="110" height="13" uuid="39844024-d4ac-43df-9ccf-57dcc02fc29b"/>
+					<textElement markup="none">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nilai Beli+PPn]]></text>
+				</staticText>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="180" y="8" width="80" height="13" uuid="8857e198-2c03-4b56-8981-22cfe5feb1bb"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAWAL_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="180" y="21" width="80" height="13" uuid="1875593f-4d41-46da-85db-4d2f0587fd8e"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAWAL_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="180" y="35" width="80" height="13" uuid="73b8f554-e3fa-4c3f-bf92-fab06f341316"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAWAL_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="180" y="56" width="80" height="13" uuid="df3c393e-0525-4b70-929c-fafaaa4b3f26"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAWAL_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="180" y="69" width="80" height="13" uuid="95af96bf-85fe-41af-a566-cb12863cfceb"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAWAL_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="180" y="85" width="80" height="13" uuid="fd03375c-7e3d-49a8-b31a-8b47623c52b2"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAWAL_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="260" y="8" width="70" height="13" uuid="21fd29b6-cac1-41a0-bee8-90166f23f9d9"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PEMBELIAN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="260" y="21" width="70" height="13" uuid="f2f42a59-9b73-434b-ae91-1f0733aa56a0"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PEMBELIAN_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="260" y="35" width="70" height="13" uuid="49ce4f04-17fe-4a4f-a12c-aff1ce5e24fd"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PEMBELIAN_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="260" y="57" width="70" height="13" uuid="dd6373f4-e14a-4d8c-8618-0d8fd075e945"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PEMBELIAN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="260" y="69" width="70" height="13" uuid="b4383240-03d0-42bf-b762-7ccc2f8020d7"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PEMBELIAN_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="260" y="85" width="70" height="13" uuid="3a9d0930-f376-4808-81e2-65ebdc90c621"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PEMBELIAN_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="330" y="8" width="70" height="13" uuid="04d82c86-45e6-4575-a5a0-ca4dbd19ac8d"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURJUAL_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="330" y="21" width="70" height="13" uuid="6b1e34db-7794-4234-b954-15bded892966"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURJUAL_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="330" y="35" width="70" height="13" uuid="45dc85db-f85c-4e17-a7c0-cd18ec16e8f4"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURJUAL_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="330" y="57" width="70" height="13" uuid="14987669-53d4-4e87-9caf-514c28d9ee0b"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURJUAL_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="330" y="69" width="70" height="13" uuid="17ee492b-44b1-4155-ab6c-d89e67014d85"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURJUAL_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="330" y="84" width="70" height="13" uuid="52b4d4c3-b383-4aee-a1fa-759c50234b24"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURJUAL_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="400" y="9" width="70" height="13" uuid="87effa37-e3a5-4555-87af-214ff0caf5b5"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFERIN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="400" y="21" width="70" height="13" uuid="6345c711-847e-400c-a456-478e72168425"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFERIN_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="400" y="34" width="70" height="13" uuid="44f1d41a-d015-4e78-9e7c-947ac2dfcad8"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFERIN_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="400" y="57" width="70" height="13" uuid="5fc2a8ac-3606-439b-abfc-8f6d92596cf6"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFERIN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="400" y="69" width="70" height="13" uuid="3cb99921-91b6-49a1-bc83-30b5558db1f7"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFERIN_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="400" y="85" width="70" height="13" uuid="27258e99-b740-4733-b377-4a3c4a5e2c63"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFERIN_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="473" y="9" width="70" height="13" uuid="f90d95d7-7e64-44a3-8f2f-82006613ad0e"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURBELI_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="473" y="21" width="70" height="13" uuid="d038502d-0e1d-4f93-b535-e03cb9078f3d"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURBELI_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="473" y="35" width="70" height="13" uuid="5caaf4fc-f99c-41bc-a492-98fc818d0222"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURBELI_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="473" y="57" width="70" height="13" uuid="c8d1bc8c-ec76-41a7-b872-c63db7f65e19"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURBELI_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="473" y="69" width="70" height="13" uuid="4f6754c9-cae2-4bff-b2a0-92421d4cddce"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURBELI_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="473" y="84" width="70" height="13" uuid="65966041-24e7-4996-95e0-0e41b1fd2e0e"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RETURBELI_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="543" y="9" width="70" height="13" uuid="4f57f17c-1fa6-482c-a902-294bea5a147b"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENJUALAN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="543" y="21" width="70" height="13" uuid="967177db-7431-42ed-8612-584413b1e329"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENJUALAN_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="543" y="35" width="70" height="13" uuid="4ab7f3bf-13d0-4c00-8abf-ea2056d683da"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENJUALAN_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="543" y="57" width="70" height="13" uuid="9d73d050-b921-40f6-aa2d-3124e54f3796"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENJUALAN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="543" y="70" width="70" height="13" uuid="6a816061-791e-47ba-9495-8868a0dcf068"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENJUALAN_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="543" y="84" width="70" height="13" uuid="2ead84dd-a8ff-4d19-a73d-5a17123a8b1f"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_PENJUALAN_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="613" y="9" width="70" height="13" uuid="fe60e0c5-9240-4c85-bca6-599ecf2f93d9"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFEROUT_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="613" y="21" width="70" height="13" uuid="189e9da5-c909-4170-959e-c3077e2f7347"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFEROUT_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="613" y="35" width="70" height="13" uuid="d7c163fb-3f49-4e0d-90c6-92bd80fc695d"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFEROUT_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="613" y="57" width="70" height="13" uuid="0e124c50-4ba3-48ee-b477-e6438206349e"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFEROUT_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="613" y="71" width="70" height="13" uuid="34ee0630-9c28-47cb-8116-37b2e286d00c"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFEROUT_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="613" y="85" width="70" height="13" uuid="a0743ae1-5d5e-4577-8388-ece880cd40aa"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TRANSFEROUT_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="683" y="9" width="70" height="13" uuid="f48e5143-5920-4c86-8c40-08b96a5e734b"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_ADJUST_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="683" y="21" width="70" height="13" uuid="30495523-24d1-4fb0-9df7-e34da0246c4b"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_ADJUST_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="683" y="35" width="70" height="13" uuid="867903ef-8719-4bf5-a87f-b2c99271b438"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_ADJUST_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="683" y="57" width="70" height="13" uuid="d4189435-e8d9-467e-871e-a3881400b05b"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_ADJUST_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="683" y="71" width="70" height="13" uuid="58136de6-66b8-421e-9d4f-32727cf76c2c"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_ADJUST_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="683" y="85" width="70" height="13" uuid="975b2d39-61b3-409b-8580-79dd51f465e0"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_ADJUST_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="753" y="9" width="80" height="13" uuid="06abbfb4-dcf1-43a3-8d1a-4316f83234fb"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAKHIR_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="753" y="21" width="80" height="13" uuid="51d3de79-c963-4a99-b288-1e4955a5ecf1"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAKHIR_PPN_BELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="753" y="35" width="80" height="13" uuid="29529398-b855-40cd-b6ef-276bd41a16c3"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAKHIR_PPN_NILAIBELI}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="753" y="57" width="80" height="13" uuid="67c2140c-cce2-41b2-a64b-ed4bc31918ee"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAKHIR_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="753" y="71" width="80" height="13" uuid="036c916c-046c-4523-a113-2ecbaf0bff1b"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAKHIR_PPN_JUAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="753" y="85" width="80" height="13" uuid="81b3af13-ca23-4c0e-8fa5-d0891c44d682"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_STOKAKHIR_PPN_NILAIJUAL}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="11" width="836" height="20" uuid="8fbebb16-e2c7-453a-a6ae-73d3847bb8e5"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[MUTASI STOK GUDANG LENGKAP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="703" y="0" width="41" height="13" uuid="00622e14-0bef-4740-8cf2-4dd1547c412a"/>
+				<textElement textAlignment="Center">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Printed]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="744" y="0" width="89" height="13" uuid="6f54776c-0564-417c-bd9a-020a1e606379"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="238" y="31" width="59" height="15" uuid="bdb4c0c5-ca5a-40e8-b554-f009f17a9c9a"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[GUDANG :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="297" y="31" width="100" height="15" uuid="2800a485-1246-4719-bdd6-773cc6cc3d2e"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramGudang}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="398" y="31" width="53" height="15" uuid="892e9a00-d808-4d18-aa26-a92a3c5b15e3"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[TANGGAL :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="511" y="31" width="27" height="15" uuid="885519c8-1974-4dd4-b688-a016643e15dc"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[S.D]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="451" y="31" width="60" height="15" uuid="50be0afe-3fb1-4623-a35e-3c98f15e7c91"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramStockdateFrom}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="538" y="31" width="60" height="15" uuid="c316b60e-fd21-4299-8e46-e7baa1c995d5"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramStockdateTo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="0" width="40" height="13" uuid="34c72d04-031f-4288-846d-cf994592c0bc"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PCODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="110" height="13" uuid="b6a2e8fc-4e69-4f32-a5f5-5561b8638e8c"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="30" height="13" uuid="22bcd2b3-9c42-4f61-b531-c0fff4e430b3"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_GRUP1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="20" height="13" uuid="7401320b-7bef-4772-8b48-368d60c40556"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_SALDOAWALSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="0" width="20" height="13" uuid="c857b17b-aa61-4c73-af58-f0477dbdeecb"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_SALDOAWALKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="40" height="13" uuid="0e09214a-4dcf-4716-8703-9a49c261b4bb"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_SALDOAWALBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="30" height="13" uuid="a1959ef3-b285-41be-8bdc-c59d589bf395"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_RETURPENJUALANBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="20" height="13" uuid="631ea606-f5f5-444c-b0c1-23ab6e36caf9"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_RETURPENJUALANKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="0" width="20" height="13" uuid="89a74886-0702-4adc-b851-cabb22bec79b"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_RETURPENJUALANSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="20" height="13" uuid="c8586dbc-d480-41c9-97ac-fad1569452cc"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_TRANSFERINSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="30" height="13" uuid="e87fc03a-b5a3-4213-ad7e-1b2f27b77634"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_TRANSFERINBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="20" height="13" uuid="b9e4ab5c-78e8-4951-9b7e-d7083715df31"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_TRANSFERINKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="0" width="30" height="13" uuid="170829f0-712a-441a-95b5-eaf63f797e1c"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_RETURPEMBELIANBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="503" y="0" width="20" height="13" uuid="1907869c-1d57-4291-8d8d-726ee4a95f4c"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_RETURPEMBELIANSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="523" y="0" width="20" height="13" uuid="0af28ca4-2a17-4e43-8e80-65ba461c0e61"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_RETURPEMBELIANKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="543" y="0" width="30" height="13" uuid="2aa85f76-886e-4b70-89e4-1722f82ec5fb"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PENJUALANBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="593" y="0" width="20" height="13" uuid="86b84d5b-9438-4e0a-b0f1-23ca4cc36253"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PENJUALANKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="573" y="0" width="20" height="13" uuid="d27f17fe-e73a-4dc5-bb6b-fd112d4a7af1"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PENJUALANSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="613" y="0" width="30" height="13" uuid="1f76aa29-36f3-4086-82b1-4a93cd56c911"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_TRANSFEROUTBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="663" y="0" width="20" height="13" uuid="b6442e81-f572-4349-8bd8-42774574aa72"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_TRANSFEROUTKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="643" y="0" width="20" height="13" uuid="de418b63-e27e-477b-a9f1-1e65d9e41287"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_TRANSFEROUTSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="683" y="0" width="30" height="13" uuid="99b496ea-9ffe-4bcf-9a4f-89212b817dd5"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PEYESUAIANBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="733" y="0" width="20" height="13" uuid="2f53952c-ad4c-4eb0-b954-13a4efdd5974"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PEYESUAIANKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="713" y="0" width="20" height="13" uuid="4688083f-37a8-4484-a48f-8262e756a4c5"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PEYESUAIANSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="753" y="0" width="40" height="13" uuid="8388711a-17fe-4151-81ec-3e00bb5723b3"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_SALDOAKHIRBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="813" y="0" width="20" height="13" uuid="0a8fc1ba-1b38-477a-83f5-6c4e9c5b31e5"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_SALDOAKHIRKEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="793" y="0" width="20" height="13" uuid="eeb9aff6-85b9-41d5-93c4-dd0ed5bf1acc"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_SALDOAKHIRSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="30" height="13" uuid="34ddb925-5a99-4302-8c36-1b1b5ff56fab"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PEMBELIANBES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="20" height="13" uuid="ad9616d0-c133-43c6-a1ca-bfd6654cec7d"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PEMBELIANSED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="20" height="13" uuid="fa4a6e35-a1b9-4cab-877f-726e3f8f876d"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapmutasistock_PEMBELIANKEC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

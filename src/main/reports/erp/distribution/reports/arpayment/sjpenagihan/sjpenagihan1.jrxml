@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="581" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="a8489a6d-d737-435b-96fb-5709a5d08d71">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     zlapsjpenagihanlist.`ID` AS zlapsjpenagihanlist_ID,
+     zlapsjpenagihanlist.`CUSTNAME` AS zlapsjpenagihanlist_CUSTNAME,
+     zlapsjpenagihanlist.`CUSTNO` AS zlapsjpenagihanlist_CUSTNO,
+     zlapsjpenagihanlist.`GRUP1` AS zlapsjpenagihanlist_GRUP1,
+     zlapsjpenagihanlist.`GRUP2` AS zlapsjpenagihanlist_GRUP2,
+     zlapsjpenagihanlist.`GRUP3` AS zlapsjpenagihanlist_GRUP3,
+     zlapsjpenagihanlist.`INVOICEDATE` AS zlapsjpenagihanlist_INVOICEDATE,
+     zlapsjpenagihanlist.`INVOICENO` AS zlapsjpenagihanlist_INVOICENO,
+     zlapsjpenagihanlist.`PRICE1` AS zlapsjpenagihanlist_PRICE1,
+     zlapsjpenagihanlist.`PRICE2` AS zlapsjpenagihanlist_PRICE2,
+     zlapsjpenagihanlist.`PRICE3` AS zlapsjpenagihanlist_PRICE3,
+     zlapsjpenagihanlist.`PRICE4` AS zlapsjpenagihanlist_PRICE4,
+     zlapsjpenagihanlist.`SJPENAGIHANNO` AS zlapsjpenagihanlist_SJPENAGIHANNO,
+     zlapsjpenagihanlist.`SJPENGIRIMANNO` AS zlapsjpenagihanlist_SJPENGIRIMANNO,
+     zlapsjpenagihanlist.`SPCODE` AS zlapsjpenagihanlist_SPCODE,
+     zlapsjpenagihanlist.`SPNAME` AS zlapsjpenagihanlist_SPNAME,
+     zlapsjpenagihanlist.`SJPENAGIHANDATE` AS zlapsjpenagihanlist_SJPENAGIHANDATE,
+     zlapsjpenagihanlist.`SJPENGIRIMANDATE` AS zlapsjpenagihanlist_SJPENGIRIMANDATE,
+     zlapsjpenagihanlist.`TUNAIKREDIT` AS zlapsjpenagihanlist_TUNAIKREDIT,
+     zlapsjpenagihanlist.`DUEDATE` AS zlapsjpenagihanlist_DUEDATE
+FROM
+     `zlapsjpenagihanlist` zlapsjpenagihanlist
+ORDER BY
+ 	zlapsjpenagihanlist.`SJPENAGIHANNO` ASC]]>
+	</queryString>
+	<field name="zlapsjpenagihanlist_ID" class="java.lang.Long"/>
+	<field name="zlapsjpenagihanlist_CUSTNAME" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_CUSTNO" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_GRUP1" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_GRUP2" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_GRUP3" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_INVOICEDATE" class="java.sql.Date"/>
+	<field name="zlapsjpenagihanlist_INVOICENO" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_PRICE1" class="java.lang.Double"/>
+	<field name="zlapsjpenagihanlist_PRICE2" class="java.lang.Double"/>
+	<field name="zlapsjpenagihanlist_PRICE3" class="java.lang.Double"/>
+	<field name="zlapsjpenagihanlist_PRICE4" class="java.lang.Double"/>
+	<field name="zlapsjpenagihanlist_SJPENAGIHANNO" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_SJPENGIRIMANNO" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_SPCODE" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_SPNAME" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_SJPENAGIHANDATE" class="java.sql.Date"/>
+	<field name="zlapsjpenagihanlist_SJPENGIRIMANDATE" class="java.sql.Date"/>
+	<field name="zlapsjpenagihanlist_TUNAIKREDIT" class="java.lang.String"/>
+	<field name="zlapsjpenagihanlist_DUEDATE" class="java.sql.Date"/>
+	<variable name="SUM_TOTAL_PPN" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapsjpenagihanlist_PRICE1}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOTAL_OUTSTANDING" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapsjpenagihanlist_PRICE2}]]></variableExpression>
+	</variable>
+	<group name="GRUP1">
+		<groupExpression><![CDATA[$F{zlapsjpenagihanlist_GRUP1}]]></groupExpression>
+		<groupHeader>
+			<band height="55">
+				<staticText>
+					<reportElement x="67" y="33" width="70" height="13" uuid="0d6a5a14-d9c5-4988-98ac-8922b2651ada"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[INVOICE]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="49" width="580" height="1" uuid="f6ac6491-d90e-4387-a72a-a16844d3e64d"/>
+				</line>
+				<staticText>
+					<reportElement x="378" y="33" width="60" height="13" uuid="94395e53-d95c-499d-80ec-b71380cb3135"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL+PPN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="137" y="33" width="15" height="13" uuid="6c321111-854a-4fa6-8dcd-2ea0d4e2755d"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[T/K]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="502" y="33" width="79" height="13" uuid="d9c4fe80-db2b-4d89-b5c3-e04694300a78"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[BAYAR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="154" y="33" width="50" height="13" uuid="d99dd2ce-9582-4c40-b4a9-e870b2776042"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[INV. DATE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="205" y="33" width="50" height="13" uuid="653a84b2-1d62-446e-a078-27986a9cd370"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[JTH TEMP]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="257" y="33" width="119" height="13" uuid="0f7e8775-ac2a-4e4b-bf2e-212ebce91c41"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[------- CUSTOMER --------]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="65" height="15" uuid="32c75e27-4aa6-473d-85de-97ad858f3adb"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[NOMOR SJ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="33" width="25" height="13" uuid="8a2b0b56-d67d-4a89-a5b6-d95871893d65"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[NO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="15" width="65" height="15" uuid="f54c6089-8c12-442c-b06e-7a556493e450"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[TANGGAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="32" y="33" width="33" height="13" uuid="849f97af-bf4f-4902-8239-9885e93fd935"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[SLS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="441" y="33" width="60" height="13" uuid="749f07e6-2ebd-4c6f-a178-bbca2ba9282b"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[OUTSTANDING]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="79" y="0" width="100" height="15" uuid="b9846282-ab4c-42a3-84a2-e6bf363af3a5"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_SJPENAGIHANNO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="79" y="15" width="100" height="15" uuid="8bb270c6-a6bd-4b64-9e21-05c129531972"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_SJPENAGIHANDATE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="65" y="0" width="14" height="15" uuid="a4673057-62a4-4d1f-9834-8dda56041cc4"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="65" y="15" width="14" height="15" uuid="c3e0d2df-04ea-4bb9-8a5d-8f54fc0848d4"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="81">
+				<line>
+					<reportElement x="0" y="0" width="580" height="1" uuid="edc4db9d-6573-4548-af61-cc24a15fa539"/>
+				</line>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="376" y="3" width="60" height="15" uuid="32f87a4d-d59b-47a5-8228-f9c82b9010f5"/>
+					<textElement>
+						<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOTAL_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="441" y="3" width="60" height="15" uuid="92405146-a650-491a-8cdf-49f37a94b033"/>
+					<textElement>
+						<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOTAL_OUTSTANDING}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="6" y="11" width="100" height="13" uuid="4551313a-afe6-4434-9e95-940c4f85aac4"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Admin Piutang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="128" y="11" width="100" height="13" uuid="e53b439d-023d-4aec-a91e-510b6b22d3c9"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Salesman]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="39" width="100" height="13" uuid="83d2d59d-2875-4d0a-9e1b-98c43efa7274"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[( - - - - - - - - -  - - - - -)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="128" y="39" width="100" height="13" uuid="485f48fb-07e2-42ab-a3d5-b93cb0b22217"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[( - - - - - - - - -  - - - - -)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="248" y="39" width="100" height="13" uuid="1f328f3e-75c6-46fa-a813-05c8714efe9d"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[( - - - - - - - - -  - - - - -)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="248" y="11" width="100" height="13" uuid="620c9af0-cfb6-49de-9111-2aa0e8f4de51"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Collector]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="146" y="0" width="299" height="20" uuid="25da781d-4f59-4d84-b63a-44ed0881f7b8"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SURAT JALAN PENAGIHAN/PENGIRIMAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="0" width="41" height="13" uuid="eb4ce5f2-15da-41d4-a412-472dfc1f3797"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isItalic="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Printed]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="501" y="0" width="79" height="13" uuid="c86796df-0608-44f4-8b85-f6c72a242790"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isItalic="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="154" y="0" width="50" height="15" uuid="ef8078e6-4363-4a79-8fd1-777ffac498b4"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_INVOICEDATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="205" y="0" width="50" height="15" uuid="a3230a41-3b5d-42a2-9dd7-2169164de763"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_DUEDATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="67" y="0" width="70" height="15" uuid="afd6c360-d1a3-47f6-9245-2ad3c42fb583"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_INVOICENO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="15" height="15" uuid="3cc27c65-fcf3-41a4-ad87-1f804f271b3f"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_TUNAIKREDIT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="0" width="32" height="15" uuid="f6d83b3f-e0d0-461f-bfa3-c4f462924186"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_SPCODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="257" y="0" width="119" height="15" uuid="8025c7f4-77bd-42fa-9ea9-804aa2173ca4"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_CUSTNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="378" y="0" width="60" height="15" uuid="4729962a-53bd-4b80-ae7b-856f959b318f"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_PRICE1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="441" y="0" width="60" height="15" uuid="76fc0f12-e297-4181-86aa-d155ea963028"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapsjpenagihanlist_PRICE2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="0" width="25" height="15" uuid="6ce37081-3796-414b-9f81-0196c9b89408"/>
+				<textElement>
+					<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GRUP1_COUNT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="15" width="580" height="1" uuid="3cafc5b8-54db-4cab-8332-f49f17e94dd6"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

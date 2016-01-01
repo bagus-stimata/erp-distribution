@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="619" pageHeight="391" columnWidth="607" leftMargin="5" rightMargin="7" topMargin="4" bottomMargin="5" uuid="3354ef1e-4c9f-4408-9f86-da7dc2c0ff5f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="paramRefno" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     ftsalesd.`DISC1` AS ftsalesd_DISC1,
+     ftsalesd.`DISC2` AS ftsalesd_DISC2,
+     ftsalesd.`FREEGOOD` AS ftsalesd_FREEGOOD,
+     ftsalesd.`QTY` AS ftsalesd_QTY,
+     ftsalesd.`SPRICE` AS ftsalesd_SPRICE,
+     ftsalesd.`id` AS ftsalesd_id,
+     ftsalesd.`refno` AS ftsalesd_refno,
+     ftsalesd.`NOURUT` AS ftsalesd_NOURUT,
+     ftsalesh.`REFNO` AS ftsalesh_REFNO,
+     ftsalesh.`AMOUNT` AS ftsalesh_AMOUNT,
+     ftsalesh.`AMOUNTPAY` AS ftsalesh_AMOUNTPAY,
+     ftsalesh.`DISC1` AS ftsalesh_DISC1,
+     ftsalesh.`DISC2` AS ftsalesh_DISC2,
+     ftsalesh.`DISC` AS ftsalesh_DISC,
+     ftsalesh.`ENTRYDATE` AS ftsalesh_ENTRYDATE,
+     ftsalesh.`INVOICEDATE` AS ftsalesh_INVOICEDATE,
+     ftsalesh.`INVOICENO` AS ftsalesh_INVOICENO,
+     ftsalesh.`ORDERDATE` AS ftsalesh_ORDERDATE,
+     ftsalesh.`ORDERNO` AS ftsalesh_ORDERNO,
+     ftsalesh.`PPNPERCENT` AS ftsalesh_PPNPERCENT,
+     ftsalesh.`SALDO` AS ftsalesh_SALDO,
+     ftsalesh.`TIPEFAKTUR` AS ftsalesh_TIPEFAKTUR,
+     ftsalesh.`TIPEJUAL` AS ftsalesh_TIPEJUAL,
+     ftsalesh.`TUNAIKREDIT` AS ftsalesh_TUNAIKREDIT,
+     ftsalesh.`fcustomerBean` AS ftsalesh_fcustomerBean,
+     ftsalesh.`fsalesmanBean` AS ftsalesh_fsalesmanBean,
+     ftsalesh.`AMOUNTAFTERDISC` AS ftsalesh_AMOUNTAFTERDISC,
+     ftsalesh.`AMOUNTAFTERDISCAFTERPPN` AS ftsalesh_AMOUNTAFTERDISCAFTERPPN,
+     ftsalesh.`DISC` AS ftsalesh_DISC,
+     ftsalesh.`ENDOFDAY` AS ftsalesh_ENDOFDAY,
+     ftsalesh.`PRINTCOUNTER` AS ftsalesh_PRINTCOUNTER,
+     ftsalesh.`fwarehouseBean` AS ftsalesh_fwarehouseBean,
+     ftsalesh.`TOP` AS ftsalesh_TOP,
+     ftsalesh.`DUEDATE` AS ftsalesh_DUEDATE,
+     fproduct.`ID` AS fproduct_ID,
+     fproduct.`BARCODE` AS fproduct_BARCODE,
+     fproduct.`CONVFACT1` AS fproduct_CONVFACT1,
+     fproduct.`CONVFACT2` AS fproduct_CONVFACT2,
+     fproduct.`DISTCODE` AS fproduct_DISTCODE,
+     fproduct.`PACKAGING` AS fproduct_PACKAGING,
+     fproduct.`PCODE` AS fproduct_PCODE,
+     fproduct.`PNAME` AS fproduct_PNAME,
+     fproduct.`PPRICE` AS fproduct_PPRICE,
+     fproduct.`PPRICE2` AS fproduct_PPRICE2,
+     fproduct.`PRODCLASS` AS fproduct_PRODCLASS,
+     fproduct.`SHORTCODE` AS fproduct_SHORTCODE,
+     fproduct.`SHORTNAME` AS fproduct_SHORTNAME,
+     fproduct.`SHORTPACKAGING` AS fproduct_SHORTPACKAGING,
+     fproduct.`SPRICE` AS fproduct_SPRICE,
+     fproduct.`SPRICE2` AS fproduct_SPRICE2,
+     fproduct.`STATUSACTIVE` AS fproduct_STATUSACTIVE,
+     fproduct.`UOM1` AS fproduct_UOM1,
+     fproduct.`UOM2` AS fproduct_UOM2,
+     fproduct.`UOM3` AS fproduct_UOM3,
+     fproduct.`WEIGHT` AS fproduct_WEIGHT,
+     fproduct.`fproductgroupBean` AS fproduct_fproductgroupBean,
+     fcustomer.`ID` AS fcustomer_ID,
+     fcustomer.`ADDRESS1` AS fcustomer_ADDRESS1,
+     fcustomer.`ADDRESS2` AS fcustomer_ADDRESS2,
+     fcustomer.`CITY1` AS fcustomer_CITY1,
+     fcustomer.`CITY2` AS fcustomer_CITY2,
+     fcustomer.`CREDITLIMIT` AS fcustomer_CREDITLIMIT,
+     fcustomer.`CUSTNAME` AS fcustomer_CUSTNAME,
+     fcustomer.`CUSTNO` AS fcustomer_CUSTNO,
+     fcustomer.`EMAIL` AS fcustomer_EMAIL,
+     fcustomer.`NPWP` AS fcustomer_NPWP,
+     fcustomer.`OPENINVOICE` AS fcustomer_OPENINVOICE,
+     fcustomer.`PHONE1` AS fcustomer_PHONE1,
+     fcustomer.`PHONE2` AS fcustomer_PHONE2,
+     fcustomer.`STATE1` AS fcustomer_STATE1,
+     fcustomer.`STATE2` AS fcustomer_STATE2,
+     fcustomer.`STATUSACTIVE` AS fcustomer_STATUSACTIVE,
+     fcustomer.`TOP` AS fcustomer_TOP,
+     fcustomer.`TUNAIKREDIT` AS fcustomer_TUNAIKREDIT,
+     fcustomer.`fcustomersubgroupBean` AS fcustomer_fcustomersubgroupBean,
+     fcustomer.`fsubareaBean` AS fcustomer_fsubareaBean,
+     fsalesman.`ID` AS fsalesman_ID,
+     fsalesman.`ADDRESS1` AS fsalesman_ADDRESS1,
+     fsalesman.`BORNDATE` AS fsalesman_BORNDATE,
+     fsalesman.`BORNPLACE` AS fsalesman_BORNPLACE,
+     fsalesman.`CITY1` AS fsalesman_CITY1,
+     fsalesman.`EMAIL` AS fsalesman_EMAIL,
+     fsalesman.`JOINDATE` AS fsalesman_JOINDATE,
+     fsalesman.`LASTTRANS` AS fsalesman_LASTTRANS,
+     fsalesman.`MOBILE` AS fsalesman_MOBILE,
+     fsalesman.`PHONE` AS fsalesman_PHONE,
+     fsalesman.`RELIGION` AS fsalesman_RELIGION,
+     fsalesman.`SALESTYPE` AS fsalesman_SALESTYPE,
+     fsalesman.`SPCODE` AS fsalesman_SPCODE,
+     fsalesman.`SPNAME` AS fsalesman_SPNAME,
+     fsalesman.`STATE1` AS fsalesman_STATE1,
+     fsalesman.`STATUSACTIVE` AS fsalesman_STATUSACTIVE,
+     fproductgroup.`id` AS fproductgroup_id,
+     fproductgroup.`description` AS fproductgroup_description,
+     fproductgroup.`DISC` AS fproductgroup_DISC,
+     fproductgroup.`fproductgroupdeptBean` AS fproductgroup_fproductgroupdeptBean,
+     fproductgroup.`fproductgroupdivisiBean` AS fproductgroup_fproductgroupdivisiBean
+FROM
+     `ftsalesh` ftsalesh RIGHT OUTER JOIN `ftsalesd` ftsalesd ON ftsalesh.`REFNO` = ftsalesd.`refno`
+     LEFT OUTER JOIN `fproduct` fproduct ON ftsalesd.`id` = fproduct.`ID`
+     LEFT OUTER JOIN `fproductgroup` fproductgroup ON fproduct.`fproductgroupBean` = fproductgroup.`id`
+     LEFT OUTER JOIN `fcustomer` fcustomer ON ftsalesh.`fcustomerBean` = fcustomer.`ID`
+     LEFT OUTER JOIN `fsalesman` fsalesman ON ftsalesh.`fsalesmanBean` = fsalesman.`ID`
+WHERE
+     ftsalesd.`refno` = $P{paramRefno}
+ORDER BY
+     ftsalesd.`refno` ASC,
+     ftsalesd.`NOURUT` ASC,
+     fproductgroup.`id` ASC, 
+     fproduct.`PNAME` ASC]]>
+	</queryString>
+	<field name="ftsalesd_DISC1" class="java.lang.Integer"/>
+	<field name="ftsalesd_DISC2" class="java.lang.Integer"/>
+	<field name="ftsalesd_FREEGOOD" class="java.lang.Boolean"/>
+	<field name="ftsalesd_QTY" class="java.lang.Integer"/>
+	<field name="ftsalesd_SPRICE" class="java.lang.Double"/>
+	<field name="ftsalesd_id" class="java.lang.Long"/>
+	<field name="ftsalesd_refno" class="java.lang.Long"/>
+	<field name="ftsalesd_NOURUT" class="java.lang.Integer"/>
+	<field name="ftsalesh_REFNO" class="java.lang.Long"/>
+	<field name="ftsalesh_AMOUNT" class="java.lang.Double"/>
+	<field name="ftsalesh_AMOUNTPAY" class="java.lang.Double"/>
+	<field name="ftsalesh_DISC1" class="java.lang.Double"/>
+	<field name="ftsalesh_DISC2" class="java.lang.Double"/>
+	<field name="ftsalesh_DISC" class="java.lang.Double"/>
+	<field name="ftsalesh_ENTRYDATE" class="java.sql.Date"/>
+	<field name="ftsalesh_INVOICEDATE" class="java.sql.Date"/>
+	<field name="ftsalesh_INVOICENO" class="java.lang.String"/>
+	<field name="ftsalesh_ORDERDATE" class="java.sql.Date"/>
+	<field name="ftsalesh_ORDERNO" class="java.lang.String"/>
+	<field name="ftsalesh_PPNPERCENT" class="java.lang.Double"/>
+	<field name="ftsalesh_SALDO" class="java.lang.Boolean"/>
+	<field name="ftsalesh_TIPEFAKTUR" class="java.lang.String"/>
+	<field name="ftsalesh_TIPEJUAL" class="java.lang.String"/>
+	<field name="ftsalesh_TUNAIKREDIT" class="java.lang.String"/>
+	<field name="ftsalesh_fcustomerBean" class="java.lang.Long"/>
+	<field name="ftsalesh_fsalesmanBean" class="java.lang.Long"/>
+	<field name="ftsalesh_AMOUNTAFTERDISC" class="java.lang.Double"/>
+	<field name="ftsalesh_AMOUNTAFTERDISCAFTERPPN" class="java.lang.Double"/>
+	<field name="ftsalesh_ENDOFDAY" class="java.lang.Boolean"/>
+	<field name="ftsalesh_PRINTCOUNTER" class="java.lang.Integer"/>
+	<field name="ftsalesh_fwarehouseBean" class="java.lang.String"/>
+	<field name="ftsalesh_TOP" class="java.lang.Integer"/>
+	<field name="ftsalesh_DUEDATE" class="java.sql.Date"/>
+	<field name="fproduct_ID" class="java.lang.Long"/>
+	<field name="fproduct_BARCODE" class="java.lang.String"/>
+	<field name="fproduct_CONVFACT1" class="java.lang.Integer"/>
+	<field name="fproduct_CONVFACT2" class="java.lang.Integer"/>
+	<field name="fproduct_DISTCODE" class="java.lang.String"/>
+	<field name="fproduct_PACKAGING" class="java.lang.String"/>
+	<field name="fproduct_PCODE" class="java.lang.String"/>
+	<field name="fproduct_PNAME" class="java.lang.String"/>
+	<field name="fproduct_PPRICE" class="java.lang.Double"/>
+	<field name="fproduct_PPRICE2" class="java.lang.Double"/>
+	<field name="fproduct_PRODCLASS" class="java.lang.Integer"/>
+	<field name="fproduct_SHORTCODE" class="java.lang.String"/>
+	<field name="fproduct_SHORTNAME" class="java.lang.String"/>
+	<field name="fproduct_SHORTPACKAGING" class="java.lang.String"/>
+	<field name="fproduct_SPRICE" class="java.lang.Double"/>
+	<field name="fproduct_SPRICE2" class="java.lang.Double"/>
+	<field name="fproduct_STATUSACTIVE" class="java.lang.Boolean"/>
+	<field name="fproduct_UOM1" class="java.lang.String"/>
+	<field name="fproduct_UOM2" class="java.lang.String"/>
+	<field name="fproduct_UOM3" class="java.lang.String"/>
+	<field name="fproduct_WEIGHT" class="java.lang.Double"/>
+	<field name="fproduct_fproductgroupBean" class="java.lang.String"/>
+	<field name="fcustomer_ID" class="java.lang.Long"/>
+	<field name="fcustomer_ADDRESS1" class="java.lang.String"/>
+	<field name="fcustomer_ADDRESS2" class="java.lang.String"/>
+	<field name="fcustomer_CITY1" class="java.lang.String"/>
+	<field name="fcustomer_CITY2" class="java.lang.String"/>
+	<field name="fcustomer_CREDITLIMIT" class="java.lang.Double"/>
+	<field name="fcustomer_CUSTNAME" class="java.lang.String"/>
+	<field name="fcustomer_CUSTNO" class="java.lang.String"/>
+	<field name="fcustomer_EMAIL" class="java.lang.String"/>
+	<field name="fcustomer_NPWP" class="java.lang.String"/>
+	<field name="fcustomer_OPENINVOICE" class="java.lang.Integer"/>
+	<field name="fcustomer_PHONE1" class="java.lang.String"/>
+	<field name="fcustomer_PHONE2" class="java.lang.String"/>
+	<field name="fcustomer_STATE1" class="java.lang.String"/>
+	<field name="fcustomer_STATE2" class="java.lang.String"/>
+	<field name="fcustomer_STATUSACTIVE" class="java.lang.Boolean"/>
+	<field name="fcustomer_TOP" class="java.lang.Integer"/>
+	<field name="fcustomer_TUNAIKREDIT" class="java.lang.String"/>
+	<field name="fcustomer_fcustomersubgroupBean" class="java.lang.String"/>
+	<field name="fcustomer_fsubareaBean" class="java.lang.String"/>
+	<field name="fsalesman_ID" class="java.lang.Long"/>
+	<field name="fsalesman_ADDRESS1" class="java.lang.String"/>
+	<field name="fsalesman_BORNDATE" class="java.sql.Date"/>
+	<field name="fsalesman_BORNPLACE" class="java.lang.String"/>
+	<field name="fsalesman_CITY1" class="java.lang.String"/>
+	<field name="fsalesman_EMAIL" class="java.lang.String"/>
+	<field name="fsalesman_JOINDATE" class="java.sql.Date"/>
+	<field name="fsalesman_LASTTRANS" class="java.sql.Date"/>
+	<field name="fsalesman_MOBILE" class="java.lang.String"/>
+	<field name="fsalesman_PHONE" class="java.lang.String"/>
+	<field name="fsalesman_RELIGION" class="java.lang.Integer"/>
+	<field name="fsalesman_SALESTYPE" class="java.lang.String"/>
+	<field name="fsalesman_SPCODE" class="java.lang.String"/>
+	<field name="fsalesman_SPNAME" class="java.lang.String"/>
+	<field name="fsalesman_STATE1" class="java.lang.String"/>
+	<field name="fsalesman_STATUSACTIVE" class="java.lang.Boolean"/>
+	<field name="fproductgroup_id" class="java.lang.String"/>
+	<field name="fproductgroup_description" class="java.lang.String"/>
+	<field name="fproductgroup_DISC" class="java.lang.Double"/>
+	<field name="fproductgroup_fproductgroupdeptBean" class="java.lang.String"/>
+	<field name="fproductgroup_fproductgroupdivisiBean" class="java.lang.String"/>
+	<variable name="product_name_pack" class="java.lang.String">
+		<variableExpression><![CDATA[$F{fproduct_PNAME} + " " + $F{fproduct_PACKAGING}]]></variableExpression>
+	</variable>
+	<variable name="sprice_ppn" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{ftsalesd_SPRICE} + ($F{ftsalesd_SPRICE}*0.1)]]></variableExpression>
+	</variable>
+	<variable name="customer Address" class="java.lang.String">
+		<variableExpression><![CDATA[$F{fcustomer_ADDRESS1}==null?"":"abc"]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[((double)Math.round($V{sprice_ppn})/$F{fproduct_CONVFACT1}) *$F{ftsalesd_QTY}]]></variableExpression>
+	</variable>
+	<variable name="DISC1_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTER_PPN}*($F{ftsalesd_DISC1}.doubleValue()/100)]]></variableExpression>
+	</variable>
+	<variable name="DISC2_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{AMOUNT_AFTER_PPN}-$V{DISC1_RP_AFTER_PPN})*($F{ftsalesd_DISC2}.doubleValue()/100)]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_AFTER_DISC_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTER_PPN}-$V{DISC1_RP_AFTER_PPN}-$V{DISC2_RP_AFTER_PPN}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{ftsalesh_AMOUNT} + ($F{ftsalesh_AMOUNT}*0.1)]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DISC1_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{TOTAL_AFTER_PPN}*$F{ftsalesh_DISC1}.doubleValue()/100)]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DISC_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{TOTAL_AFTER_PPN}-$V{TOTAL_DISC1_RP_AFTER_PPN}) *$F{ftsalesh_DISC}.doubleValue()/100]]></variableExpression>
+	</variable>
+	<variable name="qty_bes" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{ftsalesd_QTY}/$F{fproduct_CONVFACT1}]]></variableExpression>
+	</variable>
+	<variable name="qty_sed" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{ftsalesd_QTY}%$F{fproduct_CONVFACT1})/$F{fproduct_CONVFACT2}]]></variableExpression>
+	</variable>
+	<variable name="qty_kec" class="java.lang.Integer">
+		<variableExpression><![CDATA[(($F{ftsalesd_QTY}%$F{fproduct_CONVFACT1})%$F{fproduct_CONVFACT2})]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="137">
+			<staticText>
+				<reportElement x="4" y="2" width="172" height="20" uuid="486c254b-4656-45c2-ab75-2a4e1fe64413"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true" isUnderline="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CV. TIRTA RAHARJA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="114" width="40" height="20" uuid="6151071d-a9d5-4556-8e2d-ee32b51ad629"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Kode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="114" width="150" height="20" uuid="be4aae71-7eb5-4eb7-9abb-1b9ae4a4f172"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Nama Produk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="209" y="114" width="83" height="20" uuid="a422a3f4-f7a6-40a3-8943-f502b8d19789"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Jumlah]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="135" width="600" height="1" uuid="df319e3a-b5cc-4b3b-8360-0b1d8889694f"/>
+			</line>
+			<staticText>
+				<reportElement x="4" y="21" width="305" height="15" uuid="f451515d-29c8-4de4-bec2-7b8da5fc816a"/>
+				<textElement>
+					<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Jl. Raya Ponorogo-Madiun Km 5, Babadan, Ponorogo Jawa Timur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="0" width="172" height="20" uuid="1f270236-8a8a-4a13-80bf-398205f6994d"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[FAKTUR PENJUALAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="114" width="50" height="20" uuid="778b0ae7-f9d8-47a0-b3dc-f7a42c9cb799"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[H. Jual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="114" width="65" height="20" uuid="18eb1f2e-ed9e-4b41-81c4-02953b01d3f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Jumlah Rp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="114" width="50" height="20" uuid="fa6c0c89-a5b4-4dd3-9c3c-1eedc2680e85"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Disc1 Rp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="114" width="50" height="20" uuid="95359a1e-c4dc-4c6d-8db7-6939cb14d2af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[+Disc Rp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="532" y="114" width="70" height="20" uuid="408866aa-a825-4f04-beb0-a73a386fef61"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="113" width="600" height="1" uuid="63d8e62a-bd51-43a1-97e7-f82f4a8d56e3"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="40" y="114" width="1" height="20" uuid="6e8afc64-f35e-4b66-a57f-597994b2db15"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="208" y="114" width="1" height="20" uuid="d01b4f3b-22a4-4bef-91cc-86208ccd10c8"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="293" y="114" width="1" height="20" uuid="8d309e20-b7a2-454d-92ee-101b2ef586e4"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-170" y="-101" width="1" height="25" uuid="3738743d-57bf-4494-bf00-fafd7102b981"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-170" y="-101" width="1" height="25" uuid="21294ce0-3d0a-48b0-99cf-6a0b7082ab8a"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-170" y="-11" width="1" height="40" uuid="0d0ad3fe-2b1d-4776-b90a-79dcb26f84e7"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-170" y="-11" width="1" height="40" uuid="f35bd2fc-79e0-4db7-b905-8dfab68fb276"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-170" y="-11" width="1" height="40" uuid="4b3cf79a-dcfb-4e56-ad4c-7fd138a21a55"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-170" y="-11" width="1" height="40" uuid="86a6dccf-7107-4463-9113-fbd5b69cd1a8"/>
+			</line>
+			<staticText>
+				<reportElement x="-224" y="-4" width="50" height="20" uuid="24862e8e-6898-450f-b01c-c8cbb8fd5def"/>
+				<text><![CDATA[Kode]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-170" y="-11" width="1" height="40" uuid="d2c6855d-82d9-4d6e-a9c3-a4a695fa3b0e"/>
+			</line>
+			<line>
+				<reportElement x="349" y="114" width="1" height="20" uuid="89eb1133-3592-4e0b-afc9-4ad761f4cbd7"/>
+			</line>
+			<line>
+				<reportElement x="420" y="114" width="1" height="20" uuid="92a4364f-baa6-4692-bfbf-06076c279eda"/>
+			</line>
+			<line>
+				<reportElement x="476" y="114" width="1" height="20" uuid="88f967d0-f5e2-4adc-8d2b-2b4785521c61"/>
+			</line>
+			<line>
+				<reportElement x="529" y="114" width="1" height="20" uuid="47c06840-5db2-4e8b-be7a-ce6afc4995d9"/>
+			</line>
+			<staticText>
+				<reportElement x="-225" y="-49" width="127" height="20" uuid="e9afe9c9-3208-4409-85e1-40e47bcc512e"/>
+				<text><![CDATA[Sukodadi-Lamongan]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="470" y="21" width="109" height="17" uuid="7edb2e65-d68d-448e-be02-a25cbfcdf56c"/>
+				<textElement>
+					<font size="12" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftsalesh_INVOICENO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="34" width="305" height="15" uuid="e973f604-2767-44d1-9083-60c991f1b76f"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Telp: 0352-486629, fax: 0352-461262]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="36" width="100" height="17" uuid="c0e06dcf-9847-43c9-9089-eac6d1c06f10"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal Faktur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="51" width="100" height="17" uuid="79c51de5-9b56-4434-bac7-13ffc70920eb"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Jatuh Tempo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="66" width="100" height="17" uuid="670e4567-7041-45ea-9d06-8b39f047cd6a"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Salesman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="21" width="100" height="17" uuid="95dda773-3760-43b7-92f5-cfa0365d1d0a"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Nomor Faktur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="248" y="-81" width="100" height="17" uuid="64aed366-da98-4c50-b8cc-d60bebf58a87"/>
+				<text><![CDATA[Nomor Faktur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="67" width="62" height="20" uuid="57e49a0a-9b2f-4716-90ab-3fcffc703778"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Kepada yth:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="74" y="67" width="250" height="15" uuid="23c6e07b-09f2-4578-ac3d-5db8aded5d77"/>
+				<textElement>
+					<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fcustomer_CUSTNAME} + "  (" + $F{fcustomer_CUSTNO} +  ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="82" width="250" height="15" uuid="a6ab4370-7758-408e-9f92-f5bf775b8f1e"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fcustomer_ADDRESS1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="96" width="250" height="15" uuid="cf7beea6-9f6f-412c-851b-ffe39213a429"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fsalesman_CITY1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="453" y="21" width="13" height="17" uuid="c876591e-de95-46ec-bc21-3cc224e02955"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="36" width="13" height="17" uuid="2dc43bc5-06f9-4692-a799-e43f98b72ebc"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="51" width="13" height="17" uuid="e64cdde0-ed22-4956-b540-604efe48f3a0"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="66" width="13" height="17" uuid="686aff58-f5ab-487b-b2f6-6cbe1a854d22"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="82" width="100" height="17" uuid="cb028d0c-ea9d-4eee-a999-0b027f72570b"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tunai/Kredit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="82" width="13" height="17" uuid="a43f539b-7294-4c7c-8cdc-c9d7c1323728"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="470" y="82" width="109" height="17" uuid="f91226dc-8d07-4f3b-a7ec-2694b8d8cb60"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fcustomer_TUNAIKREDIT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy">
+				<reportElement x="470" y="36" width="109" height="17" uuid="6edb4402-e4c1-43c3-9321-2c93677b51c5"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftsalesh_INVOICEDATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+				<reportElement x="470" y="51" width="109" height="17" uuid="ede4b851-946f-4dd8-b34a-fb5a66999768"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftsalesh_DUEDATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="66" width="109" height="17" uuid="ac557be0-3594-4267-a24a-f6a51181f244"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fsalesman_ID} + "/" + $F{fsalesman_SPNAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="49" width="305" height="15" uuid="70db071e-70a8-44b2-a6af-84de140fe877"/>
+				<textElement>
+					<font size="9" isUnderline="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[NPWP: 01.480.568.3.647.000  Tgl SK: 12-Sep-08]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="0" width="40" height="15" uuid="4cfee3d7-163f-49a2-abef-8dbd737cfc8b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fproduct_PCODE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="43" y="0" width="162" height="15" uuid="904e4e09-31ce-4257-831d-98141216beaa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{product_name_pack}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="40" y="0" width="1" height="15" uuid="1ec6a460-02a9-40ac-978e-3e4e05ef54f9"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="208" y="0" width="1" height="15" uuid="80468a4f-15a2-45b1-9593-0507d86f07ab"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="244" y="0" width="1" height="15" uuid="cd90c6e0-9143-4da9-8057-e9ea2b31f431"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="268" y="0" width="1" height="15" uuid="c0d0e2be-92c8-4a62-882b-ccf26f982ef8"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="293" y="0" width="1" height="15" uuid="bea61f3b-ed04-45b2-9b40-87358eafd1d5"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="348" y="0" width="1" height="15" uuid="60f2b6b3-8709-4354-b66b-19d9bb691a70"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="420" y="0" width="1" height="15" uuid="d8b67b6f-0ab5-4991-a889-7444851bf022"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="476" y="0" width="1" height="15" uuid="11e3ee53-64a4-43c2-9b4b-a19f627fc9b3"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="529" y="0" width="1" height="15" uuid="b2c2091a-8cbe-45e7-bacf-dc26899b5479"/>
+			</line>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="350" y="0" width="65" height="15" uuid="d0ca49f1-c897-4d1c-8c9f-8d74e5870dd4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AMOUNT_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="420" y="0" width="54" height="15" uuid="19d6c890-ff74-442d-86fa-034a6b223dc6"/>
+				<textElement textAlignment="Right">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DISC1_RP_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="477" y="0" width="50" height="15" uuid="5eaba2bc-6b7d-461c-b6a0-dce91a245225"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DISC2_RP_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="529" y="0" width="70" height="15" uuid="c04d0145-7b39-4547-a0a2-90641d878ac9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AMOUNT_AFTER_DISC_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="209" y="0" width="32" height="15" uuid="db8df120-699e-448b-bfb6-e930dcf18ec6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{qty_bes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="246" y="0" width="20" height="15" uuid="a625e69d-f9d3-4b4a-9aa4-78e9d608a652"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{qty_sed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="20" height="15" uuid="0c97b9c8-fec8-4b8d-9fad-6a537e627f95"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{qty_kec}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(-#,##0)">
+				<reportElement x="295" y="0" width="50" height="15" uuid="a212656f-83e6-4d05-8208-9fe8268daa5b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sprice_ppn}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="100">
+			<staticText>
+				<reportElement x="355" y="7" width="67" height="17" uuid="79c2a026-80bd-4e39-a924-2e2c1e9ae9ab"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SUB TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="600" height="1" uuid="cdbc07b9-4522-4a38-a8ad-8381fbb3fde3"/>
+			</line>
+			<staticText>
+				<reportElement x="355" y="21" width="67" height="17" uuid="3bd23456-c135-4bc0-ab8b-ac6ca3ee8e18"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Disc1 Rp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="36" width="67" height="17" uuid="5b30edd4-4f72-4aae-9d56-ac596f376660"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[+Disc Rp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="357" y="56" width="67" height="17" uuid="d02954d6-d6fa-41cb-9f68-903ac93f25f7"/>
+				<textElement>
+					<font size="10" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="270" y="23" width="80" height="20" uuid="e720f01d-b648-4c82-a17a-31caaff8b11a"/>
+				<textElement textAlignment="Center">
+					<font size="10" isItalic="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["#" + $F{ftsalesh_ORDERNO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="7" width="126" height="17" uuid="f8297b47-b9b6-4eea-ab7c-cdf9407f4e9b"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Cap dan tanda-tangan:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="76" width="600" height="1" uuid="8acfc8f0-f22e-4f2b-b9ec-ba04e1b56f64"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="60" width="126" height="17" uuid="687c0745-5c39-4d8b-b5f4-d77a643e6b58"/>
+				<textElement textAlignment="Center">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Toko / Pembeli]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="48" width="138" height="17" uuid="45908857-c30c-4c21-906c-3ff3210083e1"/>
+				<textElement textAlignment="Center">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[( . . . . . . . . . . . . . . . . . . .)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="47" width="138" height="17" uuid="d3539c20-3ec4-43d1-8971-88976526e21e"/>
+				<textElement textAlignment="Center">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[( . . . . . . . . . . . . . . . . . . .)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="59" width="140" height="17" uuid="140fe484-63d4-4ac0-b794-754bbc883adb"/>
+				<textElement textAlignment="Center">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Otorisasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="77" width="332" height="23" uuid="37dc8a72-0616-4c74-b385-6025d3bc99b8"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[BARANG TELAH DITERIMA DENGAN BAIK DAN CUKUP, KLAIM SETELAH PENGIRIMAN MENINGGALKAN TEMPAT TIDAK DAPAT DILAYANI, TERIMA KASIH.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="422" y="7" width="13" height="17" uuid="c9f9c910-bdc4-4b95-a719-bc303e98992a"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="422" y="21" width="13" height="17" uuid="5b2cbef1-bd44-41bb-a6a6-b5df296ba342"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="422" y="36" width="13" height="17" uuid="3b70119e-46d4-4b53-9397-68ae399e15e2"/>
+				<textElement>
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="424" y="56" width="13" height="17" uuid="1d5fd77e-3466-4c14-9853-ddb064a4e18a"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="439" y="56" width="120" height="17" uuid="90c3a47f-bca7-45bd-9812-ad211ca9199b"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftsalesh_AMOUNTAFTERDISCAFTERPPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(-#,##0.00)">
+				<reportElement x="439" y="21" width="20" height="17" uuid="459a7ad2-9da3-42ca-9d25-4151b9d79a76"/>
+				<textElement textAlignment="Right">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftsalesh_DISC1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="439" y="36" width="20" height="17" uuid="d5bcab75-cc92-4bae-859b-b35b50fbf2f8"/>
+				<textElement textAlignment="Right">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftsalesh_DISC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="461" y="21" width="13" height="17" uuid="75bf55b9-239b-4eb8-931d-3693d48a8772"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="36" width="13" height="17" uuid="235e0d6e-da3e-43e1-8531-46d91245370a"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="458" y="7" width="100" height="17" uuid="1d57ff33-d515-42d8-be6f-b47acf70533e"/>
+				<textElement textAlignment="Right">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="472" y="21" width="86" height="17" uuid="9c7d186d-7a65-4d30-a6d5-1e7da75baa7e"/>
+				<textElement textAlignment="Right">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_DISC1_RP_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="472" y="36" width="86" height="17" uuid="59c49072-c318-4bf6-b870-52f5ef96c6c9"/>
+				<textElement textAlignment="Right">
+					<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_DISC_RP_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

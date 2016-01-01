@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="396" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2b844478-2ace-4161-8ed3-9deb424e3f60">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="98"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="paramInvoicedateFrom" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramInvoicedateTo" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["DES (DISTRIBUTION ENTERPRISE SYSTEM)"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyAddress" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Jl. Kauman Gang IV/45, Malang"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyPhone" class="java.lang.String">
+		<defaultValueExpression><![CDATA["082143574692"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramCompanyNpwp" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["NPWP: 01.480.568.3.647.000  Tgl SK: 12-Sep-08"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramJudulFaktur" class="java.lang.String">
+		<defaultValueExpression><![CDATA["FAKTUR PENJUALAN"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefnoFrom" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefnoTo" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramInvoiceno" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramTipefaktur" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_1" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_2" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_3" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_4" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_5" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_6" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_7" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_8" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_9" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_10" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_11" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_12" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_13" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_14" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_15" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_16" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_17" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_18" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_19" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_20" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_21" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_22" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_23" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_24" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_25" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_26" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_27" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_28" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_29" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_30" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_31" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_32" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_33" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_34" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_35" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_36" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_37" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_38" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_39" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramRefno1_40" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[(long)100000000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramJudulFakturTunai" class="java.lang.String">
+		<defaultValueExpression><![CDATA["FAKTUR PENJUALAN"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramJudulFakturKredit" class="java.lang.String">
+		<defaultValueExpression><![CDATA["FAKTUR PENJUALAN KREDIT"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramJudulFakturRetur" class="java.lang.String">
+		<defaultValueExpression><![CDATA["RETUR PENJUALAN"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramProductShortname" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[SELECT
+     ftpurchased.`DISC1` AS ftpurchased_DISC1,
+     ftpurchased.`DISC2` AS ftpurchased_DISC2,
+     ftpurchased.`NOURUT` AS ftpurchased_NOURUT,
+     ftpurchased.`PPRICE` AS ftpurchased_PPRICE,
+     ftpurchased.`QTY` AS ftpurchased_QTY,
+     ftpurchased.`id` AS ftpurchased_id,
+     ftpurchased.`refno` AS ftpurchased_refno,
+     ftpurchaseh.`REFNO` AS ftpurchaseh_REFNO,
+     ftpurchaseh.`AMOUNT` AS ftpurchaseh_AMOUNT,
+     ftpurchaseh.`AMOUNTAFTERDISC` AS ftpurchaseh_AMOUNTAFTERDISC,
+     ftpurchaseh.`AMOUNTAFTERDISCAFTERPPN` AS ftpurchaseh_AMOUNTAFTERDISCAFTERPPN,
+     ftpurchaseh.`AMOUNTPAY` AS ftpurchaseh_AMOUNTPAY,
+     ftpurchaseh.`DISC` AS ftpurchaseh_DISC,
+     ftpurchaseh.`DISC1` AS ftpurchaseh_DISC1,
+     ftpurchaseh.`DISC2` AS ftpurchaseh_DISC2,
+     ftpurchaseh.`ENDOFDAY` AS ftpurchaseh_ENDOFDAY,
+     ftpurchaseh.`INVOICEDATE` AS ftpurchaseh_INVOICEDATE,
+     ftpurchaseh.`INVOICENO` AS ftpurchaseh_INVOICENO,
+     ftpurchaseh.`NOPO` AS ftpurchaseh_NOPO,
+     ftpurchaseh.`PODATE` AS ftpurchaseh_PODATE,
+     ftpurchaseh.`PPNPERCENT` AS ftpurchaseh_PPNPERCENT,
+     ftpurchaseh.`PRINTCOUNTER` AS ftpurchaseh_PRINTCOUNTER,
+     ftpurchaseh.`SALDO` AS ftpurchaseh_SALDO,
+     ftpurchaseh.`TIPEFAKTUR` AS ftpurchaseh_TIPEFAKTUR,
+     ftpurchaseh.`fvendorBean` AS ftpurchaseh_fvendorBean,
+     ftpurchaseh.`fwarehouseBean` AS ftpurchaseh_fwarehouseBean,
+     fvendor.`ID` AS fvendor_ID,
+     fvendor.`ADDRESS1` AS fvendor_ADDRESS1,
+     fvendor.`CITY1` AS fvendor_CITY1,
+     fvendor.`EMAIL` AS fvendor_EMAIL,
+     fvendor.`NPWP` AS fvendor_NPWP,
+     fvendor.`PHONE` AS fvendor_PHONE,
+     fvendor.`STATE1` AS fvendor_STATE1,
+     fvendor.`VCODE` AS fvendor_VCODE,
+     fvendor.`VNAME` AS fvendor_VNAME,
+     fproduct.`ID` AS fproduct_ID,
+     fproduct.`BARCODE` AS fproduct_BARCODE,
+     fproduct.`CONVFACT1` AS fproduct_CONVFACT1,
+     fproduct.`CONVFACT2` AS fproduct_CONVFACT2,
+     fproduct.`DISTCODE` AS fproduct_DISTCODE,
+     fproduct.`PACKAGING` AS fproduct_PACKAGING,
+     fproduct.`PCODE` AS fproduct_PCODE,
+     fproduct.`PNAME` AS fproduct_PNAME,
+     fproduct.`PPRICE` AS fproduct_PPRICE,
+     fproduct.`PPRICE2` AS fproduct_PPRICE2,
+     fproduct.`PRODCLASS` AS fproduct_PRODCLASS,
+     fproduct.`SHORTCODE` AS fproduct_SHORTCODE,
+     fproduct.`SHORTNAME` AS fproduct_SHORTNAME,
+     fproduct.`SHORTPACKAGING` AS fproduct_SHORTPACKAGING,
+     fproduct.`SPRICE` AS fproduct_SPRICE,
+     fproduct.`SPRICE2` AS fproduct_SPRICE2,
+     fproduct.`STATUSACTIVE` AS fproduct_STATUSACTIVE,
+     fproduct.`UOM1` AS fproduct_UOM1,
+     fproduct.`UOM2` AS fproduct_UOM2,
+     fproduct.`UOM3` AS fproduct_UOM3,
+     fproduct.`WEIGHT` AS fproduct_WEIGHT,
+     fproduct.`fproductgroupBean` AS fproduct_fproductgroupBean,
+     fproduct.`PPRICE2AFTERPPN` AS fproduct_PPRICE2AFTERPPN,
+     fproduct.`PPRICEAFTERPPN` AS fproduct_PPRICEAFTERPPN,
+     fproduct.`SPRICE2AFTERPPN` AS fproduct_SPRICE2AFTERPPN,
+     fproduct.`SPRICEAFTERPPN` AS fproduct_SPRICEAFTERPPN,
+     fproduct.`SUPPLIER` AS fproduct_SUPPLIER
+FROM
+     `ftpurchaseh` ftpurchaseh RIGHT OUTER JOIN `ftpurchased` ftpurchased ON ftpurchaseh.`REFNO` = ftpurchased.`refno`
+     LEFT OUTER JOIN `fvendor` fvendor ON ftpurchaseh.`fvendorBean` = fvendor.`ID`
+     LEFT OUTER JOIN `fproduct` fproduct ON ftpurchased.`id` = fproduct.`ID`
+WHERE
+ 	ftpurchaseh.`REFNO` = $P{paramRefno1_1}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_2}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_3}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_4}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_5}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_6}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_7}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_8}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_9}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_10}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_11}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_12}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_13}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_14}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_15}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_16}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_17}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_18}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_19}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_20}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_21}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_22}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_23}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_24}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_25}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_26}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_27}
+	OR ftpurchaseh.`REFNO` = $P{paramRefno1_28}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_29}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_30}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_31}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_32}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_33}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_34}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_35}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_36}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_37}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_38}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_39}
+ 	OR ftpurchaseh.`REFNO` = $P{paramRefno1_40}
+  	
+ORDER BY
+     ftpurchased.`refno` ASC,
+     ftpurchased.`NOURUT` ASC,
+     fproduct.`PNAME` ASC,
+     fproduct.`PCODE` ASC]]>
+	</queryString>
+	<field name="ftpurchased_DISC1" class="java.lang.Double"/>
+	<field name="ftpurchased_DISC2" class="java.lang.Double"/>
+	<field name="ftpurchased_NOURUT" class="java.lang.Integer"/>
+	<field name="ftpurchased_PPRICE" class="java.lang.Double"/>
+	<field name="ftpurchased_QTY" class="java.lang.Integer"/>
+	<field name="ftpurchased_id" class="java.lang.Long"/>
+	<field name="ftpurchased_refno" class="java.lang.Long"/>
+	<field name="ftpurchaseh_REFNO" class="java.lang.Long"/>
+	<field name="ftpurchaseh_AMOUNT" class="java.lang.Double"/>
+	<field name="ftpurchaseh_AMOUNTAFTERDISC" class="java.lang.Double"/>
+	<field name="ftpurchaseh_AMOUNTAFTERDISCAFTERPPN" class="java.lang.Double"/>
+	<field name="ftpurchaseh_AMOUNTPAY" class="java.lang.Double"/>
+	<field name="ftpurchaseh_DISC" class="java.lang.Double"/>
+	<field name="ftpurchaseh_DISC1" class="java.lang.Double"/>
+	<field name="ftpurchaseh_DISC2" class="java.lang.Double"/>
+	<field name="ftpurchaseh_ENDOFDAY" class="java.lang.Boolean"/>
+	<field name="ftpurchaseh_INVOICEDATE" class="java.sql.Date"/>
+	<field name="ftpurchaseh_INVOICENO" class="java.lang.String"/>
+	<field name="ftpurchaseh_NOPO" class="java.lang.String"/>
+	<field name="ftpurchaseh_PODATE" class="java.sql.Date"/>
+	<field name="ftpurchaseh_PPNPERCENT" class="java.lang.Double"/>
+	<field name="ftpurchaseh_PRINTCOUNTER" class="java.lang.Integer"/>
+	<field name="ftpurchaseh_SALDO" class="java.lang.Boolean"/>
+	<field name="ftpurchaseh_TIPEFAKTUR" class="java.lang.String"/>
+	<field name="ftpurchaseh_fvendorBean" class="java.lang.Long"/>
+	<field name="ftpurchaseh_fwarehouseBean" class="java.lang.String"/>
+	<field name="fvendor_ID" class="java.lang.Long"/>
+	<field name="fvendor_ADDRESS1" class="java.lang.String"/>
+	<field name="fvendor_CITY1" class="java.lang.String"/>
+	<field name="fvendor_EMAIL" class="java.lang.String"/>
+	<field name="fvendor_NPWP" class="java.lang.String"/>
+	<field name="fvendor_PHONE" class="java.lang.String"/>
+	<field name="fvendor_STATE1" class="java.lang.String"/>
+	<field name="fvendor_VCODE" class="java.lang.String"/>
+	<field name="fvendor_VNAME" class="java.lang.String"/>
+	<field name="fproduct_ID" class="java.lang.Long"/>
+	<field name="fproduct_BARCODE" class="java.lang.String"/>
+	<field name="fproduct_CONVFACT1" class="java.lang.Integer"/>
+	<field name="fproduct_CONVFACT2" class="java.lang.Integer"/>
+	<field name="fproduct_DISTCODE" class="java.lang.String"/>
+	<field name="fproduct_PACKAGING" class="java.lang.String"/>
+	<field name="fproduct_PCODE" class="java.lang.String"/>
+	<field name="fproduct_PNAME" class="java.lang.String"/>
+	<field name="fproduct_PPRICE" class="java.lang.Double"/>
+	<field name="fproduct_PPRICE2" class="java.lang.Double"/>
+	<field name="fproduct_PRODCLASS" class="java.lang.Integer"/>
+	<field name="fproduct_SHORTCODE" class="java.lang.String"/>
+	<field name="fproduct_SHORTNAME" class="java.lang.String"/>
+	<field name="fproduct_SHORTPACKAGING" class="java.lang.String"/>
+	<field name="fproduct_SPRICE" class="java.lang.Double"/>
+	<field name="fproduct_SPRICE2" class="java.lang.Double"/>
+	<field name="fproduct_STATUSACTIVE" class="java.lang.Boolean"/>
+	<field name="fproduct_UOM1" class="java.lang.String"/>
+	<field name="fproduct_UOM2" class="java.lang.String"/>
+	<field name="fproduct_UOM3" class="java.lang.String"/>
+	<field name="fproduct_WEIGHT" class="java.lang.Double"/>
+	<field name="fproduct_fproductgroupBean" class="java.lang.String"/>
+	<field name="fproduct_PPRICE2AFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_PPRICEAFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_SPRICE2AFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_SPRICEAFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_SUPPLIER" class="java.lang.String"/>
+	<variable name="sprice_ppn" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{ftsalesd_SPRICE} + ($F{ftsalesd_SPRICE}*0.1)]]></variableExpression>
+	</variable>
+	<variable name="product_name_pack" class="java.lang.String">
+		<variableExpression><![CDATA[$P{paramProductShortname}.equals(true)?($F{fproduct_SHORTNAME} + " " + $F{fproduct_SHORTPACKAGING}):($F{fproduct_PNAME} + " " + $F{fproduct_PACKAGING})]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[((double)Math.round($V{sprice_ppn})/$F{fproduct_CONVFACT1}) *$F{ftsalesd_QTY}]]></variableExpression>
+	</variable>
+	<variable name="DISC1_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTER_PPN}*($F{ftsalesd_DISC1}.doubleValue()/100)]]></variableExpression>
+	</variable>
+	<variable name="DISC2_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{AMOUNT_AFTER_PPN}-$V{DISC1_RP_AFTER_PPN})*($F{ftsalesd_DISC2}.doubleValue()/100)]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_AFTER_DISC_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTER_PPN}-$V{DISC1_RP_AFTER_PPN}-$V{DISC2_RP_AFTER_PPN}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{ftsalesh_AMOUNT} + ($F{ftsalesh_AMOUNT}*0.1)]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DISC1_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{TOTAL_AFTER_PPN}*$F{ftsalesh_DISC1}.doubleValue()/100)]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DISC_RP_AFTER_PPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{TOTAL_AFTER_PPN}-$V{TOTAL_DISC1_RP_AFTER_PPN}) *$F{ftsalesh_DISC}.doubleValue()/100]]></variableExpression>
+	</variable>
+	<variable name="customer Address" class="java.lang.String">
+		<variableExpression><![CDATA[$F{fcustomer_ADDRESS1}==null?"":"abc"]]></variableExpression>
+	</variable>
+	<variable name="qty_bes" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{ftsalesd_QTY}/$F{fproduct_CONVFACT1}]]></variableExpression>
+	</variable>
+	<variable name="qty_sed" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{ftsalesd_QTY}%$F{fproduct_CONVFACT1})/$F{fproduct_CONVFACT2}]]></variableExpression>
+	</variable>
+	<variable name="qty_kec" class="java.lang.Integer">
+		<variableExpression><![CDATA[(($F{ftsalesd_QTY}%$F{fproduct_CONVFACT1})%$F{fproduct_CONVFACT2})]]></variableExpression>
+	</variable>
+	<variable name="discpersen1" class="java.lang.String">
+		<variableExpression><![CDATA[$F{ftsalesd_DISC1}.toString() + "%"]]></variableExpression>
+	</variable>
+	<variable name="discpersen2" class="java.lang.String">
+		<variableExpression><![CDATA[$F{ftsalesd_DISC2}.toString() + "%"]]></variableExpression>
+	</variable>
+	<group name="FSALESH_INVOICENO_GROUP">
+		<groupExpression><![CDATA[$F{ftsalesh_INVOICENO}]]></groupExpression>
+		<groupHeader>
+			<band height="132">
+				<line>
+					<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="220" y="120" width="1" height="11" uuid="55b201dd-854d-4bb3-b17d-f933e11f3ba2"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="3" y="119" width="600" height="1" uuid="688f94f0-0c28-4003-899b-bee70a0dbac1"/>
+					<graphicElement>
+						<pen lineWidth="0.75"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="468" y="120" width="50" height="11" uuid="a4833825-b263-4617-bfc5-19f26e67f94b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[+Disc Rp]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="47" y="120" width="1" height="11" uuid="a6b92b58-8d86-4ff8-97b0-ebdf99e9a2cb"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="406" y="121" width="58" height="11" uuid="b1ff39e0-3ce6-4d4e-981f-38de9f6bfaab"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Disc1 Rp]]></text>
+				</staticText>
+				<line>
+					<reportElement x="404" y="120" width="1" height="11" uuid="8a0ff500-f7ff-4723-b8ac-0e7e6269c978"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="48" y="120" width="163" height="11" uuid="3fcff16a-a1ad-4d04-ae4c-92b5a2b6e0b4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nama Produk]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="230" y="120" width="55" height="11" uuid="34809020-d88d-4342-b104-d2f9db1a33a2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah]]></text>
+				</staticText>
+				<line>
+					<reportElement x="465" y="120" width="1" height="11" uuid="27ece399-df6a-43d1-abe8-6691a8629ef4"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="293" y="120" width="40" height="11" uuid="966e51f9-dc32-4ff4-ae18-e5280c1f4c74"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[H. Jual]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="523" y="121" width="60" height="11" uuid="4ead0626-caac-45a4-8a68-73c188a8fd5d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="7" y="120" width="40" height="11" uuid="aae04b4d-e97e-43a3-931d-1e28db68b7eb"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kode]]></text>
+				</staticText>
+				<line>
+					<reportElement x="520" y="120" width="1" height="11" uuid="55963cdd-6995-42b7-964c-cfae488b2a22"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="347" y="120" width="55" height="11" uuid="b9580961-c83c-4473-a46f-d05ea32d5255"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jumlah Rp]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="292" y="120" width="1" height="11" uuid="8f8134b8-ceb8-4d64-b5f0-456a573e7b44"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="337" y="120" width="1" height="11" uuid="e0c193d7-f580-4ede-896a-2dfd1f3e3037"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="3" y="131" width="600" height="1" uuid="b0123498-5cb0-43fc-ba44-b9c149c24369"/>
+					<graphicElement>
+						<pen lineWidth="0.75"/>
+					</graphicElement>
+				</line>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="76" y="76" width="250" height="15" uuid="22491a00-8333-4941-b0bb-0438a120da2f"/>
+					<textElement>
+						<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fcustomer_CUSTNAME}.trim() + "  (" + $F{fcustomer_CUSTNO}.trim() +  ")"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="76" y="104" width="250" height="13" uuid="1866a0df-f4c2-423b-9058-b790e4c29434"/>
+					<textElement>
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fsalesman_CITY1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="76" y="91" width="250" height="13" uuid="f9b5a704-0e1e-49be-b43f-0f5d331bf525"/>
+					<textElement>
+						<font size="10" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fcustomer_ADDRESS1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="7" y="76" width="62" height="13" uuid="d0e91cd0-aad2-460f-a849-187803797ce8"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kepada yth:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="474" y="51" width="13" height="13" uuid="c2fe53a2-2678-4deb-a85c-fc11701dc763"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="51" width="100" height="13" uuid="bdec9cc0-45e9-455d-8715-27aa02ea9f82"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tanggal Faktur]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="474" y="76" width="13" height="13" uuid="bc2f6c3b-3232-47b2-8a86-ac34e71f45e4"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="474" y="36" width="13" height="13" uuid="32985059-c1e8-4845-ba42-0383cf424086"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="474" y="63" width="13" height="13" uuid="8cd347f7-7b82-46f3-a30e-59ecece7bff1"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="63" width="100" height="13" uuid="a610ac53-59fc-4d5a-bb51-e7553a37892e"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Jatuh Tempo]]></text>
+				</staticText>
+				<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+					<reportElement x="491" y="63" width="109" height="13" uuid="b3133b99-6afb-4729-8e4b-a5af37a2b863"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_DUEDATE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="474" y="89" width="13" height="13" uuid="18628abf-67e8-4656-9938-27849f98c07a"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="89" width="100" height="13" uuid="11b89c99-ed22-4b0f-8b3f-4f59b5d66472"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tunai/Kredit]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="36" width="100" height="13" uuid="10f7da60-a027-4de1-a205-1918043f027e"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nomor Faktur]]></text>
+				</staticText>
+				<textField pattern="dd-MMM-yy">
+					<reportElement x="491" y="51" width="109" height="13" uuid="ef36524c-724a-4e42-a320-b00a4ca13c7d"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_INVOICEDATE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="374" y="76" width="100" height="13" uuid="10bd2122-5c55-471f-bbb3-b330254df8c4"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Salesman]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="491" y="76" width="109" height="13" uuid="11a5837b-7dc4-4b87-adf3-48a4d9740b08"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fsalesman_ID} + "/" + $F{fsalesman_SPNAME}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="491" y="36" width="109" height="17" uuid="583f05e3-7938-46b5-95f3-06e8b699fc7f"/>
+					<textElement>
+						<font size="11" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_INVOICENO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="8" y="15" width="345" height="22" uuid="e11037fb-9e50-4169-bbb5-34d05902c61c"/>
+					<textElement>
+						<font size="14" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{paramCompanyName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="8" y="35" width="344" height="13" uuid="033bde9c-e03a-41d0-9a70-c5e1a97b31cf"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{paramCompanyAddress}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="8" y="48" width="344" height="13" uuid="40683bb5-4b6a-45b2-8f25-e4ff3676795b"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{paramCompanyPhone}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="8" y="62" width="344" height="11" uuid="0503c00d-1cf8-4bb1-beba-3781292b14f4"/>
+					<textElement>
+						<font size="8" isUnderline="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{paramCompanyNpwp}]]></textFieldExpression>
+				</textField>
+				<break>
+					<reportElement x="0" y="11" width="100" height="1" uuid="75efde1c-32b1-4bbf-bde0-35664f053673"/>
+				</break>
+				<textField>
+					<reportElement x="375" y="15" width="226" height="22" uuid="026392a8-3dda-46c6-a860-2b5508c88435"/>
+					<textElement>
+						<font size="14" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_TIPEFAKTUR}.equals("K")?$P{paramJudulFakturKredit}:$P{paramJudulFakturTunai}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="491" y="89" width="109" height="13" uuid="aa7bf281-74f3-418e-acb0-0ab810680181"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_TUNAIKREDIT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="107">
+				<line>
+					<reportElement x="3" y="1" width="600" height="1" uuid="9e8f48a5-c115-4519-a920-7e01f87a0f80"/>
+					<graphicElement>
+						<pen lineWidth="0.75"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="152" y="58" width="140" height="13" uuid="336f4072-f2d9-4453-9d35-ca157b2e7daf"/>
+					<textElement textAlignment="Center">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Otorisasi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="12" y="47" width="138" height="13" uuid="4a846417-677e-4d78-9277-204d9e6c43ad"/>
+					<textElement textAlignment="Center">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[( . . . . . . . . . . . . . . . . . . .)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="7" y="76" width="587" height="15" uuid="9ec900b3-65c8-4b2a-8578-d399d3f2fc45"/>
+					<textElement>
+						<font size="7" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[BARANG TELAH DITERIMA DENGAN BAIK DAN CUKUP, KLAIM SETELAH PENGIRIMAN MENINGGALKAN TEMPAT TIDAK DAPAT DILAYANI, TERIMA KASIH.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="6" width="126" height="13" uuid="b299797e-be75-4d99-85b8-0715eeb8b88d"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Cap dan tanda-tangan:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="154" y="46" width="138" height="13" uuid="5342d21d-0244-4440-be67-7e9baca8b5a4"/>
+					<textElement textAlignment="Center">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[( . . . . . . . . . . . . . . . . . . .)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="59" width="126" height="13" uuid="6a4e7870-8348-4a48-81d6-5c3e772f6bb7"/>
+					<textElement textAlignment="Center">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Toko / Pembeli]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="421" y="20" width="13" height="15" uuid="8b1a64b9-c4ed-48f5-9f4b-df2330bd84b6"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="438" y="55" width="120" height="17" uuid="1f47bc5f-f639-4b6c-804f-25e4dfc12191"/>
+					<textElement textAlignment="Right">
+						<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_AMOUNTAFTERDISCAFTERPPN}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="354" y="35" width="67" height="15" uuid="1e089c04-51e9-4eb4-9042-1e2b7737eb11"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[+Disc Rp]]></text>
+				</staticText>
+				<textField pattern="#,##0.00;(#,##0.00)">
+					<reportElement x="438" y="35" width="20" height="15" uuid="f36394c3-2a0b-41db-93a6-5bc8216b7238"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_DISC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="421" y="6" width="13" height="15" uuid="de3ac274-22a6-4e0e-8b13-5862d2f635fb"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="421" y="35" width="13" height="15" uuid="7b899b49-af64-47ac-8b2f-f84c61703f64"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="471" y="35" width="86" height="15" uuid="d0de633d-0f98-4990-986f-e5566ba15e48"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_DISC_RP_AFTER_PPN}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="354" y="20" width="67" height="15" uuid="c0b559eb-5b66-4f2d-8546-62dc5c32bab6"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Disc1 Rp]]></text>
+				</staticText>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="457" y="6" width="100" height="15" uuid="6b4fdfc2-e947-4e21-8f33-8e7b4cb21567"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_AFTER_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="471" y="20" width="86" height="15" uuid="bef45d99-f97d-42b3-aeb8-3e76d679a3e5"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_DISC1_RP_AFTER_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;(-#,##0.00)">
+					<reportElement x="438" y="20" width="20" height="15" uuid="9473b814-c503-4dd0-9c89-a67e645f986a"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ftsalesh_DISC1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="421" y="55" width="13" height="17" uuid="477e6f12-a72f-4637-9db9-6181349e741c"/>
+					<textElement>
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="460" y="35" width="13" height="15" uuid="5e42d108-1b71-459d-8599-fe937bad8d01"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="354" y="6" width="67" height="15" uuid="3e904e2e-d186-40b4-975d-cc63bea5ba19"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[SUB TOTAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="460" y="20" width="13" height="15" uuid="00ef81ef-ae47-4a66-8210-9ea202bb1670"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[%]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="264" y="22" width="80" height="20" uuid="263fd4ca-8fa4-4b7a-bb2d-fed5212c237d"/>
+					<textElement textAlignment="Center">
+						<font size="10" isItalic="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["#" + $F{ftsalesh_ORDERNO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="354" y="55" width="67" height="17" uuid="5fa91c20-dba5-4aa9-9ddf-49cc8085a2b9"/>
+					<textElement>
+						<font size="10" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<line>
+					<reportElement x="3" y="73" width="600" height="1" uuid="b364e8ab-f961-4729-947e-efbf23b8682e"/>
+					<graphicElement>
+						<pen lineWidth="0.75"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="249" y="0" width="1" height="11" uuid="2ab6c1b4-8589-4b54-bbc8-602e0f7210e8"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="271" y="0" width="1" height="11" uuid="d4097f7b-e7c5-4256-b574-04b5988d0916"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="520" y="0" width="1" height="11" uuid="b6f91224-7afd-4056-9fe0-caa4128a7174"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="347" y="0" width="55" height="11" uuid="e604eaf1-1cc6-4070-87cf-70195ab40ec9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AMOUNT_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="424" y="0" width="40" height="11" uuid="e0bd293b-3c15-4b1d-abe6-64eae0994903"/>
+				<textElement textAlignment="Right">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DISC1_RP_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="292" y="0" width="1" height="11" uuid="0c3434b9-4109-46b1-9a51-a88c71dc4123"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="522" y="0" width="60" height="11" uuid="b247b950-e4d0-4458-9a47-ac642b151b5d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AMOUNT_AFTER_DISC_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="47" y="0" width="1" height="11" uuid="06ea4fe9-c8e6-41c0-9c57-56f9aedbd726"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0;(-#,##0)">
+				<reportElement x="295" y="0" width="40" height="11" uuid="f6da7015-ae0c-4a10-acf2-66c063c9a315"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sprice_ppn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="251" y="0" width="18" height="11" uuid="9024b1a7-57d1-423e-8229-365132fa980a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{qty_sed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="0" width="26" height="11" uuid="d54c1780-ff69-4477-a8b2-ba71702fb719"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{qty_bes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="7" y="0" width="40" height="11" uuid="5b7b144b-b6fb-42ca-af79-62c401747dcd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fproduct_PCODE}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="220" y="0" width="1" height="11" uuid="fb8f247e-efd9-46f8-a1be-bc13793ccef2"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="485" y="0" width="35" height="11" uuid="0189c49f-ef0f-46e2-b8dd-c0b6455a6828"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DISC2_RP_AFTER_PPN}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="337" y="0" width="1" height="11" uuid="34c1c211-70e8-43b7-8196-13704e2f5f8f"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="272" y="0" width="18" height="11" uuid="9ef1f17a-4563-4cb3-b57d-9e03d68f981e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{qty_kec}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="404" y="0" width="1" height="11" uuid="3303796c-2f44-479e-84b9-60a178af7963"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="465" y="0" width="1" height="11" uuid="e83f9387-9b05-40c7-a539-64e0c23b384e"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="50" y="0" width="168" height="11" uuid="2c25dbe5-f4ff-4372-b3fb-e415b5bdef60"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{product_name_pack}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="406" y="0" width="20" height="11" uuid="49c2e902-6038-423f-b42f-1d4858dfeaff"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{discpersen1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="468" y="0" width="19" height="11" uuid="1492c0a6-c0d7-4066-8f8a-246ac11a1f7e"/>
+				<textElement>
+					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{discpersen2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

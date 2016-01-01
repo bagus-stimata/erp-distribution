@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="578" leftMargin="10" rightMargin="7" topMargin="7" bottomMargin="7" uuid="a8489a6d-d737-435b-96fb-5709a5d08d71">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="paramString1" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="paramString2" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="paramLong1" class="java.lang.Long" isForPrompting="false"/>
+	<parameter name="paramLong2" class="java.lang.Long" isForPrompting="false"/>
+	<parameter name="paramDouble1" class="java.lang.Long" isForPrompting="false"/>
+	<parameter name="paramDouble2" class="java.lang.Long" isForPrompting="false"/>
+	<parameter name="paramDate1" class="java.util.Date" isForPrompting="false"/>
+	<parameter name="paramDate2" class="java.util.Date" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT
+     zlaptemplate1.`ID` AS zlaptemplate1_ID,
+     zlaptemplate1.`DATE1` AS zlaptemplate1_DATE1,
+     zlaptemplate1.`DATE2` AS zlaptemplate1_DATE2,
+     zlaptemplate1.`DATE3` AS zlaptemplate1_DATE3,
+     zlaptemplate1.`DOUBLE1` AS zlaptemplate1_DOUBLE1,
+     zlaptemplate1.`DOUBLE2` AS zlaptemplate1_DOUBLE2,
+     zlaptemplate1.`DOUBLE3` AS zlaptemplate1_DOUBLE3,
+     zlaptemplate1.`DOUBLE4` AS zlaptemplate1_DOUBLE4,
+     zlaptemplate1.`DOUBLE5` AS zlaptemplate1_DOUBLE5,
+     zlaptemplate1.`GRUP1` AS zlaptemplate1_GRUP1,
+     zlaptemplate1.`GRUP2` AS zlaptemplate1_GRUP2,
+     zlaptemplate1.`GRUP3` AS zlaptemplate1_GRUP3,
+     zlaptemplate1.`INTEGER1` AS zlaptemplate1_INTEGER1,
+     zlaptemplate1.`INTEGER2` AS zlaptemplate1_INTEGER2,
+     zlaptemplate1.`INTEGER3` AS zlaptemplate1_INTEGER3,
+     zlaptemplate1.`INTEGER4` AS zlaptemplate1_INTEGER4,
+     zlaptemplate1.`INTEGER5` AS zlaptemplate1_INTEGER5,
+     zlaptemplate1.`STRING1` AS zlaptemplate1_STRING1,
+     zlaptemplate1.`STRING2` AS zlaptemplate1_STRING2,
+     zlaptemplate1.`STRING3` AS zlaptemplate1_STRING3,
+     zlaptemplate1.`STRING4` AS zlaptemplate1_STRING4,
+     zlaptemplate1.`STRING5` AS zlaptemplate1_STRING5,
+     zlaptemplate1.`STRING6` AS zlaptemplate1_STRING6,
+     zlaptemplate1.`STRING7` AS zlaptemplate1_STRING7
+FROM
+     `zlaptemplate1` zlaptemplate1
+ORDER BY
+ zlaptemplate1.`GRUP1`]]>
+	</queryString>
+	<field name="zlaptemplate1_ID" class="java.lang.Long"/>
+	<field name="zlaptemplate1_DATE1" class="java.sql.Date"/>
+	<field name="zlaptemplate1_DATE2" class="java.sql.Date"/>
+	<field name="zlaptemplate1_DATE3" class="java.sql.Date"/>
+	<field name="zlaptemplate1_DOUBLE1" class="java.lang.Double"/>
+	<field name="zlaptemplate1_DOUBLE2" class="java.lang.Double"/>
+	<field name="zlaptemplate1_DOUBLE3" class="java.lang.Double"/>
+	<field name="zlaptemplate1_DOUBLE4" class="java.lang.Double"/>
+	<field name="zlaptemplate1_DOUBLE5" class="java.lang.Double"/>
+	<field name="zlaptemplate1_GRUP1" class="java.lang.String"/>
+	<field name="zlaptemplate1_GRUP2" class="java.lang.String"/>
+	<field name="zlaptemplate1_GRUP3" class="java.lang.String"/>
+	<field name="zlaptemplate1_INTEGER1" class="java.lang.Integer"/>
+	<field name="zlaptemplate1_INTEGER2" class="java.lang.Integer"/>
+	<field name="zlaptemplate1_INTEGER3" class="java.lang.Integer"/>
+	<field name="zlaptemplate1_INTEGER4" class="java.lang.Integer"/>
+	<field name="zlaptemplate1_INTEGER5" class="java.lang.Integer"/>
+	<field name="zlaptemplate1_STRING1" class="java.lang.String"/>
+	<field name="zlaptemplate1_STRING2" class="java.lang.String"/>
+	<field name="zlaptemplate1_STRING3" class="java.lang.String"/>
+	<field name="zlaptemplate1_STRING4" class="java.lang.String"/>
+	<field name="zlaptemplate1_STRING5" class="java.lang.String"/>
+	<field name="zlaptemplate1_STRING6" class="java.lang.String"/>
+	<field name="zlaptemplate1_STRING7" class="java.lang.String"/>
+	<variable name="zlaptemplate1_DOUBLE1_1" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlaptemplate1_DOUBLE1}]]></variableExpression>
+	</variable>
+	<variable name="zlaptemplate1_DOUBLE2_1" class="java.lang.Double" resetType="Group" resetGroup="GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlaptemplate1_DOUBLE2}]]></variableExpression>
+	</variable>
+	<group name="GRUP1">
+		<groupExpression><![CDATA[$F{zlaptemplate1_GRUP1}]]></groupExpression>
+		<groupHeader>
+			<band height="36">
+				<staticText>
+					<reportElement x="2" y="3" width="40" height="15" uuid="32c75e27-4aa6-473d-85de-97ad858f3adb"/>
+					<textElement>
+						<font size="9" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[TENISI :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="20" width="22" height="13" uuid="8a2b0b56-d67d-4a89-a5b6-d95871893d65"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="22" y="20" width="45" height="13" uuid="0d6a5a14-d9c5-4988-98ac-8922b2651ada"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[No. Job]]></text>
+				</staticText>
+				<line>
+					<reportElement x="2" y="33" width="575" height="1" uuid="f6ac6491-d90e-4387-a72a-a16844d3e64d"/>
+					<graphicElement>
+						<pen lineWidth="0.75"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="171" y="20" width="55" height="13" uuid="94395e53-d95c-499d-80ec-b71380cb3135"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Merk Hp]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="288" y="20" width="160" height="13" uuid="d9c4fe80-db2b-4d89-b5c3-e04694300a78"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Kerusakan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="68" y="20" width="100" height="13" uuid="5f3e4456-7b28-41cd-bb7c-eda15c0c0a8a"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Customer]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="227" y="20" width="60" height="13" uuid="8572482c-7435-4d6c-b028-3b87e4f98a19"/>
+					<textElement>
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Tipe Hp]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="455" y="20" width="60" height="13" uuid="c8b83d28-5a4e-420e-88ed-06055d8bc522"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[B. Service]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="518" y="20" width="60" height="13" uuid="0cccb572-c113-4c01-a0d8-938625aaf815"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[B. Spare Part]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="49" y="3" width="120" height="15" uuid="85592f4a-d9db-4a79-adbd-cecebd74542f"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlaptemplate1_GRUP1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="29">
+				<line>
+					<reportElement x="1" y="2" width="575" height="1" uuid="aff05413-9cbd-4861-818e-d159249030bc"/>
+					<graphicElement>
+						<pen lineWidth="0.75"/>
+					</graphicElement>
+				</line>
+				<textField pattern="#,##0">
+					<reportElement x="452" y="3" width="63" height="20" uuid="3b523737-c683-4a2f-9dae-74e43e81b520"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{zlaptemplate1_DOUBLE1_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="515" y="3" width="63" height="20" uuid="5a46fec0-30ce-4eee-b6bc-f4885503c520"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{zlaptemplate1_DOUBLE2_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="162" y="9" width="252" height="20" uuid="25da781d-4f59-4d84-b63a-44ed0881f7b8"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN PENERIMAAN SERVICE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="1" width="41" height="13" uuid="eb4ce5f2-15da-41d4-a412-472dfc1f3797"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Printed]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="478" y="1" width="100" height="13" uuid="c86796df-0608-44f4-8b85-f6c72a242790"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="207" y="26" width="65" height="15" uuid="095e8300-d8f3-4dca-a02e-b3a3609f1193"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{paramDate1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="302" y="26" width="65" height="15" uuid="f2dd7fa3-646d-4996-bf33-9a8ed58cba1f"/>
+				<textFieldExpression><![CDATA[$P{paramDate2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="272" y="26" width="30" height="15" uuid="e3293d5f-65ea-4ca3-b0a3-93cfbcc7f973"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[S.D]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="13">
+			<textField pattern="#,##0">
+				<reportElement x="454" y="0" width="60" height="13" uuid="ec1a3185-f576-4d98-a364-10ee25079a01"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlaptemplate1_DOUBLE1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="517" y="0" width="60" height="13" uuid="15252097-5b6c-487a-8a2b-21991de62cc1"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlaptemplate1_DOUBLE2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="0" width="45" height="13" uuid="375ebd1b-b0d5-4d25-b902-6a10464eb0bb"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlaptemplate1_STRING1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="0" width="100" height="13" uuid="19f623b6-c18c-4f2b-93b6-e4386a652673"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlaptemplate1_STRING2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="0" width="55" height="13" uuid="70e16018-4a2e-478c-84ec-150c17e1ca87"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlaptemplate1_STRING3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="0" width="60" height="13" uuid="f3b01750-eb6a-4e6b-885c-011ca08225e8"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlaptemplate1_STRING4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="22" height="13" uuid="018dfb40-a8ae-4cca-a06d-0c0e1849f5de"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GRUP1_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="0" width="160" height="13" uuid="f14547fb-2579-46e1-9c9e-9b1dd9c0003a"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlaptemplate1_STRING5}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

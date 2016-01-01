@@ -1,0 +1,54 @@
+/* Import the reindeer theme.*/
+/* This only allows us to use the mixins defined in it and does not add any styles by itself. */
+@import "../reindeer/reindeer.scss";
+
+/* This contains all of your theme.*/
+/* If somebody wants to extend the theme she will include this mixin. */
+@mixin custom_theme01 {
+  /* Include all the styles from the reindeer theme */
+  @include reindeer;
+
+  /* Insert your theme rules here */
+  
+ 	.v-textfield.numerical {
+    	text-align: right;
+	} 
+	
+	/* MENUBAR */
+	.v-menubar {
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;	
+	}
+	
+	/* WINDOW */
+/*	
+	.v-window-wrap {
+		border-radius: 100px;
+		background: lightblue;
+		color: red;
+	}
+
+	.v-window-outerheader {
+	border-top-right-radius: 100px;
+	border-top-left-radius: 100px;
+	background: lightblue;
+	color: red;
+	}
+	
+	.v-window-footer {
+	border-bottom-right-radius: 100px;
+	border-bottom-left-radius: 100px;
+	background: lightblue;
+	color: red;
+	}
+	
+	.v-window-resizebox {
+	background: lightblue;
+	color: red;
+	border-bottom-right-radius: 100px;
+	}
+	}
+
+ */ 
+}

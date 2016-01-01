@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="828" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="87752ea3-33f4-42c5-8e46-1ff39785a907">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     zlapprestasikerja.`ID` AS zlapprestasikerja_ID,
+     zlapprestasikerja.`DISCNOTA` AS zlapprestasikerja_DISCNOTA,
+     zlapprestasikerja.`DISCPERBARANG` AS zlapprestasikerja_DISCPERBARANG,
+     zlapprestasikerja.`DPP` AS zlapprestasikerja_DPP,
+     zlapprestasikerja.`EFECTIVECALL` AS zlapprestasikerja_EFECTIVECALL,
+     zlapprestasikerja.`JUMLAHTOKO` AS zlapprestasikerja_JUMLAHTOKO,
+     zlapprestasikerja.`PPN` AS zlapprestasikerja_PPN,
+     zlapprestasikerja.`RATARATA` AS zlapprestasikerja_RATARATA,
+     zlapprestasikerja.`SKUSOLD` AS zlapprestasikerja_SKUSOLD,
+     zlapprestasikerja.`TANGGAL` AS zlapprestasikerja_TANGGAL,
+     zlapprestasikerja.`TOTALAFTERDISCAFTERPPN` AS zlapprestasikerja_TOTALAFTERDISCAFTERPPN,
+     zlapprestasikerja.`DATE1` AS zlapprestasikerja_DATE1,
+     zlapprestasikerja.`DATE2` AS zlapprestasikerja_DATE2,
+     zlapprestasikerja.`DOUBLE1` AS zlapprestasikerja_DOUBLE1,
+     zlapprestasikerja.`DOUBLE2` AS zlapprestasikerja_DOUBLE2,
+     zlapprestasikerja.`HARI` AS zlapprestasikerja_HARI,
+     zlapprestasikerja.`INTEGER1` AS zlapprestasikerja_INTEGER1,
+     zlapprestasikerja.`INTEGER2` AS zlapprestasikerja_INTEGER2,
+     zlapprestasikerja.`STRING1` AS zlapprestasikerja_STRING1,
+     zlapprestasikerja.`STRING2` AS zlapprestasikerja_STRING2,
+     zlapprestasikerja.`TOTALBEFOREDISCBEFOREPPN` AS zlapprestasikerja_TOTALBEFOREDISCBEFOREPPN,
+     zlapprestasikerja.`GRUP1` AS zlapprestasikerja_GRUP1,
+     zlapprestasikerja.`GRUP2` AS zlapprestasikerja_GRUP2
+FROM
+     `zlapprestasikerja` zlapprestasikerja
+ORDER BY
+zlapprestasikerja.`GRUP1` ASC,
+zlapprestasikerja.`GRUP2` ASC]]>
+	</queryString>
+	<field name="zlapprestasikerja_ID" class="java.lang.Long"/>
+	<field name="zlapprestasikerja_DISCNOTA" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_DISCPERBARANG" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_DPP" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_EFECTIVECALL" class="java.lang.Integer"/>
+	<field name="zlapprestasikerja_JUMLAHTOKO" class="java.lang.Integer"/>
+	<field name="zlapprestasikerja_PPN" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_RATARATA" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_SKUSOLD" class="java.lang.Integer"/>
+	<field name="zlapprestasikerja_TANGGAL" class="java.sql.Date"/>
+	<field name="zlapprestasikerja_TOTALAFTERDISCAFTERPPN" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_DATE1" class="java.sql.Date"/>
+	<field name="zlapprestasikerja_DATE2" class="java.sql.Date"/>
+	<field name="zlapprestasikerja_DOUBLE1" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_DOUBLE2" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_HARI" class="java.lang.String"/>
+	<field name="zlapprestasikerja_INTEGER1" class="java.lang.Integer"/>
+	<field name="zlapprestasikerja_INTEGER2" class="java.lang.Integer"/>
+	<field name="zlapprestasikerja_STRING1" class="java.lang.String"/>
+	<field name="zlapprestasikerja_STRING2" class="java.lang.String"/>
+	<field name="zlapprestasikerja_TOTALBEFOREDISCBEFOREPPN" class="java.lang.Double"/>
+	<field name="zlapprestasikerja_GRUP1" class="java.lang.String"/>
+	<field name="zlapprestasikerja_GRUP2" class="java.lang.String"/>
+	<variable name="SUM_JMLTOKO" class="java.lang.Integer" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_JUMLAHTOKO}]]></variableExpression>
+	</variable>
+	<variable name="SUM_EFFCALL" class="java.lang.Integer" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_EFECTIVECALL}]]></variableExpression>
+	</variable>
+	<variable name="SUM_SKU" class="java.lang.Integer" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_SKUSOLD}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOT_BRUTO" class="java.lang.Double" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_TOTALBEFOREDISCBEFOREPPN}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOT_DISCBRG" class="java.lang.Double" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_DISCPERBARANG}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOT_DISCNOTA" class="java.lang.Double" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_DISCNOTA}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOT_DPP" class="java.lang.Double" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_DPP}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOT_PPN" class="java.lang.Double" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_PPN}]]></variableExpression>
+	</variable>
+	<variable name="SUM_TOT_AFTERDISCAFTERPPN" class="java.lang.Double" resetType="Group" resetGroup="GROUP_GRUP1" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlapprestasikerja_TOTALAFTERDISCAFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="SUM_RATARATA" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{SUM_SKU}.doubleValue() / $V{SUM_EFFCALL}.doubleValue()]]></variableExpression>
+	</variable>
+	<group name="GROUP_GRUP1">
+		<groupExpression><![CDATA[$F{zlapprestasikerja_GRUP1}]]></groupExpression>
+		<groupFooter>
+			<band height="50">
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="141" y="10" width="50" height="20" uuid="2626a7f8-f7b3-4e15-b84e-dd7aa3200404"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_JMLTOKO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="193" y="10" width="50" height="20" uuid="ccf68d23-8400-49f6-90e9-8037c87a16e0"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_EFFCALL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="246" y="10" width="50" height="20" uuid="16a83308-aa0c-4ab7-992e-c8d0e99ad59e"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_SKU}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="377" y="10" width="70" height="20" uuid="e62eb9b5-8dc9-4c80-81d8-9b0d4fa3ae74"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOT_BRUTO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="452" y="10" width="70" height="20" uuid="fd1ca5d4-05d6-4ac3-8e16-c92647bf3d59"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOT_DISCBRG}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="522" y="10" width="70" height="20" uuid="001758f4-8d82-4725-9e20-ba7a34edf31a"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOT_DISCNOTA}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="592" y="10" width="70" height="20" uuid="375af685-85bd-4eed-b2ba-245ce2e44c7a"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOT_DPP}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="662" y="10" width="70" height="20" uuid="5b2fb11b-02dc-4952-b331-2eae5de912b6"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOT_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="733" y="10" width="70" height="20" uuid="0fa58bf2-9c30-449d-b519-60efe438b0bf"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_TOT_AFTERDISCAFTERPPN}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="2" y="4" width="800" height="1" uuid="ae1c2d06-9c7f-437b-ad8d-fc2b1eaab0e9"/>
+				</line>
+				<textField pattern="#,##0.00">
+					<reportElement x="300" y="10" width="50" height="20" uuid="fe003784-666f-427d-b9d2-89340a806873"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SUM_RATARATA}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="50" y="11" width="707" height="20" uuid="8fbebb16-e2c7-453a-a6ae-73d3847bb8e5"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN PRESTASI KERJA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="7" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement x="70" y="0" width="60" height="13" uuid="44c4df9e-3dbd-49f8-9624-817d680d0ca8"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="50" height="13" uuid="5298ee83-989a-4f53-9e39-07d5cd324be1"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Jml Toko]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="0" width="50" height="13" uuid="d97fd63d-2bcd-4951-9d82-817ccd41e9b4"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Eff. Call]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="245" y="0" width="50" height="13" uuid="b889a945-c6b2-495f-b99e-911108a1e985"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SKU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="0" width="60" height="13" uuid="5bc5eca6-e6a4-4a8a-b6b5-93b715177333"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[EC/SKU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="381" y="0" width="60" height="13" uuid="f21e5be4-7d14-4cd4-a36c-a1ede9a20ef0"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tot. Bruto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="591" y="0" width="60" height="13" uuid="0a865611-115d-41f9-bd97-8aa0e085aceb"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DPP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="451" y="0" width="60" height="13" uuid="97eb2a45-396a-472b-b845-947b7683ca66"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Disc Brg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="0" width="60" height="13" uuid="85e9bc50-33b8-41b1-84b1-f48c9017ae29"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Disc Nota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="661" y="0" width="60" height="13" uuid="ba5b1d89-ca37-4e18-871b-c058558782bb"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[PPN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="60" height="13" uuid="6a3533af-3778-4ea3-9d6a-aa6955a8c0e3"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Hari]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="731" y="0" width="70" height="13" uuid="20771cf9-8e8a-4abf-9c8d-188680f520ac"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DPP+PPN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="15" width="800" height="1" uuid="a958bd55-fd7d-4bba-aede-f55d289cbc75"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="140" y="2" width="50" height="12" uuid="116aeb25-0028-4f3a-9c5d-d53c3caa8a9e"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_JUMLAHTOKO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="192" y="2" width="50" height="12" uuid="38557302-3b5d-423f-9568-a8286b7360d6"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_EFECTIVECALL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="245" y="2" width="50" height="12" uuid="b0ddf51e-ba2d-4f8e-9422-b645f873ed38"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_SKUSOLD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(-#,##0.00)">
+				<reportElement x="299" y="2" width="50" height="12" uuid="c6c18fb4-4239-4b4e-80c3-e35fb6a62ff7"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_RATARATA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="451" y="2" width="70" height="12" uuid="65875dde-624e-4f94-b1ce-aee5576d1e03"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_DISCPERBARANG}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="521" y="2" width="70" height="12" uuid="1ff40d7f-0078-4aea-ad78-a606a4401192"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_DISCNOTA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="591" y="2" width="70" height="12" uuid="02c17a18-7934-47de-94bc-3429585a005d"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_DPP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="661" y="2" width="70" height="12" uuid="e3bad3ce-ddfa-4804-8bca-44473decbeb1"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="732" y="2" width="70" height="12" uuid="31c41072-4dc1-48ae-baec-de10667c96a7"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_TOTALAFTERDISCAFTERPPN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="2" width="70" height="12" uuid="686a5243-bb3c-494b-b865-1f1f31057ea9"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_HARI}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="70" y="2" width="70" height="12" uuid="26fa1bdf-6746-4bcc-a7c9-a773332dcbf0"/>
+				<textElement>
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_TANGGAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="376" y="2" width="70" height="12" uuid="cf3fa74b-bbbf-442d-9b25-bcc7995d5608"/>
+				<textElement textAlignment="Right">
+					<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zlapprestasikerja_TOTALBEFOREDISCBEFOREPPN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

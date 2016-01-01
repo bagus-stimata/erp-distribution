@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a8489a6d-d737-435b-96fb-5709a5d08d71">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="paramSuratJalanList" class="java.lang.String"/>
+	<parameter name="paramInvoiceList" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     zlappackinglist.`ID` AS zlappackinglist_ID,
+     zlappackinglist.`GRUP1` AS zlappackinglist_GRUP1,
+     zlappackinglist.`GRUP2` AS zlappackinglist_GRUP2,
+     zlappackinglist.`GRUP3` AS zlappackinglist_GRUP3,
+     zlappackinglist.`PCODE` AS zlappackinglist_PCODE,
+     zlappackinglist.`PNAME` AS zlappackinglist_PNAME,
+     zlappackinglist.`QTY_BES` AS zlappackinglist_QTY_BES,
+     zlappackinglist.`QTY_KEC` AS zlappackinglist_QTY_KEC,
+     zlappackinglist.`QTY_PCS` AS zlappackinglist_QTY_PCS,
+     zlappackinglist.`QTY_SED` AS zlappackinglist_QTY_SED,
+     zlappackinglist.`SJDATE` AS zlappackinglist_SJDATE,
+     zlappackinglist.`CONVFACT1` AS zlappackinglist_CONVFACT1,
+     zlappackinglist.`CONVFACT2` AS zlappackinglist_CONVFACT2,
+     zlappackinglist.`UOM1` AS zlappackinglist_UOM1,
+     zlappackinglist.`UOM2` AS zlappackinglist_UOM2,
+     zlappackinglist.`UOM3` AS zlappackinglist_UOM3
+FROM
+     `zlappackinglist` zlappackinglist
+ORDER BY
+     zlappackinglist.`GRUP1` ASC,
+     zlappackinglist.`GRUP2` ASC,
+     zlappackinglist.`PCODE` ASC,
+     zlappackinglist.`PNAME` ASC]]>
+	</queryString>
+	<field name="zlappackinglist_ID" class="java.lang.Long"/>
+	<field name="zlappackinglist_GRUP1" class="java.lang.String"/>
+	<field name="zlappackinglist_GRUP2" class="java.lang.String"/>
+	<field name="zlappackinglist_GRUP3" class="java.lang.String"/>
+	<field name="zlappackinglist_PCODE" class="java.lang.String"/>
+	<field name="zlappackinglist_PNAME" class="java.lang.String"/>
+	<field name="zlappackinglist_QTY_BES" class="java.lang.Integer"/>
+	<field name="zlappackinglist_QTY_KEC" class="java.lang.Integer"/>
+	<field name="zlappackinglist_QTY_PCS" class="java.lang.Integer"/>
+	<field name="zlappackinglist_QTY_SED" class="java.lang.Integer"/>
+	<field name="zlappackinglist_SJDATE" class="java.sql.Date"/>
+	<field name="zlappackinglist_CONVFACT1" class="java.lang.Integer"/>
+	<field name="zlappackinglist_CONVFACT2" class="java.lang.Integer"/>
+	<field name="zlappackinglist_UOM1" class="java.lang.String"/>
+	<field name="zlappackinglist_UOM2" class="java.lang.String"/>
+	<field name="zlappackinglist_UOM3" class="java.lang.String"/>
+	<variable name="qtyPcs" class="java.lang.Integer" resetType="Group" resetGroup="PCODE" calculation="Sum">
+		<variableExpression><![CDATA[$F{zlappackinglist_QTY_PCS}]]></variableExpression>
+	</variable>
+	<variable name="qtyBes" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{qtyPcs}/$F{zlappackinglist_CONVFACT1}]]></variableExpression>
+	</variable>
+	<variable name="qtySed" class="java.lang.Integer">
+		<variableExpression><![CDATA[($V{qtyPcs}%$F{zlappackinglist_CONVFACT1})/$F{zlappackinglist_CONVFACT2}]]></variableExpression>
+	</variable>
+	<variable name="qtyKec" class="java.lang.Integer">
+		<variableExpression><![CDATA[(($V{qtyPcs}%$F{zlappackinglist_CONVFACT1})%$F{zlappackinglist_CONVFACT2})]]></variableExpression>
+	</variable>
+	<group name="GRUP3">
+		<groupExpression><![CDATA[$F{zlappackinglist_GRUP3}]]></groupExpression>
+		<groupHeader>
+			<band height="1"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="15">
+				<line>
+					<reportElement x="1" y="2" width="551" height="1" uuid="aff05413-9cbd-4861-818e-d159249030bc"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="PCODE">
+		<groupExpression><![CDATA[$F{zlappackinglist_PCODE}]]></groupExpression>
+		<groupFooter>
+			<band height="15">
+				<textField>
+					<reportElement x="23" y="0" width="50" height="15" uuid="478aeb4c-5ff0-4f3d-a333-1a28f6bec8fa"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlappackinglist_PCODE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="73" y="0" width="245" height="15" uuid="c2935e06-2458-4741-9391-c4be3c5df118"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlappackinglist_PNAME}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="321" y="0" width="17" height="13" uuid="f6b74c53-593e-4d71-a77f-46a72f44ba39"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlappackinglist_UOM1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="339" y="0" width="17" height="13" uuid="4c19d010-276c-4a6b-816c-0febcf5a5ea1"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlappackinglist_UOM2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="359" y="0" width="17" height="13" uuid="ebf349d9-b9c4-4411-bf2d-1ec23ed35b5e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{zlappackinglist_UOM3}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="13" width="551" height="1" uuid="2114fa9f-1ba5-4808-b195-c4f5aa47bd52"/>
+					<graphicElement>
+						<pen lineWidth="0.1" lineStyle="Dotted"/>
+					</graphicElement>
+				</line>
+				<textField>
+					<reportElement x="2" y="0" width="21" height="15" uuid="28d938aa-8f46-48f2-82f4-a171bce1ee86"/>
+					<textElement>
+						<font size="9" pdfFontName="Courier" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="166" y="1" width="252" height="20" uuid="25da781d-4f59-4d84-b63a-44ed0881f7b8"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[FORM OPNAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="-15" width="41" height="13" uuid="eb4ce5f2-15da-41d4-a412-472dfc1f3797"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Printed]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="-15" width="100" height="13" uuid="c86796df-0608-44f4-8b85-f6c72a242790"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement x="23" y="1" width="50" height="13" uuid="8a2b0b56-d67d-4a89-a5b6-d95871893d65"/>
+				<textElement>
+					<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[KODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="73" y="1" width="245" height="13" uuid="0d6a5a14-d9c5-4988-98ac-8922b2651ada"/>
+				<textElement>
+					<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[NAMA BARANG]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="15" width="551" height="1" uuid="f6ac6491-d90e-4387-a72a-a16844d3e64d"/>
+			</line>
+			<staticText>
+				<reportElement x="319" y="1" width="55" height="13" uuid="94395e53-d95c-499d-80ec-b71380cb3135"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[SATUAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="1" width="21" height="13" uuid="14964577-9898-4ad5-9896-7599cb6647ec"/>
+				<textElement>
+					<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="0" width="164" height="13" uuid="77f0b575-b131-429f-86be-f02142578c9f"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[- - - - - STOK FISIK - - - - -]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>
