@@ -28,6 +28,8 @@ public class IncomingStockItemHelper{
 		fProduct = new FProduct();
 		fProduct = (FProduct) view.getComboProduct().getValue();
 		
+		System.out.println("update and calculate detil: " + getParamPpn() + ":" + fProduct.getPprice());
+		
 		double pecahanPpn = (getParamPpn()+100) /100;
 		model.itemDetil.setFproductBean(fProduct);
 		model.itemDetil.setPprice(fProduct.getPprice());

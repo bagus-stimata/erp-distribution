@@ -240,24 +240,23 @@ public class ApPaymentVendorPembayaranView extends CustomComponent {
 		
 		binderArinvoice.bind(fieldInvoice, "invoiceno");
 		binderArinvoice.bind(fieldInvoiceAmount, "amountafterdiscafterppn");
-		binderArinvoice.bind(fieldInvoiceAmountRevisi, "amountrevisi");
+//		binderArinvoice.bind(fieldInvoiceAmountRevisi, "amountrevisi");
 		binderArinvoice.bind(fieldInvoiceAmountPaid, "amountpay");
 		
 		binderArpaymentDetail.bind(fieldSubTotalAmountPaid, "subtotalpay");
 		
 		binderArpaymentDetail.bind(fieldCashPay, "cashamountpay");
 		
-		
-		binderArpaymentDetail.bind(fieldReturPay, "returamountpay");
-		binderArpaymentDetail.bind(comboRetur, "returBean");
+		binderArpaymentDetail.bind(fieldReturPay, "mrvamountpay");
+//		binderArpaymentDetail.bind(comboRetur, "returBean");
 		
 		binderArpaymentDetail.bind(fieldGiroPay, "giroamountpay");
-		binderArpaymentDetail.bind(comboGiro, "bukugiroBean");
+//		binderArpaymentDetail.bind(comboGiro, "bukugiroBean");
 		
 		binderArpaymentDetail.bind(fieldTransferPay, "transferamountpay");		
-		binderArpaymentDetail.bind(comboTransfer, "bukutransferBean");
+//		binderArpaymentDetail.bind(comboTransfer, "bukutransferBean");
 		
-		binderArpaymentDetail.bind(fieldPotLainPay, "potonganamount");
+		binderArpaymentDetail.bind(fieldPotLainPay, "dcvamountpay");
 //		binderArpaymentDetail.bind(comboPotlainPayJenis, "potonganamountjenis");
 		
 		binderArpaymentDetail.bind(fieldKelebihanBayarPay, "kelebihanbayaramount");

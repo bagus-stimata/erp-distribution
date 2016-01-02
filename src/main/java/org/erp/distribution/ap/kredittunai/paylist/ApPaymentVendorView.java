@@ -305,7 +305,9 @@ public class ApPaymentVendorView extends CustomComponent {
 //		"giroamountpay", "returBean", "bukugiroBean", "transferamountpay", "bukutransferBean",
 //		"potonganamount","kelebihanbayaramount");
 
-		setVisibleTableDetailProperties("id", "cashamountpay");
+		setVisibleTableDetailProperties("id", "cashamountpay", "mrvamountpay",
+				"dcvamountpay", "giroamountpay","transferamountpay", "subtotalpay",
+				"ftappaymenthBean", "ftpurchasehBean");
 		
 		//Collapsing Column
 		tableDetail.setColumnCollapsingAllowed(true);
