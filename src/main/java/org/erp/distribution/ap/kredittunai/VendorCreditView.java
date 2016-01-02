@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.erp.distribution.DashboardUI;
+import org.erp.distribution.ap.kredittunai.paylist.ApPaymentVendorPresenter;
+import org.erp.distribution.ap.kredittunai.paylist.ApPaymentVendorModel;
+import org.erp.distribution.ap.kredittunai.paylist.ApPaymentVendorView;
 import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerModel;
 import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerPresenter;
 import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerView;
@@ -834,27 +837,29 @@ public class VendorCreditView extends CustomComponent {
 	
 	
 	//DUMMY DECLARATION
-	ArPaymentCustomerModel arPaymentCustomerModel = new ArPaymentCustomerModel();
-	ArPaymentCustomerView arPaymentCustomerView = new ArPaymentCustomerView(arPaymentCustomerModel);
+	ApPaymentVendorModel apPaymentCustomerModel = new ApPaymentVendorModel();
+	ApPaymentVendorView apPaymentCustomerView = new ApPaymentVendorView(apPaymentCustomerModel);
 	
 	private Window windowPembayaran = new Window();
 	private Button btnSave;
 	private Button btnCancel;
 	
-	public void buildWindowPembayaran(FtSalesh itemInvoice){
+	public void buildWindowPembayaran(FtPurchaseh itemInvoice){
 
 		VerticalLayout layout = new VerticalLayout();
 		//REAL DECLARATION BUT WE HAVE TO ADD NEW LISTENER ON IT
-		arPaymentCustomerModel = new ArPaymentCustomerModel(itemInvoice);
+		apPaymentCustomerModel = new ApPaymentVendorModel(itemInvoice);
+		
 		if (checkBoxGunakanTanggalManual.getValue()==true){
-			arPaymentCustomerModel.setTanggalPembayaranManual(dateFieldDatePembayaranManual.getValue());
+			
+			apPaymentCustomerModel.setTanggalPembayaranManual(dateFieldDatePembayaranManual.getValue());
 		}
 		
-		arPaymentCustomerView = new ArPaymentCustomerView(arPaymentCustomerModel);
-		ArPaymentCustomerPresenter arPaymentCustomerPresenter = new ArPaymentCustomerPresenter(arPaymentCustomerModel, arPaymentCustomerView);
+		apPaymentCustomerView = new ApPaymentVendorView(apPaymentCustomerModel);
+		ApPaymentVendorPresenter apPaymentCustomerPresenter = new ApPaymentVendorPresenter(apPaymentCustomerModel, apPaymentCustomerView);
 		
-		arPaymentCustomerView.setSizeFull();
-		layout.addComponent(arPaymentCustomerView);
+		apPaymentCustomerView.setSizeFull();
+		layout.addComponent(apPaymentCustomerView);
 		layout.setSizeFull();
 
 		
@@ -1143,11 +1148,11 @@ public class VendorCreditView extends CustomComponent {
 	public RevisiNotaPresenter getRevisiNotaPresenter() {
 		return revisiNotaPresenter;
 	}
-	public ArPaymentCustomerModel getArPaymentCustomerModel() {
-		return arPaymentCustomerModel;
+	public ApPaymentVendorModel getApPaymentCustomerModel() {
+		return apPaymentCustomerModel;
 	}
-	public ArPaymentCustomerView getArPaymentCustomerView() {
-		return arPaymentCustomerView;
+	public ApPaymentVendorView getApPaymentCustomerView() {
+		return apPaymentCustomerView;
 	}
 	public Window getWindowPembayaran() {
 		return windowPembayaran;
@@ -1359,12 +1364,12 @@ public class VendorCreditView extends CustomComponent {
 	public void setRevisiNotaPresenter(RevisiNotaPresenter revisiNotaPresenter) {
 		this.revisiNotaPresenter = revisiNotaPresenter;
 	}
-	public void setArPaymentCustomerModel(
-			ArPaymentCustomerModel arPaymentCustomerModel) {
-		this.arPaymentCustomerModel = arPaymentCustomerModel;
+	public void setApPaymentCustomerModel(
+			ApPaymentVendorModel apPaymentCustomerModel) {
+		this.apPaymentCustomerModel = apPaymentCustomerModel;
 	}
-	public void setArPaymentCustomerView(ArPaymentCustomerView arPaymentCustomerView) {
-		this.arPaymentCustomerView = arPaymentCustomerView;
+	public void setApPaymentCustomerView(ApPaymentVendorView apPaymentCustomerView) {
+		this.apPaymentCustomerView = apPaymentCustomerView;
 	}
 	public void setWindowPembayaran(Window windowPembayaran) {
 		this.windowPembayaran = windowPembayaran;
@@ -1384,7 +1389,6 @@ public class VendorCreditView extends CustomComponent {
 	public void setRecapSelectView(ApRecapSelectView recapSelectView) {
 		this.recapSelectView = recapSelectView;
 	}
-	
 	
 	
 }

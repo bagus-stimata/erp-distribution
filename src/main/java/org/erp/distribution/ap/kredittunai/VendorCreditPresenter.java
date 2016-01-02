@@ -204,7 +204,7 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 				// TODO Auto-generated method stub
 				try{
 					//REMEMBER JPA CONTAINER LANGSUNG MENUJU KE DATABASE
-					model.item.setAmountpay(view.getArPaymentCustomerModel().getItemInvoice().getAmountpay());
+					model.item.setAmountpay(view.getApPaymentCustomerModel().getItemInvoice().getAmountpay());
 					//LUNAS ATAU TIDAK LUNAS amountPay >= amount maka 
 					double toleransiKurang = 50.0;
 //					if (model.item.getAmountpay() >= (model.item.getAmount() + model.item.getAmountrevisi()
@@ -274,10 +274,7 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		} else if (event.getButton() == view.getBtnPay()){
 				if (model.getItem().getTipefaktur().equals("F")){
 					
-					//#####
-//					view.buildWindowPembayaran(model.getItem());
-					
-					
+					view.buildWindowPembayaran(model.getItem());
 					
 					initListenerSubWindow();
 				}else {
