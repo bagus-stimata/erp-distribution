@@ -108,6 +108,10 @@ import org.erp.distribution.jpaservice.FtStocktransferdJpaService;
 import org.erp.distribution.jpaservice.FtStocktransferdJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtStocktransferhJpaService;
 import org.erp.distribution.jpaservice.FtStocktransferhJpaServiceImpl;
+import org.erp.distribution.jpaservice.FtappaymentdJpaService;
+import org.erp.distribution.jpaservice.FtappaymentdJpaServiceImpl;
+import org.erp.distribution.jpaservice.FtappaymenthJpaService;
+import org.erp.distribution.jpaservice.FtappaymenthJpaServiceImpl;
 import org.erp.distribution.jpaservice.SMerkJpaService;
 import org.erp.distribution.jpaservice.SMerkJpaServiceImpl;
 import org.erp.distribution.jpaservice.SysvarJpaService;
@@ -362,8 +366,12 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	private FSalesmanJpaService fSalesmanJpaService;
 	private FStockJpaService fStockJpaService;
 	private FSubareaJpaService fSubareaJpaService;
+	
 	private FtArpaymentdJpaService ftArpaymentdJpaService;
 	private FtArpaymenthJpaService ftArpaymenthJpaService;
+	private FtappaymenthJpaService ftappaymenthJpaService;
+	private FtappaymentdJpaService ftappaymentdJpaService;
+	
 	private FtOpnamedJpaService ftOpnamedJpaService;
 	private FtOpnamehJpaService ftOpnamehJpaService;
 	private FtPurchasedJpaService ftPurchasedJpaService;
@@ -1405,8 +1413,12 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		fSalesmanJpaService = new FSalesmanJpaServiceImpl();
 		fStockJpaService = new FStockJpaServiceImpl();
 		fSubareaJpaService = new FSubareaJpaServiceImpl();
+		
 		ftArpaymentdJpaService = new FtArpaymentdJpaServiceImpl();
 		ftArpaymenthJpaService = new FtArpaymenthJpaServiceImpl();
+		ftappaymenthJpaService = new FtappaymenthJpaServiceImpl();
+		ftappaymentdJpaService = new FtappaymentdJpaServiceImpl();
+		
 		ftOpnamedJpaService = new FtOpnamedJpaServiceImpl();
 		ftOpnamehJpaService = new FtOpnamehJpaServiceImpl();
 		ftPurchasedJpaService = new FtPurchasedJpaServiceImpl();
@@ -2601,6 +2613,25 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	public void setfParamDiskonItemVendorJpaService(
 			FParamDiskonItemVendorJpaService fParamDiskonItemVendorJpaService) {
 		this.fParamDiskonItemVendorJpaService = fParamDiskonItemVendorJpaService;
+	}
+
+
+	public FtappaymenthJpaService getFtappaymenthJpaService() {
+		return ftappaymenthJpaService;
+	}
+
+	public FtappaymentdJpaService getFtappaymentdJpaService() {
+		return ftappaymentdJpaService;
+	}
+
+	public void setFtappaymenthJpaService(
+			FtappaymenthJpaService ftappaymenthJpaService) {
+		this.ftappaymenthJpaService = ftappaymenthJpaService;
+	}
+
+	public void setFtappaymentdJpaService(
+			FtappaymentdJpaService ftappaymentdJpaService) {
+		this.ftappaymentdJpaService = ftappaymentdJpaService;
 	}
 
 
