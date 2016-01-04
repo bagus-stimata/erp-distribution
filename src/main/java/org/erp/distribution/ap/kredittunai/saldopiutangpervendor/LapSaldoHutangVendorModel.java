@@ -1,20 +1,30 @@
-package org.erp.distribution.ap.kredittunai;
+package org.erp.distribution.ap.kredittunai.saldopiutangpervendor;
 
 import java.io.Serializable;
 
 import org.erp.distribution.DashboardUI;
+import org.erp.distribution.jpaservice.FAreaJpaService;
 import org.erp.distribution.jpaservice.FDivisionJpaService;
+import org.erp.distribution.jpaservice.FSalesmanJpaService;
+import org.erp.distribution.jpaservice.FSubareaJpaService;
 import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FtArpaymentdJpaService;
 import org.erp.distribution.jpaservice.FtArpaymenthJpaService;
 import org.erp.distribution.jpaservice.FtPurchasehJpaService;
 import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.FtSaleshRekapTampunganJpaService;
+import org.erp.distribution.jpaservice.FtappaymentdJpaService;
+import org.erp.distribution.jpaservice.FtappaymenthJpaService;
+import org.erp.distribution.jpaservicerep.LapTemplate1JpaService;
+import org.erp.distribution.model.FArea;
 import org.erp.distribution.model.FDivision;
+import org.erp.distribution.model.FSalesman;
+import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FtPurchaseh;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.FtSaleshRekapTampungan;
+import org.erp.distribution.model.ZLapTemplate1;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
 
@@ -26,7 +36,7 @@ import com.vaadin.data.util.filter.Not;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.ui.CustomComponent;
 
-public class VendorCreditModel extends CustomComponent implements Serializable{
+public class LapSaldoHutangVendorModel extends CustomComponent implements Serializable{
 	
 	private static final long serialVersionUID = 1L;	
 	private static final String persistenceUnit = "financePU";
@@ -39,12 +49,13 @@ public class VendorCreditModel extends CustomComponent implements Serializable{
 	private BeanItemContainer<FtPurchaseh> tableBeanItemContainer = new BeanItemContainer<FtPurchaseh>(FtPurchaseh.class);
 
 	private FtPurchasehJpaService ftPurchasehJpaService;; 
-	private FtArpaymenthJpaService ftArpaymenthJpaService ;
-	private FtArpaymentdJpaService ftArpaymentdJpaService;
+	private FtappaymenthJpaService ftappaymenthJpaService ;
+	private FtappaymentdJpaService ftappaymentdJpaService;
 	private FDivisionJpaService fDivisionJpaService;
-	private FtSaleshRekapTampunganJpaService FtSaleshRekapTampunganJpaService;
+	
 	private FVendorJpaService fVendorJpaService;
 
+	private LapTemplate1JpaService lapTemplate1JpaService;
 	
 	private String operationStatus="";	
 	private TransaksiHelper transaksiHelper = new TransaksiHelperImpl();
@@ -52,44 +63,50 @@ public class VendorCreditModel extends CustomComponent implements Serializable{
 	//CHECK BOX BUAT TABLE PADA HEADER
 	private boolean selectAllInvoice=false;
 	
-	private BeanItemContainer<FDivision> beanItemContainerDivision = new BeanItemContainer<FDivision>(FDivision.class);
+	private BeanItemContainer<FDivision> beanItemContainerDivision;
+
 	private BeanItemContainer<FVendor> beanItemContainerVendor = new BeanItemContainer<FVendor>(FVendor.class);
 
 	
-	public VendorCreditModel(){
-		initVariable();
-		initVariableData();
+	public LapSaldoHutangVendorModel(){
+		initData();
+		setFreshDataTable();
 	}
 	
-	public void initVariable(){
+	public void initData(){
+		
+		beanItemContainerDivision = new BeanItemContainer<FDivision>(FDivision.class);
 		
 //		setTransaksiHelper(((DashboardUI) getUI().getCurrent()).getTransaksiHelper());
 		
 		setFtPurchasehJpaService(((DashboardUI) getUI().getCurrent()).getFtPurchasehJpaService());
-		setFtArpaymenthJpaService(((DashboardUI) getUI().getCurrent()).getFtArpaymenthJpaService());
-		setFtArpaymentdJpaService(((DashboardUI) getUI().getCurrent()).getFtArpaymentdJpaService());
-		setFtSaleshRekapTampunganJpaService(((DashboardUI) getUI().getCurrent()).getFtSaleshRekapTampunganJpaService());
+		setFtappaymenthJpaService(((DashboardUI) getUI().getCurrent()).getFtappaymenthJpaService());
+		setFtappaymentdJpaService(((DashboardUI) getUI().getCurrent()).getFtappaymentdJpaService());
 		
 		setfDivisionJpaService(((DashboardUI) getUI().getCurrent()).getfDivisionJpaService());
-		setfVendorJpaService(((DashboardUI) getUI().getCurrent()).getfVendorJpaService());
-				
-		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
-		beanItemContainerVendor.addAll(fVendorJpaService.findAll());
-	}
 
-	public void initVariableData(){		
+		setfVendorJpaService(((DashboardUI) getUI().getCurrent()).getfVendorJpaService());
+		setLapTemplate1JpaService(((DashboardUI) getUI().getCurrent()).getLapTemplate1JpaService());
+		
+		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
+		
+//		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");
+	};
+
+	public void setFreshDataTable(){		
 		try{
 			tableBeanItemContainer.removeAllItems();
 			tableBeanItemContainer.removeAllContainerFilters();
 			
 //			tableBeanItemContainer.addAll(arInvoiceService.findAll());
-			tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.id");
 			
 			setFilterDefaultBeanItemContainer();
 
 			
 			//COMBOBOX DIVISION
 			beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
+
+			beanItemContainerVendor.addAll(fVendorJpaService.findAll());
 			
 		} catch(Exception ex){
 		
@@ -141,20 +158,20 @@ public class VendorCreditModel extends CustomComponent implements Serializable{
 		return ftPurchasehJpaService;
 	}
 
-	public FtArpaymenthJpaService getFtArpaymenthJpaService() {
-		return ftArpaymenthJpaService;
+	public FtappaymenthJpaService getFtappaymenthJpaService() {
+		return ftappaymenthJpaService;
 	}
 
-	public FtArpaymentdJpaService getFtArpaymentdJpaService() {
-		return ftArpaymentdJpaService;
+	public FtappaymentdJpaService getFtappaymentdJpaService() {
+		return ftappaymentdJpaService;
 	}
 
 	public FDivisionJpaService getfDivisionJpaService() {
 		return fDivisionJpaService;
 	}
 
-	public FtSaleshRekapTampunganJpaService getFtSaleshRekapTampunganJpaService() {
-		return FtSaleshRekapTampunganJpaService;
+	public FVendorJpaService getfVendorJpaService() {
+		return fVendorJpaService;
 	}
 
 	public String getOperationStatus() {
@@ -171,6 +188,10 @@ public class VendorCreditModel extends CustomComponent implements Serializable{
 
 	public BeanItemContainer<FDivision> getBeanItemContainerDivision() {
 		return beanItemContainerDivision;
+	}
+
+	public BeanItemContainer<FVendor> getBeanItemContainerVendor() {
+		return beanItemContainerVendor;
 	}
 
 	public void setItem(FtPurchaseh item) {
@@ -190,23 +211,22 @@ public class VendorCreditModel extends CustomComponent implements Serializable{
 		this.ftPurchasehJpaService = ftPurchasehJpaService;
 	}
 
-	public void setFtArpaymenthJpaService(
-			FtArpaymenthJpaService ftArpaymenthJpaService) {
-		this.ftArpaymenthJpaService = ftArpaymenthJpaService;
+	public void setFtappaymenthJpaService(
+			FtappaymenthJpaService ftappaymenthJpaService) {
+		this.ftappaymenthJpaService = ftappaymenthJpaService;
 	}
 
-	public void setFtArpaymentdJpaService(
-			FtArpaymentdJpaService ftArpaymentdJpaService) {
-		this.ftArpaymentdJpaService = ftArpaymentdJpaService;
+	public void setFtappaymentdJpaService(
+			FtappaymentdJpaService ftappaymentdJpaService) {
+		this.ftappaymentdJpaService = ftappaymentdJpaService;
 	}
 
 	public void setfDivisionJpaService(FDivisionJpaService fDivisionJpaService) {
 		this.fDivisionJpaService = fDivisionJpaService;
 	}
 
-	public void setFtSaleshRekapTampunganJpaService(
-			FtSaleshRekapTampunganJpaService ftSaleshRekapTampunganJpaService) {
-		FtSaleshRekapTampunganJpaService = ftSaleshRekapTampunganJpaService;
+	public void setfVendorJpaService(FVendorJpaService fVendorJpaService) {
+		this.fVendorJpaService = fVendorJpaService;
 	}
 
 	public void setOperationStatus(String operationStatus) {
@@ -226,23 +246,19 @@ public class VendorCreditModel extends CustomComponent implements Serializable{
 		this.beanItemContainerDivision = beanItemContainerDivision;
 	}
 
-	public FVendorJpaService getfVendorJpaService() {
-		return fVendorJpaService;
-	}
-
-	public BeanItemContainer<FVendor> getBeanItemContainerVendor() {
-		return beanItemContainerVendor;
-	}
-
-	public void setfVendorJpaService(FVendorJpaService fVendorJpaService) {
-		this.fVendorJpaService = fVendorJpaService;
-	}
-
 	public void setBeanItemContainerVendor(
 			BeanItemContainer<FVendor> beanItemContainerVendor) {
 		this.beanItemContainerVendor = beanItemContainerVendor;
 	}
 
-	
+	public LapTemplate1JpaService getLapTemplate1JpaService() {
+		return lapTemplate1JpaService;
+	}
+
+	public void setLapTemplate1JpaService(
+			LapTemplate1JpaService lapTemplate1JpaService) {
+		this.lapTemplate1JpaService = lapTemplate1JpaService;
+	}
+
 	
 }

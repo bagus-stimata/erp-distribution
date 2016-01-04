@@ -1,6 +1,7 @@
 package org.erp.distribution.jpaservice;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -138,6 +139,47 @@ public class FtPurchasehJpaServiceImpl extends GenericJpaServiceImpl<FtPurchaseh
 	        } finally {
 	            em.close();
 	        }    
+	}
+
+	@Override
+	public List<FtPurchaseh> findAllPenagihan(String strNopo, String strInvoiceNo,
+			String strTipeFaktur, Date dateInvoicedateFrom,
+			Date dateInvoicedateTo, boolean bolLunasFrom, boolean bolLunasTo,
+			String strVendorId, String strVendorName) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            List<FtPurchaseh> list  = new ArrayList<FtPurchaseh>();
+	            String query ="";
+	            query = "SELECT a FROM FtPurchaseh a WHERE "
+	            		+ " NOT a.nopo LIKE '' "
+	            		+ "	AND  a.invoiceno LIKE :invoiceno "
+	            		+ "	AND  a.tipefaktur LIKE :tipefaktur "
+	            		+ "	AND a.lunas BETWEEN :lunasFrom AND :lunasTo "
+	            		+ "	AND a.invoicedate >= :invoicedateFrom AND a.invoicedate <= :invoicedateTo "
+	            		+ "	AND  a.fvendorBean.vcode LIKE :vcode "
+	            		+ "	AND  a.fvendorBean.vname LIKE :vname "
+	            		+ " ORDER BY a.nopo DESC";
+		            list = em.createQuery(query)
+		            		.setParameter("invoiceno", strInvoiceNo)
+			            	.setParameter("tipefaktur", strTipeFaktur)
+		            		.setParameter("lunasFrom", bolLunasFrom)
+		            		.setParameter("lunasTo", bolLunasTo)
+		            		.setParameter("invoicedateFrom", dateInvoicedateFrom)
+		            		.setParameter("invoicedateTo", dateInvoicedateTo)
+		            		.setParameter("vcode", strVendorId)
+		            		.setParameter("vname", strVendorName)
+		            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+		            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	        
 	}
 	
 }

@@ -46,6 +46,8 @@ public class FtPurchaseh {
 	@Column(name="DUEDATE")
 	private Date duedate;
 	
+	@Column(length=5, name="TUNAIKREDIT")
+	private String tunaikredit;
 	@Column(length=5, name="TIPEFAKTUR")
 	private String tipefaktur;
 	
@@ -103,6 +105,10 @@ public class FtPurchaseh {
 	@Column(name="lunas")
 	private boolean lunas;
 	
+	@Column(name="amountrevisi")
+	private double amountrevisi;
+
+	
 	@ManyToOne
 	@JoinColumn(name="fvendorBean", referencedColumnName="id")
 	private FVendor fvendorBean;
@@ -122,8 +128,22 @@ public class FtPurchaseh {
 	@Transient
 	CheckBox selected = new CheckBox();
 
-	
-	
+	public String getTunaikredit() {
+		return tunaikredit;
+	}
+
+	public void setTunaikredit(String tunaikredit) {
+		this.tunaikredit = tunaikredit;
+	}
+
+	public double getAmountrevisi() {
+		return amountrevisi;
+	}
+
+	public void setAmountrevisi(double amountrevisi) {
+		this.amountrevisi = amountrevisi;
+	}
+
 	public Set<FtAppaymentd> getFtappaymentdSet() {
 		return ftappaymentdSet;
 	}

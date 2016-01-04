@@ -17,5 +17,10 @@ public interface FtPurchasehJpaService extends GenericJpaService<FtPurchaseh, Se
 	public List<FtPurchaseh> findAllByInvoicedate(Date invoicedate);
 	public List<FtPurchaseh> findAllByNopo(String nopo, String tipefaktur);
 	public List<FtPurchaseh> findAll(FWarehouse fWarehouse, Date trDate, String tipefaktur);
+	
+	public List<FtPurchaseh> findAllPenagihan(String strNopo, String strInvoiceNo, String strTipeFaktur,  
+			Date dateInvoicedateFrom, Date dateInvoicedateTo, boolean bolLunasFrom, boolean bolLunasTo, 
+			String strVendorId, String strVendorName);
+	
 
 }

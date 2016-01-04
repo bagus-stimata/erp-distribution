@@ -55,8 +55,9 @@ public class IncomingStockView extends CustomComponent{
 	private ComboBox comboVendor = new ComboBox("SUPPLIER");
 	private ComboBox comboWarehouse = new ComboBox("WAREHOUSE");
 	
-	private DateField dateFieldPodate = new DateField("PO. DATE/TRANSAKSI");
+	private DateField dateFieldPodate = new DateField("PO. DATE");
 	private DateField dateFieldInvoicedate = new DateField("INV. DATE");
+	private DateField dateFieldDuedate = new DateField("INV. DATE");
 	
 	//BUTTON HEADER
 	private Button btnSaveForm= new Button("Save");
@@ -194,8 +195,10 @@ public class IncomingStockView extends CustomComponent{
 		
 		dateFieldPodate.setDateFormat("dd/MM/yyyy");
 		dateFieldInvoicedate.setDateFormat("dd/MM/yyyy");
+		dateFieldDuedate.setDateFormat("dd/MM/yyyy");
 		dateFieldPodate.setWidth("100px");
 		dateFieldInvoicedate.setWidth("100px");
+		dateFieldDuedate.setWidth("100px");
 		
 		btnSearch.setIcon(new ThemeResource("../images/navigation/12x12/Find.png"));
 		btnNewForm.setIcon(new ThemeResource("../images/navigation/12x12/Create.png"));
@@ -323,6 +326,7 @@ public class IncomingStockView extends CustomComponent{
 		layoutTopDetil1.addComponent(comboVendor);
 		layoutTopDetil1.addComponent(dateFieldPodate);
 		layoutTopDetil1.addComponent(dateFieldInvoicedate);
+		layoutTopDetil1.addComponent(dateFieldDuedate);
 		layoutTopDetil1.addComponent(comboWarehouse);
 		layoutTopDetil1.addComponent(checkSaldo);
 		layoutTopDetil1.addComponent(checkEndofday);
@@ -1358,6 +1362,14 @@ public class IncomingStockView extends CustomComponent{
 
 	public void setWindowForm(Window windowForm) {
 		this.windowForm = windowForm;
+	}
+
+	public DateField getDateFieldDuedate() {
+		return dateFieldDuedate;
+	}
+
+	public void setDateFieldDuedate(DateField dateFieldDuedate) {
+		this.dateFieldDuedate = dateFieldDuedate;
 	}
 
 

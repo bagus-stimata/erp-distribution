@@ -85,6 +85,7 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				view.getDateFieldInvoicedate().setValue(view.getDateFieldPodate().getValue());
+				view.getDateFieldDuedate().setValue(view.getDateFieldPodate().getValue());
 			}
 		};
 		view.getDateFieldPodate().addValueChangeListener(listenerValueChangeOrderDate);
@@ -95,6 +96,7 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 				try{
 					if (view.getDateFieldInvoicedate().getValue().getTime() < view.getDateFieldPodate().getValue().getTime()) {
 						view.getDateFieldInvoicedate().setValue(view.getDateFieldPodate().getValue());					
+						view.getDateFieldDuedate().setValue(view.getDateFieldPodate().getValue());
 						Notification.show("Tanggal Invoice lebih kecil dari pada tanggal Order", Notification.TYPE_TRAY_NOTIFICATION);
 						
 					} 
@@ -612,6 +614,7 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		model.itemHeader.setInvoiceno("");
 		model.itemHeader.setPodate(model.getTransaksiHelper().getCurrentTransDate());
 		model.itemHeader.setInvoicedate(model.getTransaksiHelper().getCurrentTransDate());
+		model.itemHeader.setDuedate(model.getTransaksiHelper().getCurrentTransDate());
 		model.itemHeader.setAmount(0.0);
 		model.itemHeader.setAmountpay(0.0);
 		model.itemHeader.setDisc(0.0);
@@ -621,6 +624,8 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		model.itemHeader.setSaldo(false);
 		model.itemHeader.setPrintcounter(0);
 		model.itemHeader.setTipefaktur("F");
+		model.itemHeader.setTunaikredit("T");
+		model.itemHeader.setLunas(false);
 		
 	}
 	public void resetHeader(){

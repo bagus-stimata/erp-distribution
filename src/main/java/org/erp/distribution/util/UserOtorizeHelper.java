@@ -234,7 +234,7 @@ public class UserOtorizeHelper {
             mainUI.menuPurchaseOrderRepMrv.setEnabled(true);
             
             mainUI.menuPembayaranHutang.setEnabled(true);
-            mainUI.menuSalesOrderApPaymentRep.setEnabled(true);
+            mainUI.menuPembayaranHutangRep.setEnabled(true);
 
             mainUI.menuServiceHp.setEnabled(true);
             mainUI.menuServiceHpPenerimaanService.setEnabled(true);
@@ -321,7 +321,7 @@ public class UserOtorizeHelper {
         mainUI.menuPurchaseOrderRepMrv.setVisible(true);
         
         mainUI.menuPembayaranHutang.setVisible(true);
-        mainUI.menuSalesOrderApPaymentRep.setVisible(true);
+        mainUI.menuPembayaranHutangRep.setVisible(true);
 
         mainUI.menuPurchaseOrderSeparator1.setVisible(true);
         mainUI.menuPurchaseOrderSeparator2.setVisible(true);
@@ -423,7 +423,7 @@ public class UserOtorizeHelper {
         mainUI.menuPurchaseOrderRepMrv.setEnabled(true);
         
         mainUI.menuPembayaranHutang.setEnabled(true);
-        mainUI.menuSalesOrderApPaymentRep.setEnabled(true);
+        mainUI.menuPembayaranHutangRep.setEnabled(true);
 
         mainUI.menuSalesOrder.setEnabled(true);
         mainUI.menuSalesOrder1.setEnabled(true);

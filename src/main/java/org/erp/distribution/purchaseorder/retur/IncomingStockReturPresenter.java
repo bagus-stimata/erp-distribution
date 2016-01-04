@@ -618,6 +618,8 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		model.itemHeader.setSaldo(false);
 		model.itemHeader.setPrintcounter(0);
 		model.itemHeader.setTipefaktur("R");
+		model.itemHeader.setTunaikredit("T");
+		model.itemHeader.setLunas(false);
 		
 	}
 	public void resetHeader(){

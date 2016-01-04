@@ -51,7 +51,6 @@ public class FtSalesh {
 	@Temporal(TemporalType.DATE)
 	private Date sjpenagihandate;
 	
-	
 	@Temporal(TemporalType.DATE)
 	@Column(name="INVOICEDATE")
 	private Date invoicedate;

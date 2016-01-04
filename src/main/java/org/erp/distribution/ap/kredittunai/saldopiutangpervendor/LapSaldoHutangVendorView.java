@@ -1,4 +1,4 @@
-package org.erp.distribution.ap.kredittunai;
+package org.erp.distribution.ap.kredittunai.saldopiutangpervendor;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.erp.distribution.DashboardUI;
-import org.erp.distribution.ap.kredittunai.paylist.ApPaymentVendorPresenter;
-import org.erp.distribution.ap.kredittunai.paylist.ApPaymentVendorModel;
-import org.erp.distribution.ap.kredittunai.paylist.ApPaymentVendorView;
 import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerModel;
 import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerPresenter;
 import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerView;
@@ -25,6 +22,7 @@ import org.erp.distribution.model.FtPurchaseh;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.User;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
+import org.springframework.boot.autoconfigure.condition.SearchStrategy;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property;
@@ -48,9 +46,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
 
-public class VendorCreditView extends CustomComponent {
+public class LapSaldoHutangVendorView extends CustomComponent {
 	
-	private VendorCreditModel model;
+	private LapSaldoHutangVendorModel model;
 	private VerticalLayout content = new VerticalLayout();
 
 	private Table table;
@@ -63,28 +61,29 @@ public class VendorCreditView extends CustomComponent {
 	
 	private String operationStatus;
 
-    private Label labelTanggalTransaksiDivisi = new Label("TANGGAL PEMBAYARAN");
+    private Label labelTanggalTransaksiDivisi = new Label("TGL. SJ PENAGIHAN");
     	
 	//Additional Component	private TextField fieldSearchByRekap;
 	private TextField fieldSearchByRekap;
 	private Button btnSelectRekapNo = new Button("F");	
 
 	private DateField dateFieldDatePembayaranManual = new DateField();
-	private CheckBox checkBoxGunakanTanggalManual = new CheckBox("GUNAKAN TANGGAL PEMBAYARAN MANUAL");
+	private CheckBox checkBoxGunakanTanggalManual = new CheckBox("GUNAKAN TGL. SJ PENAGIHAN MANUAL");
 	
-	private TextField fieldSearchById = new TextField("ID");
-	private ComboBox fieldSearchComboDivisi = new ComboBox("Divisi");
-	private TextField fieldSearchByDesc = new TextField("Desc");
-	private TextField fieldSearchByIdCustomer = new TextField("Cust Id");	
-	private TextField fieldSearchByNamaCustomer = new TextField("Customer");
-	private TextField fieldSearchByIdSalesman = new TextField("ID SLS");
-	private TextField fieldSearchByNamaSalesman = new TextField("Salesman");
-	private TextField fieldSearchByInvoice = new TextField("INV");
-	private DateField fieldSearchByDateInvoiceFrom = new DateField("Inv From");
-	private DateField fieldSearchByDateInvoiceTo = new DateField("TO");
-	private ComboBox fieldSearchComboLunas = new ComboBox("Lunas?");
-	private ComboBox fieldSearchComboToCanvas = new ComboBox("TO/C");
-	private ComboBox fieldSearchComboSupplier = new ComboBox("SUPPLIER");
+	private TextField fieldSearchById;
+	private ComboBox fieldSearchComboDivisi;
+	private TextField fieldSearchByDesc;
+	private TextField fieldSearchByIdCustomer;	
+	private TextField fieldSearchByNamaCustomer;
+	private TextField fieldSearchByIdSalesman;
+	private TextField fieldSearchByNamaSalesman;
+	private TextField fieldSearchByInvoice;
+	private TextField fieldSearchBySJPenagihan;
+	private DateField fieldSearchByDateInvoiceFrom;
+	private DateField fieldSearchByDateInvoiceTo;
+	private ComboBox fieldSearchComboLunas;
+	private ComboBox fieldSearchComboToCanvas;
+	private ComboBox fieldSearchComboVendor = new ComboBox("SUPPLIER");
 	
 	private DateField fieldSearchByDateInvoiceKirimFrom;
 	private DateField fieldSearchByDateInvoiceKirimTo;
@@ -93,11 +92,20 @@ public class VendorCreditView extends CustomComponent {
 	
 	private CheckBox checkLihatSemua = new CheckBox("Lihat Semua(Kirim dan Belum)", false);
 	
+	private ComboBox searchComboSalesman = new ComboBox("Salesman");
+	private ComboBox searchComboArea = new ComboBox("Area");
+	private ComboBox searchComboSubArea = new ComboBox("Sub Area");
+	
+	
 	private Button btnSearch;
 	private Button btnReload;
 	private Button btnPay;
 	private Button btnLunaskan;
 	private Button btnSelisihPlusMinus;
+	
+	private Button btnTerbitkanSJ = new Button("Terbitkan SJ");
+	private Button btnPencabutanSJ = new Button("Pencabutan SJ");
+	
 	
 	private Button btnPrint;
 	private Button btnHelp;	
@@ -131,7 +139,7 @@ public class VendorCreditView extends CustomComponent {
     
 	User userActive = new User();
 	
-	public VendorCreditView(VendorCreditModel model){
+	public LapSaldoHutangVendorView(LapSaldoHutangVendorModel model){
 		this.model = model;		
 		
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
@@ -200,6 +208,11 @@ public class VendorCreditView extends CustomComponent {
 		fieldSearchByInvoice.setStyleName(Reindeer.TEXTFIELD_SMALL);
 		fieldSearchByInvoice.setWidth("100px");
 		fieldSearchByInvoice.setInputPrompt("NO. INVOICE");
+		fieldSearchBySJPenagihan = new TextField();
+		fieldSearchBySJPenagihan.setStyleName(Reindeer.TEXTFIELD_SMALL);
+		fieldSearchBySJPenagihan.setWidth("100px");
+		fieldSearchBySJPenagihan.setInputPrompt("SJ PENAGIHAN");
+		
 		fieldSearchByIdCustomer = new TextField();	
 		fieldSearchByIdCustomer.setWidth("90px");
 		fieldSearchByIdCustomer.setInputPrompt("ID CUST");
@@ -274,16 +287,32 @@ public class VendorCreditView extends CustomComponent {
 		fieldSearchComboTunaiKredit.setItemCaption("S", "Semua");
 		fieldSearchComboTunaiKredit.setStyleName(Reindeer.TEXTFIELD_SMALL);
 		fieldSearchComboTunaiKredit.setWidth("70px");
+		
+		fieldSearchComboVendor.setContainerDataSource(model.getBeanItemContainerVendor());
+		fieldSearchComboVendor.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		fieldSearchComboVendor.setNullSelectionAllowed(true);
+		fieldSearchComboVendor.setFilteringMode(FilteringMode.CONTAINS);
+		fieldSearchComboVendor.setWidth("150px");
 
 		//DEFAULT VIEW
 		fieldSearchComboTunaiKredit.select("S");
 		fieldSearchComboTunaiKredit.setEnabled(true);
 		fieldSearchComboTunaiKredit.setNullSelectionAllowed(false);
+
+		//COMBO AREA SALESMAN DAN SUBAREA
+		searchComboArea.setContainerDataSource(model.getBeanItemContainerVendor());
 		
-		fieldSearchComboSupplier.setContainerDataSource(model.getBeanItemContainerVendor());
-		fieldSearchComboSupplier.setNullSelectionAllowed(true);
-		fieldSearchComboSupplier.setWidth("150px");
-		fieldSearchComboSupplier.setFilteringMode(FilteringMode.CONTAINS);
+		searchComboArea.setWidth("120px");
+		searchComboSalesman.setWidth("120px");
+		searchComboSubArea.setWidth("120px");
+		
+		searchComboSalesman.setCaption("");
+		searchComboArea.setCaption("");
+		searchComboSubArea.setCaption("");
+
+		searchComboSalesman.setInputPrompt("Salesman");
+		searchComboArea.setInputPrompt("Area");
+		searchComboSubArea.setInputPrompt("Sub Area");
 		
 		//FOOTER SELECTED
 		fieldSelectedCount.setWidth("100px");
@@ -313,8 +342,12 @@ public class VendorCreditView extends CustomComponent {
 		btnSelisihPlusMinus = new Button("SELISIH +/- & Retur Tamp");
 		btnSelisihPlusMinus.setStyleName(Reindeer.BUTTON_SMALL);
 		
-		btnPrint = new Button("Print");
+		btnPrint = new Button("Print Hutang");
 		btnHelp = new Button("Help");
+		
+		btnPrint.addStyleName(Reindeer.BUTTON_SMALL);
+		btnTerbitkanSJ.addStyleName(Reindeer.BUTTON_SMALL);
+		btnPencabutanSJ.addStyleName(Reindeer.BUTTON_SMALL);
 		
 		btnSeparator1 = new Button("");
 		btnSeparator1.setEnabled(false);
@@ -324,6 +357,10 @@ public class VendorCreditView extends CustomComponent {
         btnSearch.setIcon(new ThemeResource("../images/navigation/12x12/Find.png") );
         btnLunaskan.setIcon(new ThemeResource("../images/navigation/12x12/OK.png") );
         btnPay.setIcon(new ThemeResource("../images/navigation/12x12/Accounting.png") );
+        btnTerbitkanSJ.setIcon(new ThemeResource("../images/navigation/12x12/OK.png") );
+        btnPencabutanSJ.setIcon(new ThemeResource("../images/navigation/12x12/Undo.png") );
+        
+        btnPrint.setIcon(new ThemeResource("../images/navigation/12x12/Print.png") );
                 
 		form = new Form();
 		form.setVisible(false);
@@ -372,7 +409,7 @@ public class VendorCreditView extends CustomComponent {
 		HorizontalLayout layoutTopInner1 = new HorizontalLayout();	
 		
 		HorizontalLayout layoutTopInner2 = new HorizontalLayout();					
-		layoutTop.addComponent(layoutTopInner0);
+//		layoutTop.addComponent(layoutTopInner0);
 		layoutTop.addComponent(layoutTopInner1);
 		layoutTop.addComponent(layoutTopInner2);
 		panelTop.setContent(layoutTop);
@@ -414,16 +451,20 @@ public class VendorCreditView extends CustomComponent {
 		layoutTopInner1.setComponentAlignment(btnSelectRekapNo, Alignment.BOTTOM_CENTER);
 		layoutTopInner1.addComponent(fieldSearchComboDivisi);
 		layoutTopInner1.setComponentAlignment(fieldSearchComboDivisi, Alignment.BOTTOM_CENTER);
+		layoutTopInner1.addComponent(fieldSearchBySJPenagihan);
+		layoutTopInner1.setComponentAlignment(fieldSearchBySJPenagihan, Alignment.BOTTOM_CENTER);
 		layoutTopInner1.addComponent(fieldSearchByInvoice);
 		layoutTopInner1.setComponentAlignment(fieldSearchByInvoice, Alignment.BOTTOM_CENTER);
 		layoutTopInner1.addComponent(fieldSearchComboLunas);
 		layoutTopInner1.setComponentAlignment(fieldSearchComboLunas, Alignment.BOTTOM_CENTER);
-		layoutTopInner1.addComponent(fieldSearchComboSupplier);
-		layoutTopInner1.setComponentAlignment(fieldSearchComboSupplier, Alignment.BOTTOM_CENTER);
-//		layoutTopInner1.addComponent(fieldSearchComboToCanvas);
-//		layoutTopInner1.setComponentAlignment(fieldSearchComboToCanvas, Alignment.BOTTOM_CENTER);
-//		layoutTopInner1.addComponent(fieldSearchComboTunaiKredit);
-//		layoutTopInner1.setComponentAlignment(fieldSearchComboTunaiKredit, Alignment.BOTTOM_CENTER);
+		layoutTopInner1.addComponent(fieldSearchComboToCanvas);
+		layoutTopInner1.setComponentAlignment(fieldSearchComboToCanvas, Alignment.BOTTOM_CENTER);
+		layoutTopInner1.addComponent(fieldSearchComboTunaiKredit);
+		layoutTopInner1.setComponentAlignment(fieldSearchComboTunaiKredit, Alignment.BOTTOM_CENTER);
+		layoutTopInner1.addComponent(fieldSearchByDateInvoiceFrom);
+		layoutTopInner1.setComponentAlignment(fieldSearchByDateInvoiceFrom, Alignment.BOTTOM_CENTER);
+		layoutTopInner1.addComponent(fieldSearchByDateInvoiceTo);
+		layoutTopInner1.setComponentAlignment(fieldSearchByDateInvoiceTo, Alignment.BOTTOM_CENTER);
 		
 //		layoutTopInner2.addComponent(fieldSearchByIdSalesman);
 //		layoutTopInner2.setComponentAlignment(fieldSearchByIdSalesman, Alignment.BOTTOM_CENTER);
@@ -433,10 +474,6 @@ public class VendorCreditView extends CustomComponent {
 //		layoutTopInner2.setComponentAlignment(fieldSearchByIdCustomer, Alignment.BOTTOM_CENTER);
 //		layoutTopInner2.addComponent(fieldSearchByNamaCustomer);
 //		layoutTopInner2.setComponentAlignment(fieldSearchByNamaCustomer, Alignment.BOTTOM_CENTER);
-		layoutTopInner2.addComponent(fieldSearchByDateInvoiceFrom);
-		layoutTopInner2.setComponentAlignment(fieldSearchByDateInvoiceFrom, Alignment.BOTTOM_CENTER);
-		layoutTopInner2.addComponent(fieldSearchByDateInvoiceTo);
-		layoutTopInner2.setComponentAlignment(fieldSearchByDateInvoiceTo, Alignment.BOTTOM_CENTER);
 		
 //		layoutTopInner2.addComponent(fieldSearchByDateInvoiceKirimFrom);
 //		layoutTopInner2.setComponentAlignment(fieldSearchByDateInvoiceKirimFrom, Alignment.BOTTOM_CENTER);
@@ -446,29 +483,43 @@ public class VendorCreditView extends CustomComponent {
 //		layoutTopInner2.addComponent(checkLihatSemua);
 //		layoutTopInner2.setComponentAlignment(checkLihatSemua, Alignment.MIDDLE_CENTER);
 		
-		layoutTopInner1.addComponent(btnSearch);
-		layoutTopInner1.setComponentAlignment(btnSearch, Alignment.BOTTOM_CENTER);
+		layoutTopInner2.addComponent(searchComboSalesman);
+		layoutTopInner2.setComponentAlignment(searchComboSalesman, Alignment.BOTTOM_CENTER);
+		layoutTopInner2.addComponent(searchComboArea);
+		layoutTopInner2.setComponentAlignment(searchComboArea, Alignment.BOTTOM_CENTER);
+		layoutTopInner2.addComponent(searchComboSubArea);
+		layoutTopInner2.setComponentAlignment(searchComboSubArea, Alignment.BOTTOM_CENTER);
+		
+		layoutTopInner2.addComponent(btnSearch);
+		layoutTopInner2.setComponentAlignment(btnSearch, Alignment.BOTTOM_CENTER);
 //		layoutTop.addComponent(btnReload);
 //		layoutTop.setComponentAlignment(btnReload, Alignment.BOTTOM_CENTER);
 //		layoutTopInner1.addComponent(btnSeparator1);
 //		layoutTopInner1.setComponentAlignment(btnSeparator1, Alignment.BOTTOM_CENTER);
-		layoutTopInner2.addComponent(btnPay);
-		layoutTopInner2.setComponentAlignment(btnPay, Alignment.BOTTOM_CENTER);
+//		layoutTopInner2.addComponent(btnPay);
+//		layoutTopInner2.setComponentAlignment(btnPay, Alignment.BOTTOM_CENTER);
 //		layoutTopInner2.addComponent(btnLunaskan);
 //		layoutTopInner2.setComponentAlignment(btnLunaskan, Alignment.BOTTOM_CENTER);
 //		layoutTopInner2.addComponent(btnSelisihPlusMinus);
 //		layoutTopInner2.setComponentAlignment(btnSelisihPlusMinus, Alignment.BOTTOM_CENTER);
+		
+//		layoutTopInner2.addComponent(btnTerbitkanSJ);
+//		layoutTopInner2.addComponent(btnPencabutanSJ);
+		layoutTopInner2.addComponent(btnPrint);
+//		layoutTopInner2.setComponentAlignment(btnTerbitkanSJ, Alignment.BOTTOM_CENTER);
+//		layoutTopInner2.setComponentAlignment(btnPencabutanSJ, Alignment.BOTTOM_CENTER);
+		layoutTopInner2.setComponentAlignment(btnPrint, Alignment.BOTTOM_CENTER);
 		
 		layoutFooter1.addComponent(fieldSelectedCount);
 		layoutFooter1.addComponent(fieldTunaiCount);
 		layoutFooter1.addComponent(fieldKreditCount);
 		layoutFooter1.addComponent(fieldTunaiSum);
 		layoutFooter1.addComponent(fieldKreditSum);
-//		layoutFooter1.addComponent(fieldToCount);
-//		layoutFooter1.addComponent(fieldCanvasCount);
-//		layoutFooter1.addComponent(fieldToSum);
-//		layoutFooter1.addComponent(fieldCanvasSum);		
-//		layoutFooter1.addComponent(fieldAmountSum);
+		layoutFooter1.addComponent(fieldToCount);
+		layoutFooter1.addComponent(fieldCanvasCount);
+		layoutFooter1.addComponent(fieldToSum);
+		layoutFooter1.addComponent(fieldCanvasSum);		
+		layoutFooter1.addComponent(fieldAmountSum);
 		
 //		layoutFooter2.addComponent(fieldAmountPaySum);
 //		layoutFooter2.addComponent(fieldAmountReturTampungan);
@@ -502,39 +553,43 @@ public class VendorCreditView extends CustomComponent {
 //				"spname", "custname", "divisionBean", "customerBean", 
 //				"disc3", "lockupdate", "orderdate");
 		
-		setVisibleTableProperties("selected", "refno", "nopo","invoiceno","invoicedate","duedate", 
-				"fvendorBean", "amountafterdiscafterppn",
-				"amountpay", "fwarehouseBean.id", "lunas", "endofday");
+		setVisibleTableProperties("selected", "refno", "invoiceno", "tunaikredit", "invoicedate", "duedate", 
+				"amountafterdiscafterppn", "amountpay", "fvendorBean");
 		
 		table.setColumnCollapsingAllowed(true);
 		try{
 			table.setColumnCollapsed("refno", true);
 			table.setColumnCollapsed("recapno", true);
 			table.setColumnCollapsed("suratjalanno", true);
-			table.setColumnCollapsed("endofday", true);
+			table.setColumnCollapsed("amount", true);
 			
 		} catch(Exception ex){}
 		//ALIGNMENT
 		table.setColumnAlignment("selected", Align.CENTER);
-		table.setColumnAlignment("endofday", Align.CENTER);
-		table.setColumnAlignment("invoicedate", Align.CENTER);
-		table.setColumnAlignment("duedate", Align.CENTER);
+		table.setColumnAlignment("tunaikredit", Align.CENTER);
+		table.setColumnAlignment("top", Align.CENTER);
+		table.setColumnAlignment("amount", Align.RIGHT);
 		table.setColumnAlignment("amountafterdiscafterppn", Align.RIGHT);
 		table.setColumnAlignment("amountpay", Align.RIGHT);
 		table.setColumnAlignment("lunas", Align.CENTER);
 		
 		//set header
 		table.setColumnHeader("selected", "<input type='checkbox'/>");
-		table.setColumnHeader("nopo", "NO.PO");
-		table.setColumnHeader("invoiceno", "INVOICE");
-		table.setColumnHeader("invoicedate", "TGL.INV");
-		table.setColumnHeader("duedate", "JTH.TEMPO");
-		table.setColumnHeader("fvendorBean", "SUPPLIER");
+		table.setColumnHeader("recapno", "REKAP");
+		table.setColumnHeader("sjpenagihanno", "SJPENAGIHAN");
+			table.setColumnHeader("id", "INVOICE-DIV-F/R");
+		table.setColumnHeader("custname", "CUSTOMER TRANS");
+		table.setColumnHeader("spname", "SALESMAN TRANS");
 		table.setColumnHeader("amountafterdiscafterppn", "NOMINAL+PPN");
 		table.setColumnHeader("amountpay", "TERBAYAR");
-		table.setColumnHeader("fwarehouseBean.id", "GUDANG");
-		table.setColumnHeader("lunas", "lunas");
-		table.setColumnHeader("endofday", "endofday");
+		table.setColumnHeader("salesmanBean", "SALES ACTUAL");
+		table.setColumnHeader("customerBean", "CUST ACTUAL");
+		table.setColumnHeader("tertundacounter", "TT");
+		table.setColumnHeader("terkirim", "KIRIM");
+		table.setColumnHeader("tunaikredit", "T/K");
+		table.setColumnHeader("lunas", "LNS");
+		table.setColumnHeader("term", "TOP");
+		table.setColumnHeader("returtampunglunas", "lns");
 		
 		
 //		table.setColumnExpandRatio("selected", 2);
@@ -570,8 +625,6 @@ public class VendorCreditView extends CustomComponent {
 	public void setDisplaySearchComponent(){
 		getFieldSearchComboDivisi().setContainerDataSource(model.getBeanItemContainerDivision());
 		getFieldSearchComboDivisi().setNullSelectionAllowed(false);
-
-		fieldSearchComboSupplier.setContainerDataSource(model.getBeanItemContainerVendor());
 		
 		//KALAU KOSONG DIA AKAN MENAMPILKAN ERROR
 		try{
@@ -633,17 +686,14 @@ public class VendorCreditView extends CustomComponent {
 //			}else {
 				sumAmount += (item.getAmount() + item.getAmountrevisi());
 				sumAmountPay += item.getAmountpay();	
+//				if(item.isReturtampunglunas()==false){				
+//					sumAmountReturTampunganFaktur += item.getAmountreturtampung();
+//				}
 				sumAmountRevisi += item.getAmountrevisi();
 //			}	
 			if (item.isLunas()==true){
 				countLunas +=1;
 			}
-//			if (item.isTerkirim()==true){
-//				countTerkirim+=1;
-//			}
-//			if (item.getTertundacounter()>0){
-//				countTertunda+=1;
-//			}
 			//:::YANG TER SELEKSI SAJA
 			if (item.getSelected().getValue()==true){
 				countSelected += 1;
@@ -664,70 +714,43 @@ public class VendorCreditView extends CustomComponent {
 						sumTunaiSelected += (item.getAmount() + item.getAmountrevisi());						
 //					}
 				}
-//				if (item.getRecapno()==null){
-//					countCanvasSelected +=1;
-////					if (item.getId().getTipefaktur().equals("R")){
-////						sumCanvasSelected -= (item.getAmount() + item.getAmountrevisi());
-////					} else {
-//						sumCanvasSelected += (item.getAmount() + item.getAmountrevisi());						
-////					}
-//				} else {
-//					if (item.getRecapno().trim().equals("")){
-//						countCanvasSelected	+=1;
-////						if (item.getId().getTipefaktur().equals("R")){
-////						sumCanvasSelected -= (item.getAmount() + item.getAmountrevisi());
-////						} else {
-//							sumCanvasSelected += (item.getAmount() + item.getAmountrevisi());							
-////						}
-//					} else {
-//						countToSelected +=1;
-////						if (item.getId().getTipefaktur().equals("R")){						
-////							sumToSelected -= (item.getAmount() + item.getAmountrevisi());
-////						} else {
-//							sumToSelected += (item.getAmount() + item.getAmountrevisi());							
-////						}
-//					}
-//				}
-			
+				
 //				if (item.getId().getTipefaktur().equals("R")){						
 //					sumAmountSelected -= (item.getAmount() + item.getAmountrevisi());
 //					sumAmountSelectedPayNew -= item.getAmountpay();
 //					sumAmountPaySelected -= (item.getAmount()-item.getAmountpay());
 //					sumAmountReturTampunganFakturSelected -= item.getAmountreturtampung();
 //				} else {
-				sumAmountSelected += (item.getAmount() + item.getAmountrevisi());					
-				sumAmountSelectedPayNew += item.getAmountpay();
-				sumAmountPaySelected += (item.getAmount()-item.getAmountpay());
-//				if(item.isReturtampunglunas()==false){
-//					sumAmountReturTampunganFakturSelected += item.getAmountreturtampung();
-//				}
-//				sumAmountRevisiSelected += item.getAmountrevisi();
+					sumAmountSelected += (item.getAmount() + item.getAmountrevisi());					
+					sumAmountSelectedPayNew += item.getAmountpay();
+					sumAmountPaySelected += (item.getAmount()-item.getAmountpay());
+					sumAmountRevisiSelected += item.getAmountrevisi();
 //				}
 				//HITUNG DISKON KHUSUS BY NOTA
-				List<FtAppaymentd> listFtappaymentd = new ArrayList<FtAppaymentd>(item.getFtappaymentdSet());
-//				for (FtAppaymentd itemArpaymentdetail: listFtappaymentd){
-////					sumAmountDiskonKhususSelected += itemArpaymentdetail.getPotonganamount();
-//				}
+				List<FtAppaymentd> listFtarpaymentd = new ArrayList<FtAppaymentd>(item.getFtappaymentdSet());
+				for (FtAppaymentd itemArpaymentdetail: listFtarpaymentd){
+					sumAmountDiskonKhususSelected += itemArpaymentdetail.getMrvamountpay();
+				}
 				
 			}
-//			item.getSelected().setReadOnly(true);
+			item.getSelected().setReadOnly(true);
 			
 			
 		}
 
 		//HITUNG DISKON DAN RETUR
-////		FDivision divisionBean = new FDivision();
-////		divisionBean = (FDivision) fieldSearchComboDivisi.getConvertedValue();
-////		for (String itemRecap11: recapNoSet){
-////			List<FtSaleshRekapTampungan> listArinvoiceRekapTampungan = new ArrayList<FtSaleshRekapTampungan>();
-////			listArinvoiceRekapTampungan =  model.getArInvoiceRekapTampunganService().findAllByRecapAndDivision(itemRecap11.toString(), divisionBean);
-////			for (FtSaleshRekapTampungan arinvoiceRekapTampungan: listArinvoiceRekapTampungan){
-////				sumAmountReturTampunganSelected += arinvoiceRekapTampungan.getAmountRetur();
-////					
-////			}
-////		}		
-////		sumAmountTotalSelected = sumAmount - sumAmountReturTampunganSelected - sumAmountDiskonKhususSelected;
-//
+//		FDivision divisionBean = new FDivision();
+//		divisionBean = (FDivision) fieldSearchComboDivisi.getConvertedValue();
+//		for (String itemRecap11: recapNoSet){
+//			List<FtSaleshRekapTampungan> listArinvoiceRekapTampungan = new ArrayList<FtSaleshRekapTampungan>();
+//			listArinvoiceRekapTampungan =  model.getArInvoiceRekapTampunganService().findAllByRecapAndDivision(itemRecap11.toString(), divisionBean);
+//			for (FtSaleshRekapTampungan arinvoiceRekapTampungan: listArinvoiceRekapTampungan){
+//				sumAmountReturTampunganSelected += arinvoiceRekapTampungan.getAmountRetur();
+//					
+//			}
+//		}		
+//		sumAmountTotalSelected = sumAmount - sumAmountReturTampunganSelected - sumAmountDiskonKhususSelected;
+
 		//BUAT SELECT ITEM READONLY
 //		item.getSelected().setReadOnly(true);
 		fieldSelectedCount.setReadOnly(false);
@@ -834,54 +857,10 @@ public class VendorCreditView extends CustomComponent {
 		
 		
 	}
-	private Window windowRevisiPlusMinus = new Window();
-	private RevisiNotaModel revisiNotaModel;	
-	private RevisiNotaView revisiNotaView;	
-	private RevisiNotaPresenter revisiNotaPresenter;
 	
-	
-	//DUMMY DECLARATION
-	ApPaymentVendorModel apPaymentCustomerModel = new ApPaymentVendorModel();
-	ApPaymentVendorView apPaymentCustomerView = new ApPaymentVendorView(apPaymentCustomerModel);
-	
-	private Window windowPembayaran = new Window();
 	private Button btnSave;
 	private Button btnCancel;
 	
-	public void buildWindowPembayaran(FtPurchaseh itemInvoice){
-
-		VerticalLayout layout = new VerticalLayout();
-		//REAL DECLARATION BUT WE HAVE TO ADD NEW LISTENER ON IT
-		apPaymentCustomerModel = new ApPaymentVendorModel(itemInvoice);
-		
-		if (checkBoxGunakanTanggalManual.getValue()==true){
-			
-			apPaymentCustomerModel.setTanggalPembayaranManual(dateFieldDatePembayaranManual.getValue());
-		}
-		
-		apPaymentCustomerView = new ApPaymentVendorView(apPaymentCustomerModel);
-		ApPaymentVendorPresenter apPaymentCustomerPresenter = new ApPaymentVendorPresenter(apPaymentCustomerModel, apPaymentCustomerView);
-		
-		apPaymentCustomerView.setSizeFull();
-		layout.addComponent(apPaymentCustomerView);
-		layout.setSizeFull();
-
-		
-		windowPembayaran.setModal(true);
-		windowPembayaran.center();
-		windowPembayaran.setStyleName("login-layout");
-		windowPembayaran.setWidth("1100px");
-		windowPembayaran.setHeight("600px");
-
-		windowPembayaran.setContent(layout);
-		
-		btnSave = new Button("Simpan");
-		btnCancel = new Button("Cancel");
-		
-		try{
-			getUI().addWindow(windowPembayaran);
-		} catch(Exception ex){}
-	}
 	
 	public void setComponentStyles(){
 	//	if (! getUI().getTheme().equals("vaadin_theme")) {
@@ -930,43 +909,7 @@ public class VendorCreditView extends CustomComponent {
 	//	tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
 		
 	}
-
-	
-	private Window windowRecapSearch = new Window();	
-	
-	private ApRecapSelectModel recapSelectModel; 
-	private ApRecapSelectView recapSelectView;
-	
-	//WINDOW HEADER SELECT
-	public void buildWindowRecapSelect(){
-		
-		//Create window
-		windowRecapSearch = new Window();
-		windowRecapSearch.setModal(true);
-		windowRecapSearch.center();
-		windowRecapSearch.setStyleName("login-layout");
-		windowRecapSearch.setWidth("800px");
-		windowRecapSearch.setHeight("600px");
-		
-		//INITIAL DATA TO PASS
-		
-		recapSelectModel = new ApRecapSelectModel();
-		recapSelectView = new ApRecapSelectView(recapSelectModel);
-		
-		ApRecapSelectPresenter recapSelectPresenter = new ApRecapSelectPresenter(
-				recapSelectModel, recapSelectView);		
-		recapSelectView.setSizeFull();		
-		
-		windowRecapSearch.setContent(recapSelectView);
-		
-		getUI().addWindow(windowRecapSearch);
-		
-		
-	}
-	public void destroyWindowRecapSelect(){		
-		windowRecapSearch.close();
-	}
-	public VendorCreditModel getModel() {
+	public LapSaldoHutangVendorModel getModel() {
 		return model;
 	}
 	public VerticalLayout getContent() {
@@ -1052,6 +995,15 @@ public class VendorCreditView extends CustomComponent {
 	}
 	public CheckBox getCheckLihatSemua() {
 		return checkLihatSemua;
+	}
+	public ComboBox getSearchComboSalesman() {
+		return searchComboSalesman;
+	}
+	public ComboBox getSearchComboArea() {
+		return searchComboArea;
+	}
+	public ComboBox getSearchComboSubArea() {
+		return searchComboSubArea;
 	}
 	public Button getBtnSearch() {
 		return btnSearch;
@@ -1140,43 +1092,13 @@ public class VendorCreditView extends CustomComponent {
 	public User getUserActive() {
 		return userActive;
 	}
-	public Window getWindowRevisiPlusMinus() {
-		return windowRevisiPlusMinus;
-	}
-	public RevisiNotaModel getRevisiNotaModel() {
-		return revisiNotaModel;
-	}
-	public RevisiNotaView getRevisiNotaView() {
-		return revisiNotaView;
-	}
-	public RevisiNotaPresenter getRevisiNotaPresenter() {
-		return revisiNotaPresenter;
-	}
-	public ApPaymentVendorModel getApPaymentCustomerModel() {
-		return apPaymentCustomerModel;
-	}
-	public ApPaymentVendorView getApPaymentCustomerView() {
-		return apPaymentCustomerView;
-	}
-	public Window getWindowPembayaran() {
-		return windowPembayaran;
-	}
 	public Button getBtnSave() {
 		return btnSave;
 	}
 	public Button getBtnCancel() {
 		return btnCancel;
 	}
-	public Window getWindowRecapSearch() {
-		return windowRecapSearch;
-	}
-	public ApRecapSelectModel getRecapSelectModel() {
-		return recapSelectModel;
-	}
-	public ApRecapSelectView getRecapSelectView() {
-		return recapSelectView;
-	}
-	public void setModel(VendorCreditModel model) {
+	public void setModel(LapSaldoHutangVendorModel model) {
 		this.model = model;
 	}
 	public void setContent(VerticalLayout content) {
@@ -1268,6 +1190,15 @@ public class VendorCreditView extends CustomComponent {
 	public void setCheckLihatSemua(CheckBox checkLihatSemua) {
 		this.checkLihatSemua = checkLihatSemua;
 	}
+	public void setSearchComboSalesman(ComboBox searchComboSalesman) {
+		this.searchComboSalesman = searchComboSalesman;
+	}
+	public void setSearchComboArea(ComboBox searchComboArea) {
+		this.searchComboArea = searchComboArea;
+	}
+	public void setSearchComboSubArea(ComboBox searchComboSubArea) {
+		this.searchComboSubArea = searchComboSubArea;
+	}
 	public void setBtnSearch(Button btnSearch) {
 		this.btnSearch = btnSearch;
 	}
@@ -1356,49 +1287,38 @@ public class VendorCreditView extends CustomComponent {
 	public void setUserActive(User userActive) {
 		this.userActive = userActive;
 	}
-	public void setWindowRevisiPlusMinus(Window windowRevisiPlusMinus) {
-		this.windowRevisiPlusMinus = windowRevisiPlusMinus;
-	}
-	public void setRevisiNotaModel(RevisiNotaModel revisiNotaModel) {
-		this.revisiNotaModel = revisiNotaModel;
-	}
-	public void setRevisiNotaView(RevisiNotaView revisiNotaView) {
-		this.revisiNotaView = revisiNotaView;
-	}
-	public void setRevisiNotaPresenter(RevisiNotaPresenter revisiNotaPresenter) {
-		this.revisiNotaPresenter = revisiNotaPresenter;
-	}
-	public void setApPaymentCustomerModel(
-			ApPaymentVendorModel apPaymentCustomerModel) {
-		this.apPaymentCustomerModel = apPaymentCustomerModel;
-	}
-	public void setApPaymentCustomerView(ApPaymentVendorView apPaymentCustomerView) {
-		this.apPaymentCustomerView = apPaymentCustomerView;
-	}
-	public void setWindowPembayaran(Window windowPembayaran) {
-		this.windowPembayaran = windowPembayaran;
-	}
 	public void setBtnSave(Button btnSave) {
 		this.btnSave = btnSave;
 	}
 	public void setBtnCancel(Button btnCancel) {
 		this.btnCancel = btnCancel;
 	}
-	public void setWindowRecapSearch(Window windowRecapSearch) {
-		this.windowRecapSearch = windowRecapSearch;
+	public Button getBtnTerbitkanSJ() {
+		return btnTerbitkanSJ;
 	}
-	public void setRecapSelectModel(ApRecapSelectModel recapSelectModel) {
-		this.recapSelectModel = recapSelectModel;
+	public Button getBtnPencabutanSJ() {
+		return btnPencabutanSJ;
 	}
-	public void setRecapSelectView(ApRecapSelectView recapSelectView) {
-		this.recapSelectView = recapSelectView;
+	public void setBtnTerbitkanSJ(Button btnTerbitkanSJ) {
+		this.btnTerbitkanSJ = btnTerbitkanSJ;
 	}
-	public ComboBox getFieldSearchComboSupplier() {
-		return fieldSearchComboSupplier;
+	public void setBtnPencabutanSJ(Button btnPencabutanSJ) {
+		this.btnPencabutanSJ = btnPencabutanSJ;
 	}
-	public void setFieldSearchComboSupplier(ComboBox fieldSearchComboSupplier) {
-		this.fieldSearchComboSupplier = fieldSearchComboSupplier;
+	public TextField getFieldSearchBySJPenagihan() {
+		return fieldSearchBySJPenagihan;
 	}
+	public void setFieldSearchBySJPenagihan(TextField fieldSearchBySJPenagihan) {
+		this.fieldSearchBySJPenagihan = fieldSearchBySJPenagihan;
+	}
+	public ComboBox getFieldSearchComboVendor() {
+		return fieldSearchComboVendor;
+	}
+	public void setFieldSearchComboVendor(ComboBox fieldSearchComboVendor) {
+		this.fieldSearchComboVendor = fieldSearchComboVendor;
+	}
+	
+	
 	
 	
 }

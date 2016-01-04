@@ -8,6 +8,12 @@ import com.vaadin.ui.*;
 import org.erp.distribution.ap.kredittunai.VendorCreditModel;
 import org.erp.distribution.ap.kredittunai.VendorCreditPresenter;
 import org.erp.distribution.ap.kredittunai.VendorCreditView;
+import org.erp.distribution.ap.kredittunai.saldopiutangpervendor.LapSaldoHutangVendorModel;
+import org.erp.distribution.ap.kredittunai.saldopiutangpervendor.LapSaldoHutangVendorPresenter;
+import org.erp.distribution.ap.kredittunai.saldopiutangpervendor.LapSaldoHutangVendorView;
+import org.erp.distribution.ap.lappembayaranhutang.LapPembayaranHutangModel;
+import org.erp.distribution.ap.lappembayaranhutang.LapPembayaranHutangPresenter;
+import org.erp.distribution.ap.lappembayaranhutang.LapPembayaranHutangView;
 import org.erp.distribution.ar.kredittunai.CustomerCreditModel;
 import org.erp.distribution.ar.kredittunai.CustomerCreditPresenter;
 import org.erp.distribution.ar.kredittunai.CustomerCreditView;
@@ -491,9 +497,9 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		public MenuItem menuPurchaseOrderRepMrv = menuPurchaseOrder.addItem("Lap. Market Return", this);
 		public MenuItem menuPurchaseOrderSeparator2  = menuPurchaseOrder.addSeparator();
 		public MenuItem menuPembayaranHutang = menuPurchaseOrder.addItem("Pembayaran Hutang", null, this);
-		public MenuItem menuSalesOrderApPaymentRep = menuPurchaseOrder.addItem("Lap. Hutang", null, null);
-			public MenuItem menuSalesOrderApPaymentRepSaldoHutangPerVendor = menuSalesOrderApPaymentRep.addItem("Saldo Hutang Per Supplier", this);
-			public MenuItem menuSalesOrderApPaymentRepPembayaranHutang = menuSalesOrderApPaymentRep.addItem("Buku Pembayaran Hutang", this);
+		public MenuItem menuPembayaranHutangRep = menuPurchaseOrder.addItem("Lap. Hutang", null, null);
+			public MenuItem menuPembayaranHutangRepSaldoHutangPerVendor = menuPembayaranHutangRep.addItem("Saldo Hutang Per Supplier", this);
+			public MenuItem menuPembayaranHutangRepPembayaranHutang = menuPembayaranHutangRep.addItem("Buku Pembayaran Hutang", this);
 
 	public MenuItem menuSalesOrder = menuBar1.addItem("SALES ORDER & AR", FontAwesome.SHOPPING_CART, null);
 		public MenuItem menuSalesOrder1 = menuSalesOrder.addItem("SALES ORDER", FontAwesome.SHOPPING_CART, this);
@@ -851,6 +857,24 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			VendorCreditModel objModel = new VendorCreditModel();
 			VendorCreditView objView = new VendorCreditView(objModel);
 			VendorCreditPresenter objPresenter = new VendorCreditPresenter(objModel, objView);				
+			
+			workspace1.setCaption("Pembayaran Hutang");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuPembayaranHutangRepSaldoHutangPerVendor) {
+			LapSaldoHutangVendorModel objModel = new LapSaldoHutangVendorModel();
+			LapSaldoHutangVendorView objView = new LapSaldoHutangVendorView(objModel);
+			LapSaldoHutangVendorPresenter objPresenter = new LapSaldoHutangVendorPresenter(objModel, objView);				
+			
+			workspace1.setCaption("Lap. Saldo Hutang Vendor");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuPembayaranHutangRepPembayaranHutang) {
+			LapPembayaranHutangModel objModel = new LapPembayaranHutangModel();
+			LapPembayaranHutangView objView = new LapPembayaranHutangView(objModel);
+			LapPembayaranHutangPresenter objPresenter = new LapPembayaranHutangPresenter(objModel, objView);				
 			
 			workspace1.setCaption("Pembayaran Hutang");
 			objView.setSizeFull();

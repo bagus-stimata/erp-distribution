@@ -42,9 +42,9 @@ public class ApPaymentVendorPembayaranView extends CustomComponent {
 	private TextField fieldCashPay = new TextField("CASH:");
 	private Button btnEqualCash = new Button("=");
 
-	private TextField fieldReturPay = new TextField("RETUR:");
+	private TextField fieldReturPay = new TextField("MRV:");
 	private Button btnEqualRetur = new Button("=");
-	private ComboBox comboRetur = new ComboBox("INV RETUR");
+	private ComboBox comboRetur = new ComboBox("INV MRV");
 	private Button btnReturBrowse = new Button("...");
 	
 	private TextField fieldGiroPay = new TextField("GIRO:");
@@ -59,9 +59,9 @@ public class ApPaymentVendorPembayaranView extends CustomComponent {
 //	private TextField fieldTransfer = new TextField("NO TRANSFER/KET");
 	
 	
-	private TextField fieldPotLainPay = new TextField("POT LAIN/DISC KHUSUS:");
+	private TextField fieldPotLainPay = new TextField("POT LAIN/DCV:");
 	private Button btnEqualPotLain = new Button("=");
-	private ComboBox comboPotlainPayJenis= new ComboBox("JENIS D/K");
+	private ComboBox comboPotlainPayJenis= new ComboBox("JENIS DCV");
 
 	private TextField fieldKelebihanBayarPay = new TextField("KELEBIHAN BAYAR:");
 	private Button btnEqualKelebihanBayar = new Button("=");

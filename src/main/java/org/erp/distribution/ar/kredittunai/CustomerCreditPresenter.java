@@ -57,7 +57,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 	
 	FtSalesh item = new FtSalesh();
 	
-	
 	public CustomerCreditPresenter(CustomerCreditModel model, CustomerCreditView view){
 		this.model = model;
 		this.view = view;
@@ -203,10 +202,11 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 			@Override
 			public void windowClose(CloseEvent e) {
 				// TODO Auto-generated method stub
+				System.out.println("SAAT >> CloseListener");
 				try{
 					//REMEMBER JPA CONTAINER LANGSUNG MENUJU KE DATABASE
 					model.item.setAmountpay(view.getArPaymentCustomerModel().getItemInvoice().getAmountpay());
-					//LUNAS ATAU TIDAK LUNAS amountPay >= amount maka 
+					//LUNAS ATAU TIDAK LUNAS amountPay >= amount maka :: tolerasi Rp. 50,-
 					double toleransiKurang = 50.0;
 					if (model.item.getAmountpay() >= (model.item.getAmount() + model.item.getAmountrevisi()
 							- toleransiKurang - model.item.getAmountreturtampung()) ){
@@ -219,6 +219,7 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 					//UPDATE TO DATABASE
 					model.getFtSaleshJpaService().updateObject(model.item);
 					if (model.item.isLunas()==true){
+						//LANGSUNG HILANGKAN SATU FAKTUR TERSEBUT
 //						view.getTable().removeItem(model.item);
 						Notification.show("Satu Faktur Sudah lunas!!", Notification.TYPE_TRAY_NOTIFICATION);
 					}
@@ -294,7 +295,7 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 			printForm();
 		}else if (event.getButton() == view.getBtnHelp()){
 		} else if (event.getButton() == view.getBtnPay()){
-			try{
+			if (model.getItem().getRefno() != null){
 				if (model.getItem().getTipefaktur().equals("F")){
 					view.buildWindowPembayaran(model.getItem());
 					initListenerSubWindow();
@@ -302,7 +303,7 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 					Notification.show("Bukan Faktur", Notification.TYPE_TRAY_NOTIFICATION);
 
 				}
-			}catch(Exception ex){}
+			}
 			
 		} else if (event.getButton() == view.getBtnLunaskan()){			
 			 final ConfirmDialog d = ConfirmDialog.show(view.getUI(),"Konfirmasi Pelunasan", "CHECK ULANG SEBELUM MELUNASKAN, YAKIN LUNASKAN? ", 
@@ -332,7 +333,7 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		
 	}
 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									public void setFormButtonAndText(){
+	public void setFormButtonAndText(){
 		if (view.getOperationStatus().equals(EnumOperationStatus.OPEN.getStrCode())){
 			view.getForm().setVisible(false);
 			view.getTable().setSelectable(true);
@@ -348,7 +349,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 			
 		}		
 	}
-	
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									
 	public void searchForm(){
 		//1. Remove filter dan Refresh container dalulu dahulu
@@ -625,7 +625,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		
 	}
 	
-	
 	public void cekAndDeleteProcessedByOthers(boolean bolValue){
 		
 		List<Object> listDeleted = new ArrayList<Object>();
@@ -653,7 +652,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		
 	}
 	
-	
 	public int reloadForm(){		
 		model.setFreshDataTable();
 		view.setDisplay();
@@ -664,7 +662,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		Notification.show("Print belum diimplementasikan!!!");
 		return 0;
 	}
-	
 	
 	private Item itemTableSelected=null;
 	
@@ -697,9 +694,7 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 						invoices += ", ";
 					}
 				}
-				
-				
-				
+								
 				if (listArpaymentdetail.size()>0){
 					Notification.show(invoices,Notification.TYPE_WARNING_MESSAGE);
 				} else {
@@ -742,7 +737,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		} catch (Exception ex){}
 		
 	}
-	
 
     ConfirmDialog.Listener konfirmDialogLunaskanListener = new ConfirmDialog.Listener() {					
 		//@Override

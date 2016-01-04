@@ -1,24 +1,42 @@
-package org.erp.distribution.ap.kredittunai;
+package org.erp.distribution.ap.kredittunai.saldopiutangpervendor;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.erp.distribution.model.FArea;
 import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FVendor;
+import org.erp.distribution.model.FtAppaymentd;
 import org.erp.distribution.model.FtArpaymentd;
 import org.erp.distribution.model.FtArpaymentdPK;
 import org.erp.distribution.model.FtArpaymenth;
+import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchaseh;
-import org.erp.distribution.model.FtSalesh;
+import org.erp.distribution.model.FtSalesd;
+import org.erp.distribution.model.ZLapPackingList;
+import org.erp.distribution.model.ZLapSJPenagihanList;
+import org.erp.distribution.model.ZLapTemplate1;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 import org.erp.distribution.util.FormatAndConvertionUtil;
+import org.erp.distribution.util.ReportJdbcConfigHelper;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import javassist.compiler.NoFieldException;
@@ -39,24 +57,30 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.GridLayout.Area;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table.HeaderClickEvent;
 import com.vaadin.ui.Table.HeaderClickListener;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-public class VendorCreditPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener {
+public class LapSaldoHutangVendorPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
+	private LapSaldoHutangVendorModel model;
+	private LapSaldoHutangVendorView view;
 	
-	private VendorCreditModel model;
-	private VendorCreditView view;
+	FtPurchaseh item = new FtPurchaseh();
 	
-	FtSalesh item = new FtSalesh();
-		
-	public VendorCreditPresenter(VendorCreditModel model, VendorCreditView view){
+	
+	public LapSaldoHutangVendorPresenter(LapSaldoHutangVendorModel model, LapSaldoHutangVendorView view){
 		this.model = model;
 		this.view = view;
 		initListener();		
@@ -80,6 +104,10 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		view.getBtnLunaskan().addClickListener(this);
 		view.getBtnSelisihPlusMinus().addClickListener(this);
 		
+		view.getBtnTerbitkanSJ().addClickListener(this);
+		view.getBtnPencabutanSJ().addClickListener(this);
+		
+//		view.getTable().addValueChangeListener(this);
 		view.getTable().addItemClickListener(this);
 		
 		view.getPanelTop().addActionHandler(this);
@@ -110,7 +138,7 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 				// TODO Auto-generated method stub
 				//zoom table
 				try{
-					if (event.isDoubleClick()){
+					if (event.isDoubleClick()){	
 						if (view.getPanelTop().getContent() == null) {
 							view.getPanelTop().setContent(view.getLayoutTop());
 						}else {
@@ -193,52 +221,6 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 	}
 	public void initListenerSubWindow(){
 		
-		CloseListener listenerCloseWindowPembayaran = new CloseListener() {
-			
-			@Override
-			public void windowClose(CloseEvent e) {
-				// TODO Auto-generated method stub
-				try{
-					//REMEMBER JPA CONTAINER LANGSUNG MENUJU KE DATABASE
-					model.item.setAmountpay(view.getApPaymentCustomerModel().getItemInvoice().getAmountpay());
-					//LUNAS ATAU TIDAK LUNAS amountPay >= amount maka :: tolerasi Rp. 50,-
-					double toleransiKurang = 50.0;
-					if (model.item.getAmountpay() >= (model.item.getAmount() + model.item.getAmountrevisi()
-							- toleransiKurang) ){
-						model.item.setLunas(true);
-					} else {
-						model.item.setLunas(false);
-					}
-					//TANPA DI SELEKSI PASTI HARUS DISELEKSI
-					model.getTableBeanItemContainer().addBean(model.getItem());
-					//UPDATE TO DATABASE
-					model.getFtPurchasehJpaService().updateObject(model.item);
-					if (model.item.isLunas()==true){
-						//LANGSUNG HILANGKAN SATU FAKTUR TERSEBUT
-//						view.getTable().removeItem(model.item);
-						Notification.show("Satu Faktur Sudah lunas!!", Notification.TYPE_TRAY_NOTIFICATION);
-					}
-					view.getTable().refreshRowCache();
-					view.setDisplayFooter();
-					
-				} catch(Exception ex){}
-				
-			}
-		};
-		view.getWindowPembayaran().addCloseListener(listenerCloseWindowPembayaran);
-		
-		
-	}
-	public void initListenerWindowRecapSelect(){
-		ClickListener closeListener = new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				windowRecapSelectClose();
-			}
-		};
-		view.getRecapSelectView().getBtnSelect().addClickListener(closeListener);
 	}
 	
 	public void initDisplayFirst(){
@@ -246,7 +228,7 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 	}
 	public void initDisplay(){
 		//1. Table
-		model.initVariableData();
+		model.setFreshDataTable();
 		view.setDisplay();
 	}
 
@@ -266,21 +248,11 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 				view.getTable().focus();
 			}
 		} else if (event.getButton() == view.getBtnPrint()){			
-			printForm();
-		}else if (event.getButton() == view.getBtnHelp()){
-		} else if (event.getButton() == view.getBtnPay()){
-			if (model.getItem().getRefno() != null){
-				if (model.getItem().getTipefaktur().equals("F")){					
-						view.buildWindowPembayaran(model.getItem());
-						initListenerSubWindow();
-				}else {
-					Notification.show("Bukan Faktur", Notification.TYPE_TRAY_NOTIFICATION);
-				}
-			}
+			printSaldoPiutang();
+		} else if (event.getButton() == view.getBtnTerbitkanSJ()){
 			
-		} else if (event.getButton() == view.getBtnLunaskan()){			
-			 final ConfirmDialog d = ConfirmDialog.show(view.getUI(),"Konfirmasi Pelunasan", "CHECK ULANG SEBELUM MELUNASKAN, YAKIN LUNASKAN? ", 
-					 "Oke Lunaskan", "Cancel", konfirmDialogLunaskanListener);
+			 final ConfirmDialog d = ConfirmDialog.show(view.getUI(),"Konfirmasi SJ", "Yakin Terbitkan Surat Jalan Penagihan? ", 
+					 "Oke Terbitkan SJ", "Cancel", konfirmDialogTerbitkanSJPenagihan);
 			 
 			   final ShortcutListener enter = new ShortcutListener("Oke",
 		                KeyCode.ENTER, null) {
@@ -292,18 +264,34 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 			
 			 d.setStyleName("dialog");
 			 d.getOkButton().setStyleName("small");
-				 d.getCancelButton().setStyleName("small");
-				 d.focus();
-						
-		}	else if (event.getButton()==view.getBtnSelisihPlusMinus()){
-//			view.buildWindowRevisiPlusMinus(model.getItem());
+			 d.getCancelButton().setStyleName("small");
+			 d.focus();
+		} else if (event.getButton() == view.getBtnPencabutanSJ()){
 			
+			 final ConfirmDialog d = ConfirmDialog.show(view.getUI(),"Konfirmasi SJ", "Yakin Mencabut Surat Jalan Penagihan? ", 
+					 "Oke Terbitkan SJ", "Cancel", konfirmDialogPencabutanSJPenagihan);
+			 
+			   final ShortcutListener enter = new ShortcutListener("Oke",
+		                KeyCode.ENTER, null) {
+		            @Override
+		            public void handleAction(Object object, Object target) {
+		            	d.close();
+		            }
+		        };
+			
+			 d.setStyleName("dialog");
+			 d.getOkButton().setStyleName("small");
+			 d.getCancelButton().setStyleName("small");
+			 d.focus();
+		}else if (event.getButton() == view.getBtnHelp()){
+		} else if (event.getButton() == view.getBtnPay()){
+		} else if (event.getButton() == view.getBtnLunaskan()){			
+		}	else if (event.getButton()==view.getBtnSelisihPlusMinus()){
 		} else if (event.getButton() == view.getBtnSelectRekapNo()){
-			windowRecapSelectShow();
 		} 
 		
 	}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									
+
 	public void setFormButtonAndText(){
 		if (view.getOperationStatus().equals(EnumOperationStatus.OPEN.getStrCode())){
 			view.getForm().setVisible(false);
@@ -320,6 +308,7 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 			
 		}		
 	}
+	
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									
 	public void searchForm(){
 		//1. Remove filter dan Refresh container dalulu dahulu
@@ -335,31 +324,12 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		//FIND ALL PAKAI Ini
 		model.getTableBeanItemContainer().addAll(model.getFtPurchasehJpaService().findAll());
 		//3. Filter Default
-			
 		
 		model.setFilterDefaultBeanItemContainer();
 		String invoiceno = view.getFieldSearchByInvoice().getValue().toString().trim();
 		Filter filter1 = new And(new SimpleStringFilter("invoiceno", invoiceno, true, false));
 		model.getTableBeanItemContainer().addContainerFilter(filter1);
-		
 			
-//		String idCust = view.getFieldSearchByIdCustomer().getValue().toString().trim();
-//		Filter filter2 = new And(new SimpleStringFilter("customer", idCust, true, false));
-//		model.getTableBeanItemContainer().addContainerFilter(filter2);
-//		
-//		String namaCust = view.getFieldSearchByNamaCustomer().getValue().toString().trim();
-//		Filter filter3 = new And(new SimpleStringFilter("custname", namaCust, true, false));
-//		model.getTableBeanItemContainer().addContainerFilter(filter3);
-		
-		
-//		String idSalesman = view.getFieldSearchByIdSalesman().getValue().toString().trim();
-//		Filter filter4 = new And(new SimpleStringFilter("salesman", idSalesman, true, false));
-//		model.getTableBeanItemContainer().addContainerFilter(filter4);
-//
-//		String namaSalesman = view.getFieldSearchByNamaSalesman().getValue().toString().trim();
-//		Filter filter5 = new And(new SimpleStringFilter("spname", namaSalesman, true, false));
-//		model.getTableBeanItemContainer().addContainerFilter(filter5);
-		
 
 		//LUNAS BELUM LUNAS
 		Filter filter7=null;
@@ -370,15 +340,12 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 				filter7 = new And(new Compare.Equal("lunas", true)); 						
 			}
 			
-			
 			if (! view.getFieldSearchComboLunas().getValue().equals("S")){
 				model.getTableBeanItemContainer().addContainerFilter(filter7);
 			}
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}
-		
-		
 		
 		Filter filter15=null;
 		try{
@@ -462,6 +429,38 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		view.setDisplay();
 		//Focus
 		view.getTable().focus();
+		
+	}
+	
+    ConfirmDialog.Listener konfirmDialogTerbitkanSJPenagihan = new ConfirmDialog.Listener() {					
+		//@Override
+		public void onClose(ConfirmDialog dialog) {
+			
+            if (dialog.isConfirmed()) {
+                // Confirmed to continue
+            	terbitkanSJPenagihan();
+            } else {
+            // User did not confirm
+            }
+		}
+	};
+    ConfirmDialog.Listener konfirmDialogPencabutanSJPenagihan = new ConfirmDialog.Listener() {					
+		//@Override
+		public void onClose(ConfirmDialog dialog) {
+			
+            if (dialog.isConfirmed()) {
+                // Confirmed to continue
+            	pencabutanSJPenagihan();
+            } else {
+            // User did not confirm
+            }
+		}
+	};
+
+	public void terbitkanSJPenagihan(){
+	}
+	
+	public void pencabutanSJPenagihan(){
 		
 	}
 	
@@ -549,12 +548,12 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		
 		String strVcode = "%";
 		try{
-			strVcode = ((FVendor) view.getFieldSearchComboSupplier().getValue()).getVcode();
+			strVcode = ((FVendor) view.getFieldSearchComboVendor().getValue()).getVcode();
 		} catch(Exception ex){}
 		
 		String strVname = "%";
 		try{
-			strVname = ((FVendor) view.getFieldSearchComboSupplier().getValue()).getVname();
+			strVname = ((FVendor) view.getFieldSearchComboVendor().getValue()).getVname();
 		} catch(Exception ex){}
 		
 		//JIKA RECAP NO CUMA SATU
@@ -576,43 +575,139 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		
 		
 	}
-		
-	public void cekAndDeleteProcessedByOthers(boolean bolValue){
-		
-		List<Object> listDeleted = new ArrayList<Object>();
-		Collection itemIds = model.getTableBeanItemContainer().getItemIds();
-		for (Object itemId: itemIds){
-			FtPurchaseh itemArinvoice = new FtPurchaseh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
-			
-			FtPurchaseh itemArinvoiceFromDb = new FtPurchaseh();
-			itemArinvoiceFromDb = model.getFtPurchasehJpaService().findById(itemArinvoice.getRefno());
-			//true=terkirim 
-			if (itemArinvoiceFromDb.isLunas()==bolValue){
-				listDeleted.add(itemId);
-			}	
-		}
 	
-		for (Object itemId: listDeleted){
-			model.getTableBeanItemContainer().removeItem(itemId);
-		}
-		
-		if (listDeleted.size()>0){
-			Notification.show("Sejumlah " + listDeleted.size() + 
-					" sudah terproses oleh User Lain", Notification.TYPE_TRAY_NOTIFICATION);
-		}
-		
+	
+	public void cekAndDeleteProcessedByOthers(boolean bolValue){
 	}
 	
+	
 	public int reloadForm(){		
-		model.initVariableData();
+		model.setFreshDataTable();
 		view.setDisplay();
 		
 		return 0;
 	}
-	public int printForm(){
-		Notification.show("Print belum diimplementasikan!!!");
-		return 0;
+	String paramSuratJalanList = "";
+	String paramInvoiceList = "";
+	public void resetParameters(){
+		paramSuratJalanList = "";
+		paramInvoiceList = "";
+	}
+	public void reloadParameter(){
+	}	
+	public void printSaldoPiutang(){
+		resetParameters();
+		//pengisian parameter diserahkan saat :: fillDatabaseReportLengkap();
+		reloadParameter();
+		
+		//1. ISI DATABASE UNTUK TEMP
+		fillDatabaseReportLengkap();
+		//2. PREVIEW LAPORAN
+		showPreview("/erp/distribution/reports/appayment/saldopiutangvendor/saldopiutangvendor1.jasper", "saldopiutangvendor1");
+		
+	}
+	
+	public void fillDatabaseReportLengkap(){
+		//1. HAPUS DATA
+		Iterator<ZLapTemplate1> iterZLapSJPenagihanListDelete = model.getLapTemplate1JpaService().findAll().iterator();
+		while (iterZLapSJPenagihanListDelete.hasNext()) {
+			model.getLapTemplate1JpaService().removeObject(iterZLapSJPenagihanListDelete.next());
+		}
+		//MENGHINDARI DOUBLE
+		Set<String> setInvoiceList = new LinkedHashSet<String>();
+
+		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
+		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
+		for (Object itemId: itemIds){			
+			FtPurchaseh itemArinvoice = new FtPurchaseh();
+			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
+			//Menghindari null
+			
+			if ((itemArinvoice.getSelected().getValue()==true)){
+				List<FtPurchased> listFtSalesd = new ArrayList<FtPurchased>(itemArinvoice.getFtpurchasedSet());
+				setInvoiceList.add(itemArinvoice.getInvoiceno());
+				
+				ZLapTemplate1 domain = new ZLapTemplate1();
+//				domain.setGrup1(itemArinvoice.getSjpenagihanno());
+				domain.setGrup1("Grup1");
+				domain.setGrup2("Grup2");
+				domain.setGrup3("Grup3");
+
+
+				domain.setString1(itemArinvoice.getNopo());
+				domain.setString2(itemArinvoice.getInvoiceno());
+				domain.setString3(itemArinvoice.getTipefaktur());
+				domain.setString4(itemArinvoice.getFvendorBean().getVcode() +
+						"-" + itemArinvoice.getFvendorBean().getVname());
+				
+				domain.setDate1(itemArinvoice.getInvoicedate());
+				domain.setDate2(itemArinvoice.getDuedate());
+
+				domain.setDouble1(itemArinvoice.getAmountafterdiscafterppn());
+				domain.setDouble2(itemArinvoice.getAmountafterdiscafterppn() - itemArinvoice.getAmountpay());
+				
+				model.getLapTemplate1JpaService().createObject(domain);
+				
+				
+			}
+			
+		}
+		
+		//:: INVOICE LIST
+		Iterator<String> iterInvoiceList = setInvoiceList.iterator();
+		while (iterInvoiceList.hasNext()){
+			paramInvoiceList += ", " + iterInvoiceList.next();
+		}
+		
+	}		
+	public void showPreview(String inputFilePath, String outputFilePath){
+		try {			
+			final JasperReport report;
+			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
+		
+			
+		final Map parameters=new HashMap();
+		parameters.put("CompanyName","");
+		
+		//BUAT TANPA KOMA DI DEPAN
+		try{
+			paramSuratJalanList = paramSuratJalanList.trim().substring(1, paramSuratJalanList.length());
+			paramInvoiceList = paramInvoiceList.trim().substring(1, paramInvoiceList.length());
+		} catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		parameters.put("paramSuratJalanList", paramSuratJalanList);
+		parameters.put("paramInvoiceList", paramInvoiceList);
+		
+		//CONNECTION
+		final Connection con = new ReportJdbcConfigHelper().getConnection();
+		
+		StreamResource.StreamSource source = new StreamSource() {			
+			@Override
+			public InputStream getStream() {
+				byte[] b = null;
+				try {
+					b = JasperRunManager.runReportToPdf(report, parameters, con);
+				} catch (JRException ex) {
+					System.out.println(ex);
+				}
+				return new ByteArrayInputStream(b);
+			}
+		};
+		
+		String fileName = "ap_saldo" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+		StreamResource resource = new StreamResource( source, fileName);
+		resource.setMIMEType("application/pdf");
+		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
+		
+		view.getUI().getPage().open(resource, "_new_ap_saldo_" + outputFilePath, false);
+	
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+	
+		
 	}
 	
 	
@@ -638,30 +733,28 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 			}
 
 			if (model.getItem().getTipefaktur().equals("R")){
-//				List<FtArpaymentd> listArpaymentdetail = new ArrayList<FtArpaymentd>(model.getItem().getFtarpaymentdSet());
-//				Iterator<FtArpaymentd> iter = listArpaymentdetail.iterator();
-//				String invoices = "RETUR DIGUNAKAN UNTUK MELUNASKAN INVOICE: ";
-//				while (iter.hasNext()){
-//					invoices += iter.next().getFtsaleshBean().getInvoiceno();
-//					if (iter.hasNext()) {
-//						invoices += ", ";
-//					}
-//				}
-//				
-//				
-//				
-//				if (listArpaymentdetail.size()>0){
-//					Notification.show(invoices,Notification.TYPE_WARNING_MESSAGE);
-//				} else {
-//					//PERBAIKI JIKA TIDAK ADA
-//					model.getItem().setAmountpay(0.0);
-//					model.getFtSaleshJpaService().updateObject(model.getItem());
-//					model.getTableBeanItemContainer().addItem(model.getItem());
-//					view.getTable().refreshRowCache();
-//					
-//					Notification.show("PERBAIKI BAYAR PADA RETUR: " + model.getItem().getInvoiceno(), Notification.TYPE_WARNING_MESSAGE);					
-//					
-//				}
+				List<FtAppaymentd> listArpaymentdetail = new ArrayList<FtAppaymentd>(model.getItem().getFtappaymentdSet());
+				Iterator<FtAppaymentd> iter = listArpaymentdetail.iterator();
+				String invoices = "RETUR DIGUNAKAN UNTUK MELUNASKAN INVOICE: ";
+				while (iter.hasNext()){
+					invoices += iter.next().getFtpurchasehBean().getInvoiceno();
+					if (iter.hasNext()) {
+						invoices += ", ";
+					}
+				}
+				
+				if (listArpaymentdetail.size()>0){
+					Notification.show(invoices,Notification.TYPE_WARNING_MESSAGE);
+				} else {
+					//PERBAIKI JIKA TIDAK ADA
+					model.getItem().setAmountpay(0.0);
+					model.getFtPurchasehJpaService().updateObject(model.getItem());
+					model.getTableBeanItemContainer().addItem(model.getItem());
+					view.getTable().refreshRowCache();
+					
+					Notification.show("PERBAIKI BAYAR PADA RETUR: " + model.getItem().getInvoiceno(), Notification.TYPE_WARNING_MESSAGE);					
+					
+				}
 			}
 			//JIKA LUNAS TIDAK BOLEH DI CHECK
 			if (model.getItem().isLunas()==true){
@@ -693,181 +786,6 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		
 	}
 	
-
-    ConfirmDialog.Listener konfirmDialogLunaskanListener = new ConfirmDialog.Listener() {					
-		//@Override
-		public void onClose(ConfirmDialog dialog) {
-			
-            if (dialog.isConfirmed()) {
-                // Confirmed to continue
-            	lunaskan();
-            } else {
-            // User did not confirm
-            }
-		}
-	};
-	ConfirmDialog.Listener konfirmDialogKurangLebihBayarListener = new ConfirmDialog.Listener() {					
-		@Override
-		public void onClose(ConfirmDialog dialog) {
-			
-            if (dialog.isConfirmed()) {
-            	lunaskan();
-            } else {
-            }
-		}
-	};
-	
-	public void lunaskan(){
-		
-		
-//		FormatAndConvertionUtil myFormatUtil = new FormatAndConvertionUtil();
-//		Double totalKurangLebihBayar = myFormatUtil.convertStringToDouble((String) view.getFieldAmountPaySum().getConvertedValue());
-//		
-//		try{
-//			
-//			//SYARAT INVOICE DILUNASKAN
-//			//1. Diseleksi dari Table
-//			//2. Belum Lunas
-//			List<Object> listItemProses = new ArrayList<Object>();				
-//			int nomorUrut=0;
-//			Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-//			FtPurchaseh itemDummyArinvoice = new FtPurchaseh();
-//			for (Object itemId: itemIds){
-//				
-//				FtPurchaseh itemArinvoice = new FtPurchaseh();
-//				itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
-//
-//				if (itemArinvoice.getSelected().getValue()==true && itemArinvoice.isLunas() == false ){
-////					String newRefno = model.getManagerTransaksi().getNewNomorUrutArPayment(division);
-//					String newNorek = model.getTransaksiHelper().getNextFtArpaymenthRefno();
-//					//TABLE PAYMENT:: BUAT HEADER
-//					FtArpaymenth itemArpaymentHeader = new FtArpaymenth();
-////					ArpaymentheaderPK id = new ArpaymentheaderPK();
-////					id.setRefno(newRefno);
-////					id.setDivision(itemArinvoice.getDivisionBean().getId());
-////					itemArpaymentHeader.setId(id);				
-//					itemArpaymentHeader.setNorek(newNorek);
-////					itemArpaymentHeader.setDivisionBean(itemArinvoice.getDivisionBean());
-//					
-//					//JIKA PAKE TANGGAL TRANSAKSI MANUAL MAKA
-//					if (view.getCheckBoxGunakanTanggalManual().getValue()==true){
-//						itemArpaymentHeader.setTrdate(view.getDateFieldDatePembayaranManual().getValue());
-//					} else {
-//						itemArpaymentHeader.setTrdate(model.getTransaksiHelper().getCurrentTransDate());
-//						itemArpaymentHeader.setEntrydate(new Date());
-//					}
-//					itemArpaymentHeader.setEntrydate(new Date());
-//					itemArpaymentHeader.setUserid("admin");
-//					itemArpaymentHeader.setClosing(false);			
-//					itemArpaymentHeader.setEndofday(false);
-//					
-//					itemArpaymentHeader.setPrintcounter(0);
-//					itemArpaymentHeader.setNotes("");
-//					//****UPDATE HEADER
-//					model.getFtArpaymenthJpaService().createObject(itemArpaymentHeader);
-//
-//					//TABLE PAYMENT:: DETAIL
-//					FtArpaymentd itemArpaymentDetail = new FtArpaymentd();
-//					
-//					FtArpaymentdPK itemDetailPK = new FtArpaymentdPK();
-//					FtArpaymentdPK arpaymentdetailPK = new FtArpaymentdPK();
-//					arpaymentdetailPK.setRefnopayment(itemArpaymentHeader.getRefno());
-//					arpaymentdetailPK.setRefnosales(itemArinvoice.getRefno());
-//		//			arpaymentdetailPK.setDivision(divisionBean.getId());
-//					itemArpaymentDetail.setId(arpaymentdetailPK);				
-//		//			model.arPaymentDetail.setDivisionBean(divisionBean);
-//					
-//					
-//					itemArpaymentDetail.setFtarpaymenthBean(itemArpaymentHeader);
-//					itemArpaymentDetail.setFtsaleshBean(itemArinvoice);
-//					
-////					itemArpaymentDetail.setDivisionBean(itemArinvoice.getDivisionBean());
-//					itemArpaymentDetail.setFtsaleshBean(itemArinvoice);
-//					
-//					double jumlahBayar = itemArinvoice.getAmountafterdiscafterppn() + itemArinvoice.getAmountrevisi()
-//							- itemArinvoice.getAmountpay()  -itemArinvoice.getAmountreturtampung();
-//					
-//					itemArpaymentDetail.setCashamountpay(jumlahBayar);
-//					itemArpaymentDetail.setSubtotalpay(jumlahBayar);
-//					
-//					itemArpaymentDetail.setGiroamountpay(0.0);
-//					itemArpaymentDetail.setTransferamountpay(0.0);
-//					itemArpaymentDetail.setReturamountpay(0.0);
-//					itemArpaymentDetail.setPotonganamount(0.0);
-//					itemArpaymentDetail.setKelebihanbayaramount(0.0);
-//					
-//					
-//					//****UPDATE DETAIL
-//					model.getFtArpaymentdJpaService().updateObject(itemArpaymentDetail);
-//					
-//					//UPDATE INVOICE
-//					double returTampung = 0.0;
-//					if (itemArinvoice.isReturtampunglunas()==false){
-//						returTampung = itemArinvoice.getAmountreturtampung();
-//					}
-//					itemArinvoice.setAmountpay(itemArinvoice.getAmountafterdiscafterppn() + itemArinvoice.getAmountrevisi() - returTampung);
-//					
-//            		if (itemArinvoice.getAmountafterdiscafterppn() + itemArinvoice.getAmountrevisi() > itemArinvoice.getAmountpay()){
-//            			itemArinvoice.setLunas(false);
-//            		}else{
-//            			itemArinvoice.setLunas(true);
-//            		}
-//					model.getFtSaleshJpaService().updateObject(itemArinvoice);
-//					
-//					//UPDATE TABLE
-//					model.getTableBeanItemContainer().addItem(itemArinvoice);
-//
-//					//Untuk kurang lebih
-//					itemDummyArinvoice = new FtSalesh();
-//					itemDummyArinvoice = itemArinvoice;
-//					
-//					listItemProses.add(itemId);
-//					
-//				}				
-//			}
-//			//UPDATE Kurang lebih pembayaran				
-////			itemDummyArinvoice.setAmountpay(itemDummyArinvoice.getAmountpay() + totalKurangLebihBayar);
-//			
-//			try{
-//				model.getFtSaleshJpaService().updateObject(itemDummyArinvoice);
-//			} catch(Exception ex){
-//				System.out.println("Error >> Pelunasan tunai updated dummy invoice");
-//			}
-//			//REFRESH FROM
-//			view.getBtnSearch().click();
-//			view.resetFieldSearch();
-//			Notification.show("Sejumlah " + listItemProses.size() + " Nota berhasil dilunaskan!", Notification.TYPE_TRAY_NOTIFICATION);
-//			
-//			view.setDisplayFooter();
-//			
-//		} catch(Exception ex){
-//			Notification.show("Error Pelunasan!!");		                        		
-//			ex.printStackTrace();
-//		}
-		
-}
-
-	public void windowRecapSelectShow(){
-		view.buildWindowRecapSelect();
-		initListenerWindowRecapSelect();
-//		view.setFormButtonAndTextState();		
-	}
-	
-	public void windowRecapSelectClose(){
-		view.destroyWindowRecapSelect();
-		//Ambil data Masukin ke Kolom recap no
-		String recapCollection = "";
-		Collection itemIds = view.getRecapSelectModel().getBeanItemContainerItemHeader().getItemIds();
-		for (Object itemId: itemIds){
-			FtSalesh item = new FtSalesh();
-			item = view.getRecapSelectModel().getBeanItemContainerItemHeader().getItem(itemId).getBean();
-			if (item.getSelected().getValue()==true){
-				recapCollection += item.getRecapno() + ", " ;
-			}
-		}
-		
-		view.getFieldSearchByRekap().setValue(recapCollection);
-	}
 	
 	private static final ShortcutAction ENTER = new ShortcutAction("Enter",
 			KeyCode.ENTER, null);
