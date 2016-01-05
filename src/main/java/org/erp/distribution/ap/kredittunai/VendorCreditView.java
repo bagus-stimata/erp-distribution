@@ -418,36 +418,21 @@ public class VendorCreditView extends CustomComponent {
 		layoutTopInner1.setComponentAlignment(fieldSearchByInvoice, Alignment.BOTTOM_CENTER);
 		layoutTopInner1.addComponent(fieldSearchComboLunas);
 		layoutTopInner1.setComponentAlignment(fieldSearchComboLunas, Alignment.BOTTOM_CENTER);
-		layoutTopInner1.addComponent(fieldSearchComboSupplier);
-		layoutTopInner1.setComponentAlignment(fieldSearchComboSupplier, Alignment.BOTTOM_CENTER);
-//		layoutTopInner1.addComponent(fieldSearchComboToCanvas);
-//		layoutTopInner1.setComponentAlignment(fieldSearchComboToCanvas, Alignment.BOTTOM_CENTER);
-//		layoutTopInner1.addComponent(fieldSearchComboTunaiKredit);
-//		layoutTopInner1.setComponentAlignment(fieldSearchComboTunaiKredit, Alignment.BOTTOM_CENTER);
+		layoutTopInner1.addComponent(fieldSearchByDateInvoiceFrom);
+		layoutTopInner1.setComponentAlignment(fieldSearchByDateInvoiceFrom, Alignment.BOTTOM_CENTER);
+		layoutTopInner1.addComponent(fieldSearchByDateInvoiceTo);
+		layoutTopInner1.setComponentAlignment(fieldSearchByDateInvoiceTo, Alignment.BOTTOM_CENTER);
+
+		layoutTopInner2.addComponent(fieldSearchComboSupplier);
+		layoutTopInner2.setComponentAlignment(fieldSearchComboSupplier, Alignment.BOTTOM_CENTER);
 		
-//		layoutTopInner2.addComponent(fieldSearchByIdSalesman);
-//		layoutTopInner2.setComponentAlignment(fieldSearchByIdSalesman, Alignment.BOTTOM_CENTER);
-//		layoutTopInner2.addComponent(fieldSearchByNamaSalesman);
-//		layoutTopInner2.setComponentAlignment(fieldSearchByNamaSalesman, Alignment.BOTTOM_CENTER);
-//		layoutTopInner2.addComponent(fieldSearchByIdCustomer);
-//		layoutTopInner2.setComponentAlignment(fieldSearchByIdCustomer, Alignment.BOTTOM_CENTER);
-//		layoutTopInner2.addComponent(fieldSearchByNamaCustomer);
-//		layoutTopInner2.setComponentAlignment(fieldSearchByNamaCustomer, Alignment.BOTTOM_CENTER);
-		layoutTopInner2.addComponent(fieldSearchByDateInvoiceFrom);
-		layoutTopInner2.setComponentAlignment(fieldSearchByDateInvoiceFrom, Alignment.BOTTOM_CENTER);
-		layoutTopInner2.addComponent(fieldSearchByDateInvoiceTo);
-		layoutTopInner2.setComponentAlignment(fieldSearchByDateInvoiceTo, Alignment.BOTTOM_CENTER);
 		
-//		layoutTopInner2.addComponent(fieldSearchByDateInvoiceKirimFrom);
-//		layoutTopInner2.setComponentAlignment(fieldSearchByDateInvoiceKirimFrom, Alignment.BOTTOM_CENTER);
-//		layoutTopInner2.addComponent(fieldSearchByDateInvoiceKirimTo);
-//		layoutTopInner2.setComponentAlignment(fieldSearchByDateInvoiceKirimTo, Alignment.BOTTOM_CENTER);
 		
 //		layoutTopInner2.addComponent(checkLihatSemua);
 //		layoutTopInner2.setComponentAlignment(checkLihatSemua, Alignment.MIDDLE_CENTER);
 		
-		layoutTopInner1.addComponent(btnSearch);
-		layoutTopInner1.setComponentAlignment(btnSearch, Alignment.BOTTOM_CENTER);
+		layoutTopInner2.addComponent(btnSearch);
+		layoutTopInner2.setComponentAlignment(btnSearch, Alignment.BOTTOM_CENTER);
 //		layoutTop.addComponent(btnReload);
 //		layoutTop.setComponentAlignment(btnReload, Alignment.BOTTOM_CENTER);
 //		layoutTopInner1.addComponent(btnSeparator1);

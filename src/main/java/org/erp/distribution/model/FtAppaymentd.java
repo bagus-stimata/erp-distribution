@@ -38,11 +38,11 @@ public class FtAppaymentd {
 	private FtPurchaseh ftpurchasehBean;
 	
 
-//	@ManyToOne
-//	@JoinColumn(name="returBean", referencedColumnName="refno")
-//	private FtSalesh returBean;
-//	
-//	
+	@ManyToOne
+	@JoinColumn(name="mrvBean", referencedColumnName="refno")
+	private FtPurchaseh mrvBean;
+	
+	
 //	@ManyToOne
 //	@JoinColumn(name="refnoBukugiroBean", referencedColumnName="refno")
 //	private Bukugiro bukugiroBean;
@@ -53,13 +53,17 @@ public class FtAppaymentd {
 	
 
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	
+	public FtPurchaseh getMrvBean() {
+		return mrvBean;
 	}
+
+
+	public void setMrvBean(FtPurchaseh mrvBean) {
+		this.mrvBean = mrvBean;
+	}
+
+
 	public FtAppaymentdPK getId() {
 		return id;
 	}
@@ -126,6 +130,16 @@ public class FtAppaymentd {
 	public void setFtpurchasehBean(FtPurchaseh ftpurchasehBean) {
 		this.ftpurchasehBean = ftpurchasehBean;
 	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

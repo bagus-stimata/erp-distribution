@@ -50,11 +50,10 @@ public class ApPaymentVendorPembayaranModel extends CustomComponent{
 	//FOR COMBOBOX
 	
 	//######TIDAK DIGUNAKAN: BeanItemContainer Utama
-	public BeanItemContainer<FtPurchaseh> beanItemContainerArInvoice = new BeanItemContainer<FtPurchaseh>(FtPurchaseh.class);
-	public BeanItemContainer<FtAppaymenth> beanItemContainerArPaymentHeader = new BeanItemContainer<FtAppaymenth>(FtAppaymenth.class);
-	public BeanItemContainer<FtAppaymentd> beanItemContainerArPaymentDetail = new BeanItemContainer<FtAppaymentd>(FtAppaymentd.class);
+	public BeanItemContainer<FtPurchaseh> beanItemContainerApInvoice = new BeanItemContainer<FtPurchaseh>(FtPurchaseh.class);
+	public BeanItemContainer<FtAppaymenth> beanItemContainerApPaymentHeader = new BeanItemContainer<FtAppaymenth>(FtAppaymenth.class);
+	public BeanItemContainer<FtAppaymentd> beanItemContainerApPaymentDetail = new BeanItemContainer<FtAppaymentd>(FtAppaymentd.class);
 
-	
 	//for combobox
 	public BeanItemContainer<Bukugiro> beanItemContainerBukuGiro = new BeanItemContainer<Bukugiro>(Bukugiro.class);
 	public BeanItemContainer<Bukutransfer> beanItemContainerBukuTransfer = new BeanItemContainer<Bukutransfer>(Bukutransfer.class);
@@ -69,8 +68,6 @@ public class ApPaymentVendorPembayaranModel extends CustomComponent{
 	double amountForOtherDetail =0.0;
 	double amountForThisDetail =0.0;
 	double amountPenambahan =0.0;
-	
-	
 	
 	public ApPaymentVendorPembayaranModel() {
 		initVariable();
@@ -127,11 +124,11 @@ public class ApPaymentVendorPembayaranModel extends CustomComponent{
 //			beanItemContainerBukuTransfer.addAll(bukuTransferService.findAllAvailableTransfer());			
 //		}
 		
-//		if (arPaymentDetail.getReturBean() != null){
-//			beanitemContainerReturBelumLunas.addAll(arInvoiceService.findAllReturBelumLunas(arPaymentDetail.getReturBean()));
-//		} else {
-//			beanitemContainerReturBelumLunas.addAll(arInvoiceService.findAllReturBelumLunas());
-//		}
+		if (apPaymentDetail.getMrvBean() != null){
+			beanitemContainerReturBelumLunas.addAll(ftPurchasehJpaService.findAllMrvBelumLunas(apPaymentDetail.getMrvBean()));
+		} else {
+			beanitemContainerReturBelumLunas.addAll(ftPurchasehJpaService.findAllMrvBelumLunas());
+		}
 		
 		
 		//UNTUK MENGETAHUI BAHWA INI ADD ATAU EDIT >> 
@@ -191,16 +188,16 @@ public class ApPaymentVendorPembayaranModel extends CustomComponent{
 		return beanItemArPaymentDetail;
 	}
 
-	public BeanItemContainer<FtPurchaseh> getBeanItemContainerArInvoice() {
-		return beanItemContainerArInvoice;
+	public BeanItemContainer<FtPurchaseh> getBeanItemContainerApInvoice() {
+		return beanItemContainerApInvoice;
 	}
 
-	public BeanItemContainer<FtAppaymenth> getBeanItemContainerArPaymentHeader() {
-		return beanItemContainerArPaymentHeader;
+	public BeanItemContainer<FtAppaymenth> getBeanItemContainerApPaymentHeader() {
+		return beanItemContainerApPaymentHeader;
 	}
 
-	public BeanItemContainer<FtAppaymentd> getBeanItemContainerArPaymentDetail() {
-		return beanItemContainerArPaymentDetail;
+	public BeanItemContainer<FtAppaymentd> getBeanItemContainerApPaymentDetail() {
+		return beanItemContainerApPaymentDetail;
 	}
 
 	public BeanItemContainer<Bukugiro> getBeanItemContainerBukuGiro() {
@@ -291,19 +288,19 @@ public class ApPaymentVendorPembayaranModel extends CustomComponent{
 		this.beanItemArPaymentDetail = beanItemArPaymentDetail;
 	}
 
-	public void setBeanItemContainerArInvoice(
-			BeanItemContainer<FtPurchaseh> beanItemContainerArInvoice) {
-		this.beanItemContainerArInvoice = beanItemContainerArInvoice;
+	public void setBeanItemContainerApInvoice(
+			BeanItemContainer<FtPurchaseh> beanItemContainerApInvoice) {
+		this.beanItemContainerApInvoice = beanItemContainerApInvoice;
 	}
 
-	public void setBeanItemContainerArPaymentHeader(
-			BeanItemContainer<FtAppaymenth> beanItemContainerArPaymentHeader) {
-		this.beanItemContainerArPaymentHeader = beanItemContainerArPaymentHeader;
+	public void setBeanItemContainerApPaymentHeader(
+			BeanItemContainer<FtAppaymenth> beanItemContainerApPaymentHeader) {
+		this.beanItemContainerApPaymentHeader = beanItemContainerApPaymentHeader;
 	}
 
-	public void setBeanItemContainerArPaymentDetail(
-			BeanItemContainer<FtAppaymentd> beanItemContainerArPaymentDetail) {
-		this.beanItemContainerArPaymentDetail = beanItemContainerArPaymentDetail;
+	public void setBeanItemContainerApPaymentDetail(
+			BeanItemContainer<FtAppaymentd> beanItemContainerApPaymentDetail) {
+		this.beanItemContainerApPaymentDetail = beanItemContainerApPaymentDetail;
 	}
 
 	public void setBeanItemContainerBukuGiro(
@@ -348,8 +345,7 @@ public class ApPaymentVendorPembayaranModel extends CustomComponent{
 	public void setAmountPenambahan(double amountPenambahan) {
 		this.amountPenambahan = amountPenambahan;
 	}
-	
-	
+
 	
 	
 }

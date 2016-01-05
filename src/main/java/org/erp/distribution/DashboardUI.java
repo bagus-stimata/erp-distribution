@@ -348,12 +348,10 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
     private User userActive = new User();
 	
 	private SysvarJpaService sysvarJpaService = new SysvarJpaServiceImpl();
-	private UserJpaService UserJpaService = new UserJpaServiceImpl();
+	private UserJpaService userJpaService = new UserJpaServiceImpl();
 	private SysvarHelper sysvarHelper = new SysvarHelper();
 	private UpdateSystemHelper updateSystemHelper  = new UpdateSystemHelper();
 	
-//	private TransaksiHelperImpl transaksiHelper;
-//	private ProductAndStockHelper productAndStockHelper;
 
 	private SCustomerJpaService sCustomerJpaService;
 	private STeknisiJpaService sTeknisiJpaService;
@@ -1206,7 +1204,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		} else if (event.getButton() == btnSignIn) {
 
 					User user=new User();
-					user = UserJpaService.findById(fieldUserId.getValue());
+					user = userJpaService.findById(fieldUserId.getValue());
 					String strUser = "dummyxxx####";
 					String strPass = "dummyxxx####";
 					boolean userEnabled = false;
@@ -1500,7 +1498,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	}
 
 	public UserJpaService getUserJpaService() {
-		return UserJpaService;
+		return userJpaService;
 	}
 
 
@@ -1599,7 +1597,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	}
 
 	public void setUserJpaService(UserJpaService userJpaService) {
-		UserJpaService = userJpaService;
+		userJpaService = userJpaService;
 	}
 
 	public void setfAreaJpaService(FAreaJpaService fAreaJpaService) {

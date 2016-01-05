@@ -241,6 +241,14 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 							double nilaiRetur = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmount();
 							double nilaiReturRevisi = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
 							view.getFieldReturPay().setConvertedValue(nilaiRetur + nilaiReturRevisi);
+
+							//Set Header Invoice
+							double nilaiAfter = Double.parseDouble(view.getFieldReturPay().getValue().replaceAll(",", ""));
+							view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("RETUR", nilaiAfter)));	
+
+							setPenambahanPembayaran();
+							setInvoiceTerbayar();
+							
 						}
 					} catch(Exception ex){
 						ex.printStackTrace();
@@ -357,7 +365,8 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			nf.setMinimumFractionDigits(0);
 			
 			if ((amountAvailable+toleransiAmountAvailable) < amountGiroPayPenambahan){
-				error = -1;				Notification.show("Sisa plafon GIRO " + identitas + " = Rp. " + nf.format(amountAvailable), Notification.TYPE_TRAY_NOTIFICATION);					
+				error = -1;				
+				Notification.show("Sisa plafon GIRO " + identitas + " = Rp. " + nf.format(amountAvailable), Notification.TYPE_TRAY_NOTIFICATION);					
 			}
 			
 		} catch (Exception ex){
@@ -653,12 +662,7 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 					} catch(Exception ex){
 					}
 				}
-				
-				
-				
 			}
-			
-			
 
 			//UPDATE GIRO, TRANSFER, RETUR SEBELUM COMMIT >> MENGURANGI GIRO(pada database) DENGAN NILAI AWAL
 			//SEBELUM COMMIT :: HAPUS DULU NILAI GIRO, RETUR, TRANSFER SEMULA :: BERLAKU UNTUK EDITING MAUPUN ADDING

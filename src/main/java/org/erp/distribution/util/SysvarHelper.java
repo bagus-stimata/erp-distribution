@@ -6,12 +6,17 @@ import java.util.Date;
 
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaServiceImpl;
+import org.erp.distribution.jpaservice.UserJpaService;
+import org.erp.distribution.jpaservice.UserJpaServiceImpl;
 import org.erp.distribution.model.Sysvar;
+import org.erp.distribution.model.User;
+import org.erp.distribution.model.modelenum.EnumUserOtorize;
 
 import com.vaadin.ui.CustomComponent;
 
 public class SysvarHelper extends CustomComponent{
 	private SysvarJpaService sysvarJpaService =  new  SysvarJpaServiceImpl();
+	private UserJpaService userJpaService = new UserJpaServiceImpl();
 	
 //	private DivisionJpaService divisionService = new DivisionJpaServiceImpl();
 	
@@ -20,7 +25,18 @@ public class SysvarHelper extends CustomComponent{
 	public SysvarHelper() {
 		
 		defaultConfigSysvar();
-		
+		//JIKA USER admin masih belum ada maka di buatkan
+		User pengguna = new User();
+		pengguna.setUserId("administrator");
+		pengguna.setUserPassword("123");
+		pengguna.setActive(true);
+		pengguna.setUserOtorizeType(EnumUserOtorize.ADMINISTRATOR.getStrCode());
+		pengguna.setGender(true);
+		pengguna.setJoinDate(new Date());
+		pengguna.setFullName("Administrator System Pengguna Pertama");
+		try{
+			userJpaService.createObject(pengguna);
+		} catch(Exception ex){}
 	}
 	
 	public void defaultConfigSysvar(){

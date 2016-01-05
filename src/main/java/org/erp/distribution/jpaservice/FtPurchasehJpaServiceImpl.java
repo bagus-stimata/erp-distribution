@@ -140,6 +140,49 @@ public class FtPurchasehJpaServiceImpl extends GenericJpaServiceImpl<FtPurchaseh
 	            em.close();
 	        }    
 	}
+	
+	@Override
+	public List<FtPurchaseh> findAllMrvBelumLunas() {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtPurchaseh a WHERE a.tipefaktur LIKE 'R' AND (a.amount > a.amountpay OR a.amountpay IS NULL) ";
+	            
+	            List<FtPurchaseh> list = em.createQuery(query)
+	            		 .setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+
+	@Override
+	public List<FtPurchaseh> findAllMrvBelumLunas(FtPurchaseh exceptRetur) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtPurchaseh a WHERE (a.tipefaktur LIKE 'R' AND (a.amount > a.amountpay  OR a.amountpay IS NULL)) "
+	            		+ " OR (a.refno = :exReturNo )";
+	            
+	            List<FtPurchaseh> list = em.createQuery(query)
+	            		.setParameter("exReturNo", exceptRetur.getRefno())
+	            		 .setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+	
 
 	@Override
 	public List<FtPurchaseh> findAllPenagihan(String strNopo, String strInvoiceNo,
@@ -181,5 +224,5 @@ public class FtPurchasehJpaServiceImpl extends GenericJpaServiceImpl<FtPurchaseh
 	        }    
 	        
 	}
-	
+
 }

@@ -513,7 +513,9 @@
   
   <build>
      <finalName>erp-distribution</finalName>
-   
+<!--     
+	 <finalName>erp-distribution</finalName>
+ -->   
    <!-- GWT Maven Plugin -->
 <!-- 	<plugins>
     <plugin>

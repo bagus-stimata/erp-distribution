@@ -183,11 +183,10 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 		view.getFieldKelebihanBayarPay().setTextChangeEventMode(TextChangeEventMode.LAZY);
 		view.getFieldKelebihanBayarPay().addTextChangeListener(listenerFieldKelebihanBayar);
 		
-		
 		view.getBtnSaveForm().addClickListener(this);
 		view.getBtnCancelForm().addClickListener(this);
 		
-		//COMBO LISTENER		
+		//::COMBO LISTENER		
 		ValueChangeListener comboGiroValueChangeListener = new ValueChangeListener() {
 			
 			@Override
@@ -240,9 +239,17 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 					}
 					try{
 						if ((Double) view.getFieldReturPay().getConvertedValue() <= 0){
-							double nilaiRetur = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmount();
-							double nilaiReturRevisi = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
+							double nilaiRetur = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmount();
+							double nilaiReturRevisi = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
 							view.getFieldReturPay().setConvertedValue(nilaiRetur + nilaiReturRevisi);
+							
+							//Set Header Invoice
+							double nilaiAfter = Double.parseDouble(view.getFieldReturPay().getValue().replaceAll(",", ""));
+							view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("RETUR", nilaiAfter)));	
+
+							setPenambahanPembayaran();
+							setInvoiceTerbayar();
+
 						}
 					} catch(Exception ex){
 						ex.printStackTrace();
@@ -656,12 +663,8 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 					}
 				}
 				
-				
-				
 			}
 			
-			
-
 			//UPDATE GIRO, TRANSFER, RETUR SEBELUM COMMIT >> MENGURANGI GIRO(pada database) DENGAN NILAI AWAL
 			//SEBELUM COMMIT :: HAPUS DULU NILAI GIRO, RETUR, TRANSFER SEMULA :: BERLAKU UNTUK EDITING MAUPUN ADDING
 			try{						
@@ -683,7 +686,7 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 			}
 			try{
 				FtPurchaseh newRetur = new FtPurchaseh();
-//				newRetur = model.getFtPurchasehJpaService().findById(model.getApPaymentDetail().getReturBean().getRefno());	
+				newRetur = model.getFtPurchasehJpaService().findById(model.getApPaymentDetail().getMrvBean().getRefno());	
 				newRetur.setAmountpay(newRetur.getAmountpay() - model.getApPaymentDetail().getMrvamountpay());
 				model.getFtPurchasehJpaService().updateObject(newRetur);
 			} catch(Exception ex){

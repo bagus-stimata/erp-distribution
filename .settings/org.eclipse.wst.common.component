@@ -7,7 +7,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/reports"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources/VAADIN/themes/custom_des1"/>
         <property name="java-output-path" value="/erp-distribution/target/classes"/>
-        <property name="context-root" value="erp-distribution"/>
         <property name="component.exclusion.patterns"/>
+        <property name="context-root" value="erp-distribution"/>
     </wb-module>
 </project-modules>
