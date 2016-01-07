@@ -39,25 +39,25 @@ public class ApPaymentVendorPembayaranModel extends CustomComponent{
 	private BukutransferJpaService bukuTransferService;
 	
 	//DAO PENDUKUNG	
-	public FtPurchaseh apInvoice = new FtPurchaseh();
-	public FtAppaymenth apPaymentHeader = new FtAppaymenth();
-	public FtAppaymentd apPaymentDetail = new FtAppaymentd();
+	private FtPurchaseh apInvoice = new FtPurchaseh();
+	private FtAppaymenth apPaymentHeader = new FtAppaymenth();
+	private FtAppaymentd apPaymentDetail = new FtAppaymentd();
 	
 	//BeanItem utama
-	public BeanItem<FtPurchaseh> beanItemArInvoice ;
-	public BeanItem<FtAppaymenth> beanItemArPaymentHeader;
-	public BeanItem<FtAppaymentd> beanItemArPaymentDetail;
+	private BeanItem<FtPurchaseh> beanItemArInvoice ;
+	private BeanItem<FtAppaymenth> beanItemArPaymentHeader;
+	private BeanItem<FtAppaymentd> beanItemArPaymentDetail;
 	//FOR COMBOBOX
 	
 	//######TIDAK DIGUNAKAN: BeanItemContainer Utama
-	public BeanItemContainer<FtPurchaseh> beanItemContainerApInvoice = new BeanItemContainer<FtPurchaseh>(FtPurchaseh.class);
-	public BeanItemContainer<FtAppaymenth> beanItemContainerApPaymentHeader = new BeanItemContainer<FtAppaymenth>(FtAppaymenth.class);
-	public BeanItemContainer<FtAppaymentd> beanItemContainerApPaymentDetail = new BeanItemContainer<FtAppaymentd>(FtAppaymentd.class);
+	private BeanItemContainer<FtPurchaseh> beanItemContainerApInvoice = new BeanItemContainer<FtPurchaseh>(FtPurchaseh.class);
+	private BeanItemContainer<FtAppaymenth> beanItemContainerApPaymentHeader = new BeanItemContainer<FtAppaymenth>(FtAppaymenth.class);
+	private BeanItemContainer<FtAppaymentd> beanItemContainerApPaymentDetail = new BeanItemContainer<FtAppaymentd>(FtAppaymentd.class);
 
 	//for combobox
-	public BeanItemContainer<Bukugiro> beanItemContainerBukuGiro = new BeanItemContainer<Bukugiro>(Bukugiro.class);
-	public BeanItemContainer<Bukutransfer> beanItemContainerBukuTransfer = new BeanItemContainer<Bukutransfer>(Bukutransfer.class);
-	public BeanItemContainer<FtPurchaseh> beanitemContainerReturBelumLunas = new BeanItemContainer<FtPurchaseh>(FtPurchaseh.class);
+	private BeanItemContainer<Bukugiro> beanItemContainerBukuGiro = new BeanItemContainer<Bukugiro>(Bukugiro.class);
+	private BeanItemContainer<Bukutransfer> beanItemContainerBukuTransfer = new BeanItemContainer<Bukutransfer>(Bukutransfer.class);
+	private BeanItemContainer<FtPurchaseh> beanitemContainerReturBelumLunas = new BeanItemContainer<FtPurchaseh>(FtPurchaseh.class);
 	
 	//VARIABLE PENDUKUNG
 	private boolean allowCloseWindow;

@@ -9,7 +9,6 @@ import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FtAppaymentdPK;
 import org.erp.distribution.model.FtArpaymentdPK;
 import org.erp.distribution.model.FtPurchaseh;
-import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
 import com.vaadin.data.Container.ItemSetChangeEvent;
@@ -240,13 +239,13 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 					try{
 						if ((Double) view.getFieldReturPay().getConvertedValue() <= 0){
 							double nilaiRetur = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmount();
+							double nilaiReturAfterPPn = Math.round(nilaiRetur + (nilaiRetur * model.getTransaksiHelper().getParamPpn()/100.0));
 							double nilaiReturRevisi = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
-							view.getFieldReturPay().setConvertedValue(nilaiRetur + nilaiReturRevisi);
+							view.getFieldReturPay().setConvertedValue(nilaiReturAfterPPn + nilaiReturRevisi);
 							
-							//Set Header Invoice
 							double nilaiAfter = Double.parseDouble(view.getFieldReturPay().getValue().replaceAll(",", ""));
 							view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("RETUR", nilaiAfter)));	
-
+							
 							setPenambahanPembayaran();
 							setInvoiceTerbayar();
 
@@ -507,10 +506,10 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 			model.setAllowCloseWindow(true);
 			
 		} else if (event.getButton()==view.getBtnReturBrowse()){
-			FtSalesh arinvoiceRetur = null;
+			FtPurchaseh arinvoiceRetur = null;
 			try{
-				arinvoiceRetur = new FtSalesh();
-				arinvoiceRetur = (FtSalesh) view.getComboRetur().getConvertedValue();
+				arinvoiceRetur = new FtPurchaseh();
+				arinvoiceRetur = (FtPurchaseh) view.getComboRetur().getConvertedValue();
 			} catch(Exception ex){}
 			
 			if (arinvoiceRetur != null){
@@ -708,12 +707,11 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 				arpaymentdetailPK.setRefnopayment(model.getApPaymentHeader().getRefno());
 				arpaymentdetailPK.setRefnopurchase(model.getApInvoice().getRefno());
 	//			arpaymentdetailPK.setDivision(divisionBean.getId());
-				model.apPaymentDetail.setId(arpaymentdetailPK);				
+				model.getApPaymentDetail().setId(arpaymentdetailPK);				
 	//			model.arPaymentDetail.setDivisionBean(divisionBean);
 				
-				
-				model.apPaymentDetail.setFtappaymenthBean(model.getApPaymentHeader());
-				model.apPaymentDetail.setFtpurchasehBean(model.getApInvoice());
+				model.getApPaymentDetail().setFtappaymenthBean(model.getApPaymentHeader());
+				model.getApPaymentDetail().setFtpurchasehBean(model.getApInvoice());
 			}
 			
 			//2. UPDATE DETAL	
@@ -725,8 +723,7 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 				Bukugiro newBukugiro = new Bukugiro();
 //				newBukugiro = model.getBukuGiroService().findById(model.getApPaymentDetail().getBukugiroBean().getRefno());				
 				newBukugiro.setAmountused(newBukugiro.getAmountused() + model.getApPaymentDetail().getGiroamountpay());
-				model.getBukuGiroService().updateObject(newBukugiro);
-				
+				model.getBukuGiroService().updateObject(newBukugiro);				
 			} catch(Exception ex){ 
 			}										
 			try{
@@ -739,7 +736,7 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 			
 			try{
 				FtPurchaseh newRetur = new FtPurchaseh();
-//				newRetur = model.getFtPurchasehJpaService().findById(model.getApPaymentDetail().getReturBean().getRefno());	
+				newRetur = model.getFtPurchasehJpaService().findById(model.getApPaymentDetail().getMrvBean().getRefno());	
 				newRetur.setAmountpay(newRetur.getAmountpay() + model.getApPaymentDetail().getMrvamountpay());
 				model.getFtPurchasehJpaService().updateObject(newRetur);
 			} catch(Exception ex){

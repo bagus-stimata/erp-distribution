@@ -454,7 +454,7 @@ ORDER BY
 		<variableExpression><![CDATA[($F{ftsalesd_SPRICE}/$F{fproduct_CONVFACT1}) + ($F{ftsalesd_SPRICE}/$F{fproduct_CONVFACT1}*0.1)]]></variableExpression>
 	</variable>
 	<variable name="product_name_pack" class="java.lang.String">
-		<variableExpression><![CDATA[$P{paramProductShortname}.equals(true)?($F{fproduct_SHORTNAME} + " " + $F{fproduct_SHORTPACKAGING}):($F{fproduct_PNAME} + " " + $F{fproduct_PACKAGING})]]></variableExpression>
+		<variableExpression><![CDATA[$F{fproduct_PNAME} + " " + $F{fproduct_PACKAGING}]]></variableExpression>
 	</variable>
 	<variable name="AMOUNT_AFTER_PPN" class="java.lang.Double">
 		<variableExpression><![CDATA[((double)Math.round($V{sprice_ppn})/$F{fproduct_CONVFACT1}) *$F{ftsalesd_QTY}]]></variableExpression>

@@ -286,7 +286,7 @@ public class ApPaymentVendorPresenter implements ClickListener, ValueChangeListe
 			//Tampil cuma jika di seleksi
 			//SOME TIMES yang null cuma ID aja :: CEK ULANG YA?
 			try{
-				if (! model.getItemDetail().getId().equals(null)){
+				if (model.getItemDetail().getId().getRefnopayment()!=null){
 					if (model.getItemHeader().getClosing()==false){
 						
 						//ARPAYMENT HEADER DAN ARPAYMENT DETAIL IKUT SELEKSI TABLE

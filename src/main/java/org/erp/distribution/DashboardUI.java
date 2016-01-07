@@ -253,6 +253,9 @@ import org.erp.distribution.purchaseorder.incomingstock.lapincomingstock.LapInco
 import org.erp.distribution.purchaseorder.retur.IncomingStockReturModel;
 import org.erp.distribution.purchaseorder.retur.IncomingStockReturPresenter;
 import org.erp.distribution.purchaseorder.retur.IncomingStockReturView;
+import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvModel;
+import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvPresenter;
+import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvView;
 import org.erp.distribution.salesorder.salesorder.SalesOrderModel;
 import org.erp.distribution.salesorder.salesorder.SalesOrderPresenter;
 import org.erp.distribution.salesorder.salesorder.SalesOrderView;
@@ -848,6 +851,15 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			IncomingStockReturPresenter objPresenter = new IncomingStockReturPresenter(objModel, objView);				
 			
 			workspace1.setCaption("MARKET RETURN VOUCHER/RETUR KE PRINCIPAL");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuPurchaseOrderRepMrv) {
+			LapMrvModel objModel = new LapMrvModel();
+			LapMrvView objView = new LapMrvView(objModel);
+			LapMrvPresenter objPresenter = new LapMrvPresenter(objModel, objView);				
+			
+			workspace1.setCaption("LAP Market Return Voucher (MRV)");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);

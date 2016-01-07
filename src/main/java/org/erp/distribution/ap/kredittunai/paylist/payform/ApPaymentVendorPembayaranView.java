@@ -292,11 +292,11 @@ public class ApPaymentVendorPembayaranView extends CustomComponent {
 	private InfoReturTransferGiroView infoReturTransferGiroView;	
 	private InfoReturTransferGiroPresenter infoReturTransferGiroPresenter;
 	
-	public void buildWindowInfoReturTransferGiro(FtSalesh arinvoiceRetur, Bukugiro bukuGiro, Bukutransfer bukuTransfer){
+	public void buildWindowInfoReturTransferGiro(FtPurchaseh arinvoiceRetur, Bukugiro bukuGiro, Bukutransfer bukuTransfer){
 		VerticalLayout layout = new VerticalLayout();
 		
 		if (arinvoiceRetur !=null){
-			infoReturTransferGiroModel = new InfoReturTransferGiroModel(arinvoiceRetur);
+//			infoReturTransferGiroModel = new InfoReturTransferGiroModel(arinvoiceRetur);
 		} else if (bukuGiro != null){
 			infoReturTransferGiroModel = new InfoReturTransferGiroModel(bukuGiro);			
 		} else if (bukuTransfer !=null){

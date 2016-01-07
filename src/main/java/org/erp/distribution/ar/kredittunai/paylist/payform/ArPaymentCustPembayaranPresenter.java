@@ -239,13 +239,13 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 					try{
 						if ((Double) view.getFieldReturPay().getConvertedValue() <= 0){
 							double nilaiRetur = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmount();
+							double nilaiReturAfterPPn = Math.round(nilaiRetur + (nilaiRetur * model.getTransaksiHelper().getParamPpn()/100.0));
 							double nilaiReturRevisi = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
-							view.getFieldReturPay().setConvertedValue(nilaiRetur + nilaiReturRevisi);
+							view.getFieldReturPay().setConvertedValue(nilaiReturAfterPPn + nilaiReturRevisi);
 
-							//Set Header Invoice
 							double nilaiAfter = Double.parseDouble(view.getFieldReturPay().getValue().replaceAll(",", ""));
 							view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("RETUR", nilaiAfter)));	
-
+							
 							setPenambahanPembayaran();
 							setInvoiceTerbayar();
 							
@@ -411,8 +411,10 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			FtSalesh cekRetur = new FtSalesh();
 			double toleransiAmountAvailable = 1;
 			cekRetur = model.getBeanitemContainerReturBelumLunas().getItem(itemId).getBean();
+
+			double amountAfterPpn = Math.round((cekRetur.getAmount() + (cekRetur.getAmount()*model.getTransaksiHelper().getParamPpn())));
 			String identitas = cekRetur.getInvoiceno() + " - " +  cekRetur.getFcustomerBean().getCustname();
-			double amountAvailable = cekRetur.getAmount() + cekRetur.getAmountrevisi() - cekRetur.getAmountpay();
+			double amountAvailable = amountAfterPpn + cekRetur.getAmountrevisi() - cekRetur.getAmountpay();
 			double amountReturPayBefore = model.getArPaymentDetail().getReturamountpay();
 			double amountReturPayAfter = (Double) view.getFieldReturPay().getConvertedValue();
 			
@@ -422,10 +424,10 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			nf.setMaximumFractionDigits(0);
 			nf.setMinimumFractionDigits(0);
 			
-			if ((amountAvailable+toleransiAmountAvailable) < amountReturPayPenambahan){
-				error = -1;
-				Notification.show("Sisa plafon RETUR " + identitas + " = Rp. " + nf.format(amountAvailable), Notification.TYPE_TRAY_NOTIFICATION);
-			}
+//			if ((amountAvailable+toleransiAmountAvailable) < amountReturPayPenambahan){
+//				error = -1;
+//				Notification.show("Sisa plafon RETUR " + identitas + " = Rp. " + nf.format(amountAvailable), Notification.TYPE_TRAY_NOTIFICATION);
+//			}
 		} catch(Exception ex){
 			//BERARTI GAK PAKE
 		}
@@ -710,7 +712,6 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 				model.arPaymentDetail.setId(arpaymentdetailPK);				
 	//			model.arPaymentDetail.setDivisionBean(divisionBean);
 				
-				
 				model.arPaymentDetail.setFtarpaymenthBean(model.getArPaymentHeader());
 				model.arPaymentDetail.setFtsaleshBean(model.getArInvoice());
 			}
@@ -743,8 +744,6 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 				model.getArInvoiceService().updateObject(newRetur);
 			} catch(Exception ex){
 			}
-			
-			
 			
 			//3. Update ArInvoice
 			try{

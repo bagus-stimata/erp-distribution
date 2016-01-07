@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="581" leftMargin="7" rightMargin="7" topMargin="20" bottomMargin="20" uuid="a8489a6d-d737-435b-96fb-5709a5d08d71">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="2"/>
+	<parameter name="paramInvoicedateFrom" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramInvoicedateTo" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramProductGroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramVendor" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT DISTINCT
+     ftpurchased.`DISC1` AS ftpurchased_DISC1,
+     ftpurchased.`DISC2` AS ftpurchased_DISC2,
+     ftpurchased.`NOURUT` AS ftpurchased_NOURUT,
+     ftpurchased.`PPRICE` AS ftpurchased_PPRICE,
+     ftpurchased.`QTY` AS ftpurchased_QTY,
+     ftpurchased.`id` AS ftpurchased_id,
+     ftpurchased.`refno` AS ftpurchased_refno,
+     ftpurchaseh.`REFNO` AS ftpurchaseh_REFNO,
+     ftpurchaseh.`AMOUNT` AS ftpurchaseh_AMOUNT,
+     ftpurchaseh.`AMOUNTAFTERDISC` AS ftpurchaseh_AMOUNTAFTERDISC,
+     ftpurchaseh.`AMOUNTAFTERDISCAFTERPPN` AS ftpurchaseh_AMOUNTAFTERDISCAFTERPPN,
+     ftpurchaseh.`AMOUNTPAY` AS ftpurchaseh_AMOUNTPAY,
+     ftpurchaseh.`DISC` AS ftpurchaseh_DISC,
+     ftpurchaseh.`DISC1` AS ftpurchaseh_DISC1,
+     ftpurchaseh.`DISC2` AS ftpurchaseh_DISC2,
+     ftpurchaseh.`ENDOFDAY` AS ftpurchaseh_ENDOFDAY,
+     ftpurchaseh.`INVOICEDATE` AS ftpurchaseh_INVOICEDATE,
+     ftpurchaseh.`INVOICENO` AS ftpurchaseh_INVOICENO,
+     ftpurchaseh.`NOPO` AS ftpurchaseh_NOPO,
+     ftpurchaseh.`PODATE` AS ftpurchaseh_PODATE,
+     ftpurchaseh.`PPNPERCENT` AS ftpurchaseh_PPNPERCENT,
+     ftpurchaseh.`PRINTCOUNTER` AS ftpurchaseh_PRINTCOUNTER,
+     ftpurchaseh.`SALDO` AS ftpurchaseh_SALDO,
+     ftpurchaseh.`TIPEFAKTUR` AS ftpurchaseh_TIPEFAKTUR,
+     ftpurchaseh.`fvendorBean` AS ftpurchaseh_fvendorBean,
+     ftpurchaseh.`fwarehouseBean` AS ftpurchaseh_fwarehouseBean,
+     fvendor.`ID` AS fvendor_ID,
+     fvendor.`ADDRESS1` AS fvendor_ADDRESS1,
+     fvendor.`CITY1` AS fvendor_CITY1,
+     fvendor.`EMAIL` AS fvendor_EMAIL,
+     fvendor.`NPWP` AS fvendor_NPWP,
+     fvendor.`PHONE` AS fvendor_PHONE,
+     fvendor.`STATE1` AS fvendor_STATE1,
+     fvendor.`VCODE` AS fvendor_VCODE,
+     fvendor.`VNAME` AS fvendor_VNAME,
+     fproduct.`ID` AS fproduct_ID,
+     fproduct.`BARCODE` AS fproduct_BARCODE,
+     fproduct.`CONVFACT1` AS fproduct_CONVFACT1,
+     fproduct.`CONVFACT2` AS fproduct_CONVFACT2,
+     fproduct.`DISTCODE` AS fproduct_DISTCODE,
+     fproduct.`PACKAGING` AS fproduct_PACKAGING,
+     fproduct.`PCODE` AS fproduct_PCODE,
+     fproduct.`PNAME` AS fproduct_PNAME,
+     fproduct.`PPRICE` AS fproduct_PPRICE,
+     fproduct.`PPRICE2` AS fproduct_PPRICE2,
+     fproduct.`PRODCLASS` AS fproduct_PRODCLASS,
+     fproduct.`SHORTCODE` AS fproduct_SHORTCODE,
+     fproduct.`SHORTNAME` AS fproduct_SHORTNAME,
+     fproduct.`SHORTPACKAGING` AS fproduct_SHORTPACKAGING,
+     fproduct.`SPRICE` AS fproduct_SPRICE,
+     fproduct.`SPRICE2` AS fproduct_SPRICE2,
+     fproduct.`STATUSACTIVE` AS fproduct_STATUSACTIVE,
+     fproduct.`UOM1` AS fproduct_UOM1,
+     fproduct.`UOM2` AS fproduct_UOM2,
+     fproduct.`UOM3` AS fproduct_UOM3,
+     fproduct.`WEIGHT` AS fproduct_WEIGHT,
+     fproduct.`fproductgroupBean` AS fproduct_fproductgroupBean,
+     fproduct.`PPRICE2AFTERPPN` AS fproduct_PPRICE2AFTERPPN,
+     fproduct.`PPRICEAFTERPPN` AS fproduct_PPRICEAFTERPPN,
+     fproduct.`SPRICE2AFTERPPN` AS fproduct_SPRICE2AFTERPPN,
+     fproduct.`SPRICEAFTERPPN` AS fproduct_SPRICEAFTERPPN,
+     fproduct.`SUPPLIER` AS fproduct_SUPPLIER,
+     fproductgroup.`ID` AS fproductgroup_ID,
+     fproductgroup.`DESCRIPTION` AS fproductgroup_DESCRIPTION,
+     fproductgroup.`DISC` AS fproductgroup_DISC,
+     fproductgroup.`fproductgroupdeptBean` AS fproductgroup_fproductgroupdeptBean,
+     fproductgroup.`fproductgroupdivisiBean` AS fproductgroup_fproductgroupdivisiBean
+FROM
+     `ftpurchaseh` ftpurchaseh RIGHT OUTER JOIN `ftpurchased` ftpurchased ON ftpurchaseh.`REFNO` = ftpurchased.`refno`
+     LEFT OUTER JOIN `fvendor` fvendor ON ftpurchaseh.`fvendorBean` = fvendor.`ID`
+     LEFT OUTER JOIN `fproduct` fproduct ON ftpurchased.`id` = fproduct.`ID`
+     LEFT OUTER JOIN `fproductgroup` fproductgroup ON fproduct.`fproductgroupBean` = fproductgroup.`ID`
+WHERE
+     NOT ftpurchaseh.`NOPO` LIKE "New"
+ AND ftpurchaseh.`INVOICEDATE` BETWEEN $P{paramInvoicedateFrom} AND $P{paramInvoicedateTo}
+ AND fproduct.`fproductgroupBean` LIKE $P{paramProductGroup}
+ AND ftpurchaseh.`TIPEFAKTUR` LIKE "R"
+ AND ftpurchaseh.`fvendorBean` LIKE $P{paramVendor}
+ORDER BY
+     fvendor.`ID` ASC,
+     fproductgroup.`ID` ASC,
+     fproduct.`PCODE` ASC]]>
+	</queryString>
+	<field name="ftpurchased_DISC1" class="java.lang.Double"/>
+	<field name="ftpurchased_DISC2" class="java.lang.Double"/>
+	<field name="ftpurchased_NOURUT" class="java.lang.Integer"/>
+	<field name="ftpurchased_PPRICE" class="java.lang.Double"/>
+	<field name="ftpurchased_QTY" class="java.lang.Integer"/>
+	<field name="ftpurchased_id" class="java.lang.Long"/>
+	<field name="ftpurchased_refno" class="java.lang.Long"/>
+	<field name="ftpurchaseh_REFNO" class="java.lang.Long"/>
+	<field name="ftpurchaseh_AMOUNT" class="java.lang.Double"/>
+	<field name="ftpurchaseh_AMOUNTAFTERDISC" class="java.lang.Double"/>
+	<field name="ftpurchaseh_AMOUNTAFTERDISCAFTERPPN" class="java.lang.Double"/>
+	<field name="ftpurchaseh_AMOUNTPAY" class="java.lang.Double"/>
+	<field name="ftpurchaseh_DISC" class="java.lang.Double"/>
+	<field name="ftpurchaseh_DISC1" class="java.lang.Double"/>
+	<field name="ftpurchaseh_DISC2" class="java.lang.Double"/>
+	<field name="ftpurchaseh_ENDOFDAY" class="java.lang.Boolean"/>
+	<field name="ftpurchaseh_INVOICEDATE" class="java.sql.Date"/>
+	<field name="ftpurchaseh_INVOICENO" class="java.lang.String"/>
+	<field name="ftpurchaseh_NOPO" class="java.lang.String"/>
+	<field name="ftpurchaseh_PODATE" class="java.sql.Date"/>
+	<field name="ftpurchaseh_PPNPERCENT" class="java.lang.Double"/>
+	<field name="ftpurchaseh_PRINTCOUNTER" class="java.lang.Integer"/>
+	<field name="ftpurchaseh_SALDO" class="java.lang.Boolean"/>
+	<field name="ftpurchaseh_TIPEFAKTUR" class="java.lang.String"/>
+	<field name="ftpurchaseh_fvendorBean" class="java.lang.Long"/>
+	<field name="ftpurchaseh_fwarehouseBean" class="java.lang.String"/>
+	<field name="fvendor_ID" class="java.lang.Long"/>
+	<field name="fvendor_ADDRESS1" class="java.lang.String"/>
+	<field name="fvendor_CITY1" class="java.lang.String"/>
+	<field name="fvendor_EMAIL" class="java.lang.String"/>
+	<field name="fvendor_NPWP" class="java.lang.String"/>
+	<field name="fvendor_PHONE" class="java.lang.String"/>
+	<field name="fvendor_STATE1" class="java.lang.String"/>
+	<field name="fvendor_VCODE" class="java.lang.String"/>
+	<field name="fvendor_VNAME" class="java.lang.String"/>
+	<field name="fproduct_ID" class="java.lang.Long"/>
+	<field name="fproduct_BARCODE" class="java.lang.String"/>
+	<field name="fproduct_CONVFACT1" class="java.lang.Integer"/>
+	<field name="fproduct_CONVFACT2" class="java.lang.Integer"/>
+	<field name="fproduct_DISTCODE" class="java.lang.String"/>
+	<field name="fproduct_PACKAGING" class="java.lang.String"/>
+	<field name="fproduct_PCODE" class="java.lang.String"/>
+	<field name="fproduct_PNAME" class="java.lang.String"/>
+	<field name="fproduct_PPRICE" class="java.lang.Double"/>
+	<field name="fproduct_PPRICE2" class="java.lang.Double"/>
+	<field name="fproduct_PRODCLASS" class="java.lang.Integer"/>
+	<field name="fproduct_SHORTCODE" class="java.lang.String"/>
+	<field name="fproduct_SHORTNAME" class="java.lang.String"/>
+	<field name="fproduct_SHORTPACKAGING" class="java.lang.String"/>
+	<field name="fproduct_SPRICE" class="java.lang.Double"/>
+	<field name="fproduct_SPRICE2" class="java.lang.Double"/>
+	<field name="fproduct_STATUSACTIVE" class="java.lang.Boolean"/>
+	<field name="fproduct_UOM1" class="java.lang.String"/>
+	<field name="fproduct_UOM2" class="java.lang.String"/>
+	<field name="fproduct_UOM3" class="java.lang.String"/>
+	<field name="fproduct_WEIGHT" class="java.lang.Double"/>
+	<field name="fproduct_fproductgroupBean" class="java.lang.String"/>
+	<field name="fproduct_PPRICE2AFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_PPRICEAFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_SPRICE2AFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_SPRICEAFTERPPN" class="java.lang.Double"/>
+	<field name="fproduct_SUPPLIER" class="java.lang.String"/>
+	<field name="fproductgroup_ID" class="java.lang.String"/>
+	<field name="fproductgroup_DESCRIPTION" class="java.lang.String"/>
+	<field name="fproductgroup_DISC" class="java.lang.Double"/>
+	<field name="fproductgroup_fproductgroupdeptBean" class="java.lang.String"/>
+	<field name="fproductgroup_fproductgroupdivisiBean" class="java.lang.String"/>
+	<variable name="amount_after_ppn" class="java.lang.Double" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[$F{ftpurchaseh_AMOUNT} + ($F{ftpurchaseh_AMOUNT}*0.1)]]></variableExpression>
+	</variable>
+	<variable name="disc1_nota_ppn" class="java.lang.Double" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[($V{amount_after_ppn}*$F{ftpurchaseh_DISC1}/100)]]></variableExpression>
+	</variable>
+	<variable name="disc_nota_ppn" class="java.lang.Double" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[($V{amount_after_ppn}-$V{disc1_nota_ppn}) *$F{ftpurchaseh_DISC}/100]]></variableExpression>
+	</variable>
+	<variable name="sum_disc_nota_ppn" class="java.lang.Double" resetType="None" calculation="Sum">
+		<initialValueExpression><![CDATA[$V{disc1_nota_ppn}+$V{disc_nota_ppn}]]></initialValueExpression>
+	</variable>
+	<variable name="penjualan_after_ppn" class="java.lang.Double" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[$F{ftpurchaseh_AMOUNTAFTERDISCAFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="dpp_nota" class="java.lang.Double" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[$F{ftpurchaseh_AMOUNTAFTERDISCAFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="ppn_nota" class="java.lang.Double" resetType="None" calculation="Sum">
+		<variableExpression><![CDATA[$F{ftpurchaseh_AMOUNTAFTERDISCAFTERPPN}- ($F{ftpurchaseh_AMOUNTAFTERDISCAFTERPPN}/1.1)]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="NAMA_PRODUCT_WITH_PACKAGING" class="java.lang.String">
+		<variableExpression><![CDATA[$F{fproduct_PNAME} + "  " + $F{fproduct_PACKAGING}]]></variableExpression>
+	</variable>
+	<variable name="qty_bes" class="java.lang.Integer">
+		<variableExpression><![CDATA[$F{ftpurchased_QTY}/$F{fproduct_CONVFACT1}]]></variableExpression>
+	</variable>
+	<variable name="qty_sed" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{ftpurchased_QTY}%$F{fproduct_CONVFACT1})/$F{fproduct_CONVFACT2}]]></variableExpression>
+	</variable>
+	<variable name="qty_kec" class="java.lang.Integer">
+		<variableExpression><![CDATA[(($F{ftpurchased_QTY}%$F{fproduct_CONVFACT1})%$F{fproduct_CONVFACT2})]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($F{ftpurchased_PPRICE}/$F{fproduct_CONVFACT1} *$F{ftpurchased_QTY})+(($F{ftpurchased_PPRICE}/$F{fproduct_CONVFACT1} *$F{ftpurchased_QTY})*0.1)]]></variableExpression>
+	</variable>
+	<variable name="DISC1_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERPPN} * ($F{ftpurchased_DISC1}/100)]]></variableExpression>
+	</variable>
+	<variable name="DISC_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{AMOUNT_AFTERPPN}-$V{DISC1_AFTERPPN}) * ($F{ftpurchased_DISC2}/100)]]></variableExpression>
+	</variable>
+	<variable name="SUMDISC_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{DISC1_AFTERPPN}+$V{DISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_AFTERDISC_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERPPN}-$V{SUMDISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="DISC1_NOTA_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERDISC_AFTERPPN}*($F{ftpurchaseh_DISC1}/100)]]></variableExpression>
+	</variable>
+	<variable name="DISC_NOTA_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[($V{AMOUNT_AFTERDISC_AFTERPPN}-$V{DISC1_NOTA_AFTERPPN})*($F{ftpurchaseh_DISC}/100)]]></variableExpression>
+	</variable>
+	<variable name="SUMDISC_NOTA_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{DISC1_NOTA_AFTERPPN}+$V{DISC_NOTA_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_NOTA_AFTERDISC_AFTERPPN" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERDISC_AFTERPPN}-$V{SUMDISC_NOTA_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_BRUTO1" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="DISC_PERBARANG1" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_AFTERDISC_AFTERPPN1" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_NOTA_AFTERDISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="DISC_NOTA1" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_NOTA_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="PENJUALAN_AFTERPPN1" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_NOTA_AFTERDISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="DPP1" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{PENJUALAN_AFTERPPN1}/1.1]]></variableExpression>
+	</variable>
+	<variable name="PPN1" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{PENJUALAN_AFTERPPN1}-$V{DPP1}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_BRUTO2" class="java.lang.Double" resetType="Group" resetGroup="GRUP_VENDOR" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="DISC_PERBARANG2" class="java.lang.Double" resetType="Group" resetGroup="GRUP_VENDOR" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="DISC_NOTA2" class="java.lang.Double" resetType="Group" resetGroup="GRUP_VENDOR" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_NOTA_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="PENJUALAN_AFTERPPN2" class="java.lang.Double" resetType="Group" resetGroup="GRUP_VENDOR" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_NOTA_AFTERDISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="DPP2" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{PENJUALAN_AFTERPPN2}/1.1]]></variableExpression>
+	</variable>
+	<variable name="PPN2" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{PENJUALAN_AFTERPPN2}-$V{DPP2}]]></variableExpression>
+	</variable>
+	<variable name="qty1" class="java.lang.Integer" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{ftpurchased_QTY}]]></variableExpression>
+	</variable>
+	<variable name="qty_bes1" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{qty1}/$F{fproduct_CONVFACT1}]]></variableExpression>
+	</variable>
+	<variable name="qty_sed1" class="java.lang.Integer">
+		<variableExpression><![CDATA[($V{qty1}%$F{fproduct_CONVFACT1})/$F{fproduct_CONVFACT2}]]></variableExpression>
+	</variable>
+	<variable name="qty_kec1" class="java.lang.Integer">
+		<variableExpression><![CDATA[(($V{qty1}%$F{fproduct_CONVFACT1})%$F{fproduct_CONVFACT2})]]></variableExpression>
+	</variable>
+	<variable name="sumAfterdiscAfterppn1" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{ftpurchaseh_AMOUNTAFTERDISCAFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_BRUTO1_BEFORE_PPN" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="DISC_PERBARANG1_BEFORE_PPN" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="DISC_NOTA1_BEFORE_PPN" class="java.lang.Double" resetType="Group" resetGroup="fproduct_ID_GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_NOTA_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_BRUTO2_BEFORE_PPN" class="java.lang.Double" resetType="Group" resetGroup="GRUP_VENDOR" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="DISC_PERBARANG2_BEFORE_PPN" class="java.lang.Double" resetType="Group" resetGroup="GRUP_VENDOR" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="DISC_NOTA2_BEFORE_PPN" class="java.lang.Double" resetType="Group" resetGroup="GRUP_VENDOR" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_NOTA_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="PENJUALAN_AFTERPPN3" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_NOTA_AFTERDISC_AFTERPPN}]]></variableExpression>
+	</variable>
+	<variable name="DPP3" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{PENJUALAN_AFTERPPN3}/1.1]]></variableExpression>
+	</variable>
+	<variable name="PPN3" class="java.lang.Double">
+		<variableExpression><![CDATA[$V{PENJUALAN_AFTERPPN3}-$V{DPP3}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_BRUTO3_BEFORE_PPN" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{AMOUNT_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="DISC_PERBARANG3_BEFORE_PPN" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<variable name="DISC_NOTA3_BEFORE_PPN" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{SUMDISC_NOTA_AFTERPPN}/1.1]]></variableExpression>
+	</variable>
+	<group name="GRUP_VENDOR">
+		<groupExpression><![CDATA[$F{fvendor_ID}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField>
+					<reportElement x="1" y="2" width="50" height="13" uuid="633ed1fd-d963-41dc-b6b9-80ed8f4a001b"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fvendor_VCODE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="53" y="2" width="133" height="13" uuid="168fe46f-8f9b-4464-9eec-1021cdba38ba"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fvendor_VNAME}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="27">
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="512" y="7" width="65" height="15" uuid="7bf0eda5-85c7-48c6-9e6c-8a51e3dd842b"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PENJUALAN_AFTERPPN2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="462" y="7" width="50" height="15" uuid="b5938662-594a-4910-bab1-2fba45ef230d"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PPN2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="405" y="7" width="57" height="15" uuid="7de35085-7208-42d0-bd49-cde73e54d235"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DPP2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="311" y="7" width="45" height="15" uuid="3831f82d-0924-4e7b-ac00-b8d3c33c0666"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DISC_PERBARANG2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="360" y="7" width="45" height="15" uuid="db5ba67a-cb29-43be-ba1c-ef3e197e9c03"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DISC_NOTA2}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="7" y="3" width="570" height="1" uuid="31934ed2-d700-4beb-af7b-005b7c01c892"/>
+				</line>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="257" y="7" width="55" height="15" uuid="2f57580f-6f7d-4573-aa92-2b7978834ab5"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_BRUTO2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="PER_GRUPBARANG">
+		<groupExpression><![CDATA[$F{fproduct_fproductgroupBean}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField>
+					<reportElement x="63" y="2" width="50" height="13" uuid="848477f7-c606-47d6-8c98-002fcc3a0497"/>
+					<textElement>
+						<font isBold="false" isItalic="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fproductgroup_ID}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="118" y="2" width="138" height="13" uuid="0bdc1d1b-7280-4320-a94e-3431600e287a"/>
+					<textElement>
+						<font isBold="false" isItalic="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fproductgroup_DESCRIPTION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="2" y="2" width="60" height="13" uuid="5f04461f-42b8-44ec-9b4d-8c0ab07e4a5a"/>
+					<textElement textAlignment="Left">
+						<font size="10" isBold="false" isItalic="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[#GROUP :]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="fproduct_ID_GRUP">
+		<groupExpression><![CDATA[$F{fproduct_ID}]]></groupExpression>
+		<groupFooter>
+			<band height="13">
+				<textField>
+					<reportElement x="0" y="0" width="52" height="13" uuid="00c4c845-d9d4-4341-8380-4a95b0ab0c6e"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fproduct_PCODE}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="186" y="0" width="30" height="13" uuid="5107d714-3325-4441-a2f7-903d9ee7e74c"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{qty_bes1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="215" y="0" width="20" height="13" uuid="cc8d6b99-d420-4b88-80da-6f361cc89b19"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{qty_sed1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="236" y="0" width="20" height="13" uuid="422bb784-ed30-49b9-b8eb-68ebfa11ccb2"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{qty_kec1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="51" y="0" width="135" height="13" uuid="ecac661b-366b-43cd-85a2-41ebb00e2e70"/>
+					<textElement>
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{NAMA_PRODUCT_WITH_PACKAGING}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="403" y="0" width="60" height="13" uuid="6369c51c-11d3-4a8a-ae2e-285116ee16d5"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DPP1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="465" y="0" width="50" height="13" uuid="94fc51da-a12b-4414-8112-65fed93badf8"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PPN1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="517" y="0" width="60" height="13" uuid="af00556e-0075-426a-adcc-f798b6c46381"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PENJUALAN_AFTERPPN1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="311" y="0" width="45" height="13" uuid="62cc5ed3-7993-4021-944d-f117b6ed866b"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DISC_PERBARANG1_BEFORE_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="357" y="0" width="45" height="13" uuid="4d60152b-483b-414b-8549-3cd2b120d011"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{DISC_NOTA1_BEFORE_PPN}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="255" y="0" width="55" height="13" uuid="de0d0cfc-d498-4ece-aaea-a5ddcd957562"/>
+					<textElement textAlignment="Right">
+						<font size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_BRUTO1_BEFORE_PPN}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="575" height="20" uuid="25da781d-4f59-4d84-b63a-44ed0881f7b8"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN MARKET RETURN VOUCER (MRV)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="27" width="61" height="20" uuid="32c75e27-4aa6-473d-85de-97ad858f3adb"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal: ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="62" y="27" width="63" height="20" uuid="b416f322-fb24-404d-8a2d-05139f988ccf"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramInvoicedateFrom}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="128" y="27" width="33" height="20" uuid="a9817775-4022-4b67-8431-6ce0df4f1fa7"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[S.D]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="163" y="27" width="100" height="20" uuid="1da00934-6df4-43af-9c4c-c7dd98d9ef3f"/>
+				<textElement>
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paramInvoicedateTo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-6" y="-14" width="41" height="15" uuid="eb4ce5f2-15da-41d4-a412-472dfc1f3797"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Printed]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="35" y="-14" width="100" height="15" uuid="c86796df-0608-44f4-8b85-f6c72a242790"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="10" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="43" height="15" uuid="8a2b0b56-d67d-4a89-a5b6-d95871893d65"/>
+				<textElement>
+					<font isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[KODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="1" width="156" height="15" uuid="0d6a5a14-d9c5-4988-98ac-8922b2651ada"/>
+				<textElement>
+					<font isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[NAMA BARANG]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="18" width="570" height="1" uuid="f6ac6491-d90e-4387-a72a-a16844d3e64d"/>
+			</line>
+			<staticText>
+				<reportElement x="203" y="1" width="82" height="15" uuid="94395e53-d95c-499d-80ec-b71380cb3135"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[JUMLAH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="329" y="1" width="37" height="15" uuid="1d559994-baf4-4706-bf65-e98a9d5de426"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Dis Barang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="366" y="1" width="39" height="15" uuid="160019dd-ecde-4710-845e-01cd75085419"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Disc Nota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="1" width="39" height="15" uuid="5a6c33ea-3582-4825-b0e5-606373cbdfb4"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DPP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="1" width="39" height="15" uuid="9e8d2353-8d38-46ae-89a5-35557334bf59"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[PPN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="1" width="61" height="15" uuid="8796d631-9c29-4821-a99a-b2b4228eed51"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DPP+PPN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="1" width="37" height="15" uuid="a3b07ab0-fe30-4622-afae-110d1566ed47"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Bruto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="31" splitType="Stretch">
+			<line>
+				<reportElement x="5" y="3" width="570" height="1" uuid="792c279d-fcc4-4249-9fcf-ede5e7474f0e"/>
+			</line>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="511" y="8" width="65" height="15" uuid="cee2386f-8eb1-4818-9cbd-370885b190bc"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PENJUALAN_AFTERPPN3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="460" y="8" width="50" height="15" uuid="86eddf9a-b391-4281-826b-d73a3a51db74"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PPN3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="405" y="8" width="54" height="15" uuid="f0a158a1-542c-43fc-8801-a40e0527fca7"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DPP3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="255" y="8" width="55" height="15" uuid="737177a2-d32d-44b6-82d5-970bdef38a66"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_BRUTO3_BEFORE_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="312" y="8" width="45" height="15" uuid="8d5b6ff4-3854-485b-9633-a8a22c5d60c9"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DISC_PERBARANG3_BEFORE_PPN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="358" y="8" width="45" height="15" uuid="b22de833-79dc-41ba-8c44-8a6b3439353a"/>
+				<textElement textAlignment="Right">
+					<font pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DISC_NOTA3_BEFORE_PPN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="8" width="156" height="15" uuid="851f87dd-ec0b-4190-b552-dcc2a7b66388"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="5" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="9" splitType="Stretch"/>
+	</summary>
+</jasperReport>

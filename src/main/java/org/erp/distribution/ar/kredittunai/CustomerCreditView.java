@@ -529,7 +529,7 @@ public class CustomerCreditView extends CustomComponent {
 //				"spname", "custname", "divisionBean", "customerBean", 
 //				"disc3", "lockupdate", "orderdate");
 		
-		setVisibleTableProperties("selected", "refno", "recapno", "invoiceno",  "tunaikredit", "invoicedate", "top", "duedate", 
+		setVisibleTableProperties("selected", "refno", "recapno", "invoiceno", "tipefaktur",  "tunaikredit", "invoicedate", "top", "duedate", 
 				"suratjalanno", "amountafterdiscafterppn", "amountpay", "fsalesmanBean", "fcustomerBean");
 		
 		table.setColumnCollapsingAllowed(true);
@@ -548,6 +548,7 @@ public class CustomerCreditView extends CustomComponent {
 		table.setColumnAlignment("amountafterdiscafterppn", Align.RIGHT);
 		table.setColumnAlignment("amountpay", Align.RIGHT);
 		table.setColumnAlignment("lunas", Align.CENTER);
+		table.setColumnAlignment("tipefaktur", Align.CENTER);
 		
 		//set header
 		table.setColumnHeader("selected", "<input type='checkbox'/>");
@@ -561,6 +562,7 @@ public class CustomerCreditView extends CustomComponent {
 		table.setColumnHeader("customerBean", "CUST ACTUAL");
 		table.setColumnHeader("tertundacounter", "TT");
 		table.setColumnHeader("terkirim", "KIRIM");
+		table.setColumnHeader("tipefaktur", "F/R");
 		table.setColumnHeader("tunaikredit", "T/K");
 		table.setColumnHeader("lunas", "LNS");
 		table.setColumnHeader("term", "TOP");

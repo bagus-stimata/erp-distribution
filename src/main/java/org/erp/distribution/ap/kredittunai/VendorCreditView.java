@@ -487,7 +487,7 @@ public class VendorCreditView extends CustomComponent {
 //				"spname", "custname", "divisionBean", "customerBean", 
 //				"disc3", "lockupdate", "orderdate");
 		
-		setVisibleTableProperties("selected", "refno", "nopo","invoiceno","invoicedate","duedate", 
+		setVisibleTableProperties("selected", "refno", "nopo","invoiceno", "tipefaktur", "invoicedate","duedate", 
 				"fvendorBean", "amountafterdiscafterppn",
 				"amountpay", "fwarehouseBean.id", "lunas", "endofday");
 		
@@ -507,6 +507,7 @@ public class VendorCreditView extends CustomComponent {
 		table.setColumnAlignment("amountafterdiscafterppn", Align.RIGHT);
 		table.setColumnAlignment("amountpay", Align.RIGHT);
 		table.setColumnAlignment("lunas", Align.CENTER);
+		table.setColumnAlignment("tipefaktur", Align.CENTER);
 		
 		//set header
 		table.setColumnHeader("selected", "<input type='checkbox'/>");
@@ -520,6 +521,7 @@ public class VendorCreditView extends CustomComponent {
 		table.setColumnHeader("fwarehouseBean.id", "GUDANG");
 		table.setColumnHeader("lunas", "lunas");
 		table.setColumnHeader("endofday", "endofday");
+		table.setColumnHeader("tipefaktur", "F/R");
 		
 		
 //		table.setColumnExpandRatio("selected", 2);

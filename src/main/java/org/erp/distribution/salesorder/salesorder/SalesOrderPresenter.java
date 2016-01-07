@@ -1009,6 +1009,12 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			view.setDisplayTableFooterList();
 			view.setFormButtonAndTextState();
 			
+			
+			//#####***SEMENTARA:: TIDAK DISARANKAN BANGET
+			view.getBtnEditForm().click();
+			view.getBtnSaveForm().click();
+			
+			System.out.println("tambahan");
 		}
 	}
 	public void saveFormEditing(){
@@ -1033,7 +1039,6 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			view.setDisplayTableFooterList();
 			view.setFormButtonAndTextState();
 			
-			//UPDATE STOK EDITING LANGSUNG SAAT TAMBAH
 		}
 	}
 	
