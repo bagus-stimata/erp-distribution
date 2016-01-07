@@ -248,7 +248,7 @@ public class ApPaymentVendorPembayaranView extends CustomComponent {
 		binderArpaymentDetail.bind(fieldCashPay, "cashamountpay");
 		
 		binderArpaymentDetail.bind(fieldReturPay, "mrvamountpay");
-//		binderArpaymentDetail.bind(comboRetur, "returBean");
+		binderArpaymentDetail.bind(comboRetur, "mrvBean");
 		
 		binderArpaymentDetail.bind(fieldGiroPay, "giroamountpay");
 //		binderArpaymentDetail.bind(comboGiro, "bukugiroBean");

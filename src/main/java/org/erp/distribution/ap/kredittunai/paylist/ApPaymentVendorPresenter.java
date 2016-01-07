@@ -364,32 +364,32 @@ public class ApPaymentVendorPresenter implements ClickListener, ValueChangeListe
 //                    			newBukuTransfer.setAmountused(newBukuTransfer.getAmountused() - model.getItemDetail().getTransferamountpay());
 //                    			model.getBukutransferService().updateObject(newBukuTransfer);
 //                    		}
-//                    		
-//                    		//KURANGI RETUR SENILAI YANG DIHAPUS
-//                    		if (model.getItemDetail().getReturBean() != null) {
-//                    			//KURANGI TRANSFER DAN UPDATE KE DATABASE
-//                    			FtSalesh newArinvoiceRetur = new FtSalesh();
-//                    			newArinvoiceRetur = model.getItemDetail().getReturBean();
-//                    			newArinvoiceRetur.setAmountpay(newArinvoiceRetur.getAmountpay() - model.getItemDetail().getReturamountpay());
-//                    			model.getArInvoiceService().updateObject(newArinvoiceRetur);
-//                    		}
-//                    		
-//                    		System.out.println("REFNO AND DIVISION: " + model.getItemHeader().getRefno() + " : " );
-//                    		
-//                    		model.getBeanItemContainerDetail().removeItem(model.getItemDetail());
-//                    		if (model.getBeanItemContainerDetail().size() == 0){
-//	            				model.getBeanItemContainerHeader().removeItem(model.getItemHeader());	            				
-//	            				try{
-//	            					model.getArPaymentHeaderService().removeObject(model.getItemHeader());
-//	            				} catch(Exception ex){}
-//                    		}
-//                    		
-//                    		//PERBAIKI INVOICE AMOUNTPAY >> Sorry Harus manual
-//                    		model.getItemInvoice().setAmountpay(model.getItemInvoice().getAmountpay()- amountThisDetail);  
-//                    		
-//                    		if (model.getItemInvoice().getAmount() + model.getItemInvoice().getAmountrevisi()>model.getItemInvoice().getAmountpay()){
-//                    			model.getItemInvoice().setLunas(false);
-//                    		}
+                    		
+                    		//KURANGI RETUR SENILAI YANG DIHAPUS
+                    		if (model.getItemDetail().getMrvBean() != null) {
+                    			//KURANGI TRANSFER DAN UPDATE KE DATABASE
+                    			FtPurchaseh newArinvoiceRetur = new FtPurchaseh();
+                    			newArinvoiceRetur = model.getItemDetail().getMrvBean();
+                    			newArinvoiceRetur.setAmountpay(newArinvoiceRetur.getAmountpay() - model.getItemDetail().getMrvamountpay());
+                    			model.getFtPurchasehJpaService().updateObject(newArinvoiceRetur);
+                    		}
+                    		
+                    		System.out.println("REFNO AND DIVISION: " + model.getItemHeader().getRefno() + " : " );
+                    		
+                    		model.getBeanItemContainerDetail().removeItem(model.getItemDetail());
+                    		if (model.getBeanItemContainerDetail().size() == 0){
+	            				model.getBeanItemContainerHeader().removeItem(model.getItemHeader());	            				
+	            				try{
+	            					model.getApPaymentHeaderService().removeObject(model.getItemHeader());
+	            				} catch(Exception ex){}
+                    		}
+                    		
+                    		//PERBAIKI INVOICE AMOUNTPAY >> Sorry Harus manual
+                    		model.getItemInvoice().setAmountpay(model.getItemInvoice().getAmountpay()- amountThisDetail);  
+                    		
+                    		if (model.getItemInvoice().getAmount() + model.getItemInvoice().getAmountrevisi()>model.getItemInvoice().getAmountpay()){
+                    			model.getItemInvoice().setLunas(false);
+                    		}
                     		model.getFtPurchasehJpaService().updateObject(model.getItemInvoice());
                     		
                     		

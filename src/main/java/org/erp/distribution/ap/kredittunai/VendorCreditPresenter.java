@@ -516,6 +516,7 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 		} catch(Exception ex){}
 		
 		String tipeFaktur = "%";
+		tipeFaktur = "F";
 //		try{
 //			if (view.getFieldSearchComboToCanvas().getValue().equals("TO")){				
 //				tipeJual= "TO";
