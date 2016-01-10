@@ -13,7 +13,7 @@ import org.erp.distribution.jpaservice.FtSaleshRekapTampunganJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FtSalesh;
-import org.erp.distribution.salesorder.salesorder.SalesOrderHelper;
+import org.erp.distribution.salesorder.salesorder.sales.SalesOrderHelper;
 import org.erp.distribution.util.ProductAndStockHelper;
 import org.erp.distribution.util.SysvarHelper;
 import org.erp.distribution.util.TransaksiHelper;

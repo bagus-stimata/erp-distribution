@@ -12,6 +12,7 @@ import org.erp.distribution.jpaservice.FtOpnamedJpaService;
 import org.erp.distribution.jpaservice.FtOpnamehJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.jpaservicerep.LapStockOpanameJpaService;
+import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtOpnamed;
@@ -39,7 +40,6 @@ public class StockOpnameModel extends CustomComponent{
 		private FWarehouseJpaService fWarehouseJpaService;
 		private LapStockOpanameJpaService lapStockOpanameJpaService;
 		
-		private FProductJpaService fProductJpaService;
 		private FStockJpaService fStockJpaService;
 		
 	//2. ENTITY
@@ -67,11 +67,16 @@ public class StockOpnameModel extends CustomComponent{
 		private BeanItemContainer<FWarehouse> beanItemContainerWarehouseTo = 
 				new BeanItemContainer<FWarehouse>(FWarehouse.class);
 		
+		private FProductJpaService fProductJpaService;
+		private BeanItemContainer<FProduct> beanItemContainerProduct = 
+				new BeanItemContainer<FProduct>(FProduct.class);
+		
 	//5. Binder (BeanFieldGroup)
 		private BeanFieldGroup<FtOpnameh> binderHeader = 
 				new BeanFieldGroup<FtOpnameh>(FtOpnameh.class);
 		private BeanFieldGroup<FtOpnamed> binderDetil = 
 				new BeanFieldGroup<FtOpnamed>(FtOpnamed.class);
+		
 				
 	//OTHERS
 	protected String OperationStatus = "OPEN";
@@ -97,6 +102,8 @@ public class StockOpnameModel extends CustomComponent{
 		setFtOpnamedJpaService((((DashboardUI) getUI().getCurrent()).getFtOpnamedJpaService()));
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
+		
+		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
 		
@@ -136,6 +143,8 @@ public class StockOpnameModel extends CustomComponent{
 				beanItemContainerWarehouseTo.addBean(fWarehouseBean);
 			}			
 		}
+		
+		beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 		
 	}
 
@@ -320,6 +329,23 @@ public class StockOpnameModel extends CustomComponent{
 	public void setLapStockOpanameJpaService(
 			LapStockOpanameJpaService lapStockOpanameJpaService) {
 		this.lapStockOpanameJpaService = lapStockOpanameJpaService;
+	}
+
+	public User getUserActive() {
+		return userActive;
+	}
+
+	public BeanItemContainer<FProduct> getBeanItemContainerProduct() {
+		return beanItemContainerProduct;
+	}
+
+	public void setUserActive(User userActive) {
+		this.userActive = userActive;
+	}
+
+	public void setBeanItemContainerProduct(
+			BeanItemContainer<FProduct> beanItemContainerProduct) {
+		this.beanItemContainerProduct = beanItemContainerProduct;
 	}
 
 	

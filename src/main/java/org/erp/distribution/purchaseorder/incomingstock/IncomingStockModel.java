@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.erp.distribution.DashboardUI;
+import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
 import org.erp.distribution.jpaservice.FtPurchasedJpaService;
 import org.erp.distribution.jpaservice.FtPurchasehJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
+import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtPurchased;
@@ -59,6 +61,10 @@ public class IncomingStockModel extends CustomComponent{
 		private BeanItemContainer<FWarehouse> beanItemContainerWarehouse = 
 				new BeanItemContainer<FWarehouse>(FWarehouse.class);
 		
+		private FProductJpaService fProductJpaService;
+		private BeanItemContainer<FProduct> beanItemContainerProduct = 
+				new BeanItemContainer<FProduct>(FProduct.class);
+		
 	//5. Binder (BeanFieldGroup)
 		private BeanFieldGroup<FtPurchaseh> binderHeader = 
 				new BeanFieldGroup<FtPurchaseh>(FtPurchaseh.class);
@@ -86,6 +92,8 @@ public class IncomingStockModel extends CustomComponent{
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
 		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
+		
+		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
 	}
@@ -121,6 +129,8 @@ public class IncomingStockModel extends CustomComponent{
 				beanItemContainerWarehouse.addBean(iterFWarehouse.next());
 			}			
 		}
+
+		beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 		
 	}
 
@@ -286,6 +296,31 @@ public class IncomingStockModel extends CustomComponent{
 
 	public void setItemDetilBookmark(FtPurchased itemDetilBookmark) {
 		this.itemDetilBookmark = itemDetilBookmark;
+	}
+
+	public User getUserActive() {
+		return userActive;
+	}
+
+	public BeanItemContainer<FProduct> getBeanItemContainerProduct() {
+		return beanItemContainerProduct;
+	}
+
+	public void setUserActive(User userActive) {
+		this.userActive = userActive;
+	}
+
+	public void setBeanItemContainerProduct(
+			BeanItemContainer<FProduct> beanItemContainerProduct) {
+		this.beanItemContainerProduct = beanItemContainerProduct;
+	}
+
+	public FProductJpaService getfProductJpaService() {
+		return fProductJpaService;
+	}
+
+	public void setfProductJpaService(FProductJpaService fProductJpaService) {
+		this.fProductJpaService = fProductJpaService;
 	}
 
 	

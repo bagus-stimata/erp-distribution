@@ -69,7 +69,8 @@ public class SalesOrderReturItemPresenter implements ClickListener, BlurListener
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==view.getBtnAddAndSave()){
-			fixEntityBeforeUpdate();
+			//ENTITY SUDAH FIX
+//			fixEntityBeforeUpdate();
 		} else if (event.getButton()==view.getBtnReset()){
 			resetItem();
 		} else if (event.getButton()==view.getBtnClose()){
@@ -143,13 +144,9 @@ public class SalesOrderReturItemPresenter implements ClickListener, BlurListener
 	public void resetItem(){
 		FtSalesdPK id = new FtSalesdPK();
 		id.setId(model.itemDetil.getId().getId());
-
 		id.setRefno(model.getItemDetil().getId().getRefno());
+		
 		//## KADANG NULL ##
-		id.setRefno(model.getItemDetil().getId().getRefno());
-		if (id.getRefno()==null) {
-			id.setRefno(model.getItemHeader().getRefno());
-		}
 		if (id.getRefno()==null){
 			id.setRefno((long) 0);
 		}

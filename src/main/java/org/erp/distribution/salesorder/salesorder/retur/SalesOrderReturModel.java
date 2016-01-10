@@ -5,12 +5,14 @@ import java.util.Iterator;
 
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
+import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
 import org.erp.distribution.jpaservice.FtSalesdJpaService;
 import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FCustomer;
+import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtSalesd;
@@ -65,6 +67,10 @@ public class SalesOrderReturModel extends CustomComponent{
 		private BeanItemContainer<FWarehouse> beanItemContainerWarehouse = 
 				new BeanItemContainer<FWarehouse>(FWarehouse.class);
 		
+		private FProductJpaService fProductJpaService;
+		private BeanItemContainer<FProduct> beanItemContainerProduct = 
+				new BeanItemContainer<FProduct>(FProduct.class);
+		
 	//5. Binder (BeanFieldGroup)
 		private BeanFieldGroup<FtSalesh> binderHeader = 
 				new BeanFieldGroup<FtSalesh>(FtSalesh.class);
@@ -79,6 +85,11 @@ public class SalesOrderReturModel extends CustomComponent{
 		initVariableData();
 		
 	}
+	public SalesOrderReturModel(FtSalesh itemHeader){
+		this.itemHeader = itemHeader;
+		initVariable();
+		initVariableData();
+	}
 	
 	public void initVariable(){
 		setSysvarJpaService((((DashboardUI) getUI().getCurrent()).getSysvarJpaService()));
@@ -91,6 +102,8 @@ public class SalesOrderReturModel extends CustomComponent{
 		setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));
 		setfCustomerJpaService((((DashboardUI) getUI().getCurrent()).getfCustomerJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
+		
+		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
 		
@@ -133,6 +146,7 @@ public class SalesOrderReturModel extends CustomComponent{
 			}
 			
 		}
+		beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 		
 	}
 
@@ -316,6 +330,31 @@ public class SalesOrderReturModel extends CustomComponent{
 
 	public void setItemHeaderTemp(FtSalesh itemHeaderTemp) {
 		this.itemHeaderTemp = itemHeaderTemp;
+	}
+
+	public User getUserActive() {
+		return userActive;
+	}
+
+	public FProductJpaService getfProductJpaService() {
+		return fProductJpaService;
+	}
+
+	public BeanItemContainer<FProduct> getBeanItemContainerProduct() {
+		return beanItemContainerProduct;
+	}
+
+	public void setUserActive(User userActive) {
+		this.userActive = userActive;
+	}
+
+	public void setfProductJpaService(FProductJpaService fProductJpaService) {
+		this.fProductJpaService = fProductJpaService;
+	}
+
+	public void setBeanItemContainerProduct(
+			BeanItemContainer<FProduct> beanItemContainerProduct) {
+		this.beanItemContainerProduct = beanItemContainerProduct;
 	}
 
 	

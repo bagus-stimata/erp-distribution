@@ -27,7 +27,7 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		this.model = model;
 		this.view = view;
 		
-		//JIKA ADA SALES COVERED MAKA HAPUS GANTI YANG BARU
+		//JIKA ADA SALES COVERED MAKA DAFTAR PRODUK HAPUS GANTI YANG BARU
 		if (model.itemHeader.getFsalesmanBean().isVendorcovered()==true){
 			model.getBeanItemContainerProduct().removeAllItems();
 			List<FVendor> listFVendor = new ArrayList<FVendor>(model.itemHeader.getFsalesmanBean().getfVendorSet());
@@ -38,9 +38,6 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		}
 		
 		helper = new SalesOrderItemHelper(model, view);
-		
-		
-		
 		initListener();
 	}
 	
@@ -172,8 +169,9 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		
 		FtSalesdPK id = new FtSalesdPK();
 		id.setId(model.itemDetil.getId().getId());
-		//## KADANG NULL ##
 		id.setRefno(model.getItemHeader().getRefno());
+
+		//## KADANG NULL ##
 		if (id.getRefno()==null){
 			id.setRefno((long) 0);
 		}
@@ -225,8 +223,8 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		model.itemDetil.setFproductBean((FProduct) view.getComboProduct().getValue());
 		model.itemDetil.setFtsaleshBean(model.itemHeader);
 
-		System.out.println("from fixEntityBeforeUpdate: " + model.itemDetil.getId().getRefno());
-		System.out.println("from fixEntityBeforeUpdate Header: " + model.itemHeader.getRecapno());
+//		System.out.println("from fixEntityBeforeUpdate: " + model.itemDetil.getId().getRefno());
+//		System.out.println("from fixEntityBeforeUpdate Header: " + model.itemHeader.getRecapno());
 		
 	}
 

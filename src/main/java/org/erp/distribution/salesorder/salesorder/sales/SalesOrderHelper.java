@@ -1,4 +1,4 @@
-package org.erp.distribution.salesorder.salesorder;
+package org.erp.distribution.salesorder.salesorder.sales;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -45,6 +45,7 @@ public class SalesOrderHelper {
 		this.model = model;
 		this.view = view;
 	}
+	
 	public SalesOrderHelper(){
 	}																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							
 
@@ -162,7 +163,6 @@ public class SalesOrderHelper {
 				Double amountPpnPrice = model.itemDetil.getSprice() * getParamPpn()/100;
 				Double priceAfterppn = (double) Math.round(model.itemDetil.getSprice() + amountPpnPrice);
 				model.itemDetil.setSpriceafterppn((double) Math.round(priceAfterppn));
-		
 				
 				//QTY1
 				Integer qty1 = model.itemDetil.getQty()/fProduct.getConvfact1();
@@ -280,7 +280,6 @@ public class SalesOrderHelper {
 			Integer sisaqty2 = sisaqty1 % fProduct.getConvfact2();
 			Integer qty3 = sisaqty2;
 			strJumlahStock += String.valueOf(qty3)+fProduct.getUom3();
-			
 			
 			Notification.show("Saldo Stock: " + strJumlahStock, Notification.TYPE_TRAY_NOTIFICATION);
 		}
@@ -646,7 +645,6 @@ public class SalesOrderHelper {
 			listFPromoByGroup = model.getfPromoJpaService2().findAllPromoActiveByProductGroup();
 		} catch(Exception ex){}
 		
-		System.out.println("menunjukkan query benar: " + listFPromoByGroup.size());
 		
 		int sumTprbItem = 0;
 		int nomorUrut=0;
@@ -661,7 +659,7 @@ public class SalesOrderHelper {
 			if (fPromoByGroupItem.getPeriodeFrom().getTime() <= model.getTransaksiHelper().getCurrentTransDate().getTime()
 					&& fPromoByGroupItem.getPeriodeTo().getTime() >= model.getTransaksiHelper().getCurrentTransDate().getTime()) {
 				
-				System.out.println("MASUK: " + fPromoByGroupItem.getDescription());
+//				System.out.println("MASUK: " + fPromoByGroupItem.getDescription());
 				
 				FProductgroup fProductgroupBean = new FProductgroup();
 				fProductgroupBean = fPromoByGroupItem.getFproductgroupBean();
@@ -678,12 +676,12 @@ public class SalesOrderHelper {
 					}
 				}
 
-				System.out.println("Rupiah Produk: " + sumTotalItemDetilPerProductGroup);
-				System.out.println("Jumlah Produk: " + sumQtyItemDetilPerProductGroup + ":" 
-						+ fPromoByGroupItem.getFreeQty1() +":" 
-						+ fPromoByGroupItem.getFreeQty2() +":" 
-						+ fPromoByGroupItem.getFreeQty3() +":" 
-						+ fPromoByGroupItem.getFreeQty4() +":");
+//				System.out.println("Rupiah Produk: " + sumTotalItemDetilPerProductGroup);
+//				System.out.println("Jumlah Produk: " + sumQtyItemDetilPerProductGroup + ":" 
+//						+ fPromoByGroupItem.getFreeQty1() +":" 
+//						+ fPromoByGroupItem.getFreeQty2() +":" 
+//						+ fPromoByGroupItem.getFreeQty3() +":" 
+//						+ fPromoByGroupItem.getFreeQty4() +":");
 				
 				//::PROMO BARANG TPRB
 				if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty4() && fPromoByGroupItem.getFreeQty4()>0) {

@@ -7,6 +7,7 @@ import java.util.List;
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FAreaJpaService;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
+import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FSubareaJpaService;
 import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
@@ -14,6 +15,7 @@ import org.erp.distribution.jpaservice.FtPurchasedJpaService;
 import org.erp.distribution.jpaservice.FtPurchasehJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FArea;
+import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
@@ -65,6 +67,10 @@ public class IncomingStockReturModel extends CustomComponent{
 		private BeanItemContainer<FWarehouse> beanItemContainerWarehouse = 
 				new BeanItemContainer<FWarehouse>(FWarehouse.class);
 		
+		private FProductJpaService fProductJpaService;
+		private BeanItemContainer<FProduct> beanItemContainerProduct = 
+				new BeanItemContainer<FProduct>(FProduct.class);
+		
 	//5. Binder (BeanFieldGroup)
 		private BeanFieldGroup<FtPurchaseh> binderHeader = 
 				new BeanFieldGroup<FtPurchaseh>(FtPurchaseh.class);
@@ -92,6 +98,8 @@ public class IncomingStockReturModel extends CustomComponent{
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
 		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
+		
+		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
 		
@@ -128,6 +136,7 @@ public class IncomingStockReturModel extends CustomComponent{
 			}			
 		}
 		
+		beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 		
 	}
 
@@ -293,6 +302,31 @@ public class IncomingStockReturModel extends CustomComponent{
 
 	public void setItemDetilBookmark(FtPurchased itemDetilBookmark) {
 		this.itemDetilBookmark = itemDetilBookmark;
+	}
+
+	public User getUserActive() {
+		return userActive;
+	}
+
+	public FProductJpaService getfProductJpaService() {
+		return fProductJpaService;
+	}
+
+	public BeanItemContainer<FProduct> getBeanItemContainerProduct() {
+		return beanItemContainerProduct;
+	}
+
+	public void setUserActive(User userActive) {
+		this.userActive = userActive;
+	}
+
+	public void setfProductJpaService(FProductJpaService fProductJpaService) {
+		this.fProductJpaService = fProductJpaService;
+	}
+
+	public void setBeanItemContainerProduct(
+			BeanItemContainer<FProduct> beanItemContainerProduct) {
+		this.beanItemContainerProduct = beanItemContainerProduct;
 	}
 
 	

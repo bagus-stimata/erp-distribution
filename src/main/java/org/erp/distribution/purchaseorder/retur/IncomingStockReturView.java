@@ -14,6 +14,7 @@ import org.erp.distribution.purchaseorder.retur.windowitem.IncomingStockReturIte
 
 import com.vaadin.data.Property;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -272,6 +273,18 @@ public class IncomingStockReturView extends CustomComponent{
 
 		fieldPpnpercent.setWidth("50px");
 		
+//		//ERROR HANDLER UI
+//		dateFieldPodate.setComponentError(new UserError("err"));
+//		dateFieldInvoicedate.setComponentError(new UserError("err"));
+//		
+//		btnNewForm.setComponentError(new UserError("err"));
+//		btnEditForm.setComponentError(new UserError("err"));
+//		btnDeleteForm.setComponentError(new UserError("err"));
+//		btnPrint.setComponentError(new UserError("err"));
+//		
+//		btnAddItem.setComponentError(new UserError("err"));
+//		btnEditItem.setComponentError(new UserError("err"));
+//		btnRemoveItem.setComponentError(new UserError("err"));
 		
 	}
 	
@@ -837,13 +850,18 @@ public class IncomingStockReturView extends CustomComponent{
 	
 	public void showWindowForm(){
 		
-		itemDetilModel = new IncomingStockReturItemModel();
-		itemDetilView = new IncomingStockReturItemView(itemDetilModel);
-		itemDetilPresenter = new IncomingStockReturItemPresenter(itemDetilModel, itemDetilView);
-		
-		itemDetilView.setSizeFull();
-		panelFormDetil.setContent(itemDetilView);
-		
+		if (itemDetilModel==null){
+			itemDetilModel = new IncomingStockReturItemModel();
+			itemDetilModel.setItemHeader(model.getItemHeader());
+	//		itemDetilModel = new SalesOrderItemModel(model.itemHeader);
+			itemDetilModel.getBeanItemContainerProduct().addAll(model.getBeanItemContainerProduct().getItemIds());
+
+			itemDetilView = new IncomingStockReturItemView(itemDetilModel);
+			itemDetilPresenter = new IncomingStockReturItemPresenter(itemDetilModel, itemDetilView);			
+			itemDetilView.setSizeFull();
+			panelFormDetil.setContent(itemDetilView);
+		}
+			
 		windowForm = new Window();
 		windowForm.setModal(true);
 		

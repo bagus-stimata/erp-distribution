@@ -1,5 +1,6 @@
 package org.erp.distribution.salesorder.salesorder.windowitem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -98,6 +99,18 @@ public class SalesOrderItemHelper{
 			}
 		} catch(Exception ex){}
 		
+		Date invoiceDate = model.getItemHeader().getInvoicedate();
+		int jumlahSaldoStock = model.getProductAndStockHelper().getSaldoStock(model.getItemHeader().getFwarehouseBean(), fProduct, invoiceDate);
+		int qtyBes = model.getProductAndStockHelper().getBesFromPcs(jumlahSaldoStock, fProduct);
+		int qtySed = model.getProductAndStockHelper().getSedFromPcs(jumlahSaldoStock, fProduct);
+		int qtyKec = model.getProductAndStockHelper().getKecFromPcs(jumlahSaldoStock, fProduct);
+		if (fProduct.getPcode()!=null){
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+			view.getBtnProductInfo().setCaption(sdf.format(invoiceDate) +" ->> "+fProduct.getPcode()+"-"+fProduct.getPname()+
+					" "+fProduct.getPackaging()+" ->> "+ qtyBes+ fProduct.getUom1()+" "+qtySed+ fProduct.getUom2()+" "+qtyKec +fProduct.getUom3());
+		} else {
+			view.getBtnProductInfo().setCaption("Product Info");
+		}
 
 	}
 

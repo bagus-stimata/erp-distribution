@@ -351,9 +351,16 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		model.itemDetil = new FtPurchased();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
 		
+		//2. ANTISIPASI
+		FtPurchasedPK id = new FtPurchasedPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+		model.itemDetil.setId(id);
+
 		//2. LANGSUNG DIMASUKKAN KE DATABASE :: LALU TAMBAH ITEM PADA TABEL
 		model.getFtPurchasedJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
+		view.getTableDetil().addItem(model.itemDetil);
 		
 		view.getItemDetilView().getBtnClose().click();
 		view.getBtnAddItem().click();
@@ -363,6 +370,8 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		helper.updateAndCalculateHeaderByItemDetil();
 		
 		//NEW FORM UPDATE STOCK SAAT TOMBOL SAVE
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -372,11 +381,11 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		model.itemDetil = new FtPurchased();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
 
-		//2. ANTISIPASI
-		FtPurchasedPK id = new FtPurchasedPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
-		model.itemDetil.setId(id);
+//		//2. ANTISIPASI
+//		FtPurchasedPK id = new FtPurchasedPK();
+//		id.setRefno(model.getItemHeader().getRefno());
+//		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+//		model.itemDetil.setId(id);
 		
 		//3. UPDATE ITEM YANG SAMA
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
@@ -387,6 +396,8 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		helper.updateAndCalculateHeaderByItemDetil();
 		
 		//NEW FORM UPDATE STOCK SAAT TOMBOL SAVE
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -408,10 +419,17 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		//1. BUAT ITEM BARU
 		model.itemDetil = new FtPurchased();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
-		
+	
+		//2. ANTISIPASI
+		FtPurchasedPK id = new FtPurchasedPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+		model.itemDetil.setId(id);
+	
 		//2. LANGSUNG DIMASUKKAN KE DATABASE :: LALU TAMBAH ITEM PADA TABEL
 		model.getFtPurchasedJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
+		view.getTableDetil().addItem(model.itemDetil);
 		
 		//3. UPDATE STOK ::TAMBAH
 		List<FtPurchased> listForStockAdd = new ArrayList<FtPurchased>();
@@ -425,6 +443,9 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		view.getBtnAddItem().click();
 		
 		helper.updateAndCalculateHeaderByItemDetil();
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
+		
 	}
 	public void saveAddOrUpdateItemEditFromEditForm(){
 		
@@ -434,11 +455,11 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		model.getProductAndStockHelper().incomingStockRemoveRetur(model.getItemHeader().getFwarehouseBean(), listForStockRemove, model.getItemHeader().getPodate());
 		
 
-		//2. ANTISIPASI
-		FtPurchasedPK id = new FtPurchasedPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
-		model.itemDetil.setId(id);	
+//		//2. ANTISIPASI
+//		FtPurchasedPK id = new FtPurchasedPK();
+//		id.setRefno(model.getItemHeader().getRefno());
+//		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+//		model.itemDetil.setId(id);	
 		
 		//3. UPDATE ITEM YANG SAMA
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
@@ -454,6 +475,8 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		view.fillComponentDetilItem();
 		helper.updateAndCalculateHeaderByItemDetil();
 		
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -653,26 +676,16 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
                         // Confirmed to continue
                     	try {
                     		//1.VALIDASI
+                    		if (model.itemHeader.getEndofday() == null)  {
+                    			model.itemHeader.setEndofday(false);
+                    			model.getFtPurchasehJpaService().updateObject(model.itemHeader);
+                    		}
                     		if (model.itemHeader.getEndofday() != true) {                    		
                     		
 	                    		//2. HAPUS DETIL :: HAPUS HEADER
-                        		if (model.itemHeader.getEndofday() == null)  {
-                        			model.itemHeader.setEndofday(false);
-                        			model.getFtPurchasehJpaService().updateObject(model.itemHeader);
-                        		}
-	                    		Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
-	                			List<FtPurchased> listForStock = new ArrayList<FtPurchased>();
-	                    		for (Object itemId: itemIds){
-	                    			FtPurchased domain = new FtPurchased();
-	                    			domain = model.getBeanItemContainerDetil().getItem(itemId).getBean();
-	                    			model.getFtPurchasedJpaService().removeObject(domain);
-	
-	                				domain = model.getBeanItemContainerDetil().getItem(itemId).getBean();
-	                				listForStock.add(domain);
-	                    			
-	                    		}
-	                    		model.getFtPurchasehJpaService().removeObject(model.getItemHeader());
-	                    		model.getBeanItemContainerHeader().removeItem(model.getItemHeader());
+	                    		//2. DELETE STOK DAN HEADER
+                    			List<FtPurchased> listForStock = new ArrayList<FtPurchased>();
+                    			listForStock = deleteFtPurchasehAndFtPurchsed();
 	                    		
 	                    		//3. UPDATE STOCK
 	                    		if (! model.getItemHeader().getNopo().equalsIgnoreCase("New")) {
@@ -725,6 +738,52 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		}else {
 			Notification.show("Tidak ada yang dipilih!!!", Notification.TYPE_TRAY_NOTIFICATION);
 		}
+	}
+	private List<FtPurchased> deleteFtPurchasehAndFtPurchsed(){
+		//2. HAPUS DETIL :: HAPUS HEADER
+		Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
+		List<FtPurchased> listForStock = new ArrayList<FtPurchased>();		
+		for (Object itemId: itemIds){
+			FtPurchased domain = new FtPurchased();	                    			
+			domain = model.getBeanItemContainerDetil().getItem(itemId).getBean();
+			
+			//HAPUS ANAK DETIL
+			deleteFtSalesdChild(domain);
+			//HAPUS DETIL
+			model.getFtPurchasedJpaService().removeObject(domain);
+
+			domain = model.getBeanItemContainerDetil().getItem(itemId).getBean();
+			listForStock.add(domain);
+			
+		}
+		
+		model.getFtPurchasehJpaService().removeObject(model.getItemHeader());
+		model.getBeanItemContainerHeader().removeItem(model.getItemHeader());
+		
+		return listForStock;
+		
+	}
+	private void deleteFtSalesdChild(FtPurchased ftPurchased){
+		FtPurchased ftPurchasedFromDatabase = new FtPurchased();
+		ftPurchasedFromDatabase = ftPurchased;
+
+		//GAK PAKE PROMO PEMBELIAN
+//		List<FtSalesdPromoTprb> listFtSalesdPromoTprb =
+//				new ArrayList<FtSalesdPromoTprb>(ftSalesdFromDatabase.getFtsalesdPromoTprbList());
+//		for (FtSalesdPromoTprb childDomain: listFtSalesdPromoTprb){
+//			model.getFtSalesdPromoTprbJpaService().removeObject(childDomain);
+//		}
+//		List<FtSalesdPromoTpruDisc> listFtSalesdPromoTpruDisc =
+//				new ArrayList<FtSalesdPromoTpruDisc>(ftSalesdFromDatabase.getFtsalesdPromoTpruDiscList() );
+//		for (FtSalesdPromoTpruDisc childDomain: listFtSalesdPromoTpruDisc){
+//			model.getFtSalesdPromoTpruDiscJpaService().removeObject(childDomain);
+//		}
+//		List<FtSalesdPromoTpruCb> listFtSalesdPromoTpruCb =
+//				new ArrayList<FtSalesdPromoTpruCb>(ftSalesdFromDatabase.getFtsalesdPromoTpruCbList());
+//		for (FtSalesdPromoTpruCb childDomain: listFtSalesdPromoTpruCb){
+//			model.getFtSalesdPromoTpruCbJpaService().removeObject(childDomain);
+//		}
+		
 	}
 
 	

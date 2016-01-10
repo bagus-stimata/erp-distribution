@@ -84,7 +84,7 @@ public class IncomingStockReturItemModel extends CustomComponent {
 			beanItemContainerProduct.removeAllContainerFilters();
 			beanItemContainerProduct.removeAllItems();
 			
-			beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
+//			beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 			
 		}
 

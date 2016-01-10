@@ -14,6 +14,7 @@ import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
 import com.vaadin.data.Property;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -282,7 +283,20 @@ public class StockOpnameView extends CustomComponent{
 
 		fieldPpnpercent.setWidth("50px");
 		
-		
+//		//ERROR HANDLER UI
+//		dateFieldTrdate.setComponentError(new UserError("err"));
+//		dateFieldEntrydate.setComponentError(new UserError("err"));
+//		
+//		btnNewForm.setComponentError(new UserError("err"));
+//		btnEditForm.setComponentError(new UserError("err"));
+//		btnDeleteForm.setComponentError(new UserError("err"));
+//		btnPosting.setComponentError(new UserError("err"));
+//		btnPostingBatal.setComponentError(new UserError("err"));
+//		btnLapselisih.setComponentError(new UserError("err"));
+//		
+//		btnAddItem.setComponentError(new UserError("err"));
+//		btnEditItem.setComponentError(new UserError("err"));
+//		btnRemoveItem.setComponentError(new UserError("err"));
 		
 	}
 	
@@ -304,7 +318,7 @@ public class StockOpnameView extends CustomComponent{
 		layoutTopList.addComponent(layoutTopList1);
 		
 		layoutTopList1.addComponent(fieldSearch1);
-		layoutTopList1.addComponent(fieldSearch2);
+//		layoutTopList1.addComponent(fieldSearch2);
 		layoutTopList1.addComponent(btnSearch);
 		layoutTopList1.setComponentAlignment(btnSearch, Alignment.BOTTOM_CENTER);
 		
@@ -870,13 +884,17 @@ public class StockOpnameView extends CustomComponent{
 	
 	public void showWindowForm(){
 		
-		itemDetilModel = new StockOpnameItemModel();
-		itemDetilView = new StockOpnameItemView(itemDetilModel);
-		itemDetilPresenter = new StockOpnameItemPresenter(itemDetilModel, itemDetilView);
+		if (itemDetilModel==null){
+			itemDetilModel = new StockOpnameItemModel();
+			itemDetilModel.setItemHeader(model.getItemHeader());
+	//		itemDetilModel = new SalesOrderItemModel(model.itemHeader);
+			itemDetilModel.getBeanItemContainerProduct().addAll(model.getBeanItemContainerProduct().getItemIds());
 		
-		itemDetilView.setSizeFull();
-		panelFormDetil.setContent(itemDetilView);
-		
+			itemDetilView = new StockOpnameItemView(itemDetilModel);
+			itemDetilPresenter = new StockOpnameItemPresenter(itemDetilModel, itemDetilView);			
+			itemDetilView.setSizeFull();
+			panelFormDetil.setContent(itemDetilView);
+		}
 		windowForm = new Window();
 		windowForm.setModal(true);
 		

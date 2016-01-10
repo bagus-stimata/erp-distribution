@@ -1,6 +1,7 @@
 package org.erp.distribution.purchaseorder.retur.windowitem;
 
 import org.erp.distribution.model.FProduct;
+import org.erp.distribution.model.FtPurchasedPK;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -67,7 +68,8 @@ public class IncomingStockReturItemPresenter implements ClickListener, BlurListe
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==view.getBtnAddAndSave()){
-			fixEntityBeforeUpdate();
+			//SUDAH FIX KOK
+//			fixEntityBeforeUpdate();
 		} else if (event.getButton()==view.getBtnReset()){
 			resetItem();
 		} else if (event.getButton()==view.getBtnClose()){
@@ -140,6 +142,16 @@ public class IncomingStockReturItemPresenter implements ClickListener, BlurListe
 	
 	public void resetItem(){
 
+		FtPurchasedPK id = new FtPurchasedPK();
+		id.setId(model.itemDetil.getId().getId());
+		id.setRefno(model.getItemHeader().getRefno());
+
+		//## KADANG NULL ##
+		if (id.getRefno()==null){
+			id.setRefno((long) 0);
+		}
+		model.itemDetil.setId(id);
+		
 		model.itemDetil.setFproductBean(new FProduct());
 		model.itemDetil.setFtpurchasehBean(model.getItemHeader());
 		
@@ -258,14 +270,18 @@ public class IncomingStockReturItemPresenter implements ClickListener, BlurListe
 	@Override
 	public void handleAction(Action action, Object sender, Object target) {
 		if (action==ENTER_COMBOPRODUCT){
-
-				if (! view.getFieldPprice().isVisible() && view.getFieldPprice().isEnabled()) {
-					view.getFieldPprice().focus();
-				} else if(view.getFieldPpriceafterppn().isVisible() && view.getFieldPpriceafterppn().isEnabled()){
-					view.getFieldPpriceafterppn().focus();				
-				} else if (view.getFieldQty1().isVisible() && view.getFieldQty1().isEnabled()) {
-					view.getFieldQty1().focus();
-				}		
+			
+			if (view.getFieldPprice().isVisible() && view.getFieldPprice().isEnabled()) {
+				view.getFieldPprice().focus();
+				System.out.println("PPrice:::");
+			} else if(view.getFieldPpriceafterppn().isVisible() && view.getFieldPpriceafterppn().isEnabled()){
+				view.getFieldPpriceafterppn().focus();				
+				System.out.println("PPriceAfterPPn:::");
+			} else if (view.getFieldQty1().isVisible() && view.getFieldQty1().isEnabled()) {
+				view.getFieldQty1().focus();
+				System.out.println("Qty:::");
+			}		
+			
 		}else if (action == ENTER_FIELDSPRICE || action == ARROW_DOWN_FIELDSPRICE) {
 			view.getFieldQty1().focus();
 		}else if (action == ARROW_UP_FIELDSPRICE) {

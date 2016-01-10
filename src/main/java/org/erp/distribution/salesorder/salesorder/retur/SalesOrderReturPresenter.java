@@ -373,12 +373,21 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		//1. BUAT ITEM BARU
 		model.itemDetil = new FtSalesd();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
+		//2. ANTISIPASI
+		FtSalesdPK id = new FtSalesdPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+		id.setFreegood(view.getItemDetilModel().getItemDetil().getId().getFreegood());
+		model.itemDetil.setId(id);	
 		
 		//2. LANGSUNG DIMASUKKAN KE DATABASE :: LALU TAMBAH ITEM PADA TABEL
 		model.getFtSalesdJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
+		view.getTableDetil().addItem(model.itemDetil);
 		
-		view.getItemDetilView().getBtnClose().click();
+		try{
+			view.getItemDetilView().getBtnClose().click();
+		} catch(Exception ex){}
 		view.getBtnAddItem().click();
 		
 		//PENJUMLAHAN FOOTER
@@ -386,20 +395,22 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		helper.updateAndCalculateHeaderByItemDetil();
 		
 		//NEW FORM UPDATE STOCK SAAT TOMBOL SAVE
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
 	public void saveAddOrUpdateItemEditFromNewForm(){
 		
 		//1. BUAT BARU DENGAN ITEM YANG SAMA NAMUN
-		model.itemDetil = new FtSalesd();
-		model.itemDetil = view.getItemDetilModel().getItemDetil();
-
-		//2. ANTISIPASI
-		FtSalesdPK id = new FtSalesdPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
-		model.itemDetil.setId(id);
+//		model.itemDetil = new FtSalesd();
+//		model.itemDetil = view.getItemDetilModel().getItemDetil();
+//
+//		//2. ANTISIPASI
+//		FtSalesdPK id = new FtSalesdPK();
+//		id.setRefno(model.getItemHeader().getRefno());
+//		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+//		model.itemDetil.setId(id);
 		
 		//3. UPDATE ITEM YANG SAMA
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
@@ -410,6 +421,8 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		helper.updateAndCalculateHeaderByItemDetil();
 		
 		//NEW FORM UPDATE STOCK SAAT TOMBOL SAVE
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -432,9 +445,18 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		model.itemDetil = new FtSalesd();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
 		
+		//2. ANTISIPASI
+		FtSalesdPK id = new FtSalesdPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+		id.setFreegood(view.getItemDetilModel().getItemDetil().getId().getFreegood());
+		model.itemDetil.setId(id);	
+		
 		//2. LANGSUNG DIMASUKKAN KE DATABASE :: LALU TAMBAH ITEM PADA TABEL
 		model.getFtSalesdJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
+		view.getTableDetil().addItem(model.itemDetil);
+		
 		//4. UPDATE STOK ::TAMBAH
 		List<FtSalesd> listForStockAdd = new ArrayList<FtSalesd>();
 		listForStockAdd.add(model.getItemDetil());		
@@ -446,20 +468,21 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		view.getBtnAddItem().click();
 		
 		helper.updateAndCalculateHeaderByItemDetil();
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 	}
 	public void saveAddOrUpdateItemEditFromEditForm(){
 		
 		//1. HAPUS STOK
 		List<FtSalesd> listForStockRemove = new ArrayList<FtSalesd>();
 		listForStockRemove.add(model.itemDetilBookmark);
-		model.getProductAndStockHelper().soStockRemoveRetur(model.getItemHeader().getFwarehouseBean(), listForStockRemove, model.getItemHeader().getInvoicedate());
-		
+		model.getProductAndStockHelper().soStockRemoveRetur(model.getItemHeader().getFwarehouseBean(), listForStockRemove, model.getItemHeader().getInvoicedate());		
 
-		//2. ANTISIPASI
-		FtSalesdPK id = new FtSalesdPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
-		model.itemDetil.setId(id);	
+//		//2. ANTISIPASI
+//		FtSalesdPK id = new FtSalesdPK();
+//		id.setRefno(model.getItemHeader().getRefno());
+//		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+//		model.itemDetil.setId(id);	
 		
 		//3. UPDATE ITEM YANG SAMA
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
@@ -475,6 +498,8 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		view.fillComponentDetilItem();
 		helper.updateAndCalculateHeaderByItemDetil();
 		
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	

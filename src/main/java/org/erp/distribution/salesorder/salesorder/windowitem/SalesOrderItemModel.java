@@ -44,6 +44,7 @@ public class SalesOrderItemModel extends CustomComponent {
 	//1. DAO SERVICE
 		private SysvarJpaService sysvarJpaService;
 		private SysvarHelper sysvarHelper;
+		private ProductAndStockHelper productAndStockHelper= new ProductAndStockHelper();
 	
 		private FtSaleshJpaService ftSaleshJpaService;
 		private FtSalesdJpaService ftSalesdJpaService;
@@ -75,13 +76,6 @@ public class SalesOrderItemModel extends CustomComponent {
 		//OTHERS
 		protected String OperationStatus = "OPEN";
 
-		public String getOperationStatus() {
-			return OperationStatus;
-		}
-
-		public void setOperationStatus(String operationStatus) {
-			OperationStatus = operationStatus;
-		}
 
 		public SalesOrderItemModel(){
 			initVariable();
@@ -127,8 +121,16 @@ public class SalesOrderItemModel extends CustomComponent {
 			//1. Jika Dia Meng Cover Vendor Tertentu maka harus di list Product Didalam Vendor TErsebut
 			//Jika tidak maka semua
 			
-			beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
+//			beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 			
+		}
+		
+		public String getOperationStatus() {
+			return OperationStatus;
+		}
+
+		public void setOperationStatus(String operationStatus) {
+			OperationStatus = operationStatus;
 		}
 
 		public SysvarJpaService getSysvarJpaService() {
@@ -267,6 +269,14 @@ public class SalesOrderItemModel extends CustomComponent {
 
 		public void setFtPriceAltdJpaService(FtPriceAltdJpaService ftPriceAltdJpaService) {
 			this.ftPriceAltdJpaService = ftPriceAltdJpaService;
+		}
+
+		public ProductAndStockHelper getProductAndStockHelper() {
+			return productAndStockHelper;
+		}
+
+		public void setProductAndStockHelper(ProductAndStockHelper productAndStockHelper) {
+			this.productAndStockHelper = productAndStockHelper;
 		}
 
 			

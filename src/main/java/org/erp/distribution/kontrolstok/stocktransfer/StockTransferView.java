@@ -14,6 +14,7 @@ import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
 import com.vaadin.data.Property;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -274,6 +275,18 @@ public class StockTransferView extends CustomComponent{
 
 		fieldPpnpercent.setWidth("50px");
 		
+//		//ERROR HANDLER UI
+//		dateFieldTrdate.setComponentError(new UserError("err"));
+//		dateFieldEntry.setComponentError(new UserError("err"));
+//		
+//		btnNewForm.setComponentError(new UserError("err"));
+//		btnEditForm.setComponentError(new UserError("err"));
+//		btnDeleteForm.setComponentError(new UserError("err"));
+//		btnPrint.setComponentError(new UserError("err"));
+//		
+//		btnAddItem.setComponentError(new UserError("err"));
+//		btnEditItem.setComponentError(new UserError("err"));
+//		btnRemoveItem.setComponentError(new UserError("err"));
 		
 		
 	}
@@ -846,13 +859,17 @@ public class StockTransferView extends CustomComponent{
 	
 	public void showWindowForm(){
 		
-		itemDetilModel = new StockTransferItemModel();
-		itemDetilView = new StockTransferItemView(itemDetilModel);
-		itemDetilPresenter = new StockTransferItemPresenter(itemDetilModel, itemDetilView);
-		
-		itemDetilView.setSizeFull();
-		panelFormDetil.setContent(itemDetilView);
-		
+		if (itemDetilModel==null){
+			itemDetilModel = new StockTransferItemModel();
+			itemDetilModel.setItemHeader(model.getItemHeader());
+	//		itemDetilModel = new SalesOrderItemModel(model.itemHeader);
+			itemDetilModel.getBeanItemContainerProduct().addAll(model.getBeanItemContainerProduct().getItemIds());
+	
+			itemDetilView = new StockTransferItemView(itemDetilModel);
+			itemDetilPresenter = new StockTransferItemPresenter(itemDetilModel, itemDetilView);			
+			itemDetilView.setSizeFull();
+			panelFormDetil.setContent(itemDetilView);
+		}
 		windowForm = new Window();
 		windowForm.setModal(true);
 		

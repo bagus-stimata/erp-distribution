@@ -1,4 +1,4 @@
-package org.erp.distribution.salesorder.salesorder;
+package org.erp.distribution.salesorder.salesorder.sales;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,6 +8,7 @@ import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FParamDiskonItemVendorJpaService;
 import org.erp.distribution.jpaservice.FParamDiskonJpaService;
+import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FPromoJpaService2;
 import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
@@ -22,6 +23,7 @@ import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FParamDiskonNota;
+import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtSalesd;
@@ -87,6 +89,10 @@ public class SalesOrderModel extends CustomComponent{
 		private BeanItemContainer<FWarehouse> beanItemContainerWarehouse = 
 				new BeanItemContainer<FWarehouse>(FWarehouse.class);
 		
+		private FProductJpaService fProductJpaService;
+		private BeanItemContainer<FProduct> beanItemContainerProduct = 
+				new BeanItemContainer<FProduct>(FProduct.class);
+		
 	//5. Binder (BeanFieldGroup)
 		private BeanFieldGroup<FtSalesh> binderHeader = 
 				new BeanFieldGroup<FtSalesh>(FtSalesh.class);
@@ -127,6 +133,7 @@ public class SalesOrderModel extends CustomComponent{
 		setfParamDiskonItemVendorJpaService((((DashboardUI) getUI().getCurrent()).getfParamDiskonItemVendorJpaService()));
 
 		
+		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
 		
 	}
@@ -168,6 +175,9 @@ public class SalesOrderModel extends CustomComponent{
 				beanItemContainerWarehouse.addBean(iterFWarehouse.next());
 			}			
 		}
+		
+		beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
+		
 		
 		//JIKA MASIH KOSONG MAKA ADD
 		if (fParamDiskonJpaService.findAll().size() == 0) {
@@ -469,6 +479,23 @@ public class SalesOrderModel extends CustomComponent{
 	public void setfParamDiskonItemVendorJpaService(
 			FParamDiskonItemVendorJpaService fParamDiskonItemVendorJpaService) {
 		this.fParamDiskonItemVendorJpaService = fParamDiskonItemVendorJpaService;
+	}
+
+	public FProductJpaService getfProductJpaService() {
+		return fProductJpaService;
+	}
+
+	public BeanItemContainer<FProduct> getBeanItemContainerProduct() {
+		return beanItemContainerProduct;
+	}
+
+	public void setfProductJpaService(FProductJpaService fProductJpaService) {
+		this.fProductJpaService = fProductJpaService;
+	}
+
+	public void setBeanItemContainerProduct(
+			BeanItemContainer<FProduct> beanItemContainerProduct) {
+		this.beanItemContainerProduct = beanItemContainerProduct;
 	}
 
 	

@@ -2,6 +2,7 @@ package org.erp.distribution.kontrolstok.stocktransfer.windowitem;
 
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
+import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -131,6 +132,30 @@ public class StockTransferItemView extends CustomComponent {
 		fieldDisc2.setRequired(true);
 		
 		fieldSubtotal.setRequired(true);
+	
+		//ERROR HANDLER UI
+//		btnAddAndSave.setComponentError(new UserError("err"));
+//		btnReset.setComponentError(new UserError("err"));
+//		btnClose.setComponentError(new UserError("err"));
+//		
+//		comboProduct.setComponentError(new UserError("err"));
+//
+//		fieldPprice.setComponentError(new UserError("err"));
+//		fieldPpriceafterppn.setComponentError(new UserError("err"));
+//		fieldQty1.setComponentError(new UserError("err"));
+//		fieldQty2.setComponentError(new UserError("err"));
+//		fieldQty3.setComponentError(new UserError("err"));
+//		fieldQty.setComponentError(new UserError("err"));
+//		
+//		fieldDisc1.setComponentError(new UserError("err"));
+//		fieldDisc1rp.setComponentError(new UserError("err"));
+//		fieldDisc2.setComponentError(new UserError("err"));
+//		fieldDisc2rp.setComponentError(new UserError("err"));
+//		
+//		fieldSubtotal.setComponentError(new UserError("err"));
+//		fieldSubtotalafterppn.setComponentError(new UserError("err"));
+//		fieldSubtotalafterdisc.setComponentError(new UserError("err"));
+//		fieldSubtotalafterdiscafterppn.setComponentError(new UserError("err"));
 		
 	}
 	
@@ -224,7 +249,7 @@ public class StockTransferItemView extends CustomComponent {
 		comboProduct.setContainerDataSource(model.getBeanItemContainerProduct());
 		comboProduct.setNewItemsAllowed(false);
 		comboProduct.setFilteringMode(FilteringMode.CONTAINS);
-		comboProduct.setNullSelectionAllowed(false);
+		comboProduct.setNullSelectionAllowed(true);
 		
 		model.getBinderItemDetail().bind(fieldNomorUrut, "nourut");
 		model.getBinderItemDetail().bind(comboProduct, "fproductBean");

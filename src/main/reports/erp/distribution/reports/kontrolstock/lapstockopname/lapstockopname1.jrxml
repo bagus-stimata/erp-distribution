@@ -237,14 +237,14 @@ ORDER BY
 					<text><![CDATA[Nama Barang]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="315" y="18" width="55" height="13" uuid="306a865e-0c88-47d8-875a-cf5ce8a831d9"/>
+					<reportElement x="320" y="18" width="57" height="13" uuid="306a865e-0c88-47d8-875a-cf5ce8a831d9"/>
 					<textElement textAlignment="Right">
 						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Penambahan]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="377" y="18" width="55" height="13" uuid="a243f80d-ef10-4bee-834e-4d438a2c3917"/>
+					<reportElement x="384" y="18" width="55" height="13" uuid="a243f80d-ef10-4bee-834e-4d438a2c3917"/>
 					<textElement textAlignment="Right">
 						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 					</textElement>
@@ -282,7 +282,7 @@ ORDER BY
 					<reportElement x="0" y="32" width="550" height="1" uuid="66d1caa7-7e46-4402-985c-2b8b4289d41a"/>
 				</line>
 				<staticText>
-					<reportElement x="201" y="19" width="55" height="13" uuid="6be89bee-a1c7-4583-8ef2-8c6e4f968ee1"/>
+					<reportElement x="196" y="19" width="60" height="13" uuid="6be89bee-a1c7-4583-8ef2-8c6e4f968ee1"/>
 					<textElement textAlignment="Right">
 						<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 					</textElement>
@@ -476,35 +476,35 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{zlapstockopname_PNAME}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0;(#,##0)">
-				<reportElement x="349" y="0" width="10" height="11" uuid="1e135d42-06d0-4d25-8de0-f8595cd0f6a1"/>
+				<reportElement x="349" y="0" width="15" height="11" uuid="1e135d42-06d0-4d25-8de0-f8595cd0f6a1"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_PENAMBAHANSED}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0;(#,##0)">
-				<reportElement x="359" y="0" width="10" height="11" uuid="1081c58e-82c0-427d-8d7c-3899b10eab5f"/>
+				<reportElement x="364" y="0" width="15" height="11" uuid="1081c58e-82c0-427d-8d7c-3899b10eab5f"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_PENAMBAHANKEC}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0;(#,##0)">
-				<reportElement x="377" y="0" width="29" height="11" uuid="15b11871-82d5-4ce0-ae33-4d995497f741"/>
+				<reportElement x="382" y="0" width="29" height="11" uuid="15b11871-82d5-4ce0-ae33-4d995497f741"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_PENGURANGANBES}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0;(#,##0)">
-				<reportElement x="407" y="0" width="10" height="11" uuid="a55c8bca-4fc4-458d-a53f-fa7b81f6e86b"/>
+				<reportElement x="411" y="0" width="15" height="11" uuid="a55c8bca-4fc4-458d-a53f-fa7b81f6e86b"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_PENGURANGANSED}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0;(#,##0)">
-				<reportElement x="417" y="0" width="10" height="11" uuid="e632d6e8-dd63-479c-aa49-da02ba251a7e"/>
+				<reportElement x="426" y="0" width="15" height="11" uuid="e632d6e8-dd63-479c-aa49-da02ba251a7e"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
@@ -532,42 +532,42 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{zlapstockopname_PENAMBAHANBES}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="246" y="0" width="10" height="11" uuid="a2e1f6c6-43d1-40d5-aa45-39e1231dfa63"/>
+				<reportElement x="241" y="0" width="15" height="11" uuid="a2e1f6c6-43d1-40d5-aa45-39e1231dfa63"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_FISIKKEC}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="266" y="0" width="29" height="11" uuid="539ed468-f76c-4ae4-a94d-cb020d15939f"/>
+				<reportElement x="258" y="0" width="29" height="11" uuid="539ed468-f76c-4ae4-a94d-cb020d15939f"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_TEORIBES}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="295" y="0" width="10" height="11" uuid="9a2f90ac-0707-4bce-9f82-0473c2906517"/>
+				<reportElement x="287" y="0" width="15" height="11" uuid="9a2f90ac-0707-4bce-9f82-0473c2906517"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_TEORISED}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="305" y="0" width="10" height="11" uuid="d51014cb-b7d0-4d96-a62d-f17f5a8fcca9"/>
+				<reportElement x="302" y="0" width="15" height="11" uuid="d51014cb-b7d0-4d96-a62d-f17f5a8fcca9"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_TEORIKEC}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="236" y="0" width="10" height="11" uuid="1d51e370-f30b-479c-bf03-43a4c0aa99fd"/>
+				<reportElement x="226" y="0" width="15" height="11" uuid="1d51e370-f30b-479c-bf03-43a4c0aa99fd"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{zlapstockopname_FISIKSED}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="207" y="0" width="29" height="11" uuid="f70e7eb8-3b7e-4369-9b57-66d51feae950"/>
+				<reportElement x="196" y="0" width="29" height="11" uuid="f70e7eb8-3b7e-4369-9b57-66d51feae950"/>
 				<textElement textAlignment="Right">
 					<font size="8" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
 				</textElement>

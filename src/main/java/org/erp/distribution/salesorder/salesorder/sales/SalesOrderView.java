@@ -1,4 +1,4 @@
-package org.erp.distribution.salesorder.salesorder;
+package org.erp.distribution.salesorder.salesorder.sales;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import org.erp.distribution.salesorder.salesorder.windowitem.SalesOrderItemView;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -237,7 +238,6 @@ public class SalesOrderView extends CustomComponent{
 		comboTipeJual.setNullSelectionAllowed(false);
 		comboTipeJual.setRequired(true);
 		
-		
 		comboTop.setWidth("40px");
 		comboTop.setFilteringMode(FilteringMode.CONTAINS);
 		for (int i=0;i<=30;i++){
@@ -329,6 +329,22 @@ public class SalesOrderView extends CustomComponent{
 		fieldPpnrp.addStyleName("numerical");
 
 		fieldPpnpercent.setWidth("50px");
+
+		
+//		//ERROR HANDLER UI
+//		dateFieldOrderdate.setComponentError(new UserError("err"));
+//		dateFieldInvoicedate.setComponentError(new UserError("err"));
+//		dateFieldDuedate.setComponentError(new UserError("err"));
+//		
+//		btnNewForm.setComponentError(new UserError("err"));
+//		btnEditForm.setComponentError(new UserError("err"));
+//		btnDeleteForm.setComponentError(new UserError("err"));
+//		btnPrint.setComponentError(new UserError("err"));
+//		btnPrintRetail.setComponentError(new UserError("err"));
+//		
+//		btnAddItem.setComponentError(new UserError("err"));
+//		btnEditItem.setComponentError(new UserError("err"));
+//		btnRemoveItem.setComponentError(new UserError("err"));
 		
 	}
 	
@@ -927,27 +943,29 @@ public class SalesOrderView extends CustomComponent{
 	private SalesOrderItemView itemDetilView;
 	private SalesOrderItemPresenter itemDetilPresenter;
 	private Window windowForm = new Window();
+
 	
 	public void showWindowForm(){
-		
-		itemDetilModel = new SalesOrderItemModel();
-		itemDetilModel.setItemHeader(model.getItemHeader());
-//		itemDetilModel = new SalesOrderItemModel(model.itemHeader);
-		
-		itemDetilView = new SalesOrderItemView(itemDetilModel);
-		itemDetilPresenter = new SalesOrderItemPresenter(itemDetilModel, itemDetilView);
-		
-	
-		
-		itemDetilView.setSizeFull();
-		panelFormDetil.setContent(itemDetilView);
+
+		if (itemDetilModel==null){
+			itemDetilModel = new SalesOrderItemModel();
+			itemDetilModel.setItemHeader(model.getItemHeader());
+	//		itemDetilModel = new SalesOrderItemModel(model.itemHeader);
+			itemDetilModel.getBeanItemContainerProduct().addAll(model.getBeanItemContainerProduct().getItemIds());
+			
+			itemDetilView = new SalesOrderItemView(itemDetilModel);
+			itemDetilPresenter = new SalesOrderItemPresenter(itemDetilModel, itemDetilView);
+			itemDetilView.setSizeFull();
+			panelFormDetil.setContent(itemDetilView);
+			
+		}
 		
 		windowForm = new Window();
 		windowForm.setModal(true);
 		
 		windowForm.center();
 		
-		windowForm.setWidth("1100px");
+		windowForm.setWidth("1000px");
 		windowForm.setHeight("200px");
 		windowForm.setClosable(true);	
 		windowForm.setResizable(false);
@@ -964,7 +982,6 @@ public class SalesOrderView extends CustomComponent{
 	
 	public void closeWindowForm(){
 		windowForm.close();
-		
 	}
 	
 	public void focustIdOrDesc(){

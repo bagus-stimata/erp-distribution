@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.erp.distribution.DashboardUI;
+import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
 import org.erp.distribution.jpaservice.FtPurchasedJpaService;
@@ -12,6 +13,7 @@ import org.erp.distribution.jpaservice.FtStocktransferdJpaService;
 import org.erp.distribution.jpaservice.FtStocktransferhJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.jpaservicerep.LapTemplate1JpaService;
+import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtPurchased;
@@ -66,6 +68,9 @@ public class StockTransferModel extends CustomComponent{
 		private BeanItemContainer<FWarehouse> beanItemContainerWarehouseTo = 
 				new BeanItemContainer<FWarehouse>(FWarehouse.class);
 		
+		private FProductJpaService fProductJpaService;
+		private BeanItemContainer<FProduct> beanItemContainerProduct = 
+				new BeanItemContainer<FProduct>(FProduct.class);
 	//5. Binder (BeanFieldGroup)
 		private BeanFieldGroup<FtStocktransferh> binderHeader = 
 				new BeanFieldGroup<FtStocktransferh>(FtStocktransferh.class);
@@ -93,6 +98,7 @@ public class StockTransferModel extends CustomComponent{
 		setFtStocktransferdJpaService((((DashboardUI) getUI().getCurrent()).getFtStocktransferdJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
 		
+		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
 		
 	}
@@ -129,6 +135,8 @@ public class StockTransferModel extends CustomComponent{
 				beanItemContainerWarehouseTo.addBean(fWarehouseBean);
 			}			
 		}
+		
+		beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 		
 		
 	}
@@ -300,6 +308,23 @@ public class StockTransferModel extends CustomComponent{
 
 	public void setSysvarHelper(SysvarHelper sysvarHelper) {
 		this.sysvarHelper = sysvarHelper;
+	}
+
+	public FProductJpaService getfProductJpaService() {
+		return fProductJpaService;
+	}
+
+	public BeanItemContainer<FProduct> getBeanItemContainerProduct() {
+		return beanItemContainerProduct;
+	}
+
+	public void setfProductJpaService(FProductJpaService fProductJpaService) {
+		this.fProductJpaService = fProductJpaService;
+	}
+
+	public void setBeanItemContainerProduct(
+			BeanItemContainer<FProduct> beanItemContainerProduct) {
+		this.beanItemContainerProduct = beanItemContainerProduct;
 	}
 
 	

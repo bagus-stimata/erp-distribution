@@ -1,6 +1,8 @@
 package org.erp.distribution.kontrolstok.stockopname.windowitem;
 
 import org.erp.distribution.model.FProduct;
+import org.erp.distribution.model.FtOpnamedPK;
+import org.erp.distribution.model.FtSalesdPK;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -67,7 +69,8 @@ public class StockOpnameItemPresenter implements ClickListener, BlurListener, Va
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==view.getBtnAddAndSave()){
-			fixEntityBeforeUpdate();
+			//SUDAH FIX KOK
+//			fixEntityBeforeUpdate();
 		} else if (event.getButton()==view.getBtnReset()){
 			resetItem();
 		} else if (event.getButton()==view.getBtnClose()){
@@ -128,6 +131,16 @@ public class StockOpnameItemPresenter implements ClickListener, BlurListener, Va
 	
 	public void resetItem(){
 
+		FtOpnamedPK id = new FtOpnamedPK();
+		id.setId(model.itemDetil.getId().getId());
+		id.setRefno(model.getItemDetil().getId().getRefno());
+
+		//## KADANG NULL ##
+		if (id.getRefno()==null){
+			id.setRefno((long) 0);
+		}
+		model.itemDetil.setId(id);
+		
 		model.itemDetil.setFproductBean(new FProduct());
 		model.itemDetil.setFtopnamehBean(model.getItemHeader());
 		

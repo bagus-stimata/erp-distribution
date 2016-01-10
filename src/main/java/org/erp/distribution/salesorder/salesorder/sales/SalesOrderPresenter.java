@@ -1,4 +1,4 @@
-package org.erp.distribution.salesorder.salesorder;
+package org.erp.distribution.salesorder.salesorder.sales;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -61,7 +61,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 	private SalesOrderModel model;
 	private SalesOrderView view;
 	
-	SalesOrderHelper helper;
+	private SalesOrderHelper helper;
 	
 	public SalesOrderPresenter(SalesOrderModel model, SalesOrderView view){
 		this.model = model;
@@ -90,7 +90,6 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		
 		view.getTableList().addItemClickListener(this);
 		view.getTableDetil().addItemClickListener(this);
-		
 		
 		view.getFieldDisc1().addBlurListener(this);
 		view.getFieldDisc2().addBlurListener(this);
@@ -200,7 +199,6 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			}
 		};
 		view.getComboCustomer().addValueChangeListener(listenerComboCustomer);
-		
 		
 	}
 
@@ -540,8 +538,12 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		view.setDisplayTableFooterDetil();
 		helper.updateAndCalculateHeaderByItemDetil();
 		
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
+		
 	}
 	public void saveAddOrUpdateItemEditFromNewForm(){
+		System.out.println("INI JUGA DIJALANKAN");
 		//1. HAPUS TPRB, TPRUDISC, TPRUCB
 //		Collection itemIdsForDelete = model.getBeanItemContainerDetil().getItemIds();
 //		for (Object itemId: itemIdsForDelete){
@@ -724,8 +726,8 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		view.fillComponentDetilItem();
 		helper.updateAndCalculateHeaderByItemDetil();
 		
-		
-		
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 	}
 	
 	public void addOrUpdateItemFromEditForm(){
@@ -746,10 +748,18 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		//1. BUAT ITEM BARU
 		model.itemDetil = new FtSalesd();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
+
+		//2. ANTISIPASI
+		FtSalesdPK id = new FtSalesdPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+		id.setFreegood(view.getItemDetilModel().getItemDetil().getId().getFreegood());
+		model.itemDetil.setId(id);	
 		
 		//2. LANGSUNG DIMASUKKAN KE DATABASE :: LALU TAMBAH ITEM PADA TABEL
 		model.getFtSalesdJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
+		view.getTableDetil().addItem(model.itemDetil);
 		
 		//3. UPDATE STOK ::TAMBAH
 		List<FtSalesd> listForStockAdd = new ArrayList<FtSalesd>();
@@ -763,8 +773,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		view.getBtnAddItem().click();
 		
 		helper.updateAndCalculateHeaderByItemDetil();
-		
-		
+
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -776,18 +787,16 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		model.getProductAndStockHelper().soStockRemove(model.getItemHeader().getFwarehouseBean(),
 				listForStockRemove, model.getItemHeader().getInvoicedate());	
 
-		//2. ANTISIPASI
-		FtSalesdPK id = new FtSalesdPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
-		id.setFreegood(view.getItemDetilModel().getItemDetil().getId().getFreegood());
-		model.itemDetil.setId(id);	
+//		//2. ANTISIPASI
+//		FtSalesdPK id = new FtSalesdPK();
+//		id.setRefno(model.getItemHeader().getRefno());
+//		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+//		id.setFreegood(view.getItemDetilModel().getItemDetil().getId().getFreegood());
+//		model.itemDetil.setId(id);	
 		
 		//3. UPDATE ITEM YANG SAMA
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		model.getFtSalesdJpaService().updateObject(model.itemDetil);
-		
-		
 		
 		//4. UPDATE STOK ::EDIT
 		List<FtSalesd> listForStockAdd = new ArrayList<FtSalesd>();
@@ -798,7 +807,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		view.getItemDetilView().getBtnClose().click();
 		view.fillComponentDetilItem();
 		helper.updateAndCalculateHeaderByItemDetil();
-		
+
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -1014,7 +1025,6 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			view.getBtnEditForm().click();
 			view.getBtnSaveForm().click();
 			
-			System.out.println("tambahan");
 		}
 	}
 	public void saveFormEditing(){

@@ -18,6 +18,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.erp.distribution.model.FtOpnamedPK;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.FtStocktransferd;
@@ -336,9 +337,16 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		model.itemDetil = new FtStocktransferd();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
 		
+		//2. ANTISIPASI
+		FtStocktransferdPK id = new FtStocktransferdPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+		model.itemDetil.setId(id);	
+		
 		//2. LANGSUNG DIMASUKKAN KE DATABASE :: LALU TAMBAH ITEM PADA TABEL
 		model.getFtStocktransferdJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
+		view.getTableDetil().addItem(model.itemDetil);
 		
 		view.getItemDetilView().getBtnClose().click();
 		view.getBtnAddItem().click();
@@ -348,6 +356,8 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		helper.updateAndCalculateHeaderByItemDetil();
 		
 		//NEW FORM UPDATE STOCK SAAT TOMBOL SAVE
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -357,12 +367,12 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		model.itemDetil = new FtStocktransferd();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
 
-		//2. ANTISIPASI
-		FtStocktransferdPK id = new FtStocktransferdPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
-		model.itemDetil.setId(id);
-		
+//		//2. ANTISIPASI
+//		FtStocktransferdPK id = new FtStocktransferdPK();
+//		id.setRefno(model.getItemHeader().getRefno());
+//		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+//		model.itemDetil.setId(id);
+//		
 		//3. UPDATE ITEM YANG SAMA
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		model.getFtStocktransferdJpaService().updateObject(model.itemDetil);
@@ -372,6 +382,8 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		helper.updateAndCalculateHeaderByItemDetil();
 		
 		//NEW FORM UPDATE STOCK SAAT TOMBOL SAVE
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	
@@ -395,9 +407,16 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		model.itemDetil = new FtStocktransferd();
 		model.itemDetil = view.getItemDetilModel().getItemDetil();
 		
+		//2. ANTISIPASI
+		FtStocktransferdPK id = new FtStocktransferdPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+		model.itemDetil.setId(id);	
+		
 		//2. LANGSUNG DIMASUKKAN KE DATABASE :: LALU TAMBAH ITEM PADA TABEL
 		model.getFtStocktransferdJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
+		
 		//3. UPDATE STOK ::ADD
 		List<FtStocktransferd> listForStockAdd = new ArrayList<FtStocktransferd>();
 		listForStockAdd.add(model.getItemDetil());
@@ -410,8 +429,11 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		view.getItemDetilView().getBtnClose().click();
 		view.getBtnAddItem().click();
 		
+		
 		helper.updateAndCalculateHeaderByItemDetil();
 
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	public void saveAddOrUpdateItemEditFromEditForm(){
@@ -423,13 +445,12 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		model.getProductAndStockHelper().stockTransferRemove(model.getItemHeader().getFwarehouseBeanFrom(), 
 				model.getItemHeader().getFwarehouseBeanTo(),listForStockRemove, model.getItemHeader().getTrdate());
 		
-
-		//2. ANTISIPASI
-		FtStocktransferdPK id = new FtStocktransferdPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
-		model.itemDetil.setId(id);	
-		
+//		//2. ANTISIPASI
+//		FtStocktransferdPK id = new FtStocktransferdPK();
+//		id.setRefno(model.getItemHeader().getRefno());
+//		id.setId(view.getItemDetilModel().getItemDetil().getFproductBean().getId());
+//		model.itemDetil.setId(id);	
+//		
 		//3. UPDATE ITEM YANG SAMA
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		model.getFtStocktransferdJpaService().updateObject(model.itemDetil);
@@ -445,6 +466,8 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		view.fillComponentDetilItem();
 		helper.updateAndCalculateHeaderByItemDetil();
 		
+		//BIAR COMBO PRODUCT KOSONG LAGI
+		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
 	

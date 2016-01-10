@@ -256,9 +256,6 @@ import org.erp.distribution.purchaseorder.retur.IncomingStockReturView;
 import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvModel;
 import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvPresenter;
 import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvView;
-import org.erp.distribution.salesorder.salesorder.SalesOrderModel;
-import org.erp.distribution.salesorder.salesorder.SalesOrderPresenter;
-import org.erp.distribution.salesorder.salesorder.SalesOrderView;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaModel;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaPresenter;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaView;
@@ -289,6 +286,9 @@ import org.erp.distribution.salesorder.salesorder.retur.SalesOrderReturView;
 import org.erp.distribution.salesorder.salesorder.retur.lapsalesretur.LapSalesReturModel;
 import org.erp.distribution.salesorder.salesorder.retur.lapsalesretur.LapSalesReturPresenter;
 import org.erp.distribution.salesorder.salesorder.retur.lapsalesretur.LapSalesReturView;
+import org.erp.distribution.salesorder.salesorder.sales.SalesOrderModel;
+import org.erp.distribution.salesorder.salesorder.sales.SalesOrderPresenter;
+import org.erp.distribution.salesorder.salesorder.sales.SalesOrderView;
 import org.erp.distribution.servicehp.lapservicerekap.LapServiceRekapModel;
 import org.erp.distribution.servicehp.lapservicerekap.LapServiceRekapPresenter;
 import org.erp.distribution.servicehp.lapservicerekap.LapServiceRekapView;
@@ -416,6 +416,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	private LapSJPenagihanListJpaService lapSJPenagihanListJpaService;
 	private LapStockOpanameJpaService lapStockOpanameJpaService;
 	private LapTemplate1JpaService lapTemplate1JpaService;
+	
 	
 //	Panel panelWorkspace1 = new Panel();
 //	VerticalLayout workspace1 = new VerticalLayout();
@@ -1268,6 +1269,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 
 	@VaadinServletConfiguration(productionMode=false, ui=DashboardUI.class)
 	public static class Servlet extends VaadinServlet{		
+			    		
 	}
 
 	@Override

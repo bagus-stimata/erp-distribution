@@ -4,6 +4,7 @@ import net.sf.jasperreports.components.sort.FieldNumberComparator;
 
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
+import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -17,6 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.themes.Reindeer;
 
 public class SalesOrderItemView extends CustomComponent {
 	private static final long serialVersionUID = 1L;
@@ -46,7 +48,7 @@ public class SalesOrderItemView extends CustomComponent {
 	private TextField fieldSubtotalafterdisc = new TextField("TOTAL(-DISC-PPN)");
 	private TextField fieldSubtotalafterdiscafterppn = new TextField("TOTAL-DISC+PPN");
 	
-	
+	private Button btnProductInfo = new Button("Info Product");
 	private Button btnAddAndSave = new Button("Add or Update");
 	private Button btnReset = new Button("Reset");
 	private Button btnClose = new Button("Close");
@@ -135,11 +137,37 @@ public class SalesOrderItemView extends CustomComponent {
 		fieldQty3.setRequired(true);
 		fieldQty.setRequired(true);
 		
+		btnProductInfo.setWidth("600px");
+		btnProductInfo.addStyleName(Reindeer.BUTTON_LINK);
+		
 		fieldDisc1.setRequired(true);
 		fieldDisc2.setRequired(true);
 		
-		fieldSubtotal.setRequired(true);
+		fieldSubtotal.setRequired(true);	
 		
+//		//ERROR HANDLER UI
+//		btnAddAndSave.setComponentError(new UserError("err"));
+//		btnReset.setComponentError(new UserError("err"));
+//		btnClose.setComponentError(new UserError("err"));
+//		
+//		comboProduct.setComponentError(new UserError("err"));
+//
+//		fieldSprice.setComponentError(new UserError("err"));
+//		fieldSpriceafterppn.setComponentError(new UserError("err"));
+//		fieldQty1.setComponentError(new UserError("err"));
+//		fieldQty2.setComponentError(new UserError("err"));
+//		fieldQty3.setComponentError(new UserError("err"));
+//		fieldQty.setComponentError(new UserError("err"));
+//		
+//		fieldDisc1.setComponentError(new UserError("err"));
+//		fieldDisc1rp.setComponentError(new UserError("err"));
+//		fieldDisc2.setComponentError(new UserError("err"));
+//		fieldDisc2rp.setComponentError(new UserError("err"));
+//		
+//		fieldSubtotal.setComponentError(new UserError("err"));
+//		fieldSubtotalafterppn.setComponentError(new UserError("err"));
+//		fieldSubtotalafterdisc.setComponentError(new UserError("err"));
+//		fieldSubtotalafterdiscafterppn.setComponentError(new UserError("err"));
 		
 	}
 	
@@ -195,6 +223,7 @@ public class SalesOrderItemView extends CustomComponent {
 		panelCheckFreegood.setContent(checkFreegood);
 		layoutTop.addComponent(panelCheckFreegood);
 		
+		layoutBottom.addComponent(btnProductInfo);
 		layoutBottom.addComponent(btnAddAndSave);
 		layoutBottom.addComponent(btnReset);
 		layoutBottom.addComponent(btnClose);
@@ -237,7 +266,7 @@ public class SalesOrderItemView extends CustomComponent {
 		comboProduct.setContainerDataSource(model.getBeanItemContainerProduct());
 		comboProduct.setNewItemsAllowed(false);
 		comboProduct.setFilteringMode(FilteringMode.CONTAINS);
-		comboProduct.setNullSelectionAllowed(false);
+		comboProduct.setNullSelectionAllowed(true);
 		
 		model.getBinderItemDetail().bind(fieldNomorUrut, "nourut");
 		model.getBinderItemDetail().bind(comboProduct, "fproductBean");
@@ -540,6 +569,14 @@ public class SalesOrderItemView extends CustomComponent {
 
 	public void setPanelFieldSpriceafterppn(Panel panelFieldSpriceafterppn) {
 		this.panelFieldSpriceafterppn = panelFieldSpriceafterppn;
+	}
+
+	public Button getBtnProductInfo() {
+		return btnProductInfo;
+	}
+
+	public void setBtnProductInfo(Button btnProductInfo) {
+		this.btnProductInfo = btnProductInfo;
 	}
 	
 

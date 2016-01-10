@@ -1,6 +1,8 @@
 package org.erp.distribution.purchaseorder.incomingstock.windowitem;
 
 import org.erp.distribution.model.FProduct;
+import org.erp.distribution.model.FtPurchasedPK;
+import org.erp.distribution.model.FtSalesdPK;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -67,7 +69,8 @@ public class IncomingStockItemPresenter implements ClickListener, BlurListener, 
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==view.getBtnAddAndSave()){
-			fixEntityBeforeUpdate();
+			//SUDAH FIX KOK
+//			fixEntityBeforeUpdate();
 		} else if (event.getButton()==view.getBtnReset()){
 			resetItem();
 		} else if (event.getButton()==view.getBtnClose()){
@@ -140,6 +143,16 @@ public class IncomingStockItemPresenter implements ClickListener, BlurListener, 
 	
 	public void resetItem(){
 
+		FtPurchasedPK id = new FtPurchasedPK();
+		id.setId(model.itemDetil.getId().getId());
+		id.setRefno(model.getItemHeader().getRefno());
+
+		//## KADANG NULL ##
+		if (id.getRefno()==null){
+			id.setRefno((long) 0);
+		}
+		model.itemDetil.setId(id);
+		
 		model.itemDetil.setFproductBean(new FProduct());
 		model.itemDetil.setFtpurchasehBean(model.getItemHeader());
 		
@@ -268,7 +281,7 @@ public class IncomingStockItemPresenter implements ClickListener, BlurListener, 
 	public void handleAction(Action action, Object sender, Object target) {
 		if (action==ENTER_COMBOPRODUCT){
 
-				if (! view.getFieldPprice().isVisible() && view.getFieldPprice().isEnabled()) {
+				if (view.getFieldPprice().isVisible() && view.getFieldPprice().isEnabled()) {
 					view.getFieldPprice().focus();
 				} else if(view.getFieldPpriceafterppn().isVisible() && view.getFieldPpriceafterppn().isEnabled()){
 					view.getFieldPpriceafterppn().focus();				

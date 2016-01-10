@@ -6,6 +6,7 @@ import java.util.Set;
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FProductJpaService;
+import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FStockJpaService;
 import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FtPriceAltdJpaService;
@@ -39,6 +40,8 @@ public class SalesOrderReturItemModel extends CustomComponent {
 	
 		private FtSaleshJpaService ftSaleshJpaService;
 		private FtSalesdJpaService ftSalesdJpaService;
+		
+		private FSalesmanJpaService fSalesmanJpaService;
 		private FCustomerJpaService fCustomerJpaService;
 		private FProductJpaService fProductJpaService;
 		private FStockJpaService fStockJpaService;
@@ -62,15 +65,8 @@ public class SalesOrderReturItemModel extends CustomComponent {
 		//OTHERS
 		protected String OperationStatus = "OPEN";
 
-		public String getOperationStatus() {
-			return OperationStatus;
-		}
-
-		public void setOperationStatus(String operationStatus) {
-			OperationStatus = operationStatus;
-		}
-
 		public SalesOrderReturItemModel(){
+			this.itemHeader = itemHeader;
 			initVariable();
 			initVariableData();
 			
@@ -83,10 +79,11 @@ public class SalesOrderReturItemModel extends CustomComponent {
 			
 			setFtSalesdJpaService((((DashboardUI) getUI().getCurrent()).getFtSalesdJpaService()));
 			setFtSaleshJpaService((((DashboardUI) getUI().getCurrent()).getFtSaleshJpaService()));
+			
+			setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));
 			setfCustomerJpaService((((DashboardUI) getUI().getCurrent()).getfCustomerJpaService()));
 			setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 			setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
-			
 			
 			setFtPriceAltdJpaService((((DashboardUI) getUI().getCurrent()).getFtPriceAltdJpaService()));
 			
@@ -100,9 +97,18 @@ public class SalesOrderReturItemModel extends CustomComponent {
 			beanItemContainerProduct.removeAllContainerFilters();
 			beanItemContainerProduct.removeAllItems();
 			
-			beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
+//			beanItemContainerProduct.addAll(fProductJpaService.findAllActive());
 			
 		}
+		
+		public String getOperationStatus() {
+			return OperationStatus;
+		}
+
+		public void setOperationStatus(String operationStatus) {
+			OperationStatus = operationStatus;
+		}
+
 
 		public SysvarJpaService getSysvarJpaService() {
 			return sysvarJpaService;
@@ -215,6 +221,14 @@ public class SalesOrderReturItemModel extends CustomComponent {
 
 		public void setFtPriceAltdJpaService(FtPriceAltdJpaService ftPriceAltdJpaService) {
 			this.ftPriceAltdJpaService = ftPriceAltdJpaService;
+		}
+
+		public FSalesmanJpaService getfSalesmanJpaService() {
+			return fSalesmanJpaService;
+		}
+
+		public void setfSalesmanJpaService(FSalesmanJpaService fSalesmanJpaService) {
+			this.fSalesmanJpaService = fSalesmanJpaService;
 		}
 
 			
