@@ -261,8 +261,8 @@ public class UserOtorizeHelper {
         }
         
         //PERKECUALIAN MENU   
-        mainUI.menuServiceHp.setVisible(false);
-        mainUI.menuSetupMasterServiceHp.setVisible(false);
+//        mainUI.menuServiceHp.setVisible(false);
+//        mainUI.menuSetupMasterServiceHp.setVisible(false);
         
     }
 
@@ -474,8 +474,8 @@ public class UserOtorizeHelper {
         
         
         //PERKECUALIAN MENU   
-        mainUI.menuServiceHp.setVisible(false);
-        mainUI.menuSetupMasterServiceHp.setVisible(false);
+//        mainUI.menuServiceHp.setVisible(false);
+//        mainUI.menuSetupMasterServiceHp.setVisible(false);
         
     }
     public void setOtorizeProperties(){
