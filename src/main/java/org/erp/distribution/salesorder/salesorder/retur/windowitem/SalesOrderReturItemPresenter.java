@@ -284,6 +284,7 @@ public class SalesOrderReturItemPresenter implements ClickListener, BlurListener
 	@Override
 	public void handleAction(Action action, Object sender, Object target) {
 		if (action==ENTER_COMBOPRODUCT){
+			
 				if (view.getFieldSprice().isVisible() && view.getFieldSprice().isEnabled()) {
 					view.getFieldSprice().focus();
 				} else if(view.getFieldSpriceafterppn().isVisible() && view.getFieldSpriceafterppn().isEnabled()){

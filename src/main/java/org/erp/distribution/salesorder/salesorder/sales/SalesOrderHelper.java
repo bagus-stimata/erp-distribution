@@ -897,29 +897,30 @@ public class SalesOrderHelper {
 	}
 		
 	public void deleteNonPromoItem(){
-		List<FtSalesd> listFtSalesdNonPromo = new ArrayList<FtSalesd>();
-		Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
-		for (Object itemId: itemIds){
-			FtSalesd ftSalesd = new FtSalesd();
-			ftSalesd = model.getBeanItemContainerDetil().getItem(itemId).getBean();
-			if (ftSalesd.getPromo()==true) {
-				model.getFtSalesdJpaService().removeObject(ftSalesd);
-			}else {
-				listFtSalesdNonPromo.add(ftSalesd);
+		try{
+			List<FtSalesd> listFtSalesdNonPromo = new ArrayList<FtSalesd>();
+			Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
+			for (Object itemId: itemIds){
+				FtSalesd ftSalesd = new FtSalesd();
+				ftSalesd = model.getBeanItemContainerDetil().getItem(itemId).getBean();
+				if (ftSalesd.getPromo()==true) {
+					model.getFtSalesdJpaService().removeObject(ftSalesd);
+				}else {
+					listFtSalesdNonPromo.add(ftSalesd);
+				}
 			}
-		}
-		model.getBeanItemContainerDetil().removeAllItems();
-		model.getBeanItemContainerDetil().addAll(listFtSalesdNonPromo);
-
-		List<FtSalesdPromoTprb> listFtSalesdPromoTprbToDelete = model.getFtSalesdPromoTprbJpaService().findAllByFtSaleshRefno(model.getItemHeader().getRefno());
-		for (FtSalesdPromoTprb domain: listFtSalesdPromoTprbToDelete){
-			model.getFtSalesdPromoTprbJpaService().removeObject(domain);
-		}
-		List<FtSalesdPromoTpruDisc> listFtSalesdPromoTpruDiscToDelete = model.getFtSalesdPromoTpruDiscJpaService().findAllByFtSaleshRefno(model.getItemHeader().getRefno());
-		for (FtSalesdPromoTpruDisc domain: listFtSalesdPromoTpruDiscToDelete){
-			model.getFtSalesdPromoTpruDiscJpaService().removeObject(domain);
-		}
-		
+			model.getBeanItemContainerDetil().removeAllItems();
+			model.getBeanItemContainerDetil().addAll(listFtSalesdNonPromo);
+	
+			List<FtSalesdPromoTprb> listFtSalesdPromoTprbToDelete = model.getFtSalesdPromoTprbJpaService().findAllByFtSaleshRefno(model.getItemHeader().getRefno());
+			for (FtSalesdPromoTprb domain: listFtSalesdPromoTprbToDelete){
+				model.getFtSalesdPromoTprbJpaService().removeObject(domain);
+			}
+			List<FtSalesdPromoTpruDisc> listFtSalesdPromoTpruDiscToDelete = model.getFtSalesdPromoTpruDiscJpaService().findAllByFtSaleshRefno(model.getItemHeader().getRefno());
+			for (FtSalesdPromoTpruDisc domain: listFtSalesdPromoTpruDiscToDelete){
+				model.getFtSalesdPromoTpruDiscJpaService().removeObject(domain);
+			}
+		} catch(Exception ex){}
 		
 	}
 

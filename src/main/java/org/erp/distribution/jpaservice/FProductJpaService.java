@@ -11,6 +11,8 @@ import org.erp.distribution.model.FProductgroup;
 public interface FProductJpaService extends GenericJpaService<FProduct, Serializable>{
 	public List<FProduct> findAllActive();
 	public List<FProduct> findAllByPcode(String pcode);
+	public List<FProduct> findAllByPcodeAktif(String pcode);
+	public List<FProduct> findAllByPnameAktif(String pname);
 	public List<FProduct> findAll(boolean isAktif);
 	
 	public List<FProduct> findAll(String pcode, String pname, long longVendorFrom, long longVendorTo, String productDivisi, boolean includeNull);

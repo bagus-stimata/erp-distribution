@@ -2,6 +2,7 @@ package org.erp.distribution.kontrolstok.stockopname.windowitem;
 
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
+import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Alignment;
@@ -12,6 +13,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class StockOpnameItemView extends CustomComponent {
@@ -132,28 +134,23 @@ public class StockOpnameItemView extends CustomComponent {
 		fieldSubtotal.setRequired(true);
 
 //		//ERROR HANDLER UI
-//		btnAddAndSave.setComponentError(new UserError("err"));
-//		btnReset.setComponentError(new UserError("err"));
-//		btnClose.setComponentError(new UserError("err"));
-//		
-//		comboProduct.setComponentError(new UserError("err"));
-//
-//		fieldPprice.setComponentError(new UserError("err"));
-//		fieldPpriceafterppn.setComponentError(new UserError("err"));
-//		fieldQty1.setComponentError(new UserError("err"));
-//		fieldQty2.setComponentError(new UserError("err"));
-//		fieldQty3.setComponentError(new UserError("err"));
-//		fieldQty.setComponentError(new UserError("err"));
-//		
-//		fieldDisc1.setComponentError(new UserError("err"));
-//		fieldDisc1rp.setComponentError(new UserError("err"));
-//		fieldDisc2.setComponentError(new UserError("err"));
-//		fieldDisc2rp.setComponentError(new UserError("err"));
-//		
-//		fieldSubtotal.setComponentError(new UserError("err"));
-//		fieldSubtotalafterppn.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdisc.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdiscafterppn.setComponentError(new UserError("err"));
+		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+		    @Override
+		    public void error(com.vaadin.server.ErrorEvent event) {
+		        // Find the final cause
+//		        String cause = "<b>The click failed because:</b><br/>";
+//		        for (Throwable t = event.getThrowable(); t != null;
+//		             t = t.getCause())
+//		            if (t.getCause() == null) // We're at final cause
+//		                cause += t.getClass().getName() + "<br/>";
+		        
+		        // Display the error message in a custom fashion
+//		        layout.addComponent(new Label(cause, ContentMode.HTML));
+		           
+		        // Do the default error handling (optional)
+//		        doDefault(event);
+		    } 
+		});		
 	}
 	
 	public void buildView(){

@@ -466,6 +466,7 @@ public class ExportImportSipTigaDaraPresenter implements ClickListener{
             ftSalesd.setDisc1rpafterppn(0.0);
             ftSalesd.setDisc2rp(0.0);
             ftSalesd.setDisc2rpafterppn(0.0);
+            ftSalesd.setPromo(false);
             
             Double hargaPerPcs = fProduct.getSprice()/fProduct.getConvfact1();
             

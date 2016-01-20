@@ -4,6 +4,9 @@ import net.sf.jasperreports.components.sort.FieldNumberComparator;
 
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Alignment;
@@ -15,6 +18,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -82,7 +86,7 @@ public class SalesOrderItemView extends CustomComponent {
 		
 		setDisplay();	
 
-		setParamterSystemRole();
+		setParameterSystemRole();
 		
 	}
 	
@@ -129,6 +133,24 @@ public class SalesOrderItemView extends CustomComponent {
 		
 		//NOT NULLABLE
 		comboProduct.setRequired(true);
+		comboProduct.setImmediate(true);
+		comboProduct.setNewItemsAllowed(true);
+		comboProduct.setTextInputAllowed(true);
+		comboProduct.setBuffered(false);
+//		comboProduct.setFilteringMode(FilteringMode.CONTAINS);
+//		comboProduct.setNullSelectionAllowed(true);
+		//COMBO ACCCONT
+//		comboProduct.setContainerDataSource(model.getBeanItemContainerProduct());
+		ValueChangeListener valueListener = new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println(event.getProperty().getValue());
+			}
+		};
+		comboProduct.addValueChangeListener(valueListener);
+		
 		fieldSprice.setRequired(true);
 		fieldSpriceafterppn.setRequired(true);
 		
@@ -145,29 +167,25 @@ public class SalesOrderItemView extends CustomComponent {
 		
 		fieldSubtotal.setRequired(true);	
 		
-//		//ERROR HANDLER UI
-//		btnAddAndSave.setComponentError(new UserError("err"));
-//		btnReset.setComponentError(new UserError("err"));
-//		btnClose.setComponentError(new UserError("err"));
-//		
-//		comboProduct.setComponentError(new UserError("err"));
-//
-//		fieldSprice.setComponentError(new UserError("err"));
-//		fieldSpriceafterppn.setComponentError(new UserError("err"));
-//		fieldQty1.setComponentError(new UserError("err"));
-//		fieldQty2.setComponentError(new UserError("err"));
-//		fieldQty3.setComponentError(new UserError("err"));
-//		fieldQty.setComponentError(new UserError("err"));
-//		
-//		fieldDisc1.setComponentError(new UserError("err"));
-//		fieldDisc1rp.setComponentError(new UserError("err"));
-//		fieldDisc2.setComponentError(new UserError("err"));
-//		fieldDisc2rp.setComponentError(new UserError("err"));
-//		
-//		fieldSubtotal.setComponentError(new UserError("err"));
-//		fieldSubtotalafterppn.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdisc.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdiscafterppn.setComponentError(new UserError("err"));
+		//ERROR HANDLER UI
+		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+		    @Override
+		    public void error(com.vaadin.server.ErrorEvent event) {
+		        // Find the final cause
+//		        String cause = "<b>The click failed because:</b><br/>";
+//		        for (Throwable t = event.getThrowable(); t != null;
+//		             t = t.getCause())
+//		            if (t.getCause() == null) // We're at final cause
+//		                cause += t.getClass().getName() + "<br/>";
+		        
+		        // Display the error message in a custom fashion
+//		        layout.addComponent(new Label(cause, ContentMode.HTML));
+		           
+		        // Do the default error handling (optional)
+//		        doDefault(event);
+		    } 
+		});		
+		
 		
 	}
 	
@@ -228,6 +246,8 @@ public class SalesOrderItemView extends CustomComponent {
 		layoutBottom.addComponent(btnReset);
 		layoutBottom.addComponent(btnClose);
 		
+		
+		
 //		layoutTop.setComponentAlignment(btnAdd, Alignment.BOTTOM_CENTER);
 //		layoutTop.setComponentAlignment(btnReset, Alignment.BOTTOM_CENTER);
 //		layoutTop.setComponentAlignment(btnClose, Alignment.BOTTOM_CENTER);
@@ -262,14 +282,9 @@ public class SalesOrderItemView extends CustomComponent {
 		
 		model.getBinderItemDetail().setBuffered(false);
 		
-		//COMBO ACCCONT
-		comboProduct.setContainerDataSource(model.getBeanItemContainerProduct());
-		comboProduct.setNewItemsAllowed(false);
-		comboProduct.setFilteringMode(FilteringMode.CONTAINS);
-		comboProduct.setNullSelectionAllowed(true);
 		
 		model.getBinderItemDetail().bind(fieldNomorUrut, "nourut");
-		model.getBinderItemDetail().bind(comboProduct, "fproductBean");
+//		model.getBinderItemDetail().bind(comboProduct, "fproductBean");
 		model.getBinderItemDetail().bind(fieldSprice, "sprice");
 		model.getBinderItemDetail().bind(checkFreegood, "id.freegood");
 		model.getBinderItemDetail().bind(fieldSpriceafterppn, "spriceafterppn");
@@ -311,7 +326,7 @@ public class SalesOrderItemView extends CustomComponent {
 		comboProduct.focus();
 	}
 	//###****SET PARAMETER SYSTEM ROLE****#####
-	public void setParamterSystemRole(){
+	public void setParameterSystemRole(){
 		if (model.getSysvarHelper().isEntryItemPenjualanHargaSelelahPPN()==true){
 			fieldSprice.setVisible(false);
 			panelFieldSprice.setVisible(false);

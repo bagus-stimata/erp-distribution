@@ -197,4 +197,52 @@ public class FProductJpaServiceImpl extends GenericJpaServiceImpl<FProduct, Seri
 		
 	}
 
+	@Override
+	public List<FProduct> findAllByPnameAktif(String pname) {
+		EntityManager em = getFactory().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			String query = "";
+			query = "SELECT a FROM FProduct a WHERE a.pname LIKE :pname "
+					+ " AND a.statusactive = true "
+					+ " ORDER BY a.pcode ASC";
+
+			List<FProduct> list = em.createQuery(query)
+					.setParameter("pname", pname)
+					.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+					.getResultList();
+			em.getTransaction().commit();
+			return list;
+		} catch (PersistenceException exception) {
+			em.getTransaction().rollback();
+			throw exception;
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public List<FProduct> findAllByPcodeAktif(String pcode) {
+		EntityManager em = getFactory().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			String query = "";
+			query = "SELECT a FROM FProduct a WHERE a.pcode LIKE :pcode "
+					+ " AND a.statusactive = true "
+					+ " ORDER BY a.pcode ASC";
+
+			List<FProduct> list = em.createQuery(query)
+					.setParameter("pcode", pcode)
+					.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+					.getResultList();
+			em.getTransaction().commit();
+			return list;
+		} catch (PersistenceException exception) {
+			em.getTransaction().rollback();
+			throw exception;
+		} finally {
+			em.close();
+		}
+	}
+
 }

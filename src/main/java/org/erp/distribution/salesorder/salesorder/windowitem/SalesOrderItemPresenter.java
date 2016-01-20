@@ -1,7 +1,9 @@
 package org.erp.distribution.salesorder.salesorder.windowitem;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FVendor;
@@ -321,7 +323,20 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 	@Override
 	public void handleAction(Action action, Object sender, Object target) {
 		if (action==ENTER_COMBOPRODUCT){
+//			model.getBeanItemContainerProduct().removeAllItems();
+//			view.getComboProduct().setContainerDataSource(null);
 			
+			String isiCombo = "xxx";
+			
+			System.out.println("COMBO NILAI: " + view.getComboProduct().getValue());
+			
+//			isiCombo = view.getComboProduct().getConvertedValue().toString();
+//			System.out.println("ISI KOMBO: " +isiCombo);
+//			
+//			List<FProduct> listFProduct = new ArrayList<FProduct>();					
+//			listFProduct = model.getfProductJpaService().findAllByPcodeAktif(isiCombo);
+//			if (listFProduct.size()==1) {			
+//				model.getBeanItemContainerProduct().addAll(listFProduct);
 				if (view.getFieldSprice().isVisible() && view.getFieldSprice().isEnabled()) {
 					view.getFieldSprice().focus();
 				} else if(view.getFieldSpriceafterppn().isVisible() && view.getFieldSpriceafterppn().isEnabled()){
@@ -329,6 +344,13 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 				} else if (view.getFieldQty1().isVisible() && view.getFieldQty1().isEnabled()) {
 					view.getFieldQty1().focus();
 				}		
+//			} else {
+//				Set<FProduct> setFProduct = new HashSet<FProduct>();
+//				setFProduct.addAll(model.getfProductJpaService().findAllByPcodeAktif("%" + isiCombo + "%"));
+//				setFProduct.addAll(model.getfProductJpaService().findAllByPnameAktif("%" + isiCombo + "%"));
+//				model.getBeanItemContainerProduct().addAll(setFProduct);
+//			}
+			
 		}else if (action == ENTER_FIELDSPRICE || action == ARROW_DOWN_FIELDSPRICE) {
 			view.getFieldQty1().focus();
 		}else if (action == ARROW_UP_FIELDSPRICE) {

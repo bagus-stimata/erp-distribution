@@ -28,6 +28,7 @@ import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property;
+import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -42,6 +43,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -354,6 +356,26 @@ public class VendorCreditView extends CustomComponent {
 		table.setFooterVisible(true);
 		
 		fieldAmountReturTampunganFaktur.setImmediate(true);
+		
+//		//ERROR HANDLER UI
+		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+		    @Override
+		    public void error(com.vaadin.server.ErrorEvent event) {
+		        // Find the final cause
+//		        String cause = "<b>The click failed because:</b><br/>";
+//		        for (Throwable t = event.getThrowable(); t != null;
+//		             t = t.getCause())
+//		            if (t.getCause() == null) // We're at final cause
+//		                cause += t.getClass().getName() + "<br/>";
+		        
+		        // Display the error message in a custom fashion
+//		        layout.addComponent(new Label(cause, ContentMode.HTML));
+		           
+		        // Do the default error handling (optional)
+//		        doDefault(event);
+		    } 
+		});		
+		
                 
 	}
 	public void initFieldFactory(){
