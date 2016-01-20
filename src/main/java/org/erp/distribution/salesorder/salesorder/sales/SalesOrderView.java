@@ -950,6 +950,7 @@ public class SalesOrderView extends CustomComponent{
 		if (itemDetilModel==null){
 			itemDetilModel = new SalesOrderItemModel();
 			itemDetilModel.setItemHeader(model.getItemHeader());
+			//OKE BOS
 	//		itemDetilModel = new SalesOrderItemModel(model.itemHeader);
 
 //			itemDetilModel.getBeanItemContainerProduct().addAll(model.getBeanItemContainerProduct().getItemIds());
