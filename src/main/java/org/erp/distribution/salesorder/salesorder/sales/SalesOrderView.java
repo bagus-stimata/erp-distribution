@@ -953,7 +953,7 @@ public class SalesOrderView extends CustomComponent{
 			//OKE BOS
 	//		itemDetilModel = new SalesOrderItemModel(model.itemHeader);
 
-//			itemDetilModel.getBeanItemContainerProduct().addAll(model.getBeanItemContainerProduct().getItemIds());
+			itemDetilModel.getBeanItemContainerProduct().addAll(model.getBeanItemContainerProduct().getItemIds());
 			
 			itemDetilView = new SalesOrderItemView(itemDetilModel);
 			itemDetilPresenter = new SalesOrderItemPresenter(itemDetilModel, itemDetilView);

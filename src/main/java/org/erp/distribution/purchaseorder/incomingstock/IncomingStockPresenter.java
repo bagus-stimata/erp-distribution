@@ -312,6 +312,15 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		//4. INIT VALUE
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
 		
+		addItemDetilNew();
+		//PENJUMLAHAN FOOTER
+		helper.updateAndCalculateHeaderByItemDetil();
+
+		
+	}
+	public void addItemDetilNew(){
+		view.getItemDetilModel().setItemHeader(model.itemHeader);		
+		
 		model.itemDetil = new FtPurchased();
 		FtPurchasedPK id = new FtPurchasedPK();
 		id.setRefno(model.getItemHeader().getRefno());
@@ -321,11 +330,9 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		
 		view.getItemDetilPresenter().addItemDetil();;		
 		view.getItemDetilView().focustIdOrDesc();
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
-
 		
 	}
+	
 	public void editItemDetil(){
 		//1. TAMPILKAN WINDOW FORM :: EDIT DETIL
 		view.showWindowForm();
@@ -373,9 +380,7 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		view.getTableDetil().addItem(model.itemDetil);
 		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
-		
+		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
 		view.setDisplayTableFooterDetil();
 		helper.updateAndCalculateHeaderByItemDetil();
@@ -385,7 +390,6 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
-	
 	public void saveAddOrUpdateItemEditFromNewForm(){
 		
 		//1. BUAT BARU DENGAN ITEM YANG SAMA NAMUN
@@ -447,9 +451,7 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		
 		view.setDisplayTableFooterDetil();
 		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
-		
+		addItemDetilNew();
 		helper.updateAndCalculateHeaderByItemDetil();
 
 		//BIAR COMBO PRODUCT KOSONG LAGI

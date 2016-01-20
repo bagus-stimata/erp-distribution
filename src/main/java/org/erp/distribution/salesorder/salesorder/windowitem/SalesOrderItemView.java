@@ -133,14 +133,10 @@ public class SalesOrderItemView extends CustomComponent {
 		
 		//NOT NULLABLE
 		comboProduct.setRequired(true);
-		comboProduct.setImmediate(true);
-		comboProduct.setNewItemsAllowed(true);
-		comboProduct.setTextInputAllowed(true);
-		comboProduct.setBuffered(false);
-//		comboProduct.setFilteringMode(FilteringMode.CONTAINS);
-//		comboProduct.setNullSelectionAllowed(true);
+		comboProduct.setFilteringMode(FilteringMode.CONTAINS);
+		comboProduct.setNullSelectionAllowed(true);
 		//COMBO ACCCONT
-//		comboProduct.setContainerDataSource(model.getBeanItemContainerProduct());
+		comboProduct.setContainerDataSource(model.getBeanItemContainerProduct());
 		ValueChangeListener valueListener = new ValueChangeListener() {
 			
 			@Override
@@ -284,7 +280,7 @@ public class SalesOrderItemView extends CustomComponent {
 		
 		
 		model.getBinderItemDetail().bind(fieldNomorUrut, "nourut");
-//		model.getBinderItemDetail().bind(comboProduct, "fproductBean");
+		model.getBinderItemDetail().bind(comboProduct, "fproductBean");
 		model.getBinderItemDetail().bind(fieldSprice, "sprice");
 		model.getBinderItemDetail().bind(checkFreegood, "id.freegood");
 		model.getBinderItemDetail().bind(fieldSpriceafterppn, "spriceafterppn");

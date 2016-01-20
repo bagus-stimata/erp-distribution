@@ -323,21 +323,30 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		view.getItemDetilModel().setOperationStatus(EnumOperationStatus.ADDING.getStrCode());
 		//4. INIT VALUE
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
-		
-		model.itemDetil = new FtSalesd();
-		FtSalesdPK id = new FtSalesdPK();
-		id.setRefno(model.getItemHeader().getRefno());
-		id.setId((long) 0);
-		model.itemDetil.setId(id);		
-		view.getItemDetilModel().setItemDetil(model.getItemDetil());
-		
-		view.getItemDetilPresenter().addItemDetil();;		
-		view.getItemDetilView().focustIdOrDesc();
+
+		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
 		helper.updateAndCalculateHeaderByItemDetil();
 
 		
 	}
+	
+	public void addItemDetilNew(){
+		view.getItemDetilModel().setItemHeader(model.itemHeader);		
+		
+		model.itemDetil = new FtSalesd();
+		FtSalesdPK id = new FtSalesdPK();
+		id.setRefno(model.getItemHeader().getRefno());
+		id.setId((long) 0);
+		id.setFreegood(false);
+		model.itemDetil.setId(id);		
+		view.getItemDetilModel().setItemDetil(model.getItemDetil());
+		
+		view.getItemDetilPresenter().addItemDetil();;		
+		view.getItemDetilView().focustIdOrDesc();
+		
+	}
+	
 	public void editItemDetil(){
 		//1. TAMPILKAN WINDOW FORM :: EDIT DETIL
 		view.showWindowForm();
@@ -385,10 +394,11 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		view.getTableDetil().addItem(model.itemDetil);
 		
-		try{
-			view.getItemDetilView().getBtnClose().click();
-		} catch(Exception ex){}
-		view.getBtnAddItem().click();
+//		try{
+//			view.getItemDetilView().getBtnClose().click();
+//		} catch(Exception ex){}
+//		view.getBtnAddItem().click();
+		addItemDetilNew();
 		
 		//PENJUMLAHAN FOOTER
 		view.setDisplayTableFooterDetil();
@@ -399,7 +409,6 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
-	
 	public void saveAddOrUpdateItemEditFromNewForm(){
 		
 		//1. BUAT BARU DENGAN ITEM YANG SAMA NAMUN
@@ -425,7 +434,7 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
-	
+
 	public void addOrUpdateItemFromEditForm(){
 		
 		if (view.getItemDetilModel().getOperationStatus().equals(EnumOperationStatus.ADDING.getStrCode())){
@@ -464,8 +473,9 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		
 		view.setDisplayTableFooterDetil();
 		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
+//		view.getItemDetilView().getBtnClose().click();
+//		view.getBtnAddItem().click();
+		addItemDetilNew();
 		
 		helper.updateAndCalculateHeaderByItemDetil();
 		//BIAR COMBO PRODUCT KOSONG LAGI

@@ -18,6 +18,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.erp.distribution.model.FtOpnamed;
 import org.erp.distribution.model.FtOpnamedPK;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesh;
@@ -285,6 +286,14 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		//3. STATE FORM
 		view.getItemDetilModel().setOperationStatus(EnumOperationStatus.ADDING.getStrCode());
 		//4. INIT VALUE
+		addItemDetilNew();
+		
+		//PENJUMLAHAN FOOTER
+		helper.updateAndCalculateHeaderByItemDetil();
+
+		
+	}
+	public void addItemDetilNew(){
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
 		
 		model.itemDetil = new FtStocktransferd();
@@ -296,11 +305,9 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		
 		view.getItemDetilPresenter().addItemDetil();;		
 		view.getItemDetilView().focustIdOrDesc();
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
-
 		
 	}
+	
 	public void editItemDetil(){
 		//1. TAMPILKAN WINDOW FORM :: EDIT DETIL
 		view.showWindowForm();
@@ -347,10 +354,8 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		model.getFtStocktransferdJpaService().updateObject(model.itemDetil);
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		view.getTableDetil().addItem(model.itemDetil);
-		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
-		
+
+		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
 		view.setDisplayTableFooterDetil();
 		helper.updateAndCalculateHeaderByItemDetil();
@@ -359,8 +364,7 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		//BIAR COMBO PRODUCT KOSONG LAGI
 		view.getItemDetilView().getComboProduct().setValue(null);
 		
-	}
-	
+	}	
 	public void saveAddOrUpdateItemEditFromNewForm(){
 		
 		//1. BUAT BARU DENGAN ITEM YANG SAMA NAMUN
@@ -426,10 +430,7 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 		
 		view.setDisplayTableFooterDetil();
 		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
-		
-		
+		addItemDetilNew();
 		helper.updateAndCalculateHeaderByItemDetil();
 
 		//BIAR COMBO PRODUCT KOSONG LAGI

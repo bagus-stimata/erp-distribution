@@ -466,6 +466,15 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		view.getItemDetilModel().setOperationStatus(EnumOperationStatus.ADDING.getStrCode());
 		//4. INIT VALUE
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
+
+		addItemDetilNew();
+		
+		//PENJUMLAHAN FOOTER
+		helper.updateAndCalculateHeaderByItemDetil();
+	}
+	
+	public void addItemDetilNew(){
+		view.getItemDetilModel().setItemHeader(model.itemHeader);		
 		
 		model.itemDetil = new FtSalesd();
 		FtSalesdPK id = new FtSalesdPK();
@@ -477,11 +486,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		
 		view.getItemDetilPresenter().addItemDetil();;		
 		view.getItemDetilView().focustIdOrDesc();
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
-
 		
 	}
+	
 	public void editItemDetil(){
 		//1. TAMPILKAN WINDOW FORM :: EDIT DETIL
 		view.showWindowForm();
@@ -529,10 +536,11 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		view.getTableDetil().addItem(model.itemDetil);
 		
-		try{
-			view.getItemDetilView().getBtnClose().click();
-		} catch(Exception ex){}
-		view.getBtnAddItem().click();
+//		try{
+//			view.getItemDetilView().getBtnClose().click();
+//		} catch(Exception ex){}
+//		view.getBtnAddItem().click();
+		addItemDetilNew();
 		
 		//PENJUMLAHAN FOOTER
 		view.setDisplayTableFooterDetil();
@@ -769,8 +777,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		
 		view.setDisplayTableFooterDetil();
 		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
+//		view.getItemDetilView().getBtnClose().click();
+//		view.getBtnAddItem().click();
+		addItemDetilNew();
 		
 		helper.updateAndCalculateHeaderByItemDetil();
 
@@ -1612,11 +1621,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		parameters.put("paramRefnoTo",model.itemHeader.getRefno());
 		parameters.put("paramInvoiceno","%");
 
-		
 		parameters.put("paramRefno", model.itemHeader.getRefno());
 		
 		parameters.put("paramProductShortname", model.getSysvarHelper().isShortNamePadaFaktur());
-
 
 		//CONNECTION
 		final Connection con = new ReportJdbcConfigHelper().getConnection();

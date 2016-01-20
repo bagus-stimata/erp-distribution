@@ -29,6 +29,7 @@ import org.erp.distribution.model.FtOpnamed;
 import org.erp.distribution.model.FtOpnamedPK;
 import org.erp.distribution.model.FtOpnameh;
 import org.erp.distribution.model.FtPurchased;
+import org.erp.distribution.model.FtPurchasedPK;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.ZLapStockOpname;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
@@ -297,6 +298,13 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		//4. INIT VALUE
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
 		
+		addItemDetilNew();
+		//PENJUMLAHAN FOOTER
+		helper.updateAndCalculateHeaderByItemDetil();
+	}
+	public void addItemDetilNew(){
+		view.getItemDetilModel().setItemHeader(model.itemHeader);		
+		
 		model.itemDetil = new FtOpnamed();
 		FtOpnamedPK id = new FtOpnamedPK();
 		id.setRefno(model.getItemHeader().getRefno());
@@ -306,8 +314,7 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		
 		view.getItemDetilPresenter().addItemDetil();;		
 		view.getItemDetilView().focustIdOrDesc();
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
+		
 	}
 	
 	public void editItemDetil(){
@@ -358,9 +365,7 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		model.getBeanItemContainerDetil().addItem(model.itemDetil);
 		view.getTableDetil().addItem(model.itemDetil);
 		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
-		
+		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
 		view.setDisplayTableFooterDetil();
 		helper.updateAndCalculateHeaderByItemDetil();
@@ -370,7 +375,6 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
-	
 	public void saveAddOrUpdateItemEditFromNewForm(){
 		
 		//1. BUAT BARU DENGAN ITEM YANG SAMA NAMUN
@@ -435,15 +439,12 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		
 		view.setDisplayTableFooterDetil();
 		
-		view.getItemDetilView().getBtnClose().click();
-		view.getBtnAddItem().click();
-		
+		addItemDetilNew();
 		helper.updateAndCalculateHeaderByItemDetil();
 		//BIAR COMBO PRODUCT KOSONG LAGI
 		view.getItemDetilView().getComboProduct().setValue(null);
 		
 	}
-	
 	public void saveAddOrUpdateItemEditFromEditForm(){
 		
 		//1. HAPUS STOK
