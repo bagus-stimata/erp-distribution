@@ -89,6 +89,7 @@ public class SjPenagihanView extends CustomComponent {
 	
 	private CheckBox checkLihatSemua = new CheckBox("Lihat Semua(Kirim dan Belum)", false);
 	
+	private ComboBox searchComboCustomer = new ComboBox("Customer");
 	private ComboBox searchComboSalesman = new ComboBox("Salesman");
 	private ComboBox searchComboArea = new ComboBox("Area");
 	private ComboBox searchComboSubArea = new ComboBox("Sub Area");
@@ -310,17 +311,25 @@ public class SjPenagihanView extends CustomComponent {
 		searchComboSalesman.setContainerDataSource(model.getBeanItemContainerSalesman());
 		searchComboSubArea.setContainerDataSource(model.getBeanItemContainerSubArea());
 		
+		searchComboCustomer.setContainerDataSource(model.getBeanItemContainerCustomer());
+		searchComboCustomer.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		searchComboCustomer.setNullSelectionAllowed(true);
+		searchComboCustomer.setFilteringMode(FilteringMode.CONTAINS);
+
 		searchComboArea.setWidth("120px");
 		searchComboSalesman.setWidth("120px");
 		searchComboSubArea.setWidth("120px");
+		searchComboCustomer.setWidth("120px");
 		
 		searchComboSalesman.setCaption("");
 		searchComboArea.setCaption("");
 		searchComboSubArea.setCaption("");
+		searchComboCustomer.setCaption("");
 
 		searchComboSalesman.setInputPrompt("Salesman");
 		searchComboArea.setInputPrompt("Area");
 		searchComboSubArea.setInputPrompt("Sub Area");
+		searchComboCustomer.setInputPrompt("Customer");
 		
 		//FOOTER SELECTED
 		fieldSelectedCount.setWidth("100px");
@@ -491,6 +500,8 @@ public class SjPenagihanView extends CustomComponent {
 //		layoutTopInner2.addComponent(checkLihatSemua);
 //		layoutTopInner2.setComponentAlignment(checkLihatSemua, Alignment.MIDDLE_CENTER);
 		
+		layoutTopInner2.addComponent(searchComboCustomer);
+		layoutTopInner2.setComponentAlignment(searchComboCustomer, Alignment.BOTTOM_CENTER);
 		layoutTopInner2.addComponent(searchComboSalesman);
 		layoutTopInner2.setComponentAlignment(searchComboSalesman, Alignment.BOTTOM_CENTER);
 		layoutTopInner2.addComponent(searchComboArea);
@@ -1355,6 +1366,12 @@ public class SjPenagihanView extends CustomComponent {
 	}
 	public void setFieldSearchBySJPenagihan(TextField fieldSearchBySJPenagihan) {
 		this.fieldSearchBySJPenagihan = fieldSearchBySJPenagihan;
+	}
+	public ComboBox getSearchComboCustomer() {
+		return searchComboCustomer;
+	}
+	public void setSearchComboCustomer(ComboBox searchComboCustomer) {
+		this.searchComboCustomer = searchComboCustomer;
 	}
 	
 	

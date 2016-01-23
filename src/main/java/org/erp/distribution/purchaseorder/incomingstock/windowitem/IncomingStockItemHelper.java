@@ -1,5 +1,8 @@
 package org.erp.distribution.purchaseorder.incomingstock.windowitem;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FProduct;
@@ -34,6 +37,22 @@ public class IncomingStockItemHelper{
 		model.itemDetil.setFproductBean(fProduct);
 		model.itemDetil.setPprice(fProduct.getPprice());
 		model.itemDetil.setPpriceafterppn(fProduct.getPprice() * pecahanPpn);
+		
+		//PRODUCT INFO DAN STOK
+		Date invoiceDate = model.getItemHeader().getInvoicedate();
+		int jumlahSaldoStock = model.getProductAndStockHelper().getSaldoStock(model.getItemHeader().getFwarehouseBean(), fProduct, invoiceDate);
+		int qtyBes = model.getProductAndStockHelper().getBesFromPcs(jumlahSaldoStock, fProduct);
+		int qtySed = model.getProductAndStockHelper().getSedFromPcs(jumlahSaldoStock, fProduct);
+		int qtyKec = model.getProductAndStockHelper().getKecFromPcs(jumlahSaldoStock, fProduct);
+		if (fProduct.getPcode()!=null){
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+			view.getBtnProductInfo().setCaption(sdf.format(invoiceDate) +" ->> "+fProduct.getPcode()+"-"+fProduct.getPname()+
+					" "+fProduct.getPackaging()+" ->> "+ qtyBes+ fProduct.getUom1()+" "+qtySed+ fProduct.getUom2()+" "+qtyKec +fProduct.getUom3());
+		} else {
+			view.getBtnProductInfo().setCaption("Product Info");
+		}
+		
+		
 	}
 	public void updateAndCalculateItemDetil(){
 		try{
@@ -108,6 +127,8 @@ public class IncomingStockItemHelper{
 		} catch(Exception ex){}
 		
 		model.getBinderItemDetail().setItemDataSource(model.itemDetil);
+		
+		
 		
 	}
 

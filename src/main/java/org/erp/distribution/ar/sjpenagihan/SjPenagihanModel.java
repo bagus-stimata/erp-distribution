@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FAreaJpaService;
+import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FDivisionJpaService;
 import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FSubareaJpaService;
@@ -13,6 +14,7 @@ import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.FtSaleshRekapTampunganJpaService;
 import org.erp.distribution.jpaservicerep.LapSJPenagihanListJpaService;
 import org.erp.distribution.model.FArea;
+import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FSubarea;
@@ -51,6 +53,7 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 	private FAreaJpaService fAreaJpaService;
 	private FSubareaJpaService fSubareaJpaService;
 	private FSalesmanJpaService fSalesmanJpaService;
+	private FCustomerJpaService fCustomerJpaService;
 
 	
 	private String operationStatus="";	
@@ -64,6 +67,7 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 	private BeanItemContainer<FArea> beanItemContainerArea = new BeanItemContainer<FArea>(FArea.class);
 	private BeanItemContainer<FSubarea> beanItemContainerSubArea = new BeanItemContainer<FSubarea>(FSubarea.class);
 	private BeanItemContainer<FSalesman> beanItemContainerSalesman = new BeanItemContainer<FSalesman>(FSalesman.class);
+	private BeanItemContainer<FCustomer> beanItemContainerCustomer = new BeanItemContainer<FCustomer>(FCustomer.class);
 
 	
 	public SjPenagihanModel(){
@@ -87,6 +91,7 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 		setfAreaJpaService(((DashboardUI) getUI().getCurrent()).getfAreaJpaService());
 		setfSubareaJpaService(((DashboardUI) getUI().getCurrent()).getfSubareaJpaService());
 		setfSalesmanJpaService(((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService());
+		setfCustomerJpaService(((DashboardUI) getUI().getCurrent()).getfCustomerJpaService());
 		
 		setLapSJPenagihanListJpaService(((DashboardUI) getUI().getCurrent()).getLapSJPenagihanListJpaService());
 		
@@ -111,6 +116,7 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 			beanItemContainerArea.addAll(fAreaJpaService.findAll());
 			beanItemContainerSubArea.addAll(fSubareaJpaService.findAll());
 			beanItemContainerSalesman.addAll(fSalesmanJpaService.findAll());
+			beanItemContainerCustomer.addAll(fCustomerJpaService.findAll());
 			
 		} catch(Exception ex){
 		
@@ -307,6 +313,23 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 	public void setBeanItemContainerSalesman(
 			BeanItemContainer<FSalesman> beanItemContainerSalesman) {
 		this.beanItemContainerSalesman = beanItemContainerSalesman;
+	}
+
+	public FCustomerJpaService getfCustomerJpaService() {
+		return fCustomerJpaService;
+	}
+
+	public BeanItemContainer<FCustomer> getBeanItemContainerCustomer() {
+		return beanItemContainerCustomer;
+	}
+
+	public void setfCustomerJpaService(FCustomerJpaService fCustomerJpaService) {
+		this.fCustomerJpaService = fCustomerJpaService;
+	}
+
+	public void setBeanItemContainerCustomer(
+			BeanItemContainer<FCustomer> beanItemContainerCustomer) {
+		this.beanItemContainerCustomer = beanItemContainerCustomer;
 	}
 
 

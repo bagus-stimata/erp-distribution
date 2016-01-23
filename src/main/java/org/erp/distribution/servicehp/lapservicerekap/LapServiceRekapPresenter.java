@@ -34,8 +34,12 @@ import org.erp.distribution.model.ZLapTemplate1;
 import org.erp.distribution.util.ReportJdbcConfigHelper;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import com.vaadin.data.Item;
@@ -76,17 +80,20 @@ public class LapServiceRekapPresenter implements ClickListener{
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/servicehp/rekapservice1/rekapservice1.jasper", "rekapservice1");
+		showPreview("/erp/distribution/reports/servicehp/rekapservice1/rekapservice1Ds.jasper", "rekapservice1");
 
 	}
 	
+	private List<ZLapTemplate1> lapTemplate1 = new ArrayList<ZLapTemplate1>();
 	public void fillDatabaseReportLengkap(){
 		//1. HAPUS DATA
-		Iterator<ZLapTemplate1> iterZLapTemplate1Delete = model.getLapTemplate1JpaService().findAll().iterator();
-		while (iterZLapTemplate1Delete.hasNext()) {
-			model.getLapTemplate1JpaService().removeObject(iterZLapTemplate1Delete.next());
-		}
+//		Iterator<ZLapTemplate1> iterZLapTemplate1Delete = model.getLapTemplate1JpaService().findAll().iterator();
+//		while (iterZLapTemplate1Delete.hasNext()) {
+//			model.getLapTemplate1JpaService().removeObject(iterZLapTemplate1Delete.next());
+//		}
 		//MENGHINDARI DOUBLE
+		lapTemplate1 = new ArrayList<ZLapTemplate1>();
+		
 		Set<String> setSuratJalanList = new LinkedHashSet<String>();
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
 
@@ -120,8 +127,8 @@ public class LapServiceRekapPresenter implements ClickListener{
 					domain.setDouble1(itemStService.getBiaya());
 					domain.setDouble2(itemStService.getBiayaSparePart());
 					
-					model.getLapTemplate1JpaService().createObject(domain);
-					
+//					model.getLapTemplate1JpaService().createObject(domain);
+					lapTemplate1.add(domain);
 				
 			}
 			
@@ -130,8 +137,8 @@ public class LapServiceRekapPresenter implements ClickListener{
 	}		
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
+//			final JasperReport report;
+//			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
 		
 			
 		final Map parameters=new HashMap();
@@ -141,14 +148,19 @@ public class LapServiceRekapPresenter implements ClickListener{
 		parameters.put("paramDate2", view.getDateField1To().getValue());
 		
 		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
+//		final Connection con = new ReportJdbcConfigHelper().getConnection();
+		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lapTemplate1);
+		InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
+		
 		
 		StreamResource.StreamSource source = new StreamSource() {			
 			@Override
 			public InputStream getStream() {
 				byte[] b = null;
 				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
+//					b = JasperRunManager.runReportToPdf(report, parameters, con);
+					b = JasperExportManager.exportReportToPdf(jasperPrint);
 				} catch (JRException ex) {
 					System.out.println(ex);
 				}

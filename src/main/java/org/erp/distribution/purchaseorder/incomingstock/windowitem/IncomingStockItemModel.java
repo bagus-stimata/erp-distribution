@@ -29,6 +29,7 @@ public class IncomingStockItemModel extends CustomComponent {
 	//1. DAO SERVICE
 		private SysvarJpaService sysvarJpaService;
 		private SysvarHelper sysvarHelper;
+		private ProductAndStockHelper productAndStockHelper= new ProductAndStockHelper();
 	
 		private FtPurchasehJpaService ftPurchasehJpaService;
 		private FtPurchasedJpaService ftPurchasedJpaService;
@@ -195,6 +196,14 @@ public class IncomingStockItemModel extends CustomComponent {
 
 		public void setSysvarHelper(SysvarHelper sysvarHelper) {
 			this.sysvarHelper = sysvarHelper;
+		}
+
+		public ProductAndStockHelper getProductAndStockHelper() {
+			return productAndStockHelper;
+		}
+
+		public void setProductAndStockHelper(ProductAndStockHelper productAndStockHelper) {
+			this.productAndStockHelper = productAndStockHelper;
 		}
 
 		

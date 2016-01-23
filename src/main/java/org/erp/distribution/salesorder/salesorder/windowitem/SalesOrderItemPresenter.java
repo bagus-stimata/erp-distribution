@@ -97,10 +97,8 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 //			fixEntityBeforeUpdate();
 		} else if (event.getButton()==view.getBtnReset()){
 			resetItem();
-		} else if (event.getButton()==view.getBtnClose()){
-			
-		}
-		
+		} else if (event.getButton()==view.getBtnClose()){			
+		}		
 	}
 	
 	@Override
@@ -111,11 +109,13 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 			helper.updateAndCalculateItemDetil();
 		}else if (event.getComponent()==view.getFieldSprice()){
 			helper.updateAndCalculateItemDetil();
+			helper.validasiHargaBelidanHargaJual();
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldSpriceafterppn()){
 			helper.updateAndCalculateItemDetil();
+			helper.validasiHargaBelidanHargaJual();
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
@@ -145,26 +145,25 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 			helper.updateAndCalculateItemDetil();
 		}else if (event.getComponent()==view.getFieldSubtotalafterppn()){
 			helper.updateAndCalculateItemDetil();
-		}
-		
-		view.setFormButtonAndTextState();
-		
+		}		
+		view.setFormButtonAndTextState();		
 	}
+	
 	@Override
-	public void valueChange(ValueChangeEvent event) {
-		
+	public void valueChange(ValueChangeEvent event) {		
 	}
 	
 	public void addAndSave(){
 	}
+	
 	public void addItemDetil(){
 		resetItem();
 		view.bindAndBuildFieldGroupComponent();						
 	}
+	
 	public void editItemdetil(){		
 		view.bindAndBuildFieldGroupComponent();				
-		view.getComboProduct().setReadOnly(true);
-		
+		view.getComboProduct().setReadOnly(true);		
 	}
 	
 	public void resetItem(){
@@ -202,13 +201,11 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		model.itemDetil.setTprb(0.0);
 		model.itemDetil.setTprudisc(0.0);
 		model.itemDetil.setTprucashback(0.0);
-		
-		
+				
 		view.bindAndBuildFieldGroupComponent();		
 	}
 	
-	public void selectForm(){
-		
+	public void selectForm(){		
 	}
 
 	public void fixEntityBeforeUpdate(){

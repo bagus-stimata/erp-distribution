@@ -11,8 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.erp.distribution.model.FPromo;
@@ -59,16 +63,18 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 				+ "lapaktifitaspromo1/lapaktifitaspromo1.jasper", "lapaktipromo1");
 		
 	}
-
+	private List<ZLapAktifitasPromoList> lapAktifitasPromoList = new ArrayList<ZLapAktifitasPromoList>();
 	public void fillDatabaseReportLengkap(){
 		
-		//1. HAPUS DATA
-		Iterator<ZLapAktifitasPromoList> iterZLapListDelete = model.getLapAktifitasPromoListJpaService().findAll().iterator();
-		while (iterZLapListDelete.hasNext()) {
-			model.getLapAktifitasPromoListJpaService().removeObject(iterZLapListDelete.next());
-		}
+//		//1. HAPUS DATA
+//		Iterator<ZLapAktifitasPromoList> iterZLapListDelete = model.getLapAktifitasPromoListJpaService().findAll().iterator();
+//		while (iterZLapListDelete.hasNext()) {
+//			model.getLapAktifitasPromoListJpaService().removeObject(iterZLapListDelete.next());
+//		}
 
 		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
+		lapAktifitasPromoList = new ArrayList<ZLapAktifitasPromoList>();
+		
 		Date invoicedateFrom = view.getDateField1From().getValue();
 		Date invoicedateTo = view.getDateField1To().getValue();
 		
@@ -124,8 +130,8 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 					
 					domain.setCashbackafterppn(0.0);
 					
-					model.getLapAktifitasPromoListJpaService().createObject(domain);
-										
+//					model.getLapAktifitasPromoListJpaService().createObject(domain);
+					lapAktifitasPromoList.add(domain);
 				}
 				
 			}
@@ -159,7 +165,6 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 					domain.setAddress(ftSalesdPromoTprudisc.getFtSalesdBean().getFtsaleshBean().getFcustomerBean().getAddress1());
 					domain.setCity(ftSalesdPromoTprudisc.getFtSalesdBean().getFtsaleshBean().getFcustomerBean().getCity1());
 					
-					
 					domain.setFreebonuspcode("");
 					domain.setFreebonuspname("");
 					
@@ -177,8 +182,8 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 					
 					domain.setCashbackafterppn(0.0);
 					
-					model.getLapAktifitasPromoListJpaService().createObject(domain);
-					
+//					model.getLapAktifitasPromoListJpaService().createObject(domain);
+					lapAktifitasPromoList.add(domain);
 					
 				}
 				
@@ -190,22 +195,27 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
+//			final JasperReport report;
+//			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
 		
 			
 		final Map parameters=new HashMap();
 		parameters.put("CompanyName","");
 		
 		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
+//		final Connection con = new ReportJdbcConfigHelper().getConnection();
+		
+		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lapAktifitasPromoList);
+		InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
 		
 		StreamResource.StreamSource source = new StreamSource() {			
 			@Override
 			public InputStream getStream() {
 				byte[] b = null;
 				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
+//					b = JasperRunManager.runReportToPdf(report, parameters, con);
+					b = JasperExportManager.exportReportToPdf(jasperPrint);
 				} catch (JRException ex) {
 					System.out.println(ex);
 				}

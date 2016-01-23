@@ -14,12 +14,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.table.AbstractTableModel;
+
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.erp.distribution.model.FArea;
+import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FSubarea;
@@ -71,7 +81,7 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 	 */
 	private static final long serialVersionUID = 1L;
 	private SjPenagihanModel model;
-	private SjPenagihanView view;
+	private SjPenagihanView view; 
 	
 	FtSalesh item = new FtSalesh();
 	
@@ -287,7 +297,6 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 		} 
 		
 	}
-
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									public void setFormButtonAndText(){
 		if (view.getOperationStatus().equals(EnumOperationStatus.OPEN.getStrCode())){
 			view.getForm().setVisible(false);
@@ -573,7 +582,11 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 			spcode = ((FSalesman) view.getSearchComboSalesman().getValue()).getSpcode();
 		}catch(Exception ex){}
 		String spname = "%";
+
 		String custno = "%";
+		try{
+			custno = ((FCustomer) view.getSearchComboCustomer().getValue()).getCustno();
+		}catch(Exception ex){}
 		String custname = "%";
 		
 		Date invoicedateFrom = null;
@@ -733,17 +746,21 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/arpayment/sjpenagihan/sjpenagihan1.jasper", "sjpenagihan1");
+//		showPreview("/erp/distribution/reports/arpayment/sjpenagihan/sjpenagihan1.jasper", "sjpenagihan1");
+		showPreview("/erp/distribution/reports/arpayment/sjpenagihan/sjpenagihan1Ds.jasper", "sjpenagihan1");
 		
 	}
 	
+	List<ZLapSJPenagihanList> lapSJPenagihanList=new ArrayList<ZLapSJPenagihanList>();
+	
 	public void fillDatabaseReportLengkap(){
 		//1. HAPUS DATA
-		Iterator<ZLapSJPenagihanList> iterZLapSJPenagihanListDelete = model.getLapSJPenagihanListJpaService().findAll().iterator();
-		while (iterZLapSJPenagihanListDelete.hasNext()) {
-			model.getLapSJPenagihanListJpaService().removeObject(iterZLapSJPenagihanListDelete.next());
-		}
+//		Iterator<ZLapSJPenagihanList> iterZLapSJPenagihanListDelete = model.getLapSJPenagihanListJpaService().findAll().iterator();
+//		while (iterZLapSJPenagihanListDelete.hasNext()) {
+//			model.getLapSJPenagihanListJpaService().removeObject(iterZLapSJPenagihanListDelete.next());
+//		}
 		//MENGHINDARI DOUBLE
+		lapSJPenagihanList=new ArrayList<ZLapSJPenagihanList>();
 		Set<String> setSuratJalanList = new LinkedHashSet<String>();
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
 
@@ -788,9 +805,8 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 				domain.setPrice1(itemArinvoice.getAmountafterdiscafterppn());
 				domain.setPrice2(itemArinvoice.getAmountafterdiscafterppn() - itemArinvoice.getAmountpay());
 				
-				model.getLapSJPenagihanListJpaService().createObject(domain);
-				
-				
+//				model.getLapSJPenagihanListJpaService().createObject(domain);				
+				lapSJPenagihanList.add(domain);
 			}
 			
 		}
@@ -810,9 +826,8 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 	}		
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
-		
+//			final JasperReport report;
+//			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
 			
 		final Map parameters=new HashMap();
 		parameters.put("CompanyName","");
@@ -829,14 +844,18 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 		parameters.put("paramInvoiceList", paramInvoiceList);
 		
 		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
+//		final Connection con = new ReportJdbcConfigHelper().getConnection();
+		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lapSJPenagihanList);
+		InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
 		
 		StreamResource.StreamSource source = new StreamSource() {			
 			@Override
 			public InputStream getStream() {
 				byte[] b = null;
 				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
+//					b = JasperRunManager.runReportToPdf(report, parameters, con);
+					b = JasperExportManager.exportReportToPdf(jasperPrint);
 				} catch (JRException ex) {
 					System.out.println(ex);
 				}
@@ -1040,5 +1059,66 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 	}
 
 	
-	
+}
+
+class CustomTableModel extends AbstractTableModel{
+ private String[] columnNames = {"the_city", "id", "name", "street"};
+
+ private Object[][] data =
+ {
+  {"Berne", new Integer(22), "Bill Ott", "250 - 20th Ave."},
+  {"Berne", new Integer(9), "James Schneider", "277 Seventh Av."},
+  {"Boston", new Integer(32), "Michael Ott", "339 College Av."},
+  {"Boston", new Integer(23), "Julia Heiniger", "358 College Av."},
+  {"Chicago", new Integer(39), "Mary Karsen", "202 College Av."},
+  {"Chicago", new Integer(35), "George Karsen", "412 College Av."},
+  {"Chicago", new Integer(11), "Julia White", "412 Upland Pl."},
+  {"Dallas", new Integer(47), "Janet Fuller", "445 Upland Pl."},
+  {"Dallas", new Integer(43), "Susanne Smith", "2 Upland Pl."},
+  {"Dallas", new Integer(40), "Susanne Miller", "440 - 20th Ave."},
+  {"Dallas", new Integer(36), "John Steel", "276 Upland Pl."},
+  {"Dallas", new Integer(37), "Michael Clancy", "19 Seventh Av."},
+  {"Dallas", new Integer(19), "Susanne Heiniger", "86 - 20th Ave."},
+  {"Dallas", new Integer(10), "Anne Fuller", "135 Upland Pl."},
+  {"Dallas", new Integer(4), "Sylvia Ringer", "365 College Av."},
+  {"Dallas", new Integer(0), "Laura Steel", "429 Seventh Av."},
+  {"Lyon", new Integer(38), "Andrew Heiniger", "347 College Av."},
+  {"Lyon", new Integer(28), "Susanne White", "74 - 20th Ave."},
+  {"Lyon", new Integer(17), "Laura Ott", "443 Seventh Av."},
+  {"Lyon", new Integer(2), "Anne Miller", "20 Upland Pl."},
+  {"New York", new Integer(46), "Andrew May", "172 Seventh Av."},
+  {"New York", new Integer(44), "Sylvia Ott", "361 College Av."},
+  {"New York", new Integer(41), "Bill King", "546 College Av."},
+  {"Oslo", new Integer(45), "Janet May", "396 Seventh Av."},
+  {"Oslo", new Integer(42), "Robert Ott", "503 Seventh Av."},
+  {"Paris", new Integer(25), "Sylvia Steel", "269 College Av."},
+  {"Paris", new Integer(18), "Sylvia Fuller", "158 - 20th Ave."},
+  {"Paris", new Integer(5), "Laura Miller", "294 Seventh Av."},
+  {"San Francisco", new Integer(48), "Robert White", "549 Seventh Av."},
+  {"San Francisco", new Integer(7), "James Peterson", "231 Upland Pl."}
+ };
+
+ public CustomTableModel()
+ {
+ }
+
+ public int getColumnCount()
+ {
+  return this.columnNames.length;
+ }
+
+ public String getColumnName(int columnIndex)
+ {
+  return this.columnNames[columnIndex];
+ }
+
+ public int getRowCount()
+ {
+  return this.data.length;
+ }
+
+ public Object getValueAt(int rowIndex, int columnIndex)
+ {
+  return this.data[rowIndex][columnIndex];
+ }
 }

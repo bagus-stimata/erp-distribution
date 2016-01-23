@@ -20,8 +20,12 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -576,7 +580,7 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/salesorder/packinglistpersj/packinglistpersj1.jasper", "lappackinglistpersj1");
+		showPreview("/erp/distribution/reports/salesorder/packinglistpersj/packinglistpersj1Ds.jasper", "lappackinglistpersj1");
 		
 	}
 
@@ -652,13 +656,16 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 		
 	}
 	
+	private List<ZLapPackingList> listLapPackingList = new ArrayList<ZLapPackingList>();
+	
 	public void fillDatabaseReportLengkap(){
 		//1. HAPUS DATA
-		Iterator<ZLapPackingList> iterZLapPackingListDelete = model.getLapPackingListJpaService().findAll().iterator();
-		while (iterZLapPackingListDelete.hasNext()) {
-			model.getLapPackingListJpaService().removeObject(iterZLapPackingListDelete.next());
-		}
+//		Iterator<ZLapPackingList> iterZLapPackingListDelete = model.getLapPackingListJpaService().findAll().iterator();
+//		while (iterZLapPackingListDelete.hasNext()) {
+//			model.getLapPackingListJpaService().removeObject(iterZLapPackingListDelete.next());
+//		}
 		//MENGHINDARI DOUBLE
+		listLapPackingList = new ArrayList<ZLapPackingList>();
 		Set<String> setSuratJalanList = new LinkedHashSet<String>();
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
 
@@ -702,8 +709,8 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 					domain.setQtySed(model.getProductAndStockHelper().getSedFromPcs(itemDetil.getQty(), itemDetil.getFproductBean()));
 					domain.setQtyKec(model.getProductAndStockHelper().getKecFromPcs(itemDetil.getQty(), itemDetil.getFproductBean()));
 					
-					model.getLapPackingListJpaService().createObject(domain);
-					
+//					model.getLapPackingListJpaService().createObject(domain);
+					listLapPackingList.add(domain);
 				}
 				
 			}
@@ -725,8 +732,6 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 	}		
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
 		
 			
 		final Map parameters=new HashMap();
@@ -743,15 +748,16 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 		parameters.put("paramSuratJalanList", paramSuratJalanList);
 		parameters.put("paramInvoiceList", paramInvoiceList);
 		
-		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
+		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listLapPackingList);
+		InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
 		
 		StreamResource.StreamSource source = new StreamSource() {			
 			@Override
 			public InputStream getStream() {
 				byte[] b = null;
 				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
+					b = JasperExportManager.exportReportToPdf(jasperPrint);
 				} catch (JRException ex) {
 					System.out.println(ex);
 				}

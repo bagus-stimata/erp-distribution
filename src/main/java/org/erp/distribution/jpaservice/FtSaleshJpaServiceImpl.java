@@ -424,6 +424,7 @@ public class FtSaleshJpaServiceImpl extends GenericJpaServiceImpl<FtSalesh, Seri
 		            		+ "	AND a.lunas BETWEEN :lunasFrom AND :lunasTo "
 		            		+ "	AND a.invoicedate >= :invoicedateFrom AND a.invoicedate <= :invoicedateTo "
 		            		+ "	AND  a.fsalesmanBean.spcode LIKE :spcode "
+		            		+ "	AND  a.fcustomerBean.custno LIKE :custno "
 		            		+ "	AND  a.fcustomerBean.fsubareaBean.id LIKE :subarea "
 		            		+ "	AND  a.fcustomerBean.fsubareaBean.fareaBean.id LIKE :area "
 		            		+ " ORDER BY a.orderno DESC";
@@ -437,6 +438,7 @@ public class FtSaleshJpaServiceImpl extends GenericJpaServiceImpl<FtSalesh, Seri
 			            		.setParameter("invoicedateFrom", dateInvoicedateFrom)
 			            		.setParameter("invoicedateTo", dateInvoicedateTo)
 			            		.setParameter("spcode", spcode)
+			            		.setParameter("custno", custno)
 			            		.setParameter("subarea", strSubArea)
 			            		.setParameter("area", strArea)
 			            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)

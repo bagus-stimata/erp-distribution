@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -31,11 +33,18 @@ import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.ZLapMutasiStock;
 import org.erp.distribution.model.ZLapPrestasiKerja;
+import org.erp.distribution.modeltest.TestFactory;
 import org.erp.distribution.util.ReportJdbcConfigHelper;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import com.vaadin.server.FileDownloader;
@@ -47,15 +56,26 @@ import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 
 public class LapMutasiStockPresenter implements ClickListener{
 	private LapMutasiStockModel model;
 	private LapMutasiStockView view;
 
+	private JasperReport reportLengkap;
+	private JasperReport reportRingkas;
+	
 	public LapMutasiStockPresenter(LapMutasiStockModel model, LapMutasiStockView view){
 		this.model = model;
 		this.view = view;
 		initListener();
+		try{
+		reportLengkap = (JasperReport) JRLoader.loadObject(getClass()
+				.getResourceAsStream("/erp/distribution/reports/kontrolstock/mutasistoklengkap/lapmutasistoklengkap1.jasper"));
+		reportRingkas = (JasperReport) JRLoader.loadObject(getClass()
+				.getResourceAsStream("/erp/distribution/reports/kontrolstock/mutasistok/mutasistock.jasper"));
+	
+		} catch(Exception ex){}
 	}
 	
 	public void initListener(){
@@ -70,8 +90,11 @@ public class LapMutasiStockPresenter implements ClickListener{
 			if(view.getCheckBox2().getValue()==true) {
 				previewLengkap();
 			}else {
-				preview();				
+				previewRingkas();				
 			}
+			
+//			showPreviewTest();
+			
 		} else if (event.getButton()==view.getBtnExtractToExel()){
 			extractToExel();
 		} else if (event.getButton()==view.getBtnClose()){
@@ -134,7 +157,7 @@ public class LapMutasiStockPresenter implements ClickListener{
 			paramSumQtyinQtyout=-100000000;			
 		}
 	}
-	public void preview(){
+	public void previewRingkas(){
 
 		model.getProductAndStockHelper().transferSaldoStokAwalFromBefore(dateParamStockdateFrom);
 		
@@ -148,37 +171,31 @@ public class LapMutasiStockPresenter implements ClickListener{
 		showPreview("/erp/distribution/reports/kontrolstock/mutasistok/mutasistock.jasper", "mutasi_stock");
 		
 	}
-	public void showPreview(String inputFilePath, String outputFilePath){
-		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
+	
+	public void showPreviewTest(){
+		try{
+		final JasperReport reportLengkapx = (JasperReport) JRLoader.loadObject(getClass()
+				.getResourceAsStream("/erp/distribution/reports/xtest/BeanASDatasource.jasper"));
+	
 		
-			
 		final Map parameters=new HashMap();
 		parameters.put("CompanyName","");
-
 		
-		parameters.put("paramStockdateFrom", dateParamStockdateFrom);
-		parameters.put("paramStockdateTo", dateParamStockdateTo);
-		
-		parameters.put("paramWarehouseId", "%" +  strParamWarehouseId  + "%");
-		parameters.put("paramProductgroup", "%" +  strParamProductgroup  + "%");
-
-
-		parameters.put("paramSumQtyinQtyout", paramSumQtyinQtyout);
-
-		//LAPORAN MUTASI STOK LENGKAP:: buat deskripsi saja
-		parameters.put("paramGudang", strParamWarehouse );
-		
-		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
+		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(TestFactory.generateCollection());
+		final JRBeanArrayDataSource dataSourceArray = new JRBeanArrayDataSource(TestFactory.generateBeanArray());
+			
+//		String reportPath = "/erp/distribution/reports/xtest/BeanASDatasource.jasper";		
+		InputStream reportPathStream = getClass().getResourceAsStream("/erp/distribution/reports/xtest/BeanASDatasource.jasper");
+		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, new HashMap(), dataSource);
 		
 		StreamResource.StreamSource source = new StreamSource() {			
 			@Override
 			public InputStream getStream() {
 				byte[] b = null;
 				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
+//					b = JasperRunManager
+//							.runReportToPdf(reportLengkapx, parameters, new JRBeanCollectionDataSource(TestFactory.generateCollection()));
+					b = JasperExportManager.exportReportToPdf(jasperPrint);
 				} catch (JRException ex) {
 					System.out.println(ex);
 				}
@@ -186,17 +203,64 @@ public class LapMutasiStockPresenter implements ClickListener{
 			}
 		};
 		
-		String fileName = "ar_kas_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+		String fileName = "test_" +System.currentTimeMillis()+".pdf";
 		StreamResource resource = new StreamResource( source, fileName);
 		resource.setMIMEType("application/pdf");
 		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
 		
-		view.getUI().getPage().open(resource, "_new_kontrol_stok_" + outputFilePath, false);
+		view.getUI().getPage().open(resource, "_new_kontrol_stok_", false);
 	
-		} catch (JRException e) {
-			e.printStackTrace();
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
+		
+	}
 	
+	
+	public void showPreview(String inputFilePath, final String outputFilePath){
+		try{	
+			final Map parameters=new HashMap();
+			parameters.put("CompanyName","");
+	
+			
+			parameters.put("paramStockdateFrom", dateParamStockdateFrom);
+			parameters.put("paramStockdateTo", dateParamStockdateTo);
+			
+			parameters.put("paramWarehouseId", "%" +  strParamWarehouseId  + "%");
+			parameters.put("paramProductgroup", "%" +  strParamProductgroup  + "%");
+	
+	
+			parameters.put("paramSumQtyinQtyout", paramSumQtyinQtyout);
+	
+			//LAPORAN MUTASI STOK LENGKAP:: buat deskripsi saja
+			parameters.put("paramGudang", strParamWarehouse );
+	
+			final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listLapMutasiStockToCreateObject);
+			InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+			final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
+			
+			StreamResource.StreamSource source = new StreamSource() {			
+				@Override
+				public InputStream getStream() {
+					byte[] b = null;
+					try {
+						b = JasperExportManager.exportReportToPdf(jasperPrint);
+					} catch (JRException ex) {
+						System.out.println(ex);
+					}
+					return new ByteArrayInputStream(b);
+				}
+			};
+			
+			String fileName = "ar_kas_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+			StreamResource resource = new StreamResource( source, fileName);
+			resource.setMIMEType("application/pdf");
+			resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
+			
+			view.getUI().getPage().open(resource, "_new_kontrol_stok_" + outputFilePath, false);
+	
+		} catch(Exception ex){}
+		
 	}
 	
 	public void previewLengkap(){
@@ -206,16 +270,17 @@ public class LapMutasiStockPresenter implements ClickListener{
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/kontrolstock/mutasistoklengkap/lapmutasistoklengkap1.jasper", "lapmutasistoklengkap1");
+		showPreview("/erp/distribution/reports/kontrolstock/mutasistoklengkap/lapmutasistoklengkap1Ds.jasper", "lapmutasistoklengkap1");
 		
 	}
-
+	
+	List<ZLapMutasiStock> listLapMutasiStockToCreateObject = new ArrayList<ZLapMutasiStock>();
 	public void fillDatabaseReportLengkap(){
-		//HAPUS DATA
-		Iterator<ZLapMutasiStock> iterZLapMutasiStockDelete = model.getLapMutasiStockJpaService().findAll().iterator();
-		while (iterZLapMutasiStockDelete.hasNext()) {
-			model.getLapMutasiStockJpaService().removeObject(iterZLapMutasiStockDelete.next());
-		}
+//		//HAPUS DATA
+//		Iterator<ZLapMutasiStock> iterZLapMutasiStockDelete = model.getLapMutasiStockJpaService().findAll().iterator();
+//		while (iterZLapMutasiStockDelete.hasNext()) {
+//			model.getLapMutasiStockJpaService().removeObject(iterZLapMutasiStockDelete.next());
+//		}
 		
 		Iterator<FProduct> iterFProduct = null;
 		if (longParamVendor==0) {
@@ -224,7 +289,8 @@ public class LapMutasiStockPresenter implements ClickListener{
 			iterFProduct = model.getfProductJpaService().findAllForMutasi(longParamVendor,  strPramaProductDivisi, strParamProductgroup, view.getCheckBox3().getValue()).iterator();			
 		}
 		
-		List<ZLapMutasiStock> listLapMutasiStockToCreateObject = new ArrayList<ZLapMutasiStock>();
+//		List<ZLapMutasiStock> listLapMutasiStockToCreateObject = new ArrayList<ZLapMutasiStock>();
+		listLapMutasiStockToCreateObject = new ArrayList<ZLapMutasiStock>();
 		while (iterFProduct.hasNext()) {
 			FProduct fProduct = new FProduct();
 			fProduct = iterFProduct.next();
@@ -388,6 +454,8 @@ public class LapMutasiStockPresenter implements ClickListener{
 			
 			//::SIMPAN::
 			listLapMutasiStockToCreateObject.add(domain);
+			
+			
 			//Jika hanya yang ada mutasi dan saldo awal sama dengan saldo akhir maka(tidak ada mutasi
 //			if (view.getCheckBox1().getValue().equals(true) && domain.getSaldoAwalPcs()  == domain.getSaldoAkhirPcs() ) {
 //				listLapMutasiStockToCreateObject.remove(domain);
@@ -399,25 +467,29 @@ public class LapMutasiStockPresenter implements ClickListener{
 			
 			
 		}
-		//MASUKKAN KE DATA BASE
-		for (ZLapMutasiStock domain: listLapMutasiStockToCreateObject) {
-			
-			boolean mustCreate = true;
-
-			//ANTISIASI
-			if (view.getCheckBox1().getValue().equals(true) && domain.getSaldoAwalPcs()  == domain.getSaldoAkhirPcs() ) {
-//				model.getLapMutasiStockJpaService().removeObject(domain);						
-				mustCreate=false;
-			}
-			
-			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAwalPcs()==0 && domain.getSaldoAkhirPcs() ==0  ) {
-//					model.getLapMutasiStockJpaService().removeObject(domain);						
-				mustCreate=false;
-			}
-			if (mustCreate==true) {
-				model.getLapMutasiStockJpaService().createObject(domain);			
-			}
-		}
+		
+//		//MASUKKAN KE DATA BASE
+//		for (ZLapMutasiStock domain: listLapMutasiStockToCreateObject) {
+//			
+//			boolean mustCreate = true;
+//
+//			//ANTISIASI
+//			if (view.getCheckBox1().getValue().equals(true) && domain.getSaldoAwalPcs()  == domain.getSaldoAkhirPcs() ) {
+////				model.getLapMutasiStockJpaService().removeObject(domain);						
+//				mustCreate=false;
+//			}
+//			
+//			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAwalPcs()==0 && domain.getSaldoAkhirPcs() ==0  ) {
+////					model.getLapMutasiStockJpaService().removeObject(domain);						
+//				mustCreate=false;
+//			}
+//			
+//			
+//			if (mustCreate==true) {
+//				model.getLapMutasiStockJpaService().createObject(domain);			
+//			}
+//			
+//		}
 
 		
  	}
@@ -504,3 +576,4 @@ public class LapMutasiStockPresenter implements ClickListener{
 	
 	
 }
+

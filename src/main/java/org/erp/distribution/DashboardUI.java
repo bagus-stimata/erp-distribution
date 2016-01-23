@@ -8,9 +8,9 @@ import com.vaadin.ui.*;
 import org.erp.distribution.ap.kredittunai.VendorCreditModel;
 import org.erp.distribution.ap.kredittunai.VendorCreditPresenter;
 import org.erp.distribution.ap.kredittunai.VendorCreditView;
-import org.erp.distribution.ap.kredittunai.saldopiutangpervendor.LapSaldoHutangVendorModel;
-import org.erp.distribution.ap.kredittunai.saldopiutangpervendor.LapSaldoHutangVendorPresenter;
-import org.erp.distribution.ap.kredittunai.saldopiutangpervendor.LapSaldoHutangVendorView;
+import org.erp.distribution.ap.kredittunai.saldohutangpervendor.LapSaldoHutangVendorModel;
+import org.erp.distribution.ap.kredittunai.saldohutangpervendor.LapSaldoHutangVendorPresenter;
+import org.erp.distribution.ap.kredittunai.saldohutangpervendor.LapSaldoHutangVendorView;
 import org.erp.distribution.ap.lappembayaranhutang.LapPembayaranHutangModel;
 import org.erp.distribution.ap.lappembayaranhutang.LapPembayaranHutangPresenter;
 import org.erp.distribution.ap.lappembayaranhutang.LapPembayaranHutangView;
@@ -23,9 +23,9 @@ import org.erp.distribution.ar.lappembayaranpiutang.LapPembayaranPiutangView;
 import org.erp.distribution.ar.lapsaldopiutang.LapSaldoPiutangPerCustomerModel;
 import org.erp.distribution.ar.lapsaldopiutang.LapSaldoPiutangPerCustomerPresenter;
 import org.erp.distribution.ar.lapsaldopiutang.LapSaldoPiutangPerCustomerView;
-import org.erp.distribution.ar.saldopiutangsalesmanarea.LapPiutangSalesmanAreaModel;
-import org.erp.distribution.ar.saldopiutangsalesmanarea.LapPiutangSalesmanAreaPresenter;
-import org.erp.distribution.ar.saldopiutangsalesmanarea.LapPiutangSalesmanAreaView;
+import org.erp.distribution.ar.saldopiutangcustomersalesmanarea.LapPiutangCustomerSalesmanAreaModel;
+import org.erp.distribution.ar.saldopiutangcustomersalesmanarea.LapPiutangCustomerSalesmanAreaPresenter;
+import org.erp.distribution.ar.saldopiutangcustomersalesmanarea.LapPiutangCustomerSalesmanAreaView;
 import org.erp.distribution.ar.sjpenagihan.SjPenagihanModel;
 import org.erp.distribution.ar.sjpenagihan.SjPenagihanPresenter;
 import org.erp.distribution.ar.sjpenagihan.SjPenagihanView;
@@ -524,7 +524,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		public MenuItem menuSalesOrderArpaymentSjPenagihan = menuSalesOrder.addItem("Surat Jalan Penagihan", this);
 		public MenuItem menuSalesOrderArPaymentRep = menuSalesOrder.addItem("Lap. Piutang", null, null);
 			public MenuItem menuSalesOrderArpaymentRepSaldoPiutang = menuSalesOrderArPaymentRep.addItem("Saldo Piutang Global", this);
-			public MenuItem menuSalesOrderArpaymentRepSaldoPiutangSalesArea = menuSalesOrderArPaymentRep.addItem("Saldo Piutang per Sales and Area", this);
+			public MenuItem menuSalesOrderArpaymentRepSaldoPiutangSalesArea = menuSalesOrderArPaymentRep.addItem("Saldo Piutang Outlet per Sales and Area", this);
 			public MenuItem menuSalesOrderArpaymentRepPembayaranPiutang = menuSalesOrderArPaymentRep.addItem("Buku Pembayaran Piutang", this);
 //		public MenuItem menuSalesOrderLaporanPiutang = menuSalesOrder.addItem("Lap. Piutang", this);
 
@@ -1033,9 +1033,9 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			workspace1.setContent(objView);
 		}else if (selectedItem == menuSalesOrderArpaymentRepSaldoPiutangSalesArea) {
 			
-			LapPiutangSalesmanAreaModel objModel = new LapPiutangSalesmanAreaModel();
-			LapPiutangSalesmanAreaView objView = new LapPiutangSalesmanAreaView(objModel);
-			LapPiutangSalesmanAreaPresenter objPresenter = new LapPiutangSalesmanAreaPresenter(objModel, objView);				
+			LapPiutangCustomerSalesmanAreaModel objModel = new LapPiutangCustomerSalesmanAreaModel();
+			LapPiutangCustomerSalesmanAreaView objView = new LapPiutangCustomerSalesmanAreaView(objModel);
+			LapPiutangCustomerSalesmanAreaPresenter objPresenter = new LapPiutangCustomerSalesmanAreaPresenter(objModel, objView);				
 			
 			workspace1.setCaption("LAP PIUTANG SALESMAN AND AREA");
 			objView.setSizeFull();

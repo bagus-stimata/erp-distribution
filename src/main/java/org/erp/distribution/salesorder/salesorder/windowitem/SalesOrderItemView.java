@@ -155,14 +155,13 @@ public class SalesOrderItemView extends CustomComponent {
 		fieldQty3.setRequired(true);
 		fieldQty.setRequired(true);
 		
-		btnProductInfo.setWidth("600px");
-		btnProductInfo.addStyleName(Reindeer.BUTTON_LINK);
-		
 		fieldDisc1.setRequired(true);
 		fieldDisc2.setRequired(true);
 		
 		fieldSubtotal.setRequired(true);	
 		
+		btnProductInfo.setWidth("600px");
+		btnProductInfo.addStyleName(Reindeer.BUTTON_LINK);
 		//ERROR HANDLER UI
 		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
 		    @Override

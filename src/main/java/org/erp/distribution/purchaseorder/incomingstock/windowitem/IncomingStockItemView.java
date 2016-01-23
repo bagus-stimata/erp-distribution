@@ -4,6 +4,7 @@ import net.sf.jasperreports.components.sort.FieldNumberComparator;
 
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
+import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Alignment;
@@ -15,9 +16,11 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.themes.Reindeer;
 
 public class IncomingStockItemView extends CustomComponent {
 	/**
@@ -50,6 +53,7 @@ public class IncomingStockItemView extends CustomComponent {
 	private TextField fieldSubtotalafterdiscafterppn = new TextField("TOTAL-DISC+PPN");
 	
 	
+	private Button btnProductInfo = new Button("Info Product");
 	private Button btnAddAndSave = new Button("Add or Update");
 	private Button btnReset = new Button("Reset");
 	private Button btnClose = new Button("Close");
@@ -137,30 +141,28 @@ public class IncomingStockItemView extends CustomComponent {
 		fieldDisc2.setRequired(true);
 		
 		fieldSubtotal.setRequired(true);
+
+		btnProductInfo.setWidth("600px");
+		btnProductInfo.addStyleName(Reindeer.BUTTON_LINK);
+		//ERROR HANDLER UI
+		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+		    @Override
+		    public void error(com.vaadin.server.ErrorEvent event) {
+		        // Find the final cause
+//		        String cause = "<b>The click failed because:</b><br/>";
+//		        for (Throwable t = event.getThrowable(); t != null;
+//		             t = t.getCause())
+//		            if (t.getCause() == null) // We're at final cause
+//		                cause += t.getClass().getName() + "<br/>";
+		        
+		        // Display the error message in a custom fashion
+//		        layout.addComponent(new Label(cause, ContentMode.HTML));
+		           
+		        // Do the default error handling (optional)
+//		        doDefault(event);
+		    } 
+		});		
 		
-//		//ERROR HANDLER UI
-//		btnAddAndSave.setComponentError(new UserError("err"));
-//		btnReset.setComponentError(new UserError("err"));
-//		btnClose.setComponentError(new UserError("err"));
-//		
-//		comboProduct.setComponentError(new UserError("err"));
-//
-//		fieldPprice.setComponentError(new UserError("err"));
-//		fieldPpriceafterppn.setComponentError(new UserError("err"));
-//		fieldQty1.setComponentError(new UserError("err"));
-//		fieldQty2.setComponentError(new UserError("err"));
-//		fieldQty3.setComponentError(new UserError("err"));
-//		fieldQty.setComponentError(new UserError("err"));
-//		
-//		fieldDisc1.setComponentError(new UserError("err"));
-//		fieldDisc1rp.setComponentError(new UserError("err"));
-//		fieldDisc2.setComponentError(new UserError("err"));
-//		fieldDisc2rp.setComponentError(new UserError("err"));
-//		
-//		fieldSubtotal.setComponentError(new UserError("err"));
-//		fieldSubtotalafterppn.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdisc.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdiscafterppn.setComponentError(new UserError("err"));
 	}		
 	
 	public void buildView(){
@@ -214,6 +216,7 @@ public class IncomingStockItemView extends CustomComponent {
 //		layoutTop.addComponent(fieldSubtotalafterdiscafterppn);
 		
 		
+		layoutBottom.addComponent(btnProductInfo);
 		layoutBottom.addComponent(btnAddAndSave);
 		layoutBottom.addComponent(btnReset);
 		layoutBottom.addComponent(btnClose);
@@ -534,6 +537,12 @@ public class IncomingStockItemView extends CustomComponent {
 	}
 	public void setPanelFieldPpriceafterppn(Panel panelFieldPpriceafterppn) {
 		this.panelFieldPpriceafterppn = panelFieldPpriceafterppn;
+	}
+	public Button getBtnProductInfo() {
+		return btnProductInfo;
+	}
+	public void setBtnProductInfo(Button btnProductInfo) {
+		this.btnProductInfo = btnProductInfo;
 	}
 	
 

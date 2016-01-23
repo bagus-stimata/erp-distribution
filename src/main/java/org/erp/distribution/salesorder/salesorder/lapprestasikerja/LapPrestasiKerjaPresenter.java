@@ -12,8 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.erp.distribution.model.FProductgroup;
@@ -106,14 +110,11 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReport();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/salesorder/lapprestasikerja/lapprestasikerja1.jasper", "lapprestasikrj1");
+		showPreview("/erp/distribution/reports/salesorder/lapprestasikerja/lapprestasikerja1Ds.jasper", "lapprestasikrj1");
 		
 	}
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
-			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
 			
 			final Map parameters=new HashMap();
 			parameters.put("CompanyName","");
@@ -124,8 +125,11 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 			parameters.put("paramSalesman", strSalesman);
 			
 			parameters.put("paramProductGroup", "%" +  strParamProductgroup  + "%");
-	//		parameters.put("paramProductGroup", "%" );
-	
+
+			final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listLapPrestasiKerja);
+			InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+			final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
+			
 	
 			//CONNECTION
 			final Connection con = new ReportJdbcConfigHelper().getConnection();
@@ -135,7 +139,7 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 				public InputStream getStream() {
 					byte[] b = null;
 					try {
-						b = JasperRunManager.runReportToPdf(report, parameters, con);
+						b = JasperExportManager.exportReportToPdf(jasperPrint);
 					} catch (JRException ex) {
 						System.out.println(ex);
 					}
@@ -155,14 +159,17 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 		}
 	
 	}
-	public void fillDatabaseReport(){
-		//HAPUS DATA
-		Iterator<ZLapPrestasiKerja> iterZLapPrestasiKerja = model.getLapPrestasiKerjaJpaService().findAll().iterator();
-		while (iterZLapPrestasiKerja.hasNext()) {
-			model.getLapPrestasiKerjaJpaService().removeObject(iterZLapPrestasiKerja.next());
-		}
-		String [] hari = {"Minggu", "Senin", "Selasa", "Rabo", "Kamis", "Jumat", "Sabtu"};
 
+	private List<ZLapPrestasiKerja> listLapPrestasiKerja = new ArrayList<ZLapPrestasiKerja>();
+	public void fillDatabaseReport(){
+//		//HAPUS DATA
+//		Iterator<ZLapPrestasiKerja> iterZLapPrestasiKerja = model.getLapPrestasiKerjaJpaService().findAll().iterator();
+//		while (iterZLapPrestasiKerja.hasNext()) {
+//			model.getLapPrestasiKerjaJpaService().removeObject(iterZLapPrestasiKerja.next());
+//		}
+		String [] hari = {"Minggu", "Senin", "Selasa", "Rabo", "Kamis", "Jumat", "Sabtu"};
+		
+		listLapPrestasiKerja = new ArrayList<ZLapPrestasiKerja>();		
 		//CALCULASI PER TANGGAL
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dateParamInvoicedateFrom);
@@ -241,8 +248,8 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 //			":" + item1.getRataRata() + ":" + item1.getRataRata() + ":" + item1.getTotalBeforediscBeforeppn() + 
 //			":" + item1.getDiscPerbarang() + ":" + item1.getDiscNota() + ":" + item1.getDpp() + ":" + item1.getPpn() + ":" + item1.getTotalAfterdiscAfterppn());
 			
-			model.getLapPrestasiKerjaJpaService().createObject(item1);
-			
+//			model.getLapPrestasiKerjaJpaService().createObject(item1);
+			listLapPrestasiKerja.add(item1);
 			
 			//NAIKKAN SATU HARI
 			cal.add(Calendar.DATE, 1);

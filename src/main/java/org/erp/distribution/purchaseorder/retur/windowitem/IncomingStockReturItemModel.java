@@ -27,6 +27,7 @@ public class IncomingStockReturItemModel extends CustomComponent {
 	private TransaksiHelper transaksiHelper =new TransaksiHelperImpl();
 	//1. DAO SERVICE
 		private SysvarJpaService sysvarJpaService;
+		private ProductAndStockHelper productAndStockHelper= new ProductAndStockHelper();
 	
 		private FtPurchasehJpaService ftPurchasehJpaService;
 		private FtPurchasedJpaService ftPurchasedJpaService;
@@ -183,6 +184,14 @@ public class IncomingStockReturItemModel extends CustomComponent {
 
 		public void setFtPurchasedPK(FtPurchasedPK ftPurchasedPK) {
 			this.ftPurchasedPK = ftPurchasedPK;
+		}
+
+		public ProductAndStockHelper getProductAndStockHelper() {
+			return productAndStockHelper;
+		}
+
+		public void setProductAndStockHelper(ProductAndStockHelper productAndStockHelper) {
+			this.productAndStockHelper = productAndStockHelper;
 		}
 
 		

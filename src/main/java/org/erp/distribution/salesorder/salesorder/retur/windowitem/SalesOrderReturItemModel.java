@@ -37,6 +37,7 @@ public class SalesOrderReturItemModel extends CustomComponent {
 	//1. DAO SERVICE
 		private SysvarJpaService sysvarJpaService;
 		private SysvarHelper sysvarHelper;
+		private ProductAndStockHelper productAndStockHelper= new ProductAndStockHelper();
 	
 		private FtSaleshJpaService ftSaleshJpaService;
 		private FtSalesdJpaService ftSalesdJpaService;
@@ -229,6 +230,14 @@ public class SalesOrderReturItemModel extends CustomComponent {
 
 		public void setfSalesmanJpaService(FSalesmanJpaService fSalesmanJpaService) {
 			this.fSalesmanJpaService = fSalesmanJpaService;
+		}
+
+		public ProductAndStockHelper getProductAndStockHelper() {
+			return productAndStockHelper;
+		}
+
+		public void setProductAndStockHelper(ProductAndStockHelper productAndStockHelper) {
+			this.productAndStockHelper = productAndStockHelper;
 		}
 
 			

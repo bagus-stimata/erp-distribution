@@ -18,6 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.themes.Reindeer;
 
 public class IncomingStockReturItemView extends CustomComponent {
 	/**
@@ -50,6 +51,7 @@ public class IncomingStockReturItemView extends CustomComponent {
 	private TextField fieldSubtotalafterdiscafterppn = new TextField("TOTAL-DISC+PPN");
 	
 	
+	private Button btnProductInfo = new Button("Info Product");
 	private Button btnAddAndSave = new Button("Add or Update");
 	private Button btnReset = new Button("Reset");
 	private Button btnClose = new Button("Close");
@@ -136,29 +138,8 @@ public class IncomingStockReturItemView extends CustomComponent {
 		
 		fieldSubtotal.setRequired(true);
 
-//		//ERROR HANDLER UI
-//		btnAddAndSave.setComponentError(new UserError("err"));
-//		btnReset.setComponentError(new UserError("err"));
-//		btnClose.setComponentError(new UserError("err"));
-//		
-//		comboProduct.setComponentError(new UserError("err"));
-//
-//		fieldPprice.setComponentError(new UserError("err"));
-//		fieldPpriceafterppn.setComponentError(new UserError("err"));
-//		fieldQty1.setComponentError(new UserError("err"));
-//		fieldQty2.setComponentError(new UserError("err"));
-//		fieldQty3.setComponentError(new UserError("err"));
-//		fieldQty.setComponentError(new UserError("err"));
-//		
-//		fieldDisc1.setComponentError(new UserError("err"));
-//		fieldDisc1rp.setComponentError(new UserError("err"));
-//		fieldDisc2.setComponentError(new UserError("err"));
-//		fieldDisc2rp.setComponentError(new UserError("err"));
-//		
-//		fieldSubtotal.setComponentError(new UserError("err"));
-//		fieldSubtotalafterppn.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdisc.setComponentError(new UserError("err"));
-//		fieldSubtotalafterdiscafterppn.setComponentError(new UserError("err"));
+		btnProductInfo.setWidth("600px");
+		btnProductInfo.addStyleName(Reindeer.BUTTON_LINK);
 		
 	}
 	
@@ -207,6 +188,7 @@ public class IncomingStockReturItemView extends CustomComponent {
 		layoutTop.addComponent(panelSubtotalafterdiscafterppn);
 //		layoutTop.addComponent(fieldSubtotalafterdiscafterppn);
 		
+		layoutBottom.addComponent(btnProductInfo);
 		layoutBottom.addComponent(btnAddAndSave);
 		layoutBottom.addComponent(btnReset);
 		layoutBottom.addComponent(btnClose);
@@ -495,6 +477,12 @@ public class IncomingStockReturItemView extends CustomComponent {
 	public void setPanelSubtotalafterdiscafterppn(
 			Panel panelSubtotalafterdiscafterppn) {
 		this.panelSubtotalafterdiscafterppn = panelSubtotalafterdiscafterppn;
+	}
+	public Button getBtnProductInfo() {
+		return btnProductInfo;
+	}
+	public void setBtnProductInfo(Button btnProductInfo) {
+		this.btnProductInfo = btnProductInfo;
 	}
 	
 	

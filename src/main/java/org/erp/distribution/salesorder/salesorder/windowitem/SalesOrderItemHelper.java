@@ -1,5 +1,6 @@
 package org.erp.distribution.salesorder.salesorder.windowitem;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,6 +100,7 @@ public class SalesOrderItemHelper{
 			}
 		} catch(Exception ex){}
 		
+		//PRODUCT INFO DAN STOK
 		Date invoiceDate = model.getItemHeader().getInvoicedate();
 		int jumlahSaldoStock = model.getProductAndStockHelper().getSaldoStock(model.getItemHeader().getFwarehouseBean(), fProduct, invoiceDate);
 		int qtyBes = model.getProductAndStockHelper().getBesFromPcs(jumlahSaldoStock, fProduct);
@@ -217,6 +219,19 @@ public class SalesOrderItemHelper{
 		
 	}
 
+	public boolean validasiHargaBelidanHargaJual(){
+		boolean isValid=true;
+		
+		if (model.getItemDetil().getFproductBean().getPprice() > model.getItemDetil().getSprice()) {
+			NumberFormat nf = NumberFormat.getInstance();
+			nf.setMaximumFractionDigits(0);nf.setMaximumIntegerDigits(0);
+			Notification.show("Harga Jual Lebih Kecil dari Harga Beli!!!. Harga Beli-ppn Rp." +nf.format( model.getItemDetil().getFproductBean().getPprice()),
+					Notification.TYPE_WARNING_MESSAGE);
+			isValid=false;
+		}
+	
+		return isValid;
+	}
 	public double cekParamDiskonItem(double subtotalafterppn){		
 		double discItem1 = 0.0;
 		//1. CEK
