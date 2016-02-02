@@ -292,8 +292,7 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 		} 
 		
 	}
-
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									public void setFormButtonAndText(){
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						public void setFormButtonAndText(){
 		if (view.getOperationStatus().equals(EnumOperationStatus.OPEN.getStrCode())){
 			view.getForm().setVisible(false);
 			view.getTable().setSelectable(true);
@@ -310,7 +309,6 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 		}		
 	}
 	
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									
 		
     ConfirmDialog.Listener konfirmDialogTerbitkanSJPenagihan = new ConfirmDialog.Listener() {					
 		//@Override
@@ -542,7 +540,11 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 		
 		
 		model.getTableBeanItemContainer().addAll(list);
-		//3. Filter Default
+		//Filter piutnag pertanggal --> Karena di JPA belum disediakan
+		Filter filterPiutangPertanggal = new Compare.LessOrEqual("invoicedate", view.getDateFieldPiutangPertanggal().getValue());
+		model.getTableBeanItemContainer().addContainerFilter(filterPiutangPertanggal);
+		
+		//3. Filter Default	
 		model.setFilterDefaultBeanItemContainer();
 		
 		
@@ -659,6 +661,12 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 				domain.setTunaikredit(itemArinvoice.getTunaikredit());
 				domain.setInvoicedate(itemArinvoice.getInvoicedate());
 				domain.setDuedate(itemArinvoice.getDuedate());
+				
+				long datediff = view.getDateFieldPiutangPertanggal().getValue().getTime() - itemArinvoice.getInvoicedate().getTime();
+				double umurPiutang = datediff / (24*60*60*1000);
+					
+				domain.setPrice4(umurPiutang);
+				
 
 				domain.setSjpenagihanno(itemArinvoice.getSjpenagihanno());
 				domain.setSjpenagihandate(itemArinvoice.getSjpenagihandate());
@@ -704,7 +712,7 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 		}
 		
 		parameters.put("paramSuratJalanList", paramSuratJalanList);
-		parameters.put("paramInvoiceList", paramInvoiceList);
+		parameters.put("paramPiutangPertanggal", view.getDateFieldPiutangPertanggal().getValue());
 		
 		//CONNECTION
 //		final Connection con = new ReportJdbcConfigHelper().getConnection();

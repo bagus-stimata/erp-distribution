@@ -34,9 +34,15 @@ public class ZLapPrestasiKerja {
 	Integer efectiveCall;
 	@Column(name="SKUSOLD")
 	Integer skuSold;
+	@Column(name="LINES")
+	Integer lines;
+
 	// SKU / EC
 	@Column(name="RATARATA")
 	Double rataRata;
+	@Column(name="RATARATA2")
+	Double rataRata2;
+
 	@Column(name="TOTALBEFOREDISCBEFOREPPN")
 	Double totalBeforediscBeforeppn;
 	@Column(name="DISCPERBARANG")
@@ -212,6 +218,21 @@ public class ZLapPrestasiKerja {
 	public void setGrup2(String grup2) {
 		this.grup2 = grup2;
 	}
+	
+	public Integer getLines() {
+		return lines;
+	}
+	public Double getRataRata2() {
+		return rataRata2;
+	}
+	public void setLines(Integer lines) {
+		this.lines = lines;
+	}
+	public void setRataRata2(Double rataRata2) {
+		this.rataRata2 = rataRata2;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

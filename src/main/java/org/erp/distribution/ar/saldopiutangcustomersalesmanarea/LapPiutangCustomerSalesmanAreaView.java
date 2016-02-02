@@ -85,6 +85,9 @@ public class LapPiutangCustomerSalesmanAreaView extends CustomComponent {
 	private DateField fieldSearchByDateInvoiceKirimFrom;
 	private DateField fieldSearchByDateInvoiceKirimTo;
 	
+	
+	private DateField dateFieldPiutangPertanggal = new DateField("Piutang Pertanggal");
+	
 	private ComboBox fieldSearchComboTunaiKredit = new ComboBox("T/K");
 	
 	private CheckBox checkLihatSemua = new CheckBox("Lihat Semua(Kirim dan Belum)", false);
@@ -242,10 +245,16 @@ public class LapPiutangCustomerSalesmanAreaView extends CustomComponent {
 		fieldSearchByDateInvoiceKirimFrom.setWidth("120px");
 		fieldSearchByDateInvoiceKirimFrom.setStyleName(Reindeer.TEXTFIELD_SMALL);
 		fieldSearchByDateInvoiceKirimTo = new DateField("S.D");
+
 		fieldSearchByDateInvoiceKirimTo.setWidth("120px");
 		fieldSearchByDateInvoiceKirimTo.setStyleName(Reindeer.TEXTFIELD_SMALL);
 		fieldSearchByDateInvoiceKirimTo.setDateFormat("dd-MM-yyyy");
 	
+		
+		dateFieldPiutangPertanggal.setWidth("150px");
+		dateFieldPiutangPertanggal.setStyleName(Reindeer.TEXTFIELD_SMALL);
+		dateFieldPiutangPertanggal.setDateFormat("dd-MM-yyyy");
+		
 		fieldSearchComboLunas = new ComboBox("Lunas");
 		fieldSearchComboLunas.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);				
 		fieldSearchComboLunas.addItem("B");
@@ -417,11 +426,10 @@ public class LapPiutangCustomerSalesmanAreaView extends CustomComponent {
         layoutTop = new VerticalLayout();
         
 		HorizontalLayout layoutTopInner0 = new HorizontalLayout();	
-//		layoutTopInner0.setMargin(true);
-		HorizontalLayout layoutTopInner1 = new HorizontalLayout();	
+		HorizontalLayout layoutTopInner1 = new HorizontalLayout();			
+		HorizontalLayout layoutTopInner2 = new HorizontalLayout();	
 		
-		HorizontalLayout layoutTopInner2 = new HorizontalLayout();					
-//		layoutTop.addComponent(layoutTopInner0);
+		layoutTop.addComponent(layoutTopInner0);
 		layoutTop.addComponent(layoutTopInner1);
 		layoutTop.addComponent(layoutTopInner2);
 		panelTop.setContent(layoutTop);
@@ -448,15 +456,18 @@ public class LapPiutangCustomerSalesmanAreaView extends CustomComponent {
         table.setSizeFull();
         content.setExpandRatio(layoutTable, 1);
 		
-        layoutTopInner0.addComponent(labelTanggalTransaksiDivisi);
-
+//        layoutTopInner0.addComponent(labelTanggalTransaksiDivisi);
         //HANYA ADMINISTRATOR YANG BISA
 //        if (userActive.getUserOtorizeType().equals(EnumUserOtorize.ADMINISTRATOR.getStrCode())) {
-	        layoutTopInner0.addComponent(dateFieldDatePembayaranManual);
-			layoutTopInner0.setComponentAlignment(dateFieldDatePembayaranManual, Alignment.BOTTOM_CENTER);
-	        layoutTopInner0.addComponent(checkBoxGunakanTanggalManual);
+//	        layoutTopInner0.addComponent(dateFieldDatePembayaranManual);
+//			layoutTopInner0.setComponentAlignment(dateFieldDatePembayaranManual, Alignment.BOTTOM_CENTER);
+//	        layoutTopInner0.addComponent(checkBoxGunakanTanggalManual);
 //			layoutTopInner0.setComponentAlignment(checkBoxGunakanTanggalManual, Alignment.BOTTOM_CENTER);
 //        }		
+        
+        layoutTopInner0.addComponent(dateFieldPiutangPertanggal);
+		layoutTopInner0.setComponentAlignment(dateFieldPiutangPertanggal, Alignment.BOTTOM_CENTER);
+        
 		layoutTopInner1.addComponent(fieldSearchByRekap);
 		layoutTopInner1.setComponentAlignment(fieldSearchByRekap, Alignment.BOTTOM_CENTER);
 		layoutTopInner1.addComponent(btnSelectRekapNo);
@@ -548,7 +559,8 @@ public class LapPiutangCustomerSalesmanAreaView extends CustomComponent {
 		btnSelisihPlusMinus.setVisible(false);
 		
 		checkBoxGunakanTanggalManual.setValue(true);
-		dateFieldDatePembayaranManual.setValue(model.getTransaksiHelper().getCurrentTransDate());
+//		dateFieldDatePembayaranManual.setValue(model.getTransaksiHelper().getCurrentTransDate());
+		dateFieldPiutangPertanggal.setValue(model.getTransaksiHelper().getCurrentTransDate());
 	}
 	
 	public void setVisibleTableProperties(Object... tablePropertyIds) {
@@ -1367,6 +1379,12 @@ public class LapPiutangCustomerSalesmanAreaView extends CustomComponent {
 	}
 	public void setSearchComboCustomer(ComboBox searchComboCustomer) {
 		this.searchComboCustomer = searchComboCustomer;
+	}
+	public DateField getDateFieldPiutangPertanggal() {
+		return dateFieldPiutangPertanggal;
+	}
+	public void setDateFieldPiutangPertanggal(DateField dateFieldPiutangPertanggal) {
+		this.dateFieldPiutangPertanggal = dateFieldPiutangPertanggal;
 	}
 	
 	

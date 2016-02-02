@@ -144,6 +144,9 @@ import org.erp.distribution.jpaservicerep.LapStockOpanameJpaService;
 import org.erp.distribution.jpaservicerep.LapStockOpanameJpaServiceImpl;
 import org.erp.distribution.jpaservicerep.LapTemplate1JpaService;
 import org.erp.distribution.jpaservicerep.LapTemplate1JpaServiceImpl;
+import org.erp.distribution.kontrolstok.lapmutasisaldostok.LapMutasiSaldoStockModel;
+import org.erp.distribution.kontrolstok.lapmutasisaldostok.LapMutasiSaldoStockPresenter;
+import org.erp.distribution.kontrolstok.lapmutasisaldostok.LapMutasiSaldoStockView;
 import org.erp.distribution.kontrolstok.lapmutasistok.LapMutasiStockModel;
 import org.erp.distribution.kontrolstok.lapmutasistok.LapMutasiStockPresenter;
 import org.erp.distribution.kontrolstok.lapmutasistok.LapMutasiStockView;
@@ -802,9 +805,14 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			
 			workspace1.setContent(objView);
 		}else if (selectedItem == menuWarehouseLapSaldoStock) {
-			LapSaldoStockModel objModel = new LapSaldoStockModel();
-			LapSaldoStockView objView = new LapSaldoStockView(objModel);
-			LapSaldoStockPresenter objPresenter = new LapSaldoStockPresenter(objModel, objView);				
+//			LapSaldoStockModel objModel = new LapSaldoStockModel();
+//			LapSaldoStockView objView = new LapSaldoStockView(objModel);
+//			LapSaldoStockPresenter objPresenter = new LapSaldoStockPresenter(objModel, objView);				
+
+			LapMutasiSaldoStockModel objModel = new LapMutasiSaldoStockModel();
+			LapMutasiSaldoStockView objView = new LapMutasiSaldoStockView(objModel);
+			LapMutasiSaldoStockPresenter objPresenter = new LapMutasiSaldoStockPresenter(objModel, objView);				
+			
 			
 			workspace1.setCaption("LAP SALDO STOK GUDANG");
 			objView.setSizeFull();

@@ -1,4 +1,4 @@
-package org.erp.distribution.kontrolstok.lapmutasistok;
+package org.erp.distribution.kontrolstok.lapmutasisaldostok;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -58,14 +58,14 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
-public class LapMutasiStockPresenter implements ClickListener{
-	private LapMutasiStockModel model;
-	private LapMutasiStockView view;
+public class LapMutasiSaldoStockPresenter implements ClickListener{
+	private LapMutasiSaldoStockModel model;
+	private LapMutasiSaldoStockView view;
 
 	private JasperReport reportLengkap;
 	private JasperReport reportRingkas;
 	
-	public LapMutasiStockPresenter(LapMutasiStockModel model, LapMutasiStockView view){
+	public LapMutasiSaldoStockPresenter(LapMutasiSaldoStockModel model, LapMutasiSaldoStockView view){
 		this.model = model;
 		this.view = view;
 		initListener();
@@ -73,7 +73,7 @@ public class LapMutasiStockPresenter implements ClickListener{
 		reportLengkap = (JasperReport) JRLoader.loadObject(getClass()
 				.getResourceAsStream("/erp/distribution/reports/kontrolstock/mutasistoklengkap/lapmutasistoklengkap1.jasper"));
 		reportRingkas = (JasperReport) JRLoader.loadObject(getClass()
-				.getResourceAsStream("/erp/distribution/reports/kontrolstock/mutasistokringkas/lapmutasistokringkas1.jasper"));
+				.getResourceAsStream("/erp/distribution/reports/kontrolstock/mutasisaldostok/lapmutasistokringkas1.jasper"));
 	
 		} catch(Exception ex){}
 	}
@@ -87,11 +87,13 @@ public class LapMutasiStockPresenter implements ClickListener{
 	@Override
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==view.getBtnPreview()){
-			if(view.getCheckBox2().getValue()==true) {
-				previewLengkap();
-			}else {
-				previewRingkas();				
-			}
+//			if(view.getCheckBox2().getValue()==true) {
+//				previewLengkap();
+//			}else {
+//				previewRingkas();				
+//			}
+			
+			previewRingkas();
 			
 //			showPreviewTest();
 			
@@ -165,54 +167,10 @@ public class LapMutasiStockPresenter implements ClickListener{
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportRingkas();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/kontrolstock/mutasistokringkas/lapmutasistokringkas1Ds.jasper", "lapmutasistokringkas1");
+		showPreview("/erp/distribution/reports/kontrolstock/mutasisaldostok/lapmutasisaldostok1Ds.jasper", "lapmutasisaldostok1");
 		
 	}
 	
-	public void showPreviewTest(){
-		try{
-		final JasperReport reportLengkapx = (JasperReport) JRLoader.loadObject(getClass()
-				.getResourceAsStream("/erp/distribution/reports/xtest/BeanASDatasource.jasper"));
-	
-		
-		final Map parameters=new HashMap();
-		parameters.put("CompanyName","");
-		
-		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(TestFactory.generateCollection());
-		final JRBeanArrayDataSource dataSourceArray = new JRBeanArrayDataSource(TestFactory.generateBeanArray());
-			
-//		String reportPath = "/erp/distribution/reports/xtest/BeanASDatasource.jasper";		
-		InputStream reportPathStream = getClass().getResourceAsStream("/erp/distribution/reports/xtest/BeanASDatasource.jasper");
-		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, new HashMap(), dataSource);
-		
-		StreamResource.StreamSource source = new StreamSource() {			
-			@Override
-			public InputStream getStream() {
-				byte[] b = null;
-				try {
-//					b = JasperRunManager
-//							.runReportToPdf(reportLengkapx, parameters, new JRBeanCollectionDataSource(TestFactory.generateCollection()));
-					b = JasperExportManager.exportReportToPdf(jasperPrint);
-				} catch (JRException ex) {
-					System.out.println(ex);
-				}
-				return new ByteArrayInputStream(b);
-			}
-		};
-		
-		String fileName = "test_" +System.currentTimeMillis()+".pdf";
-		StreamResource resource = new StreamResource( source, fileName);
-		resource.setMIMEType("application/pdf");
-		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
-		
-		view.getUI().getPage().open(resource, "_new_kontrol_stok_", false);
-	
-		} catch(Exception ex){
-			ex.printStackTrace();
-		}
-		
-	}
-		
 	public void showPreview(String inputFilePath, final String outputFilePath){
 		try{	
 			final Map parameters=new HashMap();
@@ -455,9 +413,9 @@ public class LapMutasiStockPresenter implements ClickListener{
 //				listLapMutasiStockToCreateObject.remove(domain);
 //			}
 //			//Jika hanya yang ada stok dan ternyata saldo stok awal dan akhir sama sama 0
-//			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAwalPcs()==0 && domain.getSaldoAkhirPcs() ==0  ) {
-//					listLapMutasiStockToCreateObject.remove(domain);
-//			}			
+			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAkhirPcs() ==0  ) {
+				listLapMutasiStockToCreateObject.remove(domain);
+			}			
 			
 		}
 		
@@ -508,7 +466,7 @@ public class LapMutasiStockPresenter implements ClickListener{
 			domain.setPcode(fProduct.getPcode());
 			domain.setPname(fProduct.getPname() + " " + fProduct.getPackaging());
 
-			Iterator<FStock> iterStock = model.getfStockJpaService().findAll(strParamWarehouseId, fProduct, dateParamStockdateFrom, dateParamStockdateTo).iterator();			
+			Iterator<FStock> iterStock = model.getfStockJpaService().findAll(strParamWarehouseId, fProduct, dateParamStockdateTo, dateParamStockdateTo).iterator();			
 			
 			int penerimaanPembelianPcs =0 ;
 			int penerimaanReturjualPcs =0;
@@ -636,13 +594,13 @@ public class LapMutasiStockPresenter implements ClickListener{
 			
 			
 			//Jika hanya yang ada mutasi dan saldo awal sama dengan saldo akhir maka(tidak ada mutasi
-			if (view.getCheckBox1().getValue().equals(true) && domain.getSaldoAwalPcs()  == domain.getSaldoAkhirPcs() ) {
-				listLapMutasiStockToCreateObject.remove(domain);
-			}
-			//Jika hanya yang ada stok dan ternyata saldo stok awal dan akhir sama sama 0
-			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAwalPcs()==0 && domain.getSaldoAkhirPcs() ==0  ) {
-					listLapMutasiStockToCreateObject.remove(domain);
-			}			
+//			if (view.getCheckBox1().getValue().equals(true) && domain.getSaldoAwalPcs()  == domain.getSaldoAkhirPcs() ) {
+//				listLapMutasiStockToCreateObject.remove(domain);
+//			}
+//			//Jika hanya yang ada stok dan ternyata saldo stok awal dan akhir sama sama 0
+//			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAwalPcs()==0 && domain.getSaldoAkhirPcs() ==0  ) {
+//					listLapMutasiStockToCreateObject.remove(domain);
+//			}			
 			
 		}
 		

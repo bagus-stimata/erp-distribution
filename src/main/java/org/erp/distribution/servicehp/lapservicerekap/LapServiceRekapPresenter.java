@@ -74,8 +74,7 @@ public class LapServiceRekapPresenter implements ClickListener{
 		} else if (event.getButton()==view.getBtnClose()){
 		}
 	}
-	
-	
+		
 	public void printForm(){
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
