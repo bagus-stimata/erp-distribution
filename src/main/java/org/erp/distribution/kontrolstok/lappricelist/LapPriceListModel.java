@@ -5,12 +5,14 @@ import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FProductgroupJpaService;
 import org.erp.distribution.jpaservice.FStockJpaService;
+import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
 import org.erp.distribution.jpaservice.FtSalesdJpaService;
 import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
+import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
@@ -31,6 +33,7 @@ public class LapPriceListModel extends CustomComponent{
 	private FWarehouseJpaService fWarehouseJpaService;
 	private FProductgroupJpaService fProductgroupJpaService;
 	private FStockJpaService fStockJpaService;
+	private FVendorJpaService fVendorJpaService;
 	
 //2. ENTITY		
 //	protected MenuAccessTemp menuAccessTemp;
@@ -38,6 +41,8 @@ public class LapPriceListModel extends CustomComponent{
 			new BeanItemContainer<FWarehouse>(FWarehouse.class);
 	private BeanItemContainer<FProductgroup> beanItemContainerProductgroup = 
 			new BeanItemContainer<FProductgroup>(FProductgroup.class);
+	private BeanItemContainer<FVendor> beanItemContainerVendor = 
+			new BeanItemContainer<FVendor>(FVendor.class);
 	
 //3. LIST >> JIKA PERLU
 //4. BeanItemContainer, Jpa Container
@@ -61,6 +66,7 @@ public class LapPriceListModel extends CustomComponent{
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
+		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
 	}
 
 	public void initVariableData(){
@@ -75,6 +81,7 @@ public class LapPriceListModel extends CustomComponent{
 		
 		beanItemContainerProductgroup.addAll(fProductgroupJpaService.findAll());
 		beanItemContainerWarehouse.addAll(fWarehouseJpaService.findAll());
+		beanItemContainerVendor.addAll(fVendorJpaService.findAll());
 		
 	}
 	public SysvarJpaService getSysvarJpaService() {
@@ -133,6 +140,19 @@ public class LapPriceListModel extends CustomComponent{
 	public void setBeanItemContainerProductgroup(
 			BeanItemContainer<FProductgroup> beanItemContainerProductgroup) {
 		this.beanItemContainerProductgroup = beanItemContainerProductgroup;
+	}
+	public FVendorJpaService getfVendorJpaService() {
+		return fVendorJpaService;
+	}
+	public void setfVendorJpaService(FVendorJpaService fVendorJpaService) {
+		this.fVendorJpaService = fVendorJpaService;
+	}
+	public BeanItemContainer<FVendor> getBeanItemContainerVendor() {
+		return beanItemContainerVendor;
+	}
+	public void setBeanItemContainerVendor(
+			BeanItemContainer<FVendor> beanItemContainerVendor) {
+		this.beanItemContainerVendor = beanItemContainerVendor;
 	}
 
 	

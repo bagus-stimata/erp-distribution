@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.erp.distribution.model.FProductgroup;
+import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.util.ReportJdbcConfigHelper;
 
@@ -47,11 +48,16 @@ public class LapPriceListPresenter implements ClickListener{
 	private String strParamProductgroup = "";
 	private String strParamWarehouseId = "";
 	private Date dateParamStockdate = null;
+	private String strParamVendorId = "";
+	private String strParamVendorName = "";
+	
 	
 	public void resetParameters(){
 		strParamProductgroup= "%";
 		strParamWarehouseId = "%";
 		dateParamStockdate = model.getTransaksiHelper().getCurrentTransDate();
+		strParamVendorId = "";
+		strParamVendorName = "";
 	}
 	public void reloadParameter(){
 		try{
@@ -65,6 +71,12 @@ public class LapPriceListPresenter implements ClickListener{
 			strParamProductgroup = fProductgroup.getId().trim();
 		} catch(Exception ex){}
 		try{
+			FVendor fVendor = new FVendor();
+			fVendor = (FVendor) view.getComboGroup3().getConvertedValue();
+			strParamVendorId = fVendor.getVcode().trim();
+			strParamVendorName = strParamVendorId + " - " + fVendor.getVname();
+		} catch(Exception ex){}
+		try{
 			dateParamStockdate = view.getDateField1From().getValue();
 		} catch(Exception ex){}
 	}
@@ -72,24 +84,24 @@ public class LapPriceListPresenter implements ClickListener{
 		resetParameters();
 		reloadParameter();
 		
-		showPreview("/erp/distribution/reports/kontrolstock/pricelist/pricelist.jasper", "saldo_stock");
+		showPreview("/erp/distribution/reports/kontrolstock/pricelist/pricelist.jasper", "pricelist");
 		
 	}
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
 			final JasperReport report;
 			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
-		
-			
+					
 		final Map parameters=new HashMap();
 		parameters.put("CompanyName","");
-
 		
-//		parameters.put("paramStockdate", dateParamStockdate);
+		parameters.put("paramTanggal", dateParamStockdate);
 		
 //		parameters.put("paramWarehouseId", "%" +  strParamWarehouseId  + "%");
 		parameters.put("paramProductgroup", "%" +  strParamProductgroup  + "%");
 
+		parameters.put("paramVendorId", "%" +  strParamVendorId  + "%");
+		parameters.put("paramVendorName", strParamVendorName);
 
 		//CONNECTION
 		final Connection con = new ReportJdbcConfigHelper().getConnection();
@@ -108,7 +120,7 @@ public class LapPriceListPresenter implements ClickListener{
 			}
 		};
 		
-		String fileName = "ar_kas_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+		String fileName = "pricelist_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
 		StreamResource resource = new StreamResource( source, fileName);
 		resource.setMIMEType("application/pdf");
 		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		

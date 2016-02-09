@@ -162,20 +162,23 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 
 	private List<ZLapPrestasiKerja> listLapPrestasiKerja = new ArrayList<ZLapPrestasiKerja>();
 	public void fillDatabaseReport(){
-//		//HAPUS DATA
-//		Iterator<ZLapPrestasiKerja> iterZLapPrestasiKerja = model.getLapPrestasiKerjaJpaService().findAll().iterator();
-//		while (iterZLapPrestasiKerja.hasNext()) {
-//			model.getLapPrestasiKerjaJpaService().removeObject(iterZLapPrestasiKerja.next());
-//		}
 		String [] hari = {"Minggu", "Senin", "Selasa", "Rabo", "Kamis", "Jumat", "Sabtu"};
 		
 		listLapPrestasiKerja = new ArrayList<ZLapPrestasiKerja>();		
-		//CALCULASI PER TANGGAL
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dateParamInvoicedateFrom);
-		while (cal.getTime().getTime() <= dateParamInvoicedateTo.getTime()) {
+		
+		//Per Tanggal Per Salesman
+		Calendar calInvoiceDateFrom = Calendar.getInstance();
+		Calendar calInvoiceDateTo = Calendar.getInstance();
+		
+		calInvoiceDateFrom.setTime(dateParamInvoicedateFrom);
+		calInvoiceDateTo.setTime(dateParamInvoicedateTo);
+		
+		//SELAMA PARAMETER TANGGAL YANG DI INPUTKAN BENAR
+		while (calInvoiceDateFrom.getTime().getTime() <= calInvoiceDateTo.getTime().getTime()) {
+			
 			List<FtSalesh> listFtSalesh = new ArrayList<FtSalesh>();			
-			listFtSalesh =  model.getFtSaleshJpaService().findAllByInvoicedate(cal.getTime(), cal.getTime(), strTipefaktur, strSpcode, strCustno);
+			listFtSalesh =  model.getFtSaleshJpaService().findAllByInvoicedateOrderBySalesman(calInvoiceDateFrom.getTime(), calInvoiceDateTo.getTime(), 
+					strTipefaktur, strSpcode, strCustno);
 			
 			Iterator<FtSalesh> iterFtSalesh = listFtSalesh.iterator();
 			
@@ -228,8 +231,8 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 			
 			item1.setGrup1("grup1");
 			item1.setGrup2("grup2");
-			item1.setHari(hari[cal.get(Calendar.DAY_OF_WEEK)-1]);
-			item1.setTanggal(cal.getTime());
+			item1.setHari(hari[calInvoiceDateFrom.get(Calendar.DAY_OF_WEEK)-1]);
+			item1.setTanggal(calInvoiceDateFrom.getTime());
 			item1.setJumlahToko(jumlahToko);
 			item1.setEfectiveCall(efectiveCall);
 			item1.setSkuSold(skuSold);
@@ -252,7 +255,7 @@ public class LapPrestasiKerjaPresenter implements ClickListener{
 			listLapPrestasiKerja.add(item1);
 			
 			//NAIKKAN SATU HARI
-			cal.add(Calendar.DATE, 1);
+			calInvoiceDateFrom.add(Calendar.DATE, 1);
 		}
 		
 		

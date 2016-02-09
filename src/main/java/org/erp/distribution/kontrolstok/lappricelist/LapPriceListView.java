@@ -15,6 +15,7 @@ public class LapPriceListView extends CustomComponent{
 	private VerticalLayout content = new VerticalLayout();
 	private ComboBox comboGroup1= new ComboBox("WAREHOUSE/GUDANG");
 	private ComboBox comboGroup2= new ComboBox("GRUP BARANG");
+	private ComboBox comboGroup3= new ComboBox("SUPPLIER");
 
 	private DateField dateField1From = new DateField("TANGGAL STOK");
 	private DateField dateField1To = new DateField("TANGGAL STOK");
@@ -39,6 +40,7 @@ public class LapPriceListView extends CustomComponent{
 	public void initComponent(){
 		comboGroup1.setWidth("300px");
 		comboGroup2.setWidth("300px");
+		comboGroup3.setWidth("300px");
 
 		dateField1From.setDateFormat("dd/MM/yyyy");
 		dateField1To.setDateFormat("dd/MM/yyyy");
@@ -60,6 +62,7 @@ public class LapPriceListView extends CustomComponent{
 		
 //		layoutTop.addComponent(comboGroup1);
 		layoutTop.addComponent(comboGroup2);
+		layoutTop.addComponent(comboGroup3);
 //		layoutTop.addComponent(dateField1From);
 //		layoutTop.addComponent(dateField1To);
 		
@@ -79,12 +82,17 @@ public class LapPriceListView extends CustomComponent{
 		comboGroup1.setContainerDataSource(model.getBeanItemContainerWarehouse());
 		comboGroup1.setNewItemsAllowed(false);
 		comboGroup1.setFilteringMode(FilteringMode.CONTAINS);
-		comboGroup1.setNullSelectionAllowed(false);
+		comboGroup1.setNullSelectionAllowed(true);
 
 		comboGroup2.setContainerDataSource(model.getBeanItemContainerProductgroup());
 		comboGroup2.setNewItemsAllowed(false);
 		comboGroup2.setFilteringMode(FilteringMode.CONTAINS);
-		comboGroup2.setNullSelectionAllowed(false);
+		comboGroup2.setNullSelectionAllowed(true);
+
+		comboGroup3.setContainerDataSource(model.getBeanItemContainerVendor());
+		comboGroup3.setNewItemsAllowed(false);
+		comboGroup3.setFilteringMode(FilteringMode.CONTAINS);
+		comboGroup3.setNullSelectionAllowed(true);
 		
 		dateField1From.setValue(model.getTransaksiHelper().getCurrentTransDate());
 		dateField1To.setValue(model.getTransaksiHelper().getCurrentTransDate());
@@ -177,6 +185,14 @@ public class LapPriceListView extends CustomComponent{
 
 	public void setPanelBottom(Panel panelBottom) {
 		this.panelBottom = panelBottom;
+	}
+
+	public ComboBox getComboGroup3() {
+		return comboGroup3;
+	}
+
+	public void setComboGroup3(ComboBox comboGroup3) {
+		this.comboGroup3 = comboGroup3;
 	}
 	
 	

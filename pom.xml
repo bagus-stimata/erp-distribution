@@ -65,10 +65,12 @@
 		<hsqldb.version>2.3.1</hsqldb.version>    
 <!--  		
 		<vaadin.version>7.1.12</vaadin.version>				
- -->  	 					
        
 		<vaadin.version>7.3.10</vaadin.version>						
 		<vaadin.plugin.version>7.3.10</vaadin.plugin.version>  
+ -->  	 					
+		<vaadin.version>7.6.2</vaadin.version>						
+		<vaadin.plugin.version>7.6.2</vaadin.plugin.version>  
 		
 	</properties>
   

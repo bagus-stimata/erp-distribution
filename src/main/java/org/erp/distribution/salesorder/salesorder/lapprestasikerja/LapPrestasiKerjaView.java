@@ -1,11 +1,13 @@
 package org.erp.distribution.salesorder.salesorder.lapprestasikerja;
 
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -17,6 +19,10 @@ public class LapPrestasiKerjaView extends CustomComponent{
 	private ComboBox comboGroup1= new ComboBox("SALESMAN");
 	private ComboBox comboGroup2= new ComboBox("SUPPLIER");
 
+	private Button btnPilihSalesman = new Button("Pilih Salesman");
+	private Grid gridSalesman = new Grid();
+	
+	
 	private DateField dateField1From = new DateField("TANGGAL PENJUALAN");
 	private DateField dateField1To = new DateField("S.D");
 	
@@ -62,8 +68,10 @@ public class LapPrestasiKerjaView extends CustomComponent{
 		HorizontalLayout layoutBottom = new HorizontalLayout();		
 		layoutBottom.setMargin(true);
 		
-		layoutTop.addComponent(comboGroup1);
+//		layoutTop.addComponent(comboGroup1);
 //		layoutTop.addComponent(comboGroup2);
+		layoutTop.addComponent(btnPilihSalesman);
+		layoutTop.addComponent(gridSalesman);
 		layoutTop.addComponent(dateField1From);
 		layoutTop.addComponent(dateField1To);
 		
@@ -199,6 +207,22 @@ public class LapPrestasiKerjaView extends CustomComponent{
 
 	public void setCheckBox2(CheckBox checkBox2) {
 		this.checkBox2 = checkBox2;
+	}
+
+	public Button getBtnPilihSalesman() {
+		return btnPilihSalesman;
+	}
+
+	public Grid getGridSalesman() {
+		return gridSalesman;
+	}
+
+	public void setBtnPilihSalesman(Button btnPilihSalesman) {
+		this.btnPilihSalesman = btnPilihSalesman;
+	}
+
+	public void setGridSalesman(Grid gridSalesman) {
+		this.gridSalesman = gridSalesman;
 	}
 	
 	

@@ -17,6 +17,7 @@ public interface FtSaleshJpaService extends GenericJpaService<FtSalesh, Serializ
 	public List<FtSalesh> findAllByOrderdate(Date orderdate);
 	public List<FtSalesh> findAllByInvoicedate(Date invoicedate);
 	public List<FtSalesh> findAllByInvoicedate(Date invoicedateFrom, Date invoicedateTo, String tipefaktur, String spcode, String custno);
+	public List<FtSalesh> findAllByInvoicedateOrderBySalesman(Date invoicedateFrom, Date invoicedateTo, String tipefaktur, String spcode, String custno);
 	
 	public List<FtSalesh> findAllByInvoicedate(Date invoicedate, String tipefaktur, boolean yangTerbitSaja);
 	public List<FtSalesh> findAllByOrderno(String orderno, String tipefaktur);

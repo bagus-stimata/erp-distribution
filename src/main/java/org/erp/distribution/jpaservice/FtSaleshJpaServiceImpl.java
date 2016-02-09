@@ -294,6 +294,36 @@ public class FtSaleshJpaServiceImpl extends GenericJpaServiceImpl<FtSalesh, Seri
 	            em.close();
 	        }    
 	}
+	@Override
+	public List<FtSalesh> findAllByInvoicedateOrderBySalesman(Date invoicedateFrom,
+			Date invoicedateTo, String tipefaktur, String spcode, String custno) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesh a WHERE a.invoicedate >= :invoicedateFrom AND a.invoicedate <= :invoicedateTo "
+	            		+ " AND a.tipefaktur LIKE :tipefaktur "
+	            		+ " AND a.fsalesmanBean.spcode LIKE :spcode "
+	            		+ " AND a.fcustomerBean.custno LIKE :custno "
+	            		+ " ORDER BY a.fsalesmanBean.spcode, a.orderno";
+	            //ORDER BY BERPERAN SANGAT PENTING
+	            
+	            List<FtSalesh> list = em.createQuery(query)
+	            		.setParameter("invoicedateFrom", invoicedateFrom)
+	            		.setParameter("invoicedateTo", invoicedateTo)
+	            		.setParameter("tipefaktur", tipefaktur)
+	            		.setParameter("spcode", spcode)
+	            		.setParameter("custno", custno)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
 
 	@Override
 	public List<FtSalesh> findAllOpenInvoice(FCustomer fCustomer) {
