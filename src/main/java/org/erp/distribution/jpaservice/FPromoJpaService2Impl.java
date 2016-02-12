@@ -115,6 +115,32 @@ public class FPromoJpaService2Impl extends GenericJpaServiceImpl<FPromo, Seriali
 			em.close();
 		}
 	}
+
+	@Override
+	public List<FPromo> findAllPromoBerjalan(Date periode) {
+		EntityManager em = getFactory().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			String query = "";
+			query = "SELECT a FROM FPromo a WHERE a.periodeFrom <= :periode "
+					+ " AND  a.periodeTo >= :periode  "
+					+ " ORDER BY a.id ASC";
+
+			List<FPromo> list = em.createQuery(query)
+					.setParameter("periode", periode)
+					.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+					.getResultList();
+			em.getTransaction().commit();
+			return list;
+		} catch (PersistenceException exception) {
+			em.getTransaction().rollback();
+			throw exception;
+		} finally {
+			em.close();
+		}
+		
+		
+	}
 	
 
 

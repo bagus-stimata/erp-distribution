@@ -1,6 +1,7 @@
 package org.erp.distribution.jpaservice;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import org.erp.distribution.jpaservice.generic.GenericJpaService;
@@ -16,5 +17,7 @@ public interface FPromoJpaService2 extends GenericJpaService<FPromo, Serializabl
 	public List<FPromo> findAllPromoActiveByProduct(FProduct fProductBean);
 	public List<FPromo> findAllPromoActiveByProductGroup(FProductgroup fProductGroupBean);
 	public List<FPromo> findAllPromoActiveByProductGroup();
+	
+	public List<FPromo> findAllPromoBerjalan(Date periode);
 	
 }

@@ -183,6 +183,9 @@ import org.erp.distribution.master.productperubahanharga.PerubahanHargaView;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.AktifitasPromosiModel;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.AktifitasPromosiPresenter;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.AktifitasPromosiView;
+import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan.DaftarPromoBerjalanModel;
+import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan.DaftarPromoBerjalanPresenter;
+import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan.DaftarPromoBerjalanView;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports.LapAktifitasPromosiModel;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports.LapAktifitasPromosiPresenter;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports.LapAktifitasPromosiView;
@@ -468,6 +471,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		public MenuItem menuSetupMasterDiskon = menuSetupMaster.addItem("DISKON dan Promosi", this);
 			public MenuItem menuSetupMasterDiskonAktifitasPromosi = menuSetupMasterDiskon.addItem("Aktifitas Promosi", this);
 			public MenuItem menuSetupMasterDiskonAktifitasPromosiLaporan = menuSetupMasterDiskon.addItem("Lap. Aktifitas Promosi", this);
+			public MenuItem menuSetupMasterDiskonAktifitasPromosiDaftarAktifitasPromosiBerjalan = menuSetupMasterDiskon.addItem("Daftar Aktifitas Promo Yang Berjalan", this);
 			public MenuItem menuSetupMasterDiskonAktifitasSeparator1  = menuSetupMasterDiskon.addSeparator();
 			public MenuItem menuSetupMasterDiskonParameterDiskon = menuSetupMasterDiskon.addItem("Parameter Diskon Nota", this);
 			public MenuItem menuSetupMasterDiskonParameterDiskonItem = menuSetupMasterDiskon.addItem("Parameter Diskon Item", this);
@@ -774,6 +778,15 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			LapAktifitasPromosiPresenter objPresenter = new LapAktifitasPromosiPresenter(objModel, objView);				
 			
 			workspace1.setCaption("Lap. AKTIFITAS PROMOSI");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSetupMasterDiskonAktifitasPromosiDaftarAktifitasPromosiBerjalan) {
+			DaftarPromoBerjalanModel objModel = new DaftarPromoBerjalanModel();
+			DaftarPromoBerjalanView objView = new DaftarPromoBerjalanView(objModel);
+			DaftarPromoBerjalanPresenter objPresenter = new DaftarPromoBerjalanPresenter(objModel, objView);				
+			
+			workspace1.setCaption("Daftar Aktifitas Promosi yang sedang berjalan");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);

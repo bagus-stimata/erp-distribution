@@ -24,6 +24,7 @@ public class LapMutasiStockView extends CustomComponent{
 	private CheckBox checkBox2 = new CheckBox("Format Lengkap");
 	private CheckBox checkBox3 = new CheckBox("Barang Aktif Saja");
 	private CheckBox checkBox4 = new CheckBox("Validasi/Rekalkulasi Saldo Stok");
+	private CheckBox checkBox6 = new CheckBox("Format Ringkas Besar");
 
 	private DateField dateField1From = new DateField("TANGGAL");
 	private DateField dateField1To = new DateField("S/D");
@@ -82,6 +83,7 @@ public class LapMutasiStockView extends CustomComponent{
 		layoutTop.addComponent(checkBox2);
 		layoutTop.addComponent(checkBox3);
 		layoutTop.addComponent(checkBox4);
+		layoutTop.addComponent(checkBox6);
 		
 		layoutBottom.addComponent(btnExtractToExel);
 		layoutBottom.addComponent(btnPreview);
@@ -280,6 +282,14 @@ public class LapMutasiStockView extends CustomComponent{
 
 	public void setCheckBox5(CheckBox checkBox5) {
 		this.checkBox5 = checkBox5;
+	}
+
+	public CheckBox getCheckBox6() {
+		return checkBox6;
+	}
+
+	public void setCheckBox6(CheckBox checkBox6) {
+		this.checkBox6 = checkBox6;
 	}
 	
 	

@@ -8,9 +8,13 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class LapPrestasiKerjaView extends CustomComponent{
 	private LapPrestasiKerjaModel model;
@@ -53,6 +57,15 @@ public class LapPrestasiKerjaView extends CustomComponent{
 		dateField1From.setDateFormat("dd/MM/yyyy");
 		dateField1To.setDateFormat("dd/MM/yyyy");
 		
+		btnPilihSalesman.addStyleName(Reindeer.BUTTON_SMALL);
+		btnPilihSalesman.setWidth("400px");
+		gridSalesman.setWidth("400px");
+		gridSalesman.setHeight("150px");
+		gridSalesman.setSelectionMode(SelectionMode.MULTI);
+		//SET COLUMN HEADER VISIBILITY
+		gridSalesman.removeAllColumns();
+		gridSalesman.addColumn("spcode");
+		gridSalesman.addColumn("spname");
 	}
 
 	public void buildView(){
@@ -102,6 +115,10 @@ public class LapPrestasiKerjaView extends CustomComponent{
 		
 		dateField1From.setValue(model.getTransaksiHelper().getCurrentTransDate());
 		dateField1To.setValue(model.getTransaksiHelper().getCurrentTransDate());
+		
+		gridSalesman.setVisible(false);
+		gridSalesman.setContainerDataSource(model.getBeanItemContainerSalesman());
+		
 		
 	}
 

@@ -165,8 +165,12 @@ public class LapMutasiStockPresenter implements ClickListener{
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportRingkas();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/kontrolstock/mutasistokringkas/lapmutasistokringkas1Ds.jasper", "lapmutasistokringkas1");
-		
+		if (view.getCheckBox6().getValue()==false){
+			showPreview("/erp/distribution/reports/kontrolstock/mutasistokringkas/lapmutasistokringkas1Ds.jasper", "lapmutasistokringkas1");
+		}else {
+			showPreview("/erp/distribution/reports/kontrolstock/mutasistokringkas/lapmutasistokringkas2Ds.jasper", "lapmutasistokringkas2");
+			
+		}
 	}
 	
 	public void showPreviewTest(){

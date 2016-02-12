@@ -264,6 +264,9 @@ public class UserOtorizeHelper {
 //        mainUI.menuServiceHp.setVisible(false);
 //        mainUI.menuSetupMasterServiceHp.setVisible(false);
         
+        mainUI.menuGL.setVisible(false);
+       
+        
     }
 
     public void setOpenAndVisibleAllOtorize(){
@@ -476,6 +479,9 @@ public class UserOtorizeHelper {
         //PERKECUALIAN MENU   
 //        mainUI.menuServiceHp.setVisible(false);
 //        mainUI.menuSetupMasterServiceHp.setVisible(false);
+        
+        mainUI.menuGL.setEnabled(false);
+       
         
     }
     public void setOtorizeProperties(){
