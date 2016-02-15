@@ -1,4 +1,4 @@
-package org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan;
+package org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -11,14 +11,15 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class DaftarPromoBerjalanView extends CustomComponent{
-	private DaftarPromoBerjalanModel model;
+public class LapSalesVendorPerBarangView extends CustomComponent{
+	private LapSalesVendorPerBarangModel model;
 
 	private VerticalLayout content = new VerticalLayout();
-	private ComboBox comboGroup1= new ComboBox("TEKNISI");
-	private ComboBox comboGroup2= new ComboBox("GRUP BARANG");
+	
+	private ComboBox comboGroup1= new ComboBox("VENDOR");
+	private ComboBox comboGroup2= new ComboBox("CUSTOMER/OUTLET");
 
-	private DateField dateField1From = new DateField("PROMO PER TANGGAL");
+	private DateField dateField1From = new DateField("TGL FAKTUR MULAI");
 	private DateField dateField1To = new DateField("S.D");
 	
 	private CheckBox checkBox1= new CheckBox("DIPOTONG RETUR");
@@ -32,7 +33,7 @@ public class DaftarPromoBerjalanView extends CustomComponent{
 	private Panel panelBottom = new Panel();
 	
 	
-	public DaftarPromoBerjalanView(DaftarPromoBerjalanModel model){
+	public LapSalesVendorPerBarangView(LapSalesVendorPerBarangModel model){
 		this.model = model;
 		initComponent();
 		buildView();
@@ -63,12 +64,12 @@ public class DaftarPromoBerjalanView extends CustomComponent{
 		HorizontalLayout layoutBottom = new HorizontalLayout();		
 		layoutBottom.setMargin(true);
 		
-//		layoutTop.addComponent(comboGroup1);
-//		layoutTop.addComponent(comboGroup2);
+		layoutTop.addComponent(comboGroup1);
+		layoutTop.addComponent(comboGroup2);
 		layoutTop.addComponent(dateField1From);
-//		layoutTop.addComponent(dateField1To);
+		layoutTop.addComponent(dateField1To);
 
-//		layoutTop.addComponent(checkBox1);
+		layoutTop.addComponent(checkBox1);
 		
 		layoutBottom.addComponent(btnPreview);
 		layoutBottom.addComponent(btnClose);
@@ -85,22 +86,22 @@ public class DaftarPromoBerjalanView extends CustomComponent{
 	}
 	
 	public void setDisplay(){
-//		comboGroup1.setContainerDataSource(model.getBeanItemContainerSTeknisi());
-//		comboGroup1.setNewItemsAllowed(false);
-//		comboGroup1.setFilteringMode(FilteringMode.CONTAINS);
-//		comboGroup1.setNullSelectionAllowed(false);
+		comboGroup1.setContainerDataSource(model.getBeanItemContainerFVendor());
+		comboGroup1.setNewItemsAllowed(false);
+		comboGroup1.setFilteringMode(FilteringMode.CONTAINS);
+		comboGroup1.setNullSelectionAllowed(true);
 
-//		comboGroup2.setContainerDataSource(model.getBeanItemContainerProductgroup());
-//		comboGroup2.setNewItemsAllowed(false);
-//		comboGroup2.setFilteringMode(FilteringMode.CONTAINS);
-//		comboGroup2.setNullSelectionAllowed(false);
+		comboGroup2.setContainerDataSource(model.getBeanItemContainerFCustomer());
+		comboGroup2.setNewItemsAllowed(false);
+		comboGroup2.setFilteringMode(FilteringMode.CONTAINS);
+		comboGroup2.setNullSelectionAllowed(true);
 		
 		dateField1From.setValue(model.getTransaksiHelper().getCurrentTransDate());
 		dateField1To.setValue(model.getTransaksiHelper().getCurrentTransDate());
 		
 	}
 
-	public DaftarPromoBerjalanModel getModel() {
+	public LapSalesVendorPerBarangModel getModel() {
 		return model;
 	}
 
@@ -144,7 +145,7 @@ public class DaftarPromoBerjalanView extends CustomComponent{
 		return panelBottom;
 	}
 
-	public void setModel(DaftarPromoBerjalanModel model) {
+	public void setModel(LapSalesVendorPerBarangModel model) {
 		this.model = model;
 	}
 

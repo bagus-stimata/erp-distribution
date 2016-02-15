@@ -327,6 +327,8 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
 		helper.updateAndCalculateHeaderByItemDetil();
+		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
+		view.getItemDetilView().getComboProduct().setValue(null);
 
 		
 	}

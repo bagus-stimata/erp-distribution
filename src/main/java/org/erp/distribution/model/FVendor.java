@@ -41,6 +41,7 @@ public class FVendor {
 	private String email;
 	@Column(name="NPWP")
 	private String npwp;
+	private Boolean statusactive;
 	
 //	@OneToMany(mappedBy="fvendorBean", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="fvendorBean", fetch=FetchType.LAZY)
@@ -177,6 +178,14 @@ public class FVendor {
 
 	public void setFproductSet(Set<FProduct> fproductSet) {
 		this.fproductSet = fproductSet;
+	}
+
+	public Boolean getStatusactive() {
+		return statusactive;
+	}
+
+	public void setStatusactive(Boolean statusactive) {
+		this.statusactive = statusactive;
 	}
 
 	@Override

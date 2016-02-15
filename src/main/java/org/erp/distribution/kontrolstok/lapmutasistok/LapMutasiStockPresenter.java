@@ -451,7 +451,27 @@ public class LapMutasiStockPresenter implements ClickListener{
 			domain.setPenyesuaianNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(adjustPcs, fProduct));			
 			
 			//::SIMPAN::
-			listLapMutasiStockToCreateObject.add(domain);
+			//JIKA TIDAK HANYA ADA STOK
+			if ( view.getCheckBox5().getValue()==false){
+				//JIKA TIDAK ADA MUTASI
+				if (view.getCheckBox1().getValue()==false){
+					listLapMutasiStockToCreateObject.add(domain);
+				} else {
+					if (domain.getSaldoAwalPcs() != domain.getSaldoAkhirPcs()) {
+						listLapMutasiStockToCreateObject.add(domain);						
+					}
+				}
+			} else {
+				if (domain.getSaldoAkhirPcs() >0) {
+					//JIKA TIDAK ADA MUTASI
+					if (view.getCheckBox1().getValue()==false){
+						listLapMutasiStockToCreateObject.add(domain);
+					} else {
+						if (domain.getSaldoAwalPcs() != domain.getSaldoAkhirPcs()) {
+							listLapMutasiStockToCreateObject.add(domain);											}
+					}
+				}
+			}
 			
 			
 			//Jika hanya yang ada mutasi dan saldo awal sama dengan saldo akhir maka(tidak ada mutasi
@@ -636,17 +656,29 @@ public class LapMutasiStockPresenter implements ClickListener{
 			domain.setPenyesuaianNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(adjustPcs, fProduct));			
 			
 			//::SIMPAN::
-			listLapMutasiStockToCreateObject.add(domain);
-			
-			
-			//Jika hanya yang ada mutasi dan saldo awal sama dengan saldo akhir maka(tidak ada mutasi
-			if (view.getCheckBox1().getValue().equals(true) && domain.getSaldoAwalPcs()  == domain.getSaldoAkhirPcs() ) {
-				listLapMutasiStockToCreateObject.remove(domain);
+			//JIKA TIDAK HANYA ADA STOK
+			if ( view.getCheckBox5().getValue()==false){
+				//JIKA TIDAK ADA MUTASI
+				if (view.getCheckBox1().getValue()==false){
+					listLapMutasiStockToCreateObject.add(domain);
+				} else {
+					if (domain.getSaldoAwalPcs() != domain.getSaldoAkhirPcs()) {
+						listLapMutasiStockToCreateObject.add(domain);						
+					}
+				}
+			} else {
+				if (domain.getSaldoAkhirPcs() >0) {
+					//JIKA TIDAK ADA MUTASI
+					if (view.getCheckBox1().getValue()==false){
+						listLapMutasiStockToCreateObject.add(domain);
+					} else {
+						if (domain.getSaldoAwalPcs() != domain.getSaldoAkhirPcs()) {
+							listLapMutasiStockToCreateObject.add(domain);						
+						}
+					}
+				}
 			}
-			//Jika hanya yang ada stok dan ternyata saldo stok awal dan akhir sama sama 0
-			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAwalPcs()==0 && domain.getSaldoAkhirPcs() ==0  ) {
-					listLapMutasiStockToCreateObject.remove(domain);
-			}			
+			
 			
 		}
 		

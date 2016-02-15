@@ -304,6 +304,9 @@ public class HargaAlternatifPresenter implements ClickListener, ValueChangeListe
 		view.getItemDetilView().focustIdOrDesc();
 //		//PENJUMLAHAN FOOTER
 //		helper.updateAndCalculateHeaderByItemDetil();
+		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
+		view.getItemDetilView().getComboProduct().setValue(null);
+		
 	}
 	
 	public void editItemDetil(){

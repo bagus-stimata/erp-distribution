@@ -1,4 +1,4 @@
-package org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan;
+package org.erp.distribution.master.promoanddiskon.aktifitaspromo.daftarpromoberjalan;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

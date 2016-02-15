@@ -471,6 +471,10 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		
 		//PENJUMLAHAN FOOTER
 		helper.updateAndCalculateHeaderByItemDetil();
+		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
+		view.getItemDetilView().getComboProduct().setValue(null);
+		
+		
 	}
 	
 	public void addItemDetilNew(){
@@ -551,7 +555,6 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		
 	}
 	public void saveAddOrUpdateItemEditFromNewForm(){
-		System.out.println("INI JUGA DIJALANKAN");
 		//1. HAPUS TPRB, TPRUDISC, TPRUCB
 //		Collection itemIdsForDelete = model.getBeanItemContainerDetil().getItemIds();
 //		for (Object itemId: itemIdsForDelete){
@@ -1552,7 +1555,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 				try {
 					b = JasperRunManager.runReportToPdf(report, parameters, con);
 				} catch (JRException ex) {
-					System.out.println(ex);
+//					System.out.println(ex);
 				}
 				return new ByteArrayInputStream(b);
 			}
@@ -1636,7 +1639,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 				try {
 					b = JasperRunManager.runReportToPdf(report, parameters, con);
 				} catch (JRException ex) {
-					System.out.println(ex);
+//					System.out.println(ex);
 				}
 				return new ByteArrayInputStream(b);
 			}

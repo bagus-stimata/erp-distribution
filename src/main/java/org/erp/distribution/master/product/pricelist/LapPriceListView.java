@@ -1,4 +1,4 @@
-package org.erp.distribution.kontrolstok.lappricelist;
+package org.erp.distribution.master.product.pricelist;
 
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Button;

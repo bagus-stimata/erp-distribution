@@ -405,7 +405,14 @@ public class LapMutasiSaldoStockPresenter implements ClickListener{
 			domain.setPenyesuaianNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(adjustPcs, fProduct));			
 			
 			//::SIMPAN::
-			listLapMutasiStockToCreateObject.add(domain);
+			//hanya ada stok
+			if ( view.getCheckBox5().getValue()==false){
+				listLapMutasiStockToCreateObject.add(domain);
+			} else {
+				if (domain.getSaldoAkhirPcs() >0) {
+					listLapMutasiStockToCreateObject.add(domain);					
+				}
+			}
 			
 			
 			//Jika hanya yang ada mutasi dan saldo awal sama dengan saldo akhir maka(tidak ada mutasi
@@ -413,9 +420,9 @@ public class LapMutasiSaldoStockPresenter implements ClickListener{
 //				listLapMutasiStockToCreateObject.remove(domain);
 //			}
 //			//Jika hanya yang ada stok dan ternyata saldo stok awal dan akhir sama sama 0
-			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAkhirPcs() ==0  ) {
-				listLapMutasiStockToCreateObject.remove(domain);
-			}			
+//			if (view.getCheckBox5().getValue().equals(true)  && domain.getSaldoAkhirPcs() ==0  ) {
+//				listLapMutasiStockToCreateObject.remove(domain);
+//			}			
 			
 		}
 		
@@ -590,7 +597,14 @@ public class LapMutasiSaldoStockPresenter implements ClickListener{
 			domain.setPenyesuaianNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(adjustPcs, fProduct));			
 			
 			//::SIMPAN::
-			listLapMutasiStockToCreateObject.add(domain);
+			//hanya ada stok
+			if ( view.getCheckBox5().getValue()==false){
+				listLapMutasiStockToCreateObject.add(domain);
+			} else {
+				if (domain.getSaldoAkhirPcs() >0) {
+					listLapMutasiStockToCreateObject.add(domain);					
+				}
+			}
 			
 			
 			//Jika hanya yang ada mutasi dan saldo awal sama dengan saldo akhir maka(tidak ada mutasi

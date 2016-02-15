@@ -150,9 +150,6 @@ import org.erp.distribution.kontrolstok.lapmutasisaldostok.LapMutasiSaldoStockVi
 import org.erp.distribution.kontrolstok.lapmutasistok.LapMutasiStockModel;
 import org.erp.distribution.kontrolstok.lapmutasistok.LapMutasiStockPresenter;
 import org.erp.distribution.kontrolstok.lapmutasistok.LapMutasiStockView;
-import org.erp.distribution.kontrolstok.lappricelist.LapPriceListModel;
-import org.erp.distribution.kontrolstok.lappricelist.LapPriceListPresenter;
-import org.erp.distribution.kontrolstok.lappricelist.LapPriceListView;
 import org.erp.distribution.kontrolstok.lapsaldostok.LapSaldoStockModel;
 import org.erp.distribution.kontrolstok.lapsaldostok.LapSaldoStockPresenter;
 import org.erp.distribution.kontrolstok.lapsaldostok.LapSaldoStockView;
@@ -174,18 +171,21 @@ import org.erp.distribution.master.division.DivisionView;
 import org.erp.distribution.master.product.ProductModel;
 import org.erp.distribution.master.product.ProductPresenter;
 import org.erp.distribution.master.product.ProductView;
+import org.erp.distribution.master.product.pricelist.LapPriceListModel;
+import org.erp.distribution.master.product.pricelist.LapPriceListPresenter;
+import org.erp.distribution.master.product.pricelist.LapPriceListView;
 import org.erp.distribution.master.producthargaalternatif.HargaAlternatifModel;
 import org.erp.distribution.master.producthargaalternatif.HargaAlternatifPresenter;
 import org.erp.distribution.master.producthargaalternatif.HargaAlternatifView;
 import org.erp.distribution.master.productperubahanharga.PerubahanHargaModel;
 import org.erp.distribution.master.productperubahanharga.PerubahanHargaPresenter;
 import org.erp.distribution.master.productperubahanharga.PerubahanHargaView;
+import org.erp.distribution.master.promoanddiskon.aktifitaspromo.daftarpromoberjalan.DaftarPromoBerjalanModel;
+import org.erp.distribution.master.promoanddiskon.aktifitaspromo.daftarpromoberjalan.DaftarPromoBerjalanPresenter;
+import org.erp.distribution.master.promoanddiskon.aktifitaspromo.daftarpromoberjalan.DaftarPromoBerjalanView;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.AktifitasPromosiModel;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.AktifitasPromosiPresenter;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.AktifitasPromosiView;
-import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan.DaftarPromoBerjalanModel;
-import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan.DaftarPromoBerjalanPresenter;
-import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.daftarpromoberjalan.DaftarPromoBerjalanView;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports.LapAktifitasPromosiModel;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports.LapAktifitasPromosiPresenter;
 import org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports.LapAktifitasPromosiView;
@@ -277,6 +277,9 @@ import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPe
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelModel;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelView;
+import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesVendorPerBarangModel;
+import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesVendorPerBarangPresenter;
+import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesVendorPerBarangView;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListModel;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListPresenter;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListView;
@@ -335,7 +338,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-//@Theme("tests-valo-facebook")
 @Theme("vaadin_theme")
 @Title("W-DES::Web Distribution System")
 public class DashboardUI extends UI implements Command, Handler, ClickListener{
@@ -361,7 +363,6 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	private SysvarHelper sysvarHelper = new SysvarHelper();
 	private UpdateSystemHelper updateSystemHelper  = new UpdateSystemHelper();
 	
-
 	private SCustomerJpaService sCustomerJpaService;
 	private STeknisiJpaService sTeknisiJpaService;
 	private StServiceJpaService stServiceJpaService;
@@ -520,6 +521,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			public MenuItem menuSalesOrderRep = menuSalesOrderLaporan1.addItem("Lap. Sales Order(IPH)", this);
 			public MenuItem menuSalesPerCustomer = menuSalesOrderLaporan1.addItem("Lap. Sales Per Customer", this);
 			public MenuItem menuSalesPerbarang = menuSalesOrderLaporan1.addItem("Lap. Sales per Barang", this);
+			public MenuItem menuSalesVendorPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Vendor Per Barang", this);
 			public MenuItem menuSalesPrestasiKerja = menuSalesOrderLaporan1.addItem("Lap. Prestasi Kerja", this);
 			public MenuItem menuSalesToExel = menuSalesOrderLaporan1.addItem("Export Sales To Exel", this);
 
@@ -981,6 +983,15 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			LapPrestasiKerjaPresenter objPresenter = new LapPrestasiKerjaPresenter(objModel, objView);				
 			
 			workspace1.setCaption("LAP. PRESTASI KERJA");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSalesVendorPerBarang) {
+			LapSalesVendorPerBarangModel objModel = new LapSalesVendorPerBarangModel();
+			LapSalesVendorPerBarangView objView = new LapSalesVendorPerBarangView(objModel);
+			LapSalesVendorPerBarangPresenter objPresenter = new LapSalesVendorPerBarangPresenter(objModel, objView);				
+			
+			workspace1.setCaption("LAP. SALES SUPPLIER PER BARANG");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);

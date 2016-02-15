@@ -1,4 +1,4 @@
-package org.erp.distribution.kontrolstok.lappricelist;
+package org.erp.distribution.master.product.pricelist;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -84,7 +84,7 @@ public class LapPriceListPresenter implements ClickListener{
 		resetParameters();
 		reloadParameter();
 		
-		showPreview("/erp/distribution/reports/kontrolstock/pricelist/pricelist.jasper", "pricelist");
+		showPreview("/erp/distribution/reports/setupmaster/product/pricelist/pricelist.jasper", "pricelist");
 		
 	}
 	public void showPreview(String inputFilePath, String outputFilePath){

@@ -304,6 +304,8 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
 		helper.updateAndCalculateHeaderByItemDetil();
+		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
+		view.getItemDetilView().getComboProduct().setValue(null);
 
 		
 	}

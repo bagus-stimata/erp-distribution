@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +30,7 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -659,11 +662,6 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 	private List<ZLapPackingList> listLapPackingList = new ArrayList<ZLapPackingList>();
 	
 	public void fillDatabaseReportLengkap(){
-		//1. HAPUS DATA
-//		Iterator<ZLapPackingList> iterZLapPackingListDelete = model.getLapPackingListJpaService().findAll().iterator();
-//		while (iterZLapPackingListDelete.hasNext()) {
-//			model.getLapPackingListJpaService().removeObject(iterZLapPackingListDelete.next());
-//		}
 		//MENGHINDARI DOUBLE
 		listLapPackingList = new ArrayList<ZLapPackingList>();
 		Set<String> setSuratJalanList = new LinkedHashSet<String>();
@@ -709,13 +707,28 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 					domain.setQtySed(model.getProductAndStockHelper().getSedFromPcs(itemDetil.getQty(), itemDetil.getFproductBean()));
 					domain.setQtyKec(model.getProductAndStockHelper().getKecFromPcs(itemDetil.getQty(), itemDetil.getFproductBean()));
 					
-//					model.getLapPackingListJpaService().createObject(domain);
 					listLapPackingList.add(domain);
 				}
 				
 			}
 			
 		}
+		//SORT DULU BIAR GROUP BISA JALAN
+		Collections.sort(listLapPackingList, new Comparator<ZLapPackingList>() {
+
+			@Override
+			public int compare(ZLapPackingList o1, ZLapPackingList o2) {
+				return o1.getPcode().compareTo(o2.getPcode());
+			}
+			
+		});		
+//		Comparator<ZLapPackingList> comp = new BeanComparator("pcode");
+//		Collections.sort(listLapPackingList, comp);
+		
+//		System.out.println("SURAT JALAN: " + listLapPackingList.size());
+//		for (ZLapPackingList domain: listLapPackingList) {
+//			System.out.println(domain.getGrup1() + "\t" + domain.getPcode() + "\t" + domain.getQtyPcs());
+//		}
 		
 		//3. PARAMTER SURATJALANLIST DAN INVOICELIST
 		//::SURAT JALAN LIST
@@ -845,7 +858,6 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 		
 	}
 	
-
     ConfirmDialog.Listener konfirmDialogTerbitkanSuratJalan = new ConfirmDialog.Listener() {					
 		//@Override
 		public void onClose(ConfirmDialog dialog) {

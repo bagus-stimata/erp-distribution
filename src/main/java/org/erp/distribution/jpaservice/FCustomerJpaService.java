@@ -9,6 +9,8 @@ import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FCustomergroup;
 
 public interface FCustomerJpaService extends GenericJpaService<FCustomer, Serializable>{
+	public List<FCustomer> findAllActive(String custno);
 	public List<FCustomer> findAllByCustno(String custno);
 	public void updateCustomerOpenInvoice(String stringCustomergroup, int jumlahNota);
+	
 }

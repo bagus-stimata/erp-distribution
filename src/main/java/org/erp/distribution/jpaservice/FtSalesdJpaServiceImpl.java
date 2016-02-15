@@ -141,5 +141,40 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            em.close();
 	        }    
 	}
+	@Override
+	public List<FtSalesd> findAllByVendor(String vcode, String custno,
+			Date trDateFrom, Date trDateTo, String tipefaktur, String pcode) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
+	            		+ " AND a.ftsaleshBean.invoicedate >= :trdateFrom AND a.ftsaleshBean.invoicedate <= :trdateTo "
+	            		+ " AND a.ftsaleshBean.tipefaktur LIKE :tipefaktur"
+	            		+ " AND a.fproductBean.pcode LIKE :pcode"
+	            		+ " AND NOT a.ftsaleshBean.invoiceno IS NULL"
+	            		+ " AND NOT a.ftsaleshBean.tipefaktur IS NULL"
+	            		+ " ORDER BY  a.fproductBean.fvendorBean.vcode ASC, "
+	            		+ "	a.ftsaleshBean.invoicedate ASC, a.ftsaleshBean.orderno ASC";
+	            //ORDER BY BERPERAN SANGAT PENTING
+	            
+	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("vcode", vcode)
+	            		.setParameter("custno", custno)
+	            		.setParameter("trdateFrom", trDateFrom)
+	            		.setParameter("trdateTo", trDateTo)
+	            		.setParameter("tipefaktur", tipefaktur)
+	            		.setParameter("pcode", pcode)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
 
 }

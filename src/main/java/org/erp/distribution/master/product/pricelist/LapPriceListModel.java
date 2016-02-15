@@ -1,4 +1,4 @@
-package org.erp.distribution.kontrolstok.lappricelist;
+package org.erp.distribution.master.product.pricelist;
 
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FCustomerJpaService;

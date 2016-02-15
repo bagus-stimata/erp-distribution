@@ -170,6 +170,7 @@ public class VendorPresenter implements ClickListener, ValueChangeListener, Item
 			model.newItemHeader.setPhone("");
 			model.newItemHeader.setNpwp("");
 			model.newItemHeader.setEmail("");
+			model.newItemHeader.setStatusactive(true);
 			
 			//2. SET NEW DATA ITEM TO BINDER
 			model.getBinderHeader().setItemDataSource(model.newItemHeader);

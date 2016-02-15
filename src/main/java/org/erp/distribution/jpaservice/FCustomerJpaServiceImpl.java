@@ -62,4 +62,28 @@ public class FCustomerJpaServiceImpl extends GenericJpaServiceImpl<FCustomer, Se
 		
 	}
 
+	@Override
+	public List<FCustomer> findAllActive(String custno) {
+		EntityManager em = getFactory().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			String query = "";
+			query = "SELECT a FROM FCustomer a WHERE a.custno LIKE :custno "
+					+ " AND a.statusactive = true "
+					+ " ORDER BY a.custno ASC";
+
+			List<FCustomer> list = em.createQuery(query)
+					.setParameter("custno", custno)
+					.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+					.getResultList();
+			em.getTransaction().commit();
+			return list;
+		} catch (PersistenceException exception) {
+			em.getTransaction().rollback();
+			throw exception;
+		} finally {
+			em.close();
+		}
+	}
+
 }

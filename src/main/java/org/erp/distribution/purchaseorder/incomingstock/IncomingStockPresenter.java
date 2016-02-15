@@ -315,6 +315,8 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
 		helper.updateAndCalculateHeaderByItemDetil();
+		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
+		view.getItemDetilView().getComboProduct().setValue(null);
 
 		
 	}
