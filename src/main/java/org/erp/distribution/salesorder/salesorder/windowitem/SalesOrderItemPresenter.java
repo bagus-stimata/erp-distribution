@@ -12,6 +12,8 @@ import org.erp.distribution.model.FtSalesdPK;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.Action;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
@@ -20,7 +22,7 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-public class SalesOrderItemPresenter implements ClickListener, BlurListener, ValueChangeListener, Handler{
+public class SalesOrderItemPresenter implements ClickListener, BlurListener, ValueChangeListener, Handler, FocusListener{
 	private SalesOrderItemModel model;
 	private SalesOrderItemView view;
 	private SalesOrderItemHelper helper;
@@ -73,6 +75,12 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		view.getPanelDisc2().addActionHandler(this);
 		
 		view.getPanelSubtotalafterdiscafterppn().addActionHandler(this);
+
+		//ON FOCUS EVENT
+		view.getFieldSubtotal().addFocusListener(this);
+		view.getFieldSubtotalafterppn().addFocusListener(this);
+		view.getFieldSubtotalafterdisc().addFocusListener(this);
+		view.getFieldSubtotalafterdiscafterppn().addFocusListener(this);
 		
 		ValueChangeListener listnerCheckFreegood = new ValueChangeListener() {			
 			@Override
@@ -100,50 +108,117 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		} else if (event.getButton()==view.getBtnClose()){			
 		}		
 	}
-	
+
+	@Override
+	public void focus(FocusEvent event) {
+		if (event.getComponent()==view.getFieldSubtotal()){
+			if (view.getFieldSubtotal().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}
+		}else if (event.getComponent()==view.getFieldSubtotalafterppn()){
+			if (view.getFieldSubtotalafterppn().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}
+		}else if (event.getComponent()==view.getFieldSubtotalafterdisc()){
+			if (view.getFieldSubtotalafterdisc().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}			
+		}else if (event.getComponent()==view.getFieldSubtotalafterdiscafterppn()){
+			if (view.getFieldSubtotalafterdiscafterppn().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}
+		}		
+		
+	}
+
 	@Override
 	public void blur(BlurEvent event) {
 
-		if (event.getComponent()==view.getComboProduct()) {				
-			helper.updateAndCalulateItemDetilProduct();
-			helper.updateAndCalculateItemDetil();
+		if (event.getComponent()==view.getComboProduct()) {		
+			if (view.getComboProduct().getValue() !=null){
+				helper.updateAndCalulateItemDetilProduct();
+			}
 		}else if (event.getComponent()==view.getFieldSprice()){
-			helper.updateAndCalculateItemDetil();
 			helper.validasiHargaBelidanHargaJual();
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldSpriceafterppn()){
-			helper.updateAndCalculateItemDetil();
 			helper.validasiHargaBelidanHargaJual();
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty1()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty1().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldQty1().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
 			if (Integer.parseInt(view.getFieldQty2().getValue())<=0){
 				view.getFieldQty2().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty2()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty2().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldQty2().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
 			if (Integer.parseInt(view.getFieldQty3().getValue())<=0){
 				view.getFieldQty3().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty3()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty3().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldQty3().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
 		}else if (event.getComponent()==view.getFieldQty()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc1()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc1rp()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc2()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc2rp()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldQty().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
+			
 		}else if (event.getComponent()==view.getFieldSubtotal()){
 			helper.updateAndCalculateItemDetil();
 		}else if (event.getComponent()==view.getFieldSubtotalafterppn()){
+			helper.updateAndCalculateItemDetil();
+			
+		}else if (event.getComponent()==view.getFieldDisc1()){
+			if (view.getFieldDisc1().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldDisc1().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
+		}else if (event.getComponent()==view.getFieldDisc1rp()){
+			if (view.getFieldDisc1rp().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldDisc1rp().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
+		}else if (event.getComponent()==view.getFieldDisc2()){
+			if (view.getFieldDisc2().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldDisc2().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
+		}else if (event.getComponent()==view.getFieldDisc2rp()){
+			if (view.getFieldDisc2rp().getValue() !=null) {
+				if (Integer.parseInt(view.getFieldDisc2rp().getValue()) != 0){
+					helper.updateAndCalculateItemDetil();
+				}
+			}	
+		}else if (event.getComponent()==view.getFieldSubtotalafterdisc()){
+			helper.updateAndCalculateItemDetil();
+		}else if (event.getComponent()==view.getFieldSubtotalafterdiscafterppn()){
 			helper.updateAndCalculateItemDetil();
 		}		
 		view.setFormButtonAndTextState();		
@@ -371,6 +446,7 @@ public class SalesOrderItemPresenter implements ClickListener, BlurListener, Val
 		}
 		
 	}
+
 
 
 	

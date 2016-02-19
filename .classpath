@@ -212,5 +212,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/yhawin/NetBeansProjects/FontGallery/ecofont.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

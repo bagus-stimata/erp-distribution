@@ -1,12 +1,14 @@
 package org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang;
 
 import org.erp.distribution.DashboardUI;
+import org.erp.distribution.jpaservice.FAreaJpaService;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FProductgroupJpaService;
 import org.erp.distribution.jpaservice.FPromoJpaService2;
 import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FStockJpaService;
+import org.erp.distribution.jpaservice.FSubareaJpaService;
 import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
 import org.erp.distribution.jpaservice.FtSalesdJpaService;
@@ -15,10 +17,12 @@ import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.jpaservicehp.STeknisiJpaService;
 import org.erp.distribution.jpaservicehp.StServiceJpaService;
 import org.erp.distribution.jpaservicerep.LapTemplate1JpaService;
+import org.erp.distribution.model.FArea;
 import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
 import org.erp.distribution.model.FSalesman;
+import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtSalesd;
@@ -46,6 +50,10 @@ public class LapSalesVendorPerBarangModel extends CustomComponent{
 	private FVendorJpaService fVendorJpaService;
 	private FCustomerJpaService fCustomerJpaService;
 	private FProductJpaService fProductJpaService;
+	private FAreaJpaService fAreaJpaService;
+	private FSubareaJpaService fSubareaJpaService;
+
+	private FProductgroupJpaService fProductgroupJpaService;
 	
 //	private LapTemplate1JpaService lapTemplate1JpaService;
 	
@@ -57,6 +65,12 @@ public class LapSalesVendorPerBarangModel extends CustomComponent{
 			new BeanItemContainer<FCustomer>(FCustomer.class);
 	private BeanItemContainer<FProduct> beanItemContainerFProduct = 
 			new BeanItemContainer<FProduct>(FProduct.class);
+	private BeanItemContainer<FArea> beanItemContainerFArea = 
+			new BeanItemContainer<FArea>(FArea.class);
+	private BeanItemContainer<FSubarea> beanItemContainerFSubArea = 
+			new BeanItemContainer<FSubarea>(FSubarea.class);
+	private BeanItemContainer<FProductgroup> beanItemContainerFProductGroup = 
+			new BeanItemContainer<FProductgroup>(FProductgroup.class);
 	
 //3. LIST >> JIKA PERLU
 //4. BeanItemContainer, Jpa Container
@@ -80,6 +94,9 @@ public class LapSalesVendorPerBarangModel extends CustomComponent{
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
 		setfCustomerJpaService((((DashboardUI) getUI().getCurrent()).getfCustomerJpaService()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
+		setfAreaJpaService((((DashboardUI) getUI().getCurrent()).getfAreaJpaService()));
+		setfSubareaJpaService((((DashboardUI) getUI().getCurrent()).getfSubareaJpaService()));
+		setfProductgroupJpaService((((DashboardUI) getUI().getCurrent()).getfProductgroupJpaService()));
 		
 		
 	}
@@ -93,6 +110,9 @@ public class LapSalesVendorPerBarangModel extends CustomComponent{
 //		beanItemContainerProductgroup.removeAllItems();
 		beanItemContainerFVendor.addAll(fVendorJpaService.findAll());
 		beanItemContainerFCustomer.addAll(fCustomerJpaService.findAll());
+		beanItemContainerFArea.addAll(fAreaJpaService.findAll());
+		beanItemContainerFSubArea.addAll(fSubareaJpaService.findAll());
+		beanItemContainerFProductGroup.addAll(fProductgroupJpaService.findAll());
 		
 	}
 	public TransaksiHelper getTransaksiHelper() {
@@ -163,6 +183,46 @@ public class LapSalesVendorPerBarangModel extends CustomComponent{
 	}
 	public void setOperationStatus(String operationStatus) {
 		OperationStatus = operationStatus;
+	}
+	public FAreaJpaService getfAreaJpaService() {
+		return fAreaJpaService;
+	}
+	public FSubareaJpaService getfSubareaJpaService() {
+		return fSubareaJpaService;
+	}
+	public BeanItemContainer<FArea> getBeanItemContainerFArea() {
+		return beanItemContainerFArea;
+	}
+	public BeanItemContainer<FSubarea> getBeanItemContainerFSubArea() {
+		return beanItemContainerFSubArea;
+	}
+	public void setfAreaJpaService(FAreaJpaService fAreaJpaService) {
+		this.fAreaJpaService = fAreaJpaService;
+	}
+	public void setfSubareaJpaService(FSubareaJpaService fSubareaJpaService) {
+		this.fSubareaJpaService = fSubareaJpaService;
+	}
+	public void setBeanItemContainerFArea(
+			BeanItemContainer<FArea> beanItemContainerFArea) {
+		this.beanItemContainerFArea = beanItemContainerFArea;
+	}
+	public void setBeanItemContainerFSubArea(
+			BeanItemContainer<FSubarea> beanItemContainerFSubArea) {
+		this.beanItemContainerFSubArea = beanItemContainerFSubArea;
+	}
+	public FProductgroupJpaService getfProductgroupJpaService() {
+		return fProductgroupJpaService;
+	}
+	public BeanItemContainer<FProductgroup> getBeanItemContainerFProductGroup() {
+		return beanItemContainerFProductGroup;
+	}
+	public void setfProductgroupJpaService(
+			FProductgroupJpaService fProductgroupJpaService) {
+		this.fProductgroupJpaService = fProductgroupJpaService;
+	}
+	public void setBeanItemContainerFProductGroup(
+			BeanItemContainer<FProductgroup> beanItemContainerFProductGroup) {
+		this.beanItemContainerFProductGroup = beanItemContainerFProductGroup;
 	}
 		
 	

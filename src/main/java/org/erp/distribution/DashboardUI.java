@@ -265,6 +265,9 @@ import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvView;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaModel;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaPresenter;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaView;
+import org.erp.distribution.salesorder.salesorder.lapsalesareaperbarang.LapSalesAreaPerBarangModel;
+import org.erp.distribution.salesorder.salesorder.lapsalesareaperbarang.LapSalesAreaPerBarangPresenter;
+import org.erp.distribution.salesorder.salesorder.lapsalesareaperbarang.LapSalesAreaPerBarangView;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderModel;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderView;
@@ -274,6 +277,9 @@ import org.erp.distribution.salesorder.salesorder.lapsalesperbarang.LapSalesView
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerModel;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerView;
+import org.erp.distribution.salesorder.salesorder.lapsalesproductgrupperbarang.LapSalesProductGroupPerBarangModel;
+import org.erp.distribution.salesorder.salesorder.lapsalesproductgrupperbarang.LapSalesProductGroupPerBarangPresenter;
+import org.erp.distribution.salesorder.salesorder.lapsalesproductgrupperbarang.LapSalesProductGroupPerBarangView;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelModel;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelView;
@@ -514,16 +520,21 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	public MenuItem menuSalesOrder = menuBar1.addItem("SALES ORDER & AR", FontAwesome.SHOPPING_CART, null);
 		public MenuItem menuSalesOrder1 = menuSalesOrder.addItem("SALES ORDER", FontAwesome.SHOPPING_CART, this);
 		public MenuItem menuSalesOrderPencetakan = menuSalesOrder.addItem("Pencetakan Faktur", FontAwesome.PRINT, this);
-		public MenuItem menuSalesOrderPackingList = menuSalesOrder.addItem("Paking List", FontAwesome.TRUCK,null);
-		public MenuItem menuSalesOrderPackingList1 = menuSalesOrderPackingList.addItem("Paking List", this);
-		public MenuItem menuSalesOrderPackingListRekapPerhari = menuSalesOrderPackingList.addItem("Rekap Per Hari", this);
-			public MenuItem menuSalesOrderLaporan1 = menuSalesOrder.addItem("Lap. Sales Order", null,this);
+		public MenuItem menuSalesOrderPackingList = menuSalesOrder.addItem("Paking List", FontAwesome.TRUCK, null);
+			public MenuItem menuSalesOrderPackingList1 = menuSalesOrderPackingList.addItem("Paking List", this);
+			public MenuItem menuSalesOrderPackingListRekapPerhari = menuSalesOrderPackingList.addItem("Rekap Per Hari", this);
+		public MenuItem menuSalesOrderLaporan1 = menuSalesOrder.addItem("Lap. Sales Order", null, null);
 			public MenuItem menuSalesOrderRep = menuSalesOrderLaporan1.addItem("Lap. Sales Order(IPH)", this);
 			public MenuItem menuSalesPerCustomer = menuSalesOrderLaporan1.addItem("Lap. Sales Per Customer", this);
-			public MenuItem menuSalesPerbarang = menuSalesOrderLaporan1.addItem("Lap. Sales per Barang", this);
+	//			public MenuItem menuSalesPerbarang = menuSalesOrderLaporan1.addItem("Lap. Sales per Barang", this);
+	//		public MenuItem menuSalesPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Barang", null, null);
+			public MenuItem menuSalesOrderLaporanSeparator3  = menuSalesOrderLaporan1.addSeparator();
 			public MenuItem menuSalesVendorPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Vendor Per Barang", this);
+			public MenuItem menuSalesAreaPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Area Per Barang", this);
+			public MenuItem menuSalesGrupPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Grup Per Barang", this);
+			public MenuItem menuSalesOrderLaporanSeparator4  = menuSalesOrderLaporan1.addSeparator();
 			public MenuItem menuSalesPrestasiKerja = menuSalesOrderLaporan1.addItem("Lap. Prestasi Kerja", this);
-			public MenuItem menuSalesToExel = menuSalesOrderLaporan1.addItem("Export Sales To Exel", this);
+			public MenuItem menuSalesToExel = menuSalesOrderLaporan1.addItem("Export Sales Detil To Exel", this);
 
 		public MenuItem menuSalesOrderSeparator1  = menuSalesOrder.addSeparator();
 		public MenuItem menuSalesOrderSalesReturn = menuSalesOrder.addItem("Sales Return", FontAwesome.BACKWARD, this);
@@ -968,15 +979,15 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);
-		}else if (selectedItem == menuSalesPerbarang) {
-			LapSalesModel objModel = new LapSalesModel();
-			LapSalesView objView = new LapSalesView(objModel);
-			LapSalesPresenter objPresenter = new LapSalesPresenter(objModel, objView);				
-			
-			workspace1.setCaption("LAP. SALES PER BARANG");
-			objView.setSizeFull();
-			
-			workspace1.setContent(objView);
+//		}else if (selectedItem == menuSalesPerbarang) {
+//			LapSalesModel objModel = new LapSalesModel();
+//			LapSalesView objView = new LapSalesView(objModel);
+//			LapSalesPresenter objPresenter = new LapSalesPresenter(objModel, objView);				
+//			
+//			workspace1.setCaption("LAP. SALES PER BARANG");
+//			objView.setSizeFull();
+//			
+//			workspace1.setContent(objView);
 		}else if (selectedItem == menuSalesPrestasiKerja) {
 			LapPrestasiKerjaModel objModel = new LapPrestasiKerjaModel();
 			LapPrestasiKerjaView objView = new LapPrestasiKerjaView(objModel);
@@ -992,6 +1003,24 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			LapSalesVendorPerBarangPresenter objPresenter = new LapSalesVendorPerBarangPresenter(objModel, objView);				
 			
 			workspace1.setCaption("LAP. SALES SUPPLIER PER BARANG");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSalesAreaPerBarang) {
+			LapSalesAreaPerBarangModel objModel = new LapSalesAreaPerBarangModel();
+			LapSalesAreaPerBarangView objView = new LapSalesAreaPerBarangView(objModel);
+			LapSalesAreaPerBarangPresenter objPresenter = new LapSalesAreaPerBarangPresenter(objModel, objView);				
+			
+			workspace1.setCaption("LAP. SALES AREA PER BARANG");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSalesGrupPerBarang) {
+			LapSalesProductGroupPerBarangModel objModel = new LapSalesProductGroupPerBarangModel();
+			LapSalesProductGroupPerBarangView objView = new LapSalesProductGroupPerBarangView(objModel);
+			LapSalesProductGroupPerBarangPresenter objPresenter = new LapSalesProductGroupPerBarangPresenter(objModel, objView);				
+			
+			workspace1.setCaption("LAP. SALES PER GRUP PER BARANG");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);
@@ -2057,9 +2086,6 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		return menuSalesOrderRep;
 	}
 
-	public MenuItem getMenuSalesRep() {
-		return menuSalesPerbarang;
-	}
 
 	public MenuItem getMenuSalesOrderSeparator1() {
 		return menuSalesOrderSeparator1;
@@ -2234,9 +2260,6 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		this.menuSalesOrderRep = menuSalesOrderRep;
 	}
 
-	public void setMenuSalesRep(MenuItem menuSalesRep) {
-		this.menuSalesPerbarang = menuSalesRep;
-	}
 
 	public void setMenuSalesOrderSeparator1(MenuItem menuSalesOrderSeparator1) {
 		this.menuSalesOrderSeparator1 = menuSalesOrderSeparator1;
@@ -2300,9 +2323,6 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		return menuSalesOrderLaporan1;
 	}
 
-	public MenuItem getMenuSalesPerbarang() {
-		return menuSalesPerbarang;
-	}
 
 	public MenuItem getMenuSalesPrestasiKerja() {
 		return menuSalesPrestasiKerja;
@@ -2325,9 +2345,6 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		this.menuSalesOrderLaporan1 = menuSalesOrderLaporan1;
 	}
 
-	public void setMenuSalesPerbarang(MenuItem menuSalesPerbarang) {
-		this.menuSalesPerbarang = menuSalesPerbarang;
-	}
 
 	public void setMenuSalesPrestasiKerja(MenuItem menuSalesPrestasiKerja) {
 		this.menuSalesPrestasiKerja = menuSalesPrestasiKerja;

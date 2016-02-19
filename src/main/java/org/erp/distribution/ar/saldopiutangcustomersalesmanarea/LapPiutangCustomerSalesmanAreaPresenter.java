@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,6 +25,7 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.erp.distribution.model.FArea;
 import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FDivision;
@@ -614,11 +617,6 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 	private List<ZLapSJPenagihanList> lapSJPenagihanList = new ArrayList<ZLapSJPenagihanList>();
 	
 	public void fillDatabaseReportLengkap(){
-//		//1. HAPUS DATA
-//		Iterator<ZLapSJPenagihanList> iterZLapSJPenagihanListDelete = model.getLapSJPenagihanListJpaService().findAll().iterator();
-//		while (iterZLapSJPenagihanListDelete.hasNext()) {
-//			model.getLapSJPenagihanListJpaService().removeObject(iterZLapSJPenagihanListDelete.next());
-//		}
 		//MENGHINDARI DOUBLE
 		
 		lapSJPenagihanList = new ArrayList<ZLapSJPenagihanList>();
@@ -680,6 +678,13 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 			}
 			
 		}
+//		Collections.sort(lapSJPenagihanList, new Comparator<ZLapSJPenagihanList>() {
+//
+//			@Override
+//			public int compare(ZLapSJPenagihanList o1, ZLapSJPenagihanList o2) {
+//				return o1.getGrup1().compareTo(o2.getGrup1());
+//			}
+//		});
 		
 		//3. PARAMTER SURATJALANLIST DAN INVOICELIST
 		//::SURAT JALAN LIST

@@ -290,8 +290,8 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		model.setOperationStatus(EnumOperationStatus.ADDING.getStrCode());
 		view.setFormButtonAndTextState();
 		
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();			
+//		//PENJUMLAHAN FOOTER
+//		helper.updateAndCalculateHeaderByItemDetil();			
 		
 		
 		
@@ -313,8 +313,10 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
 		
 		addItemDetilNew();
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
+		
+//		//PENJUMLAHAN FOOTER
+//		helper.updateAndCalculateHeaderByItemDetil();
+		
 		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
 		view.getItemDetilView().getComboProduct().setValue(null);
 
@@ -587,6 +589,8 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 			view.setDisplayTableFooterList();
 			view.setFormButtonAndTextState();
 			
+			Notification.show("Save and Stock Update!", Notification.TYPE_TRAY_NOTIFICATION);
+			
 		}
 	}
 	public void saveFormEditing(){
@@ -605,7 +609,7 @@ public class IncomingStockPresenter implements ClickListener, ValueChangeListene
 			view.setDisplayTableFooterList();
 			view.setFormButtonAndTextState();
 			
-			//UPDATE STOK EDITING LANGSUNG SAAT TAMBAH
+			Notification.show("Save and Stock Update!", Notification.TYPE_TRAY_NOTIFICATION);
 		}
 	}
 	

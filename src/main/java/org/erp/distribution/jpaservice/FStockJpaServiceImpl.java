@@ -39,6 +39,28 @@ public class FStockJpaServiceImpl extends GenericJpaServiceImpl<FStock, Serializ
 		
 	}
 	@Override
+	public int count(Date trdate) {		
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT count(a) FROM FStock a WHERE a.stockdate = :stockdate ";	            
+	            Integer list = em.createQuery(query)
+	            		.setParameter("stockdate", trdate)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList().size();
+	            em.getTransaction().commit();
+	            
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+		
+	}
+	
+	@Override
 	public List<FStock> findAll(FProduct fProduct, Date trdate) {
 	       EntityManager em = getFactory().createEntityManager();
 	        try {

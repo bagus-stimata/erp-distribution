@@ -1,6 +1,7 @@
 package org.erp.distribution.master.product;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperRunManager;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -489,7 +491,7 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 	}
 	
 	public void printForm(){	
-		
+
 		String basepath = VaadinService.getCurrent()
 	            .getBaseDirectory().getAbsolutePath();
 		String filePathDestination = basepath + "/Product.xls";
@@ -500,18 +502,22 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 
         Map<Integer, Object[]> data = new HashMap<Integer, Object[]>();
         data.put(1, new Object[] {"GRUP ID","GROUP", "KODE", "NAMA BARANG", "Packaging", "CONVFACT1", "CONVFACT2", 
-        		"Harga Beli-PPN", "Harga Beli+PPN", "PCS Beli+PPN ", "Harga Jual-PPN", "Harga Jual+PPN", "PCS Jual+PPN"});
+        		"Harga Beli-PPN", "Harga Beli+PPN", "PCS Beli+PPN ", "Harga Jual-PPN", "Harga Jual+PPN", "PCS Jual+PPN",
+        		"Id Vendor", "Nama Vendor"});
         
         Collection itemIds = model.getBeanItemContainerHeader().getItemIds();
         int lastRow = 1;
         for (Object itemId:itemIds) {
         	FProduct domain = new FProduct();
         	domain = model.getBeanItemContainerHeader().getItem(itemId).getBean();
-        	lastRow++;
-	        data.put(lastRow, new Object[] {domain.getFproductgroupBean().getId(),  domain.getFproductgroupBean().getDescription(), 
-	        		domain.getPcode(), domain.getPname(), domain.getPackaging(), domain.getConvfact1(), domain.getConvfact2(),
-	        		domain.getPprice(), domain.getPprice()*1.1, domain.getPprice()*1.1/domain.getConvfact1()
-	        		, domain.getSprice(), domain.getSprice()*1.1, domain.getSprice()*1.1/domain.getConvfact1()});
+        	try{
+	        	lastRow++;
+		        data.put(lastRow, new Object[] {domain.getFproductgroupBean().getId(),  domain.getFproductgroupBean().getDescription(), 
+		        		domain.getPcode(), domain.getPname(), domain.getPackaging(), domain.getConvfact1(), domain.getConvfact2(),
+		        		domain.getPprice(), domain.getPprice()*1.1, domain.getPprice()*1.1/domain.getConvfact1()
+		        		, domain.getSprice(), domain.getSprice()*1.1, domain.getSprice()*1.1/domain.getConvfact1(), 
+		        		domain.getFvendorBean().getVcode(), domain.getFvendorBean().getVname() });
+        	} catch(Exception ex){}
         }
         Set<Integer> keyset = data.keySet();
         int rownum = 0;
@@ -533,25 +539,42 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
                     cell.setCellValue((Integer)obj);
             }
         }
-
-        try {
-            FileOutputStream out =
-                    new FileOutputStream(new File(filePathDestination));
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+      try {
+//        FileOutputStream out =null;
+//                    new FileOutputStream(new File(filePathDestination));
             workbook.write(out);
             out.close();
-            System.out.println("Excel written successfully..");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+ 		StreamResource.StreamSource source = new StreamSource() {			
+			@Override
+			public InputStream getStream() {
+				byte[] b = null;
+					b = out.toByteArray();
+				return new ByteArrayInputStream(b);
+			}
+		};
 		
+		String fileName = "masterproduct"  +System.currentTimeMillis() +".xls";
+		StreamResource resource = new StreamResource( source, fileName);
+		resource.setMIMEType("application/xls");
+		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
+		
+		view.getUI().getPage().open(resource, "_new_masterproduct_" , false);
+	
+	
         
-		Resource res = new FileResource(new File(filePathDestination));		
-		FileDownloader fd = new FileDownloader(res);
-		
-		fd.extend(view.getBtnPrint());
+        
+//		Resource res = new FileResource(new File(filePathDestination));		
+//		FileDownloader fd = new FileDownloader(res);
+//		
+//		fd.extend(view.getBtnPrint());
 	
 	}
 	

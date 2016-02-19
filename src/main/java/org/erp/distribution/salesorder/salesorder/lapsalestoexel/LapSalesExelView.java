@@ -67,7 +67,7 @@ public class LapSalesExelView extends CustomComponent{
 		layoutTop.addComponent(dateField1From);
 		layoutTop.addComponent(dateField1To);
 
-//		layoutTop.addComponent(checkBox1);
+		layoutTop.addComponent(checkBox1);
 		
 		layoutBottom.addComponent(btnPreview);
 		layoutBottom.addComponent(btnClose);

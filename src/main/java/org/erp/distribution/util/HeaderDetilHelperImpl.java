@@ -15,21 +15,41 @@ public class HeaderDetilHelperImpl implements HeaderDetilHelper{
 	private FtSalesd newFtSalesd = new FtSalesd();
 	private Double ppnFloat =0.0;
 	
+	private KonversiProductAndStock konversiProductAndStock = new KonversiProductAndStockImpl();
+	
 	public HeaderDetilHelperImpl() {
 		initVariable();
 	}
 	public HeaderDetilHelperImpl(FtSalesh ftSalesh) {
 		this.ftSalesh = ftSalesh;		
+		this.newFtSalesh = ftSalesd.getFtsaleshBean();
 		initVariable();
 	}
 	public HeaderDetilHelperImpl(FtSalesd ftSalesd) {
 		this.ftSalesd = ftSalesd;
+		this.newFtSalesd = ftSalesd;
+		this.konversiProductAndStock = new KonversiProductAndStockImpl(ftSalesd.getQty(), ftSalesd.getFproductBean());
 		this.ftSalesh = ftSalesd.getFtsaleshBean();
+		this.newFtSalesh = ftSalesd.getFtsaleshBean();
 		initVariable();
 	}
 	public void initVariable(){
 		ppnFloat = (transaksiHelper.getParamPpn()/100) + 1;
 	}
+	
+	@Override
+	public int getDetilQtyBes() {
+		return konversiProductAndStock.getBesFromPcs();
+	}
+	@Override
+	public int getDetilQtySed() {
+		return konversiProductAndStock.getSedFromPcs();
+	}
+	@Override
+	public int getDetilQtyKec() {
+		return konversiProductAndStock.getKecFromPcs();
+	}
+	
 	@Override
 	public double getDetilSpriceAfterPpn() {
 		double newSpriceAfterPpn = ftSalesd.getSprice() * ppnFloat;
@@ -182,6 +202,10 @@ public class HeaderDetilHelperImpl implements HeaderDetilHelper{
 		
 		newFtSalesd.setSpriceafterppn(getDetilSpriceAfterPpn());
 		
+		newFtSalesd.setQty1(getDetilQtyBes());
+		newFtSalesd.setQty2(getDetilQtySed());
+		newFtSalesd.setQty3(getDetilQtyKec());
+		
 		newFtSalesd.setSubtotal(getDetilSubtotal());
 		newFtSalesd.setSubtotalafterppn(getDetilSubtotalAfterPpn());
 		
@@ -191,19 +215,19 @@ public class HeaderDetilHelperImpl implements HeaderDetilHelper{
 		newFtSalesd.setSubtotalafterdisc1(getDetilSubtotalAfterDisc1());
 		newFtSalesd.setSubtotalafterdisc1afterppn(getDetilSubtotalAfterDisc1AfterPpn());
 		
-		newFtSalesd.setDisc2rp(getDetilSubtotalAfterDisc2());
-		newFtSalesd.setDisc2rpafterppn(getDetilSubtotalAfterDisc2AfterPpn());
+		newFtSalesd.setDisc2rp(getDetilDisc2Rp());
+		newFtSalesd.setDisc2rpafterppn(getDetilDisc2RpAfterPpn());
 		
 		newFtSalesd.setSubtotalafterdisc2(getDetilSubtotalAfterDisc2());
 		newFtSalesd.setSubtotalafterdisc2afterppn(getDetilSubtotalAfterDisc2AfterPpn());
 		
 		return newFtSalesd;
 	}
-	
 	@Override
 	public FtSalesd getFillFtSalesh() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	
 }

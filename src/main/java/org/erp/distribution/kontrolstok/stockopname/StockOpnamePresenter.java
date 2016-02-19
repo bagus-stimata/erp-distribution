@@ -276,11 +276,6 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		model.setOperationStatus(EnumOperationStatus.ADDING.getStrCode());
 		view.setFormButtonAndTextState();
 		
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();			
-		
-		
-		
 	}
 	public void addItemDetil(){	
 		///*******TAMBAHAN JIKA BELUM PERNAH ADA TANGGAL STOCK PADA FSTOCK MAKA BUATKAN
@@ -299,8 +294,11 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
 		
 		addItemDetilNew();
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
+//		//PENJUMLAHAN FOOTER
+//		helper.updateAndCalculateHeaderByItemDetil();
+		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
+		view.getItemDetilView().getComboProduct().setValue(null);
+		
 	}
 	public void addItemDetilNew(){
 		view.getItemDetilModel().setItemHeader(model.itemHeader);		
@@ -559,7 +557,6 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 			view.setDisplayTableFooterList();
 			view.setFormButtonAndTextState();
 			
-			
 		}
 	}
 	
@@ -578,7 +575,6 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 			model.setOperationStatus(EnumOperationStatus.OPEN.getStrCode());
 			view.setDisplayTableFooterList();
 			view.setFormButtonAndTextState();			
-			//UPDATE STOK EDITING LANGSUNG SAAT TAMBAH			
 			
 		}		
 	}

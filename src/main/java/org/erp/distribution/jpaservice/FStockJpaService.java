@@ -11,6 +11,7 @@ import org.erp.distribution.model.FWarehouse;
 
 public interface FStockJpaService extends GenericJpaService<FStock, Serializable>{
 	public List<FStock> findAll(Date stockDate);
+	public int count(Date stockDate);
 	public List<FStock> findAll(String strWarehouse, Date stockDate);
 	public List<FStock> findAll(FProduct fProduct, Date trdate);
 	public List<FStock> findAll(String strFWarehouse, FProduct fProduct, Date stockDateFrom, Date stockDateTo);

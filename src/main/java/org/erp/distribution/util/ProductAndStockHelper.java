@@ -1131,13 +1131,13 @@ public class ProductAndStockHelper extends CustomComponent{
 	
 	public boolean isStockTransactionExist(Date stockDate) {
 		boolean isExist = true;
-		List<FStock> listFStock = fStockJpaService.findAll(stockDate);
-		if (listFStock.size()==0) {
-			isExist=false;
+		if (fStockJpaService.count(stockDate)==0){
+			isExist=false;			
 		}
 		return isExist;
 	}
-
+	
+	//KONVERSI PCS -> BES, SED, KEC
 	public int getBesFromPcs(Integer pcs, FProduct fProduct){
 		Integer valueBes =0;
 		try{

@@ -382,6 +382,11 @@
 			<version>5.6.1</version>
 		</dependency>
 		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>5.6.1</version>
+		</dependency>		
+		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>2.3.7</version>
@@ -502,12 +507,14 @@
 	    	<artifactId>scala-library</artifactId>
 	    	<version>2.10.4</version>
 	    </dependency>
+ 	    
 	    <dependency>
 	    	<groupId>org.springframework.boot</groupId>
 	    	<artifactId>spring-boot-starter-thymeleaf</artifactId>
 	    	<version>1.1.4.RELEASE</version>
 	    </dependency>
-	    <dependency>
+	    
+ 		<dependency>
 	    	<groupId>org.apache.cassandra</groupId>
 	    	<artifactId>cassandra-thrift</artifactId>
 	    	<version>2.0.6</version>

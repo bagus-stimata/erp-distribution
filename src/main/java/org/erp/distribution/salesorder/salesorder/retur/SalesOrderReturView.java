@@ -255,6 +255,9 @@ public class SalesOrderReturView extends CustomComponent{
 		fieldDisc1rp.setWidth("50px");
 		fieldDisc1rpafterppn.setWidth("150px");
 		fieldDisc1rpafterppn.addStyleName("numerical");
+		fieldDisc1.setNullRepresentation("");
+		fieldDisc1rp.setNullRepresentation("");
+		fieldDisc1rpafterppn.setNullRepresentation("");
 		
 		fieldDisc2= new TextField();
 		fieldDisc2rp= new TextField();
@@ -263,6 +266,9 @@ public class SalesOrderReturView extends CustomComponent{
 		fieldDisc2rp.setWidth("50px");
 		fieldDisc2rpafterppn.setWidth("150px");
 		fieldDisc2rpafterppn.addStyleName("numerical");
+		fieldDisc2.setNullRepresentation("");
+		fieldDisc2rp.setNullRepresentation("");
+		fieldDisc2rpafterppn.setNullRepresentation("");
 		
 		fieldDisc= new TextField();
 		fieldDiscrp= new TextField();
@@ -271,6 +277,9 @@ public class SalesOrderReturView extends CustomComponent{
 		fieldDiscrp.setWidth("50px");
 		fieldDiscrpafterppn.setWidth("150px");
 		fieldDiscrpafterppn.addStyleName("numerical");
+		fieldDisc.setNullRepresentation("");
+		fieldDiscrp.setNullRepresentation("");
+		fieldDiscrpafterppn.setNullRepresentation("");
 		
 		fieldAmount.setWidth("200px");
 		fieldAmount.addStyleName("numerical");
@@ -289,18 +298,13 @@ public class SalesOrderReturView extends CustomComponent{
 
 		fieldPpnpercent.setWidth("50px");
 		
-		//ERROR HANDLER UI
-//		dateFieldOrderdate.setComponentError(new UserError("err"));
-//		dateFieldInvoicedate.setComponentError(new UserError("err"));
-//		
-//		btnNewForm.setComponentError(new UserError("err"));
-//		btnEditForm.setComponentError(new UserError("err"));
-//		btnDeleteForm.setComponentError(new UserError("err"));
-//		btnPrint.setComponentError(new UserError("err"));
-//		
-//		btnAddItem.setComponentError(new UserError("err"));
-//		btnEditItem.setComponentError(new UserError("err"));
-//		btnRemoveItem.setComponentError(new UserError("err"));
+		fieldAmount.setNullRepresentation("");
+		fieldAmountafterdisc.setNullRepresentation("");
+		fieldAmountafterdiscafterppn.setNullRepresentation("");
+		fieldAmountafterppn.setNullRepresentation("");
+		fieldAmountpay.setNullRepresentation("");
+		fieldAmountpayfaterppn.setNullRepresentation("");
+		fieldPpnrp.setNullRepresentation("");
 		
 	}
 	

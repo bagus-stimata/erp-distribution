@@ -24,9 +24,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.eclipse.jdt.core.compiler.ITerminalSymbols;
+import org.erp.distribution.model.FArea;
 import org.erp.distribution.model.FCustomer;
+import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
 import org.erp.distribution.model.FPromo;
+import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtSalesd;
@@ -38,6 +41,8 @@ import org.erp.distribution.model.ZLapTemplate1;
 import org.erp.distribution.model.ZLapTemplate2;
 import org.erp.distribution.util.HeaderDetilHelper;
 import org.erp.distribution.util.HeaderDetilHelperImpl;
+import org.erp.distribution.util.KonversiProductAndStock;
+import org.erp.distribution.util.KonversiProductAndStockImpl;
 import org.erp.distribution.util.ReportJdbcConfigHelper;
 
 import net.sf.jasperreports.engine.JRException;
@@ -86,8 +91,11 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/salesorder/lapsalesvendorperbarang/lapsalesvendorperbarang1Ds.jasper", "lapsalesvendorperbarang1");
-
+		if (view.getCheckBox2().getValue()==true){
+			showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1LengkapDs.jasper", "lapsalesvendorperbaranglengkap1");			
+		}else {
+			showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1Ds.jasper", "lapsalesvendorperbarang1");
+		}
 	}
 	
 	private List<ZLapTemplate2> lapTemplate2 = new ArrayList<ZLapTemplate2>();
@@ -105,19 +113,41 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 		try{
 			paramCustno = "%" + ((FCustomer) view.getComboGroup2().getValue()).getCustno() + "%";
 		} catch(Exception ex){}
+		String paramArea = "%";
+		try{
+			paramArea = "%" + ((FArea) view.getComboGroup3().getValue()).getId() + "%";
+		} catch(Exception ex){}
+		String paramSubArea = "%";
+		try{
+			paramSubArea = "%" + ((FSubarea) view.getComboGroup4().getValue()).getId() + "%";
+		} catch(Exception ex){}
+		
+		String paramPcode = "%";
+		try{
+			paramPcode = "%" + view.getTextField1().getValue() + "%";
+		} catch(Exception ex){}
+		String paramPname = "%";
+		try{
+			paramPname = "%" + view.getTextField2().getValue() + "%";
+		} catch(Exception ex){}
+		String paramProductGroup = "%";
+		try{
+			paramProductGroup = "%" + ((FProductgroup) view.getComboGroup5().getValue()).getId() + "%";
+		} catch(Exception ex){}
+		
 		Date paramTrdate = view.getDateField1From().getValue();
 		Date paramDuedate = view.getDateField1To().getValue();
 		String paramTipeFaktur = "%";
-		String paramPcode = "%";
 		listFtSalesd = model.getFtSalesdJpaService()
-				.findAllByVendor(paramVcode, paramCustno, paramTrdate, paramDuedate, paramTipeFaktur, paramPcode);
+				.findAllByVendor(paramVcode, paramArea, paramSubArea, paramCustno, 
+						paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);
 				
-		
 		for (FtSalesd ftSalesd: listFtSalesd){			
 				FtSalesd newFtSalesd = new FtSalesd();
 				//JIKA RETUR MAKA DI MINUSKAN
 				if (ftSalesd.getFtsaleshBean().getTipefaktur().equals("R")) {
 					ftSalesd.setSprice(- ftSalesd.getSprice());
+					ftSalesd.setQty(-ftSalesd.getQty());
 				}
 				HeaderDetilHelper headerDetilHelper = new HeaderDetilHelperImpl(ftSalesd);
 				newFtSalesd = headerDetilHelper.getFillFtSalesd();
@@ -131,6 +161,10 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 				Date invoiceDuedate = ftSalesd.getFtsaleshBean().getDuedate();
 				String productName = ftSalesd.getFproductBean().getPcode() + "-" +ftSalesd.getFproductBean().getPname();
 				
+				double totalBrutoDpp = newFtSalesd.getSubtotal();
+				double totalDiscBarangDpp = newFtSalesd.getDisc1rp() + newFtSalesd.getDisc2rp();
+				double totalDiscNotaDpp = newFtSalesd.getDiscNota1Rp() + newFtSalesd.getDiscNotaRp();
+				double totalDpp = newFtSalesd.getSubTotalAfterDiscNota();
 				double totalAfterDisc2AfterPpn = newFtSalesd.getSubTotalAfterDiscNotaAfterPpn();
 				
 				domain.setGrup1(vendorName);
@@ -142,7 +176,17 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 				domain.setString3(invoiceno);
 				domain.setDate1(invoiceTrdate);
 				domain.setDate2(invoiceDuedate);
-				domain.setString4(productName);
+				domain.setString4(productName);  
+				
+				KonversiProductAndStock kps = new KonversiProductAndStockImpl(ftSalesd.getQty(), ftSalesd.getFproductBean());		
+				domain.setInt1(kps.getBesFromPcs());
+				domain.setString5(kps.getBesSedKecString());
+				
+				domain.setDouble2(totalBrutoDpp);
+				domain.setDouble3(totalDiscBarangDpp);
+				domain.setDouble4(totalDiscNotaDpp);
+				domain.setDouble5(totalDpp);
+				
 				domain.setDouble1(totalAfterDisc2AfterPpn);
 				
 				//JIKA DIPOTONG RETUR MAKA RETUR MASUK SEMUA --> JIKA TIDAK MAKA YANG DI ADD YANG FAKTUR SAJA
@@ -153,7 +197,6 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 						lapTemplate2.add(domain);
 					}					
 				}
-				
 			
 		}
 		

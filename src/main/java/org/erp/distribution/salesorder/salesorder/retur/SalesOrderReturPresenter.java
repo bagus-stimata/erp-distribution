@@ -301,9 +301,10 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		model.setOperationStatus(EnumOperationStatus.ADDING.getStrCode());
 		view.setFormButtonAndTextState();
 		
-		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();			
 		model.itemHeader.setTipejual(model.itemHeaderTemp.getTipejual());
+
+//		//PENJUMLAHAN FOOTER
+//		helper.updateAndCalculateHeaderByItemDetil();			
 		
 		
 		
@@ -326,7 +327,7 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 
 		addItemDetilNew();
 		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
+//		helper.updateAndCalculateHeaderByItemDetil();
 		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
 		view.getItemDetilView().getComboProduct().setValue(null);
 
@@ -592,7 +593,6 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 			//3. SAVE ULANG HEADER
 			model.getFtSaleshJpaService().updateObject(model.itemHeader);
 			
-			//4. UPDATE STOCK :: UPDATE STOK TERJADI SETELAH DI SAVE ATAU DITERBITKANNYA NOMOR PO			
 			//4. UPDATE STOCK :: UPDATE STOK TERJADI SETELAH DI SAVE ATAU DITERBITKANNYA NOMOR PO			
 			Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
 			List<FtSalesd> listForStock = new ArrayList<FtSalesd>();

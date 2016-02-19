@@ -445,7 +445,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		view.setFormButtonAndTextState();
 		
 		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();			
+//		helper.updateAndCalculateHeaderByItemDetil();			
 		
 		
 		
@@ -470,7 +470,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		addItemDetilNew();
 		
 		//PENJUMLAHAN FOOTER
-		helper.updateAndCalculateHeaderByItemDetil();
+//		helper.updateAndCalculateHeaderByItemDetil();
 		//SUPAYA COMBO PRODUCT PERTAMA KALI KOSONG
 		view.getItemDetilView().getComboProduct().setValue(null);
 		
@@ -821,8 +821,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		helper.updateAndCalculateHeaderByItemDetil();
 
 		//BIAR COMBO PRODUCT KOSONG LAGI
-		view.getItemDetilView().getComboProduct().setValue(null);
-		
+		try{
+			view.getItemDetilView().getComboProduct().setValue(null);
+		} catch(Exception ex){}
 	}
 	
 	
@@ -1033,9 +1034,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			view.setFormButtonAndTextState();
 			
 			
-			//#####***SEMENTARA:: TIDAK DISARANKAN BANGET
-			view.getBtnEditForm().click();
-			view.getBtnSaveForm().click();
+//			//#####***SEMENTARA:: TIDAK DISARANKAN BANGET
+//			view.getBtnEditForm().click();
+//			view.getBtnSaveForm().click();
 			
 		}
 	}

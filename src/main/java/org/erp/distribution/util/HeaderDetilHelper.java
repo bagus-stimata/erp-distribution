@@ -7,6 +7,11 @@ public interface HeaderDetilHelper {
 	
 	public double getDetilSpriceAfterPpn();
 	//QTY --> SUBTOTAL
+	public int getDetilQtyBes();
+	public int getDetilQtySed();
+	public int getDetilQtyKec();
+	
+	
 	public double getDetilSubtotal();
 	public double getDetilSubtotalAfterPpn();
 
