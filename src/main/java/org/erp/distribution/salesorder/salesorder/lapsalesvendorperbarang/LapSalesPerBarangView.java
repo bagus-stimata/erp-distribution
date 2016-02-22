@@ -1,5 +1,7 @@
 package org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang;
 
+import groovy.swing.factory.LayoutFactory;
+
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Button;
@@ -12,8 +14,8 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class LapSalesVendorPerBarangView extends CustomComponent{
-	private LapSalesVendorPerBarangModel model;
+public class LapSalesPerBarangView extends CustomComponent{
+	private LapSalesPerBarangModel model;
 
 	private VerticalLayout content = new VerticalLayout();
 
@@ -32,16 +34,27 @@ public class LapSalesVendorPerBarangView extends CustomComponent{
 	
 	private CheckBox checkBox1= new CheckBox("DIPOTONG RETUR");
 	private CheckBox checkBox2= new CheckBox("Format Lengkap");
+
+	private CheckBox checkBoxFaktur= new CheckBox("Faktur", true);
+	private CheckBox checkBoxRetur= new CheckBox("Retur", false);
+
+	private CheckBox checkBoxOutput1= new CheckBox("LAP. SALES VENDOR PER BARANG");
+	private CheckBox checkBoxOutput2= new CheckBox("LAP. SALES AREA PER BARANG");
+	private CheckBox checkBoxOutput3= new CheckBox("LAP. SALES GRUP PER BARANG");
+	private CheckBox checkBoxOutput4= new CheckBox("LAP. ");
+	private CheckBox checkBoxOutput5= new CheckBox("LAP. ");
+	private CheckBox checkBoxOutput6= new CheckBox("LAP. ");
+	private CheckBox checkBoxOutput7= new CheckBox("LAP. ");
 	
 	private Button btnPreview = new Button("Print");
 	private Button btnClose = new Button("Close");
 	
 	private Panel panelUtama = new Panel();
-	private Panel panelTop = new Panel();
+	private Panel panelFilter = new Panel();
+	private Panel panelOutput = new Panel();
 	private Panel panelBottom = new Panel();
 	
-	
-	public LapSalesVendorPerBarangView(LapSalesVendorPerBarangModel model){
+	public LapSalesPerBarangView(LapSalesPerBarangModel model){
 		this.model = model;
 		initComponent();
 		buildView();
@@ -57,11 +70,14 @@ public class LapSalesVendorPerBarangView extends CustomComponent{
 		comboGroup4.setWidth("300px");
 		comboGroup5.setWidth("300px");
 
-		textField1.setWidth("300px");
-		textField2.setWidth("500px");
+		textField1.setWidth("200px");
+		textField2.setWidth("300px");
 		
 		dateField1From.setDateFormat("dd/MM/yyyy");
 		dateField1To.setDateFormat("dd/MM/yyyy");
+		
+		panelFilter.setCaption("Filter Criteria");
+		panelOutput.setCaption("Jenis Laporan");
 		
 	}
 
@@ -70,35 +86,56 @@ public class LapSalesVendorPerBarangView extends CustomComponent{
 		setSizeFull();
 //		content.setSizeFull();
 		content.setMargin(true);
-//		panelTop.setSizeFull();
-//		panelBottom.setSizeFull();
+		panelFilter.setSizeFull();
+		panelOutput.setSizeFull();
 
-		VerticalLayout layoutTop = new VerticalLayout();		
-		layoutTop.setMargin(true);
-		HorizontalLayout layoutBottom = new HorizontalLayout();		
-		layoutBottom.setMargin(true);
+		HorizontalLayout layoutTop = new HorizontalLayout();		
+			VerticalLayout layoutFilter = new VerticalLayout();
+			layoutFilter.setMargin(true);
+			VerticalLayout layoutOutput = new VerticalLayout();
+			layoutOutput.setMargin(true);
+//		layoutTop.setMargin(true);
+		layoutTop.setSizeFull();
 		
-		layoutTop.addComponent(comboGroup1);
-		layoutTop.addComponent(comboGroup2);
-		layoutTop.addComponent(comboGroup3);
-		layoutTop.addComponent(comboGroup4);
-		layoutTop.addComponent(textField1);
-		layoutTop.addComponent(textField2);
-		layoutTop.addComponent(comboGroup5);
+		HorizontalLayout layoutBottom = new HorizontalLayout();		
+//		layoutBottom.setMargin(true);
+//		layoutBottom.setSizeFull();
+		
+		layoutFilter.addComponent(comboGroup1);
+		layoutFilter.addComponent(comboGroup2);
+		layoutFilter.addComponent(comboGroup3);
+		layoutFilter.addComponent(comboGroup4);
+		layoutFilter.addComponent(textField1);
+		layoutFilter.addComponent(textField2);
+		layoutFilter.addComponent(comboGroup5);
 				
 		
-		layoutTop.addComponent(dateField1From);
-		layoutTop.addComponent(dateField1To);
-
-		layoutTop.addComponent(checkBox1);
-		layoutTop.addComponent(checkBox2);
+		HorizontalLayout layoutFakturRetur = new HorizontalLayout();
+		layoutFakturRetur.addComponent(checkBoxFaktur);
+		layoutFakturRetur.addComponent(checkBoxRetur);
+		
+		layoutFilter.addComponent(dateField1From);
+		layoutFilter.addComponent(dateField1To);
+		
+//		layoutFilter.addComponent(checkBox1);
+		layoutFilter.addComponent(layoutFakturRetur);
+		layoutFilter.addComponent(checkBox2);
+		
+		layoutOutput.addComponent(checkBoxOutput1);
+		layoutOutput.addComponent(checkBoxOutput2);
+		layoutOutput.addComponent(checkBoxOutput3);
 		
 		layoutBottom.addComponent(btnPreview);
 		layoutBottom.addComponent(btnClose);
 		
 		
-		panelTop.setContent(layoutTop);
-		content.addComponent(panelTop);		
+		
+		panelFilter.setContent(layoutFilter);
+		panelOutput.setContent(layoutOutput);
+		layoutTop.addComponent(panelFilter);
+		layoutTop.addComponent(panelOutput);
+		
+		content.addComponent(layoutTop);		
 		content.addComponent(layoutBottom);
 		
 		setCompositionRoot(content);
@@ -138,7 +175,7 @@ public class LapSalesVendorPerBarangView extends CustomComponent{
 		
 	}
 
-	public LapSalesVendorPerBarangModel getModel() {
+	public LapSalesPerBarangModel getModel() {
 		return model;
 	}
 
@@ -175,14 +212,14 @@ public class LapSalesVendorPerBarangView extends CustomComponent{
 	}
 
 	public Panel getPanelTop() {
-		return panelTop;
+		return panelFilter;
 	}
 
 	public Panel getPanelBottom() {
 		return panelBottom;
 	}
 
-	public void setModel(LapSalesVendorPerBarangModel model) {
+	public void setModel(LapSalesPerBarangModel model) {
 		this.model = model;
 	}
 
@@ -219,7 +256,7 @@ public class LapSalesVendorPerBarangView extends CustomComponent{
 	}
 
 	public void setPanelTop(Panel panelTop) {
-		this.panelTop = panelTop;
+		this.panelFilter = panelTop;
 	}
 
 	public void setPanelBottom(Panel panelBottom) {
@@ -288,6 +325,94 @@ public class LapSalesVendorPerBarangView extends CustomComponent{
 
 	public void setComboGroup5(ComboBox comboGroup5) {
 		this.comboGroup5 = comboGroup5;
+	}
+
+	public CheckBox getCheckBoxFaktur() {
+		return checkBoxFaktur;
+	}
+
+	public CheckBox getCheckBoxRetur() {
+		return checkBoxRetur;
+	}
+
+	public CheckBox getCheckBoxOutput1() {
+		return checkBoxOutput1;
+	}
+
+	public CheckBox getCheckBoxOutput2() {
+		return checkBoxOutput2;
+	}
+
+	public CheckBox getCheckBoxOutput3() {
+		return checkBoxOutput3;
+	}
+
+	public CheckBox getCheckBoxOutput4() {
+		return checkBoxOutput4;
+	}
+
+	public CheckBox getCheckBoxOutput5() {
+		return checkBoxOutput5;
+	}
+
+	public CheckBox getCheckBoxOutput6() {
+		return checkBoxOutput6;
+	}
+
+	public CheckBox getCheckBoxOutput7() {
+		return checkBoxOutput7;
+	}
+
+	public Panel getPanelFilter() {
+		return panelFilter;
+	}
+
+	public Panel getPanelOutput() {
+		return panelOutput;
+	}
+
+	public void setCheckBoxFaktur(CheckBox checkBoxFaktur) {
+		this.checkBoxFaktur = checkBoxFaktur;
+	}
+
+	public void setCheckBoxRetur(CheckBox checkBoxRetur) {
+		this.checkBoxRetur = checkBoxRetur;
+	}
+
+	public void setCheckBoxOutput1(CheckBox checkBoxOutput1) {
+		this.checkBoxOutput1 = checkBoxOutput1;
+	}
+
+	public void setCheckBoxOutput2(CheckBox checkBoxOutput2) {
+		this.checkBoxOutput2 = checkBoxOutput2;
+	}
+
+	public void setCheckBoxOutput3(CheckBox checkBoxOutput3) {
+		this.checkBoxOutput3 = checkBoxOutput3;
+	}
+
+	public void setCheckBoxOutput4(CheckBox checkBoxOutput4) {
+		this.checkBoxOutput4 = checkBoxOutput4;
+	}
+
+	public void setCheckBoxOutput5(CheckBox checkBoxOutput5) {
+		this.checkBoxOutput5 = checkBoxOutput5;
+	}
+
+	public void setCheckBoxOutput6(CheckBox checkBoxOutput6) {
+		this.checkBoxOutput6 = checkBoxOutput6;
+	}
+
+	public void setCheckBoxOutput7(CheckBox checkBoxOutput7) {
+		this.checkBoxOutput7 = checkBoxOutput7;
+	}
+
+	public void setPanelFilter(Panel panelFilter) {
+		this.panelFilter = panelFilter;
+	}
+
+	public void setPanelOutput(Panel panelOutput) {
+		this.panelOutput = panelOutput;
 	}
 	
 	

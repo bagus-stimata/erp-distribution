@@ -538,11 +538,6 @@ public class FormOpnamePresenter implements ClickListener, ValueChangeListener, 
 	}
 	
 	public void fillDatabaseReportLengkap(){
-		//1. HAPUS DATA
-		Iterator<ZLapPackingList> iterZLapPackingListDelete = model.getLapPackingListJpaService().findAll().iterator();
-		while (iterZLapPackingListDelete.hasNext()) {
-			model.getLapPackingListJpaService().removeObject(iterZLapPackingListDelete.next());
-		}
 
 		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
 		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
@@ -559,7 +554,6 @@ public class FormOpnamePresenter implements ClickListener, ValueChangeListener, 
 				domain.setUom2(fProduct.getUom2());
 				domain.setUom3(fProduct.getUom3());
 				
-				model.getLapPackingListJpaService().createObject(domain);
 			}
 			
 		}

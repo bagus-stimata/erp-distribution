@@ -80,46 +80,112 @@ public class IncomingStockReturItemPresenter implements ClickListener, BlurListe
 	@Override
 	public void blur(BlurEvent event) {
 
-		if (event.getComponent()==view.getComboProduct()) {				
-			helper.updateAndCalulateItemDetilProduct();
-			helper.updateAndCalculateItemDetil();
+		if (event.getComponent()==view.getComboProduct()) {		
+			if (view.getComboProduct().getValue() !=null){
+				helper.updateAndCalulateItemDetilProduct();
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldPprice()){
-			helper.updateAndCalculateItemDetil();
+//			helper.validasiHargaBelidanHargaJual();
+			if (view.getFieldPprice().getValue()==null) {				
+				view.getFieldPprice().setValue("0");
+			}
+			
+			if (! view.getFieldPprice().getValue().equals("0") || ! view.getFieldPprice().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldPpriceafterppn()){
-			helper.updateAndCalculateItemDetil();
+//			helper.validasiHargaBelidanHargaJual();
+			if (view.getFieldPpriceafterppn().getValue()==null) {				
+				view.getFieldPpriceafterppn().setValue("0");
+			}
+			
+			if (! view.getFieldPpriceafterppn().getValue().equals("0") || ! view.getFieldPpriceafterppn().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty1()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty1().getValue()==null) {
+				view.getFieldQty1().setValue("0");
+			}
+			if (!  view.getFieldQty1().getValue().equals("0") || ! view.getFieldQty1().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 			if (Integer.parseInt(view.getFieldQty2().getValue())<=0){
 				view.getFieldQty2().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty2()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty2().getValue()==null) {				
+				view.getFieldQty2().setValue("0");
+			}
+			
+			if (! view.getFieldQty2().getValue().equals("0") || ! view.getFieldQty2().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 			if (Integer.parseInt(view.getFieldQty3().getValue())<=0){
 				view.getFieldQty3().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty3()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty3().getValue()==null) {
+				view.getFieldQty3().setValue("0");
+			}
+			if (! view.getFieldQty3().getValue().equals("0") || ! view.getFieldQty3().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldQty()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc1()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc1rp()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc2()){
-			helper.updateAndCalculateItemDetil();
-		}else if (event.getComponent()==view.getFieldDisc2rp()){
-			helper.updateAndCalculateItemDetil();
+			if (view.getFieldQty().getValue()==null) {
+				view.getFieldQty().setValue("0");
+			}
+			if (! view.getFieldQty().getValue().equals("0") || ! view.getFieldQty().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+			
 		}else if (event.getComponent()==view.getFieldSubtotal()){
 			helper.updateAndCalculateItemDetil();
 		}else if (event.getComponent()==view.getFieldSubtotalafterppn()){
 			helper.updateAndCalculateItemDetil();
-		}
+			
+		}else if (event.getComponent()==view.getFieldDisc1()){
+			if (view.getFieldDisc1().getValue()==null) {
+				view.getFieldDisc1().setValue("0");
+			}
+			if (! view.getFieldDisc1().getValue().equals("0") || ! view.getFieldDisc1().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+		}else if (event.getComponent()==view.getFieldDisc1rp()){
+			if (view.getFieldDisc1rp().getValue()==null) {
+				view.getFieldDisc1rp().setValue("0");
+			}
+			if (! view.getFieldDisc1rp().getValue().equals("0") || ! view.getFieldDisc1rp().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+		}else if (event.getComponent()==view.getFieldDisc2()){
+			if (view.getFieldDisc2().getValue()==null) {
+				view.getFieldDisc2().setValue("0");
+			}
+			if (! view.getFieldDisc2().getValue().equals("0") || ! view.getFieldDisc2().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+		}else if (event.getComponent()==view.getFieldDisc2rp()){
+			if (view.getFieldDisc2rp().getValue()==null) {
+				view.getFieldDisc2rp().setValue("0");
+			}
+			if (! view.getFieldDisc2rp().getValue().equals("0") || ! view.getFieldDisc2rp().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+		}else if (event.getComponent()==view.getFieldSubtotalafterdisc()){
+			helper.updateAndCalculateItemDetil();
+		}else if (event.getComponent()==view.getFieldSubtotalafterdiscafterppn()){
+			helper.updateAndCalculateItemDetil();
+		}		
+		view.setFormButtonAndTextState();		
 	}
 	@Override
 	public void valueChange(ValueChangeEvent event) {

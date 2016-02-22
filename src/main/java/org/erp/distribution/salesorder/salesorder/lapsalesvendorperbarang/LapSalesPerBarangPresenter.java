@@ -64,11 +64,11 @@ import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-public class LapSalesVendorPerBarangPresenter implements ClickListener{
-	private LapSalesVendorPerBarangModel model;
-	private LapSalesVendorPerBarangView view;
+public class LapSalesPerBarangPresenter implements ClickListener{
+	private LapSalesPerBarangModel model;
+	private LapSalesPerBarangView view;
 
-	public LapSalesVendorPerBarangPresenter(LapSalesVendorPerBarangModel model, LapSalesVendorPerBarangView view){
+	public LapSalesPerBarangPresenter(LapSalesPerBarangModel model, LapSalesPerBarangView view){
 		this.model = model;
 		this.view = view;
 		initListener();
@@ -89,22 +89,39 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 		
 	public void printForm(){
 		//1. ISI DATABASE UNTUK TEMP
-		fillDatabaseReportLengkap();
-		//2. PREVIEW LAPORAN
-		if (view.getCheckBox2().getValue()==true){
-			showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1LengkapDs.jasper", "lapsalesvendorperbaranglengkap1");			
-		}else {
-			showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1Ds.jasper", "lapsalesvendorperbarang1");
+		if (view.getCheckBoxOutput1().getValue()==true){
+			fillDatabaseReport(1);
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1LengkapDs.jasper", "lapsalesvendorperbaranglengkap1");			
+			}else {
+				showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1Ds.jasper", "lapsalesvendorperbarang1");
+			}
 		}
+		if (view.getCheckBoxOutput2().getValue()==true){
+			fillDatabaseReport(2);
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesareaperbarang/lapsalesareaperbarang1LengkapDs.jasper", "lapsalesareaperbaranglengkap1");			
+			}else {
+				showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesareaperbarang/lapsalesareaperbarang1Ds.jasper", "lapsalesareaperbarang1");
+			}
+		}
+		if (view.getCheckBoxOutput3().getValue()==true){
+			fillDatabaseReport(3);
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesproductgroupperbarang/lapsalesproductgroupperbarang1LengkapDs.jasper", "lapsalesproductgroupperbaranglengkap1");			
+			}else {
+				showPreview("/erp/distribution/reports/salesorder/lapsalesperbarang/lapsalesproductgroupperbarang/lapsalesproductgroupperbarang1Ds.jasper", "lapsalesproductgroupperbarang1");
+			}
+		}
+		
 	}
 	
 	private List<ZLapTemplate2> lapTemplate2 = new ArrayList<ZLapTemplate2>();
-	public void fillDatabaseReportLengkap(){
-		//MENGHINDARI DOUBLE
-		lapTemplate2 = new ArrayList<ZLapTemplate2>();		
-//		Set<String> setSuratJalanList = new LinkedHashSet<String>();
+	public void fillDatabaseReport(Integer laporan){
 
-		List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>();
 		String paramVcode = "%";
 		try{
 			paramVcode = "%" + ((FVendor) view.getComboGroup1().getValue()).getVcode() + "%";
@@ -138,15 +155,35 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 		Date paramTrdate = view.getDateField1From().getValue();
 		Date paramDuedate = view.getDateField1To().getValue();
 		String paramTipeFaktur = "%";
-		listFtSalesd = model.getFtSalesdJpaService()
-				.findAllByVendor(paramVcode, paramArea, paramSubArea, paramCustno, 
-						paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);
+		
+		List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>();
+		if (laporan==1){
+			listFtSalesd = model.getFtSalesdJpaService()
+					.findAllByVendor(paramVcode, paramArea, paramSubArea, paramCustno, 
+							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);
+		}else if (laporan==2){
+			listFtSalesd = model.getFtSalesdJpaService()
+					.findAllByArea(paramVcode, paramArea, paramSubArea, paramCustno, 
+							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
+		}else if (laporan==3){
+			listFtSalesd = model.getFtSalesdJpaService()
+					.findAllByProductGroup(paramVcode, paramArea, paramSubArea, paramCustno, 
+							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
+		}
+		
+		fillIntoTemplateReport(listFtSalesd);
+	}		
+	
+	public void fillIntoTemplateReport(List<FtSalesd> listFtSalesd){
+
+		//MENGHINDARI DOUBLE
+		lapTemplate2 = new ArrayList<ZLapTemplate2>();		
 				
 		for (FtSalesd ftSalesd: listFtSalesd){			
 				FtSalesd newFtSalesd = new FtSalesd();
 				//JIKA RETUR MAKA DI MINUSKAN
 				if (ftSalesd.getFtsaleshBean().getTipefaktur().equals("R")) {
-					ftSalesd.setSprice(- ftSalesd.getSprice());
+//					ftSalesd.setSprice(- ftSalesd.getSprice());
 					ftSalesd.setQty(-ftSalesd.getQty());
 				}
 				HeaderDetilHelper headerDetilHelper = new HeaderDetilHelperImpl(ftSalesd);
@@ -188,19 +225,24 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 				domain.setDouble5(totalDpp);
 				
 				domain.setDouble1(totalAfterDisc2AfterPpn);
-				
+
 				//JIKA DIPOTONG RETUR MAKA RETUR MASUK SEMUA --> JIKA TIDAK MAKA YANG DI ADD YANG FAKTUR SAJA
-				if (view.getCheckBox1().getValue()==true) {
-					lapTemplate2.add(domain);
-				}else {
-					if (ftSalesd.getFtsaleshBean().getTipefaktur().equals("F")) {
-						lapTemplate2.add(domain);
-					}					
+				if (view.getCheckBoxFaktur().getValue()==true){
+					if (ftSalesd.getFtsaleshBean().getTipefaktur().equalsIgnoreCase("F")) {
+						lapTemplate2.add(domain);						
+					}
 				}
+				if (view.getCheckBoxRetur().getValue()==true){
+					if (ftSalesd.getFtsaleshBean().getTipefaktur().equalsIgnoreCase("R")) {
+						lapTemplate2.add(domain);						
+					}
+				}
+				
+				
 			
 		}
 		
-	}		
+	}
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
 //			final JasperReport report;
@@ -211,7 +253,7 @@ public class LapSalesVendorPerBarangPresenter implements ClickListener{
 		
 		parameters.put("paramDate1", view.getDateField1From().getValue());
 		parameters.put("paramDate2", view.getDateField1To().getValue());
-		if (view.getCheckBox1().getValue()==true){
+		if (view.getCheckBoxRetur().getValue()==true){
 			parameters.put("paramDipotongRetur", "*Dipotong Retur");
 		}else {
 			parameters.put("paramDipotongRetur", "*Tidak Dipotong Retur");

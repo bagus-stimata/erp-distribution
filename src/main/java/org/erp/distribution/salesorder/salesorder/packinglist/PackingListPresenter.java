@@ -588,74 +588,74 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 	}
 
 	public void exportToExel(){
-		resetParameters();
-		//pengisian parameter diserahkan saat :: fillDatabaseReportLengkap();
-		reloadParameter();
-		
-		//1. ISI DATABASE UNTUK TEMP
-		fillDatabaseReportLengkap();
-		//2. PREVIEW LAPORAN
-		String basepath = VaadinService.getCurrent()
-	            .getBaseDirectory().getAbsolutePath();
-		String filePathDestination = basepath + "/PackingList.xls";
-	
-		
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("PackingList");
-
-        Map<Integer, Object[]> data = new HashMap<Integer, Object[]>();
-        data.put(1, new Object[] {"GRUP1","GROUP2", "GRUP3", "KODE", "NAMA BARANG", "BES", "SAT_BES","SED", "SAT_SED", "KEC", "SAT_KEC", "PCS" });
-        
-        Iterator<ZLapPackingList> iterPackingList = model.getLapPackingListJpaService().findAll().iterator();
-        int lastRow = 1;
-        while (iterPackingList.hasNext()) {
-        	lastRow++;
-        	ZLapPackingList domain = new ZLapPackingList();
-        	domain = iterPackingList.next();
-	        data.put(lastRow, new Object[] {domain.getGrup1(), domain.getGrup2(), domain.getGrup3(), 
-	        		domain.getPcode(), domain.getPname(), 
-	        		domain.getQtyBes(), domain.getUom1(), domain.getQtySed(), domain.getUom2(),domain.getQtyKec(), domain.getUom3(), domain.getQtyPcs()});        	        	
-        }
-        
-        Set<Integer> keyset = data.keySet();
-        int rownum = 0;
-        for (Integer key : keyset) {
-            Row row = sheet.createRow(rownum++);
-            Object [] objArr = data.get(key);
-            int cellnum = 0;
-            for (Object obj : objArr) {
-                Cell cell = row.createCell(cellnum++);
-                if(obj instanceof Date)
-                    cell.setCellValue((Date)obj);
-                else if(obj instanceof Boolean)
-                    cell.setCellValue((Boolean)obj);
-                else if(obj instanceof String)
-                    cell.setCellValue((String)obj);
-                else if(obj instanceof Double)
-                    cell.setCellValue((Double)obj);
-                else if(obj instanceof Integer)
-                    cell.setCellValue((Integer)obj);
-            }
-        }
-
-        try {
-            FileOutputStream out =
-                    new FileOutputStream(new File(filePathDestination));
-            workbook.write(out);
-            out.close();
-            System.out.println("Excel written successfully..");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
-        
-		Resource res = new FileResource(new File(filePathDestination));		
-		FileDownloader fd = new FileDownloader(res);
-		
-		fd.extend(view.getBtnExportToExel());
+//		resetParameters();
+//		//pengisian parameter diserahkan saat :: fillDatabaseReportLengkap();
+//		reloadParameter();
+//		
+//		//1. ISI DATABASE UNTUK TEMP
+//		fillDatabaseReportLengkap();
+//		//2. PREVIEW LAPORAN
+//		String basepath = VaadinService.getCurrent()
+//	            .getBaseDirectory().getAbsolutePath();
+//		String filePathDestination = basepath + "/PackingList.xls";
+//	
+//		
+//        HSSFWorkbook workbook = new HSSFWorkbook();
+//        HSSFSheet sheet = workbook.createSheet("PackingList");
+//
+//        Map<Integer, Object[]> data = new HashMap<Integer, Object[]>();
+//        data.put(1, new Object[] {"GRUP1","GROUP2", "GRUP3", "KODE", "NAMA BARANG", "BES", "SAT_BES","SED", "SAT_SED", "KEC", "SAT_KEC", "PCS" });
+//        
+//        Iterator<ZLapPackingList> iterPackingList = model.getLapPackingListJpaService().findAll().iterator();
+//        int lastRow = 1;
+//        while (iterPackingList.hasNext()) {
+//        	lastRow++;
+//        	ZLapPackingList domain = new ZLapPackingList();
+//        	domain = iterPackingList.next();
+//	        data.put(lastRow, new Object[] {domain.getGrup1(), domain.getGrup2(), domain.getGrup3(), 
+//	        		domain.getPcode(), domain.getPname(), 
+//	        		domain.getQtyBes(), domain.getUom1(), domain.getQtySed(), domain.getUom2(),domain.getQtyKec(), domain.getUom3(), domain.getQtyPcs()});        	        	
+//        }
+//        
+//        Set<Integer> keyset = data.keySet();
+//        int rownum = 0;
+//        for (Integer key : keyset) {
+//            Row row = sheet.createRow(rownum++);
+//            Object [] objArr = data.get(key);
+//            int cellnum = 0;
+//            for (Object obj : objArr) {
+//                Cell cell = row.createCell(cellnum++);
+//                if(obj instanceof Date)
+//                    cell.setCellValue((Date)obj);
+//                else if(obj instanceof Boolean)
+//                    cell.setCellValue((Boolean)obj);
+//                else if(obj instanceof String)
+//                    cell.setCellValue((String)obj);
+//                else if(obj instanceof Double)
+//                    cell.setCellValue((Double)obj);
+//                else if(obj instanceof Integer)
+//                    cell.setCellValue((Integer)obj);
+//            }
+//        }
+//
+//        try {
+//            FileOutputStream out =
+//                    new FileOutputStream(new File(filePathDestination));
+//            workbook.write(out);
+//            out.close();
+//            System.out.println("Excel written successfully..");
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//		
+//        
+//		Resource res = new FileResource(new File(filePathDestination));		
+//		FileDownloader fd = new FileDownloader(res);
+//		
+//		fd.extend(view.getBtnExportToExel());
 		
 	}
 	

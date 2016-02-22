@@ -11,9 +11,15 @@ import org.erp.distribution.jpaservice.FtSalesdJpaServiceImpl;
 import org.erp.distribution.model.FStock;
 
 public class UpdateSystemHelper {
-	private FtSalesdJpaService ftSalesdJpaService = new FtSalesdJpaServiceImpl();
-	private FStockJpaService fStockJpaService = new FStockJpaServiceImpl();
-	
+//	private FtSalesdJpaService ftSalesdJpaService = new FtSalesdJpaServiceImpl();
+//	private FStockJpaService fStockJpaService = new FStockJpaServiceImpl();
+	private FtSalesdJpaService ftSalesdJpaService;
+	private FStockJpaService fStockJpaService;
+
+	public UpdateSystemHelper(FtSalesdJpaService ftSalesdJpaService, FStockJpaService fStockJpaService){
+		this.ftSalesdJpaService = ftSalesdJpaService;
+		this.fStockJpaService = fStockJpaService;
+	}
 	public UpdateSystemHelper(){
 		
 	}
@@ -22,7 +28,6 @@ public class UpdateSystemHelper {
 	}
 	public void updateVersion12(){
 		fStockJpaService.setZerroIfNull();
-//		List<FStock> listFStock = fSalesd
 	}
 	
 }

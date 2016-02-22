@@ -15,16 +15,37 @@ import org.erp.distribution.model.modelenum.EnumUserOtorize;
 import com.vaadin.ui.CustomComponent;
 
 public class SysvarHelper extends CustomComponent{
-	private SysvarJpaService sysvarJpaService =  new  SysvarJpaServiceImpl();
-	private UserJpaService userJpaService = new UserJpaServiceImpl();
+//	private SysvarJpaService sysvarJpaService =  new  SysvarJpaServiceImpl();
+//	private UserJpaService userJpaService = new UserJpaServiceImpl();
+	private SysvarJpaService sysvarJpaService;
+	private UserJpaService userJpaService;
 	
 //	private DivisionJpaService divisionService = new DivisionJpaServiceImpl();
 	
 	//1. CEK PARAMETER SYSTEM KALAU TIDAK ADA BUAT DEFAULT
-	
+
+	public SysvarHelper(SysvarJpaService sysvarJpaService, UserJpaService userJpaService) {
+		this.sysvarJpaService= sysvarJpaService;
+		this.userJpaService = userJpaService;
+
+		defaultConfigSysvar();
+		//JIKA USER admin masih belum ada maka di buatkan
+		User pengguna = new User();
+		pengguna.setUserId("administrator");
+		pengguna.setUserPassword("123");
+		pengguna.setActive(true);
+		pengguna.setUserOtorizeType(EnumUserOtorize.ADMINISTRATOR.getStrCode());
+		pengguna.setGender(true);
+		pengguna.setJoinDate(new Date());
+		pengguna.setFullName("Administrator System Pengguna Pertama");
+		try{
+			userJpaService.createObject(pengguna);
+		} catch(Exception ex){}
+		
+	}
 	public SysvarHelper() {
 		
-		defaultConfigSysvar();
+//		defaultConfigSysvar();
 		//JIKA USER admin masih belum ada maka di buatkan
 		User pengguna = new User();
 		pengguna.setUserId("administrator");

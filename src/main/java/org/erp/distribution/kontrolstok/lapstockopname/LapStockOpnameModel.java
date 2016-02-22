@@ -37,7 +37,7 @@ public class LapStockOpnameModel extends CustomComponent{
 	private FProductgroupJpaService fProductgroupJpaService;
 	private FStockJpaService fStockJpaService;
 	private LapMutasiStockJpaService lapMutasiStockJpaService;
-	private LapStockOpanameJpaService lapStockOpanameJpaService;
+//	private LapStockOpanameJpaService lapStockOpanameJpaService;
 	
 	private TransaksiHelper transaksiHelper = new TransaksiHelperImpl();
 	private ProductAndStockHelper productAndStockHelper =new ProductAndStockHelper();
@@ -77,8 +77,8 @@ public class LapStockOpnameModel extends CustomComponent{
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
 		
-		setLapMutasiStockJpaService((((DashboardUI) getUI().getCurrent()).getLapMutasiStockJpaService()));
-		setLapStockOpanameJpaService((((DashboardUI) getUI().getCurrent()).getLapStockOpanameJpaService()));
+//		setLapMutasiStockJpaService((((DashboardUI) getUI().getCurrent()).getLapMutasiStockJpaService()));
+//		setLapStockOpanameJpaService((((DashboardUI) getUI().getCurrent()).getLapStockOpanameJpaService()));
 		
 	}
 
@@ -165,13 +165,6 @@ public class LapStockOpnameModel extends CustomComponent{
 	public void setLapMutasiStockJpaService(
 			LapMutasiStockJpaService lapMutasiStockJpaService) {
 		this.lapMutasiStockJpaService = lapMutasiStockJpaService;
-	}
-	public LapStockOpanameJpaService getLapStockOpanameJpaService() {
-		return lapStockOpanameJpaService;
-	}
-	public void setLapStockOpanameJpaService(
-			LapStockOpanameJpaService lapStockOpanameJpaService) {
-		this.lapStockOpanameJpaService = lapStockOpanameJpaService;
 	}
 	public String getStrParamNorekFromOther() {
 		return strParamNorekFromOther;

@@ -644,83 +644,83 @@ public class LapMutasiSaldoStockPresenter implements ClickListener{
  	}
 	
 	public void extractToExel(){
-		resetParameters();
-		reloadParameter();
-		
-		//1. ISI DATABASE UNTUK TEMP
-		fillDatabaseReportLengkap();
-
-		//####CREATE FILE EXEL####
-		String basepath = VaadinService.getCurrent()
-	            .getBaseDirectory().getAbsolutePath();
-		String filePathDestination = basepath + "/MutasiStock.xls";
-		
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("MutasiStock");
-
-        Map<Integer, Object[]> data = new HashMap<Integer, Object[]>();
-        data.put(1, new Object[] {"STOCKDATE_FROM","STOCKDATE_TO", "KODEBRG", "NAMABARANG", 
-        		"AWAL_BES", "AWAL_SED", "AWAL_KEC", "AWAL_PCS", "AWAL_NILAIBELI", "AWAL_NILAIJUAL",
-        		"AKHIR_BES", "AKHIR_SED", "AKHIR_KEC", "AKHIR_PCS", "AKHIR_NILAIBELI", "AKHIR_NILAIJUAL"
-        		});
-        
-        Date trDateFrom = view.getDateField1From().getValue();
-        Date trDateTo = view.getDateField1To().getValue();
-        Iterator<ZLapMutasiStock> iterLapMutasiStock = model.getLapMutasiStockJpaService().findAll().iterator();
-       int lastRow = 1;
-       while (iterLapMutasiStock.hasNext()) {
-       		lastRow++;
-       		ZLapMutasiStock domain = new ZLapMutasiStock();
-       		domain = iterLapMutasiStock.next();
-       		
-       		try{
-		        data.put(lastRow, new Object[] {dateParamStockdateFrom, dateParamStockdateTo, domain.getPcode(), domain.getPname(), 
-		        		domain.getSaldoAwalBes(), domain.getSaldoAwalSed(), domain.getSaldoAwalKec(), domain.getSaldoAwalPcs(),  domain.getSaldoAwalNilaiBeli(), domain.getSaldoAwalNilaiJual(),
-		        		domain.getSaldoAkhirBes(), domain.getSaldoAkhirSed(), domain.getSaldoAkhirKec(), domain.getSaldoAkhirPcs(), domain.getSaldoAkhirNilaiBeli(), domain.getSaldoAkhirNilaiJual(),		        		
-		        		});
-       		} catch(Exception ex){}
-       }  
-        
-        Set<Integer> keyset = data.keySet();
-        int rownum = 0;
-        for (Integer key : keyset) {
-            Row row = sheet.createRow(rownum++);
-            Object [] objArr = data.get(key);
-            int cellnum = 0;
-            for (Object obj : objArr) {
-                Cell cell = row.createCell(cellnum++);
-                if(obj instanceof Date)
-                    cell.setCellValue((Date)obj);
-                else if(obj instanceof Boolean)
-                    cell.setCellValue((Boolean)obj);
-                else if(obj instanceof String)
-                    cell.setCellValue((String)obj);
-                else if(obj instanceof Double)
-                    cell.setCellValue((Double)obj);
-                else if(obj instanceof Integer)
-                    cell.setCellValue((Integer)obj);
-            }
-        }
-
-        try {
-            FileOutputStream out =
-                    new FileOutputStream(new File(filePathDestination));
-            workbook.write(out);
-            out.close();
-            System.out.println("Excel written successfully..");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
-        
-		Resource res = new FileResource(new File(filePathDestination));		
-		FileDownloader fd = new FileDownloader(res);
-		
-		fd.extend(view.getBtnExtractToExel());
-		
+//		resetParameters();
+//		reloadParameter();
+//		
+//		//1. ISI DATABASE UNTUK TEMP
+//		fillDatabaseReportLengkap();
+//
+//		//####CREATE FILE EXEL####
+//		String basepath = VaadinService.getCurrent()
+//	            .getBaseDirectory().getAbsolutePath();
+//		String filePathDestination = basepath + "/MutasiStock.xls";
+//		
+//        HSSFWorkbook workbook = new HSSFWorkbook();
+//        HSSFSheet sheet = workbook.createSheet("MutasiStock");
+//
+//        Map<Integer, Object[]> data = new HashMap<Integer, Object[]>();
+//        data.put(1, new Object[] {"STOCKDATE_FROM","STOCKDATE_TO", "KODEBRG", "NAMABARANG", 
+//        		"AWAL_BES", "AWAL_SED", "AWAL_KEC", "AWAL_PCS", "AWAL_NILAIBELI", "AWAL_NILAIJUAL",
+//        		"AKHIR_BES", "AKHIR_SED", "AKHIR_KEC", "AKHIR_PCS", "AKHIR_NILAIBELI", "AKHIR_NILAIJUAL"
+//        		});
+//        
+//        Date trDateFrom = view.getDateField1From().getValue();
+//        Date trDateTo = view.getDateField1To().getValue();
+//        Iterator<ZLapMutasiStock> iterLapMutasiStock = model.getLapMutasiStockJpaService().findAll().iterator();
+//       int lastRow = 1;
+//       while (iterLapMutasiStock.hasNext()) {
+//       		lastRow++;
+//       		ZLapMutasiStock domain = new ZLapMutasiStock();
+//       		domain = iterLapMutasiStock.next();
+//       		
+//       		try{
+//		        data.put(lastRow, new Object[] {dateParamStockdateFrom, dateParamStockdateTo, domain.getPcode(), domain.getPname(), 
+//		        		domain.getSaldoAwalBes(), domain.getSaldoAwalSed(), domain.getSaldoAwalKec(), domain.getSaldoAwalPcs(),  domain.getSaldoAwalNilaiBeli(), domain.getSaldoAwalNilaiJual(),
+//		        		domain.getSaldoAkhirBes(), domain.getSaldoAkhirSed(), domain.getSaldoAkhirKec(), domain.getSaldoAkhirPcs(), domain.getSaldoAkhirNilaiBeli(), domain.getSaldoAkhirNilaiJual(),		        		
+//		        		});
+//       		} catch(Exception ex){}
+//       }  
+//        
+//        Set<Integer> keyset = data.keySet();
+//        int rownum = 0;
+//        for (Integer key : keyset) {
+//            Row row = sheet.createRow(rownum++);
+//            Object [] objArr = data.get(key);
+//            int cellnum = 0;
+//            for (Object obj : objArr) {
+//                Cell cell = row.createCell(cellnum++);
+//                if(obj instanceof Date)
+//                    cell.setCellValue((Date)obj);
+//                else if(obj instanceof Boolean)
+//                    cell.setCellValue((Boolean)obj);
+//                else if(obj instanceof String)
+//                    cell.setCellValue((String)obj);
+//                else if(obj instanceof Double)
+//                    cell.setCellValue((Double)obj);
+//                else if(obj instanceof Integer)
+//                    cell.setCellValue((Integer)obj);
+//            }
+//        }
+//
+//        try {
+//            FileOutputStream out =
+//                    new FileOutputStream(new File(filePathDestination));
+//            workbook.write(out);
+//            out.close();
+//            System.out.println("Excel written successfully..");
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//		
+//        
+//		Resource res = new FileResource(new File(filePathDestination));		
+//		FileDownloader fd = new FileDownloader(res);
+//		
+//		fd.extend(view.getBtnExtractToExel());
+//		
 	}
 	
 	

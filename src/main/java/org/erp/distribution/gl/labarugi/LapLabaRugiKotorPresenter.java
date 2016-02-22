@@ -82,10 +82,6 @@ public class LapLabaRugiKotorPresenter implements ClickListener{
 	
 	public void fillDatabaseReportLengkap(){
 		//1. HAPUS DATA
-		Iterator<ZLapTemplate1> iterZLapTemplate1Delete = model.getLapTemplate1JpaService().findAll().iterator();
-		while (iterZLapTemplate1Delete.hasNext()) {
-			model.getLapTemplate1JpaService().removeObject(iterZLapTemplate1Delete.next());
-		}
 		//MENGHINDARI DOUBLE
 		Set<String> setSuratJalanList = new LinkedHashSet<String>();
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
@@ -120,7 +116,7 @@ public class LapLabaRugiKotorPresenter implements ClickListener{
 					domain.setDouble1(itemStService.getBiaya());
 					domain.setDouble2(itemStService.getBiayaSparePart());
 					
-					model.getLapTemplate1JpaService().createObject(domain);
+//					model.getLapTemplate1JpaService().createObject(domain);
 					
 				
 			}

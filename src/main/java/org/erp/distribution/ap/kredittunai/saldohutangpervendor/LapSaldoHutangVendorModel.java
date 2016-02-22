@@ -86,7 +86,6 @@ public class LapSaldoHutangVendorModel extends CustomComponent implements Serial
 		setfDivisionJpaService(((DashboardUI) getUI().getCurrent()).getfDivisionJpaService());
 
 		setfVendorJpaService(((DashboardUI) getUI().getCurrent()).getfVendorJpaService());
-		setLapTemplate1JpaService(((DashboardUI) getUI().getCurrent()).getLapTemplate1JpaService());
 		
 		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
 		

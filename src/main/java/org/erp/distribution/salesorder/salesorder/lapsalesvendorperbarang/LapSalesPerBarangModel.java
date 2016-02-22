@@ -40,7 +40,7 @@ import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.CustomComponent;
 
-public class LapSalesVendorPerBarangModel extends CustomComponent{
+public class LapSalesPerBarangModel extends CustomComponent{
 	
 	private TransaksiHelper transaksiHelper =new TransaksiHelperImpl();
 	//1. DAO SERVICE
@@ -80,7 +80,7 @@ public class LapSalesVendorPerBarangModel extends CustomComponent{
 	//OTHERS
 	protected String OperationStatus = "OPEN";
 	
-	public LapSalesVendorPerBarangModel(){
+	public LapSalesPerBarangModel(){
 		initVariable();
 		initVariableData();
 		

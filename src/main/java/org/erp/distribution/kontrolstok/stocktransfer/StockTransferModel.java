@@ -42,7 +42,6 @@ public class StockTransferModel extends CustomComponent{
 		private ProductAndStockHelper productAndStockHelper= new ProductAndStockHelper();
 
 		private SysvarHelper sysvarHelper;
-		private LapTemplate1JpaService lapTemplate1JpaService;
 		
 		
 	//2. ENTITY
@@ -91,7 +90,6 @@ public class StockTransferModel extends CustomComponent{
 	public void initVariable(){
 		
 		setSysvarJpaService((((DashboardUI) getUI().getCurrent()).getSysvarJpaService()));
-		setLapTemplate1JpaService((((DashboardUI) getUI().getCurrent()).getLapTemplate1JpaService()));
 		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
 		
 		setFtStocktransferhJpaService((((DashboardUI) getUI().getCurrent()).getFtStocktransferhJpaService()));
@@ -285,18 +283,11 @@ public class StockTransferModel extends CustomComponent{
 		OperationStatus = operationStatus;
 	}
 
-	public LapTemplate1JpaService getLapTemplate1JpaService() {
-		return lapTemplate1JpaService;
-	}
 
 	public User getUserActive() {
 		return userActive;
 	}
 
-	public void setLapTemplate1JpaService(
-			LapTemplate1JpaService lapTemplate1JpaService) {
-		this.lapTemplate1JpaService = lapTemplate1JpaService;
-	}
 
 	public void setUserActive(User userActive) {
 		this.userActive = userActive;

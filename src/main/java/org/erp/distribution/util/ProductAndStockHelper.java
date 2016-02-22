@@ -1122,7 +1122,7 @@ public class ProductAndStockHelper extends CustomComponent{
 			try{
 				stockPcs += item.getQtyadjust();
 			} catch(Exception ex){
-				ex.printStackTrace();				
+//				ex.printStackTrace();				
 			}
 		}
 		return stockPcs;

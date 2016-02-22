@@ -38,7 +38,7 @@ public class PackingListModel extends CustomComponent implements Serializable{
 
 	private FtSaleshJpaService ftSaleshJpaService;; 
 	private FDivisionJpaService fDivisionJpaService;
-	private LapPackingListJpaService lapPackingListJpaService;
+	
 	
 	private String operationStatus="";	
 	
@@ -58,7 +58,6 @@ public class PackingListModel extends CustomComponent implements Serializable{
 //		setTransaksiHelper(((DashboardUI) getUI().getCurrent()).getTransaksiHelper());
 		
 		setFtSaleshJpaService(((DashboardUI) getUI().getCurrent()).getFtSaleshJpaService());
-		setLapPackingListJpaService(((DashboardUI) getUI().getCurrent()).getLapPackingListJpaService());
 		
 		setfDivisionJpaService(((DashboardUI) getUI().getCurrent()).getfDivisionJpaService());
 //		setProductAndStockHelper(((DashboardUI) getUI().getCurrent()).getProductAndStockHelper());
@@ -125,9 +124,6 @@ public class PackingListModel extends CustomComponent implements Serializable{
 		return fDivisionJpaService;
 	}
 
-	public LapPackingListJpaService getLapPackingListJpaService() {
-		return lapPackingListJpaService;
-	}
 
 	public String getOperationStatus() {
 		return operationStatus;
@@ -166,10 +162,6 @@ public class PackingListModel extends CustomComponent implements Serializable{
 		this.fDivisionJpaService = fDivisionJpaService;
 	}
 
-	public void setLapPackingListJpaService(
-			LapPackingListJpaService lapPackingListJpaService) {
-		this.lapPackingListJpaService = lapPackingListJpaService;
-	}
 
 	public void setOperationStatus(String operationStatus) {
 		this.operationStatus = operationStatus;

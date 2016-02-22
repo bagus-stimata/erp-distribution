@@ -38,7 +38,7 @@ public class StockOpnameModel extends CustomComponent{
 		private FtOpnamedJpaService ftOpnamedJpaService;
 		private FVendorJpaService fVendorJpaService;
 		private FWarehouseJpaService fWarehouseJpaService;
-		private LapStockOpanameJpaService lapStockOpanameJpaService;
+//		private LapStockOpanameJpaService lapStockOpanameJpaService;
 		
 		private FStockJpaService fStockJpaService;
 		
@@ -96,7 +96,6 @@ public class StockOpnameModel extends CustomComponent{
 //		setProductAndStockHelper((((DashboardUI) getUI().getCurrent()).getProductAndStockHelper()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
-		setLapStockOpanameJpaService((((DashboardUI) getUI().getCurrent()).getLapStockOpanameJpaService()));
 		
 		setFtOpnamehJpaService((((DashboardUI) getUI().getCurrent()).getFtOpnamehJpaService()));
 		setFtOpnamedJpaService((((DashboardUI) getUI().getCurrent()).getFtOpnamedJpaService()));
@@ -322,14 +321,6 @@ public class StockOpnameModel extends CustomComponent{
 		this.fStockJpaService = fStockJpaService;
 	}
 
-	public LapStockOpanameJpaService getLapStockOpanameJpaService() {
-		return lapStockOpanameJpaService;
-	}
-
-	public void setLapStockOpanameJpaService(
-			LapStockOpanameJpaService lapStockOpanameJpaService) {
-		this.lapStockOpanameJpaService = lapStockOpanameJpaService;
-	}
 
 	public User getUserActive() {
 		return userActive;

@@ -9,11 +9,13 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-public class PerubahanHargaItemPresenter implements ClickListener, BlurListener, ValueChangeListener, Handler{
+public class PerubahanHargaItemPresenter implements ClickListener, BlurListener, ValueChangeListener, Handler, FocusListener{
 	private PerubahanHargaItemModel model;
 	private PerubahanHargaItemView view;
 	private PerubahanHargaItemHelper helper;
@@ -58,9 +60,11 @@ public class PerubahanHargaItemPresenter implements ClickListener, BlurListener,
 		view.getPanelFieldSprice2().addActionHandler(this);
 		view.getPanelFieldSprice2afterppn().addActionHandler(this);
 
-
-		
-		
+		//ON FOCUS EVENT
+		view.getFieldSubtotal().addFocusListener(this);
+		view.getFieldSubtotalafterppn().addFocusListener(this);
+		view.getFieldSubtotalafterdisc().addFocusListener(this);
+		view.getFieldSubtotalafterdiscafterppn().addFocusListener(this);
 		
 	}
 	
@@ -79,38 +83,114 @@ public class PerubahanHargaItemPresenter implements ClickListener, BlurListener,
 		}
 		
 	}
+	
+	@Override
+	public void focus(FocusEvent event) {
+		if (event.getComponent()==view.getFieldSubtotal()){
+			if (view.getFieldSubtotal().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}
+		}else if (event.getComponent()==view.getFieldSubtotalafterppn()){
+			if (view.getFieldSubtotalafterppn().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}
+		}else if (event.getComponent()==view.getFieldSubtotalafterdisc()){
+			if (view.getFieldSubtotalafterdisc().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}			
+		}else if (event.getComponent()==view.getFieldSubtotalafterdiscafterppn()){
+			if (view.getFieldSubtotalafterdiscafterppn().getValue()==null) {
+				if (view.getComboProduct().getValue() !=null) {					
+					helper.updateAndCalculateItemDetil();
+				}
+			}
+		}		
+		
+	}
+
+	
 	@Override
 	public void blur(BlurEvent event) {
 		
 		int convfact1 = (model.itemDetil.getFproductBean().getConvfact1()==null?1:model.itemDetil.getFproductBean().getConvfact1());
 		
 		if (event.getComponent()==view.getComboProduct()) {				
-			helper.updateAndCalulateItemDetilProduct();
-			helper.updateAndCalculateItemDetil();
+			if (view.getComboProduct().getValue() !=null){
+				helper.updateAndCalulateItemDetilProduct();
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldPprice()){
-			helper.updateAndCalculatePPrice(model.getItemDetil().getPprice(), convfact1);
-			
+			if (view.getFieldPprice().getValue()==null) {				
+				view.getFieldPprice().setValue("0");
+			}
+			if (! view.getFieldPprice().getValue().equals("0") || ! view.getFieldPprice().getValue().trim().equals("")){
+				helper.updateAndCalculatePPrice(model.getItemDetil().getPprice(), convfact1);
+			}
 		}else if (event.getComponent()==view.getFieldPpriceafterppn()){
-			helper.updateAndCalculatePPrice(helper.getPriceBeforePPN(model.getItemDetil().getPpriceafterppn()), convfact1);
+//			helper.validasiHargaBelidanHargaJual();
+			if (view.getFieldPpriceafterppn().getValue()==null) {				
+				view.getFieldPpriceafterppn().setValue("0");
+			}
+			
+			if (! view.getFieldPpriceafterppn().getValue().equals("0") || ! view.getFieldPpriceafterppn().getValue().trim().equals("")){
+				helper.updateAndCalculatePPrice(helper.getPriceBeforePPN(model.getItemDetil().getPpriceafterppn()), convfact1);
+			}
 			
 		}else if (event.getComponent()==view.getFieldPprice2()){
-			helper.updateAndCalculatePPrice(model.getItemDetil().getPprice2() * convfact1, convfact1);
+			if (view.getFieldPprice2().getValue()==null) {				
+				view.getFieldPprice2().setValue("0");
+			}
+			
+			if (! view.getFieldPprice2().getValue().equals("0") || ! view.getFieldPprice2().getValue().trim().equals("")){
+				helper.updateAndCalculatePPrice(model.getItemDetil().getPprice2() * convfact1, convfact1);
+			}
 			
 		}else if (event.getComponent()==view.getFieldPprice2afterppn()){
-			helper.updateAndCalculatePPrice(helper.getPriceBeforePPN(model.getItemDetil().getPprice2afterppn() * convfact1), convfact1);
+			if (view.getFieldPprice2afterppn().getValue()==null) {				
+				view.getFieldPprice2afterppn().setValue("0");
+			}
 			
+			if (! view.getFieldPprice2afterppn().getValue().equals("0") || ! view.getFieldPprice2afterppn().getValue().trim().equals("")){
+				helper.updateAndCalculatePPrice(helper.getPriceBeforePPN(model.getItemDetil().getPprice2afterppn() * convfact1), convfact1);
+			}
 		}else if (event.getComponent()==view.getFieldSprice()){
-			helper.updateAndCalculateSPrice(model.getItemDetil().getSprice(), convfact1);
+			if (view.getFieldSprice().getValue()==null) {				
+				view.getFieldSprice().setValue("0");
+			}
 			
+			if (! view.getFieldSprice().getValue().equals("0") || ! view.getFieldSprice().getValue().trim().equals("")){
+				helper.updateAndCalculateSPrice(model.getItemDetil().getSprice(), convfact1);
+			}
 		}else if (event.getComponent()==view.getFieldSpriceafterppn()){
-			helper.updateAndCalculateSPrice(helper.getPriceBeforePPN(model.getItemDetil().getSpriceafterppn()), convfact1);
+			if (view.getFieldSpriceafterppn().getValue()==null) {				
+				view.getFieldSpriceafterppn().setValue("0");
+			}
 			
+			if (! view.getFieldSpriceafterppn().getValue().equals("0") || ! view.getFieldSpriceafterppn().getValue().trim().equals("")){
+				helper.updateAndCalculateSPrice(helper.getPriceBeforePPN(model.getItemDetil().getSpriceafterppn()), convfact1);
+			}
 		}else if (event.getComponent()==view.getFieldSprice2()){
-			helper.updateAndCalculateSPrice(model.getItemDetil().getSprice2() * convfact1, convfact1);
+			if (view.getFieldSprice2().getValue()==null) {				
+				view.getFieldSprice2().setValue("0");
+			}
 			
+			if (! view.getFieldSprice2().getValue().equals("0") || ! view.getFieldSprice2().getValue().trim().equals("")){
+				helper.updateAndCalculateSPrice(model.getItemDetil().getSprice2() * convfact1, convfact1);
+			}
 		}else if (event.getComponent()==view.getFieldSprice2afterppn()){
-			helper.updateAndCalculateSPrice(helper.getPriceBeforePPN(model.getItemDetil().getSprice2afterppn() * convfact1), convfact1);
+			if (view.getFieldSprice2afterppn().getValue()==null) {				
+				view.getFieldSprice2afterppn().setValue("0");
+			}
 			
+			if (! view.getFieldSprice2afterppn().getValue().equals("0") || ! view.getFieldSprice2afterppn().getValue().trim().equals("")){
+			helper.updateAndCalculateSPrice(helper.getPriceBeforePPN(model.getItemDetil().getSprice2afterppn() * convfact1), convfact1);
+			}
 		}
 	}
 	@Override

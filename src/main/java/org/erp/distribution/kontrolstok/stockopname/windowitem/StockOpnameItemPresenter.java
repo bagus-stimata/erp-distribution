@@ -61,6 +61,11 @@ public class StockOpnameItemPresenter implements ClickListener, BlurListener, Va
 		
 		view.getPanelSubtotalafterdiscafterppn().addActionHandler(this);
 		
+		//ON FOCUS EVENT
+		view.getFieldSubtotal().addFocusListener(this);
+		view.getFieldSubtotalafterppn().addFocusListener(this);
+		view.getFieldSubtotalafterdisc().addFocusListener(this);
+		view.getFieldSubtotalafterdiscafterppn().addFocusListener(this);
 		
 	}
 	
@@ -118,47 +123,70 @@ public class StockOpnameItemPresenter implements ClickListener, BlurListener, Va
 		if (event.getComponent()==view.getComboProduct()) {		
 			if (view.getComboProduct().getValue() !=null){
 				helper.updateAndCalulateItemDetilProduct();
+				helper.updateAndCalculateItemDetil();
 			}
 		}else if (event.getComponent()==view.getFieldPprice()){
 //			helper.validasiHargaBelidanHargaJual();
+			if (view.getFieldPprice().getValue()==null) {				
+				view.getFieldPprice().setValue("0");
+			}
+			
+			if (! view.getFieldPprice().getValue().equals("0") || ! view.getFieldPprice().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldPpriceafterppn()){
 //			helper.validasiHargaBelidanHargaJual();
+//			helper.validasiHargaBelidanHargaJual();
+			if (view.getFieldPpriceafterppn().getValue()==null) {				
+				view.getFieldPpriceafterppn().setValue("0");
+			}
+			
+			if (! view.getFieldPpriceafterppn().getValue().equals("0") || ! view.getFieldPpriceafterppn().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
+
 			if (Integer.parseInt(view.getFieldQty1().getValue())<=0){
 				view.getFieldQty1().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty1()){
-			if (view.getFieldQty1().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldQty1().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldQty1().getValue()==null) {
+				view.getFieldQty1().setValue("0");
+			}
+			if (!  view.getFieldQty1().getValue().equals("0") || ! view.getFieldQty1().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 			if (Integer.parseInt(view.getFieldQty2().getValue())<=0){
 				view.getFieldQty2().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty2()){
-			if (view.getFieldQty2().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldQty2().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldQty2().getValue()==null) {				
+				view.getFieldQty2().setValue("0");
+			}
+			
+			if (! view.getFieldQty2().getValue().equals("0") || ! view.getFieldQty2().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 			if (Integer.parseInt(view.getFieldQty3().getValue())<=0){
 				view.getFieldQty3().setValue("");			
 			}
 		}else if (event.getComponent()==view.getFieldQty3()){
-			if (view.getFieldQty3().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldQty3().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldQty3().getValue()==null) {
+				view.getFieldQty3().setValue("0");
+			}
+			if (! view.getFieldQty3().getValue().equals("0") || ! view.getFieldQty3().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldQty()){
-			if (view.getFieldQty().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldQty().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldQty().getValue()==null) {
+				view.getFieldQty().setValue("0");
+			}
+			if (! view.getFieldQty().getValue().equals("0") || ! view.getFieldQty().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 			
 		}else if (event.getComponent()==view.getFieldSubtotal()){
 			helper.updateAndCalculateItemDetil();
@@ -166,29 +194,33 @@ public class StockOpnameItemPresenter implements ClickListener, BlurListener, Va
 			helper.updateAndCalculateItemDetil();
 			
 		}else if (event.getComponent()==view.getFieldDisc1()){
-			if (view.getFieldDisc1().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldDisc1().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldDisc1().getValue()==null) {
+				view.getFieldDisc1().setValue("0");
+			}
+			if (! view.getFieldDisc1().getValue().equals("0") || ! view.getFieldDisc1().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldDisc1rp()){
-			if (view.getFieldDisc1rp().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldDisc1rp().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldDisc1rp().getValue()==null) {
+				view.getFieldDisc1rp().setValue("0");
+			}
+			if (! view.getFieldDisc1rp().getValue().equals("0") || ! view.getFieldDisc1rp().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldDisc2()){
-			if (view.getFieldDisc2().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldDisc2().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldDisc2().getValue()==null) {
+				view.getFieldDisc2().setValue("0");
+			}
+			if (! view.getFieldDisc2().getValue().equals("0") || ! view.getFieldDisc2().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldDisc2rp()){
-			if (view.getFieldDisc2rp().getValue() !=null) {
-				if (Integer.parseInt(view.getFieldDisc2rp().getValue()) != 0){
-					helper.updateAndCalculateItemDetil();
-				}
-			}	
+			if (view.getFieldDisc2rp().getValue()==null) {
+				view.getFieldDisc2rp().setValue("0");
+			}
+			if (! view.getFieldDisc2rp().getValue().equals("0") || ! view.getFieldDisc2rp().getValue().trim().equals("")){
+				helper.updateAndCalculateItemDetil();
+			}
 		}else if (event.getComponent()==view.getFieldSubtotalafterdisc()){
 			helper.updateAndCalculateItemDetil();
 		}else if (event.getComponent()==view.getFieldSubtotalafterdiscafterppn()){

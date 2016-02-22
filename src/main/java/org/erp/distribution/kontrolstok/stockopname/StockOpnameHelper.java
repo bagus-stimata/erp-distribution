@@ -414,8 +414,10 @@ public class StockOpnameHelper {
 //			qtyTeori = fStock.getSaldoakhir();			
 //			qtyPenyesuaian = ftOpnamed.getQty() - qtyTeori;
 //			newQtySaldoStockAkhir = qtyTeori + qtyPenyesuaian;
+			try{
+				fStock.setQtyadjust(fStock.getQtyadjust() - ftOpnamed.getQtyadjust());
+			} catch(Exception ex){}
 			
-			fStock.setQtyadjust(fStock.getQtyadjust() - ftOpnamed.getQtyadjust());
 			fStock.setSaldoakhir(0);
 			
 			ftOpnamed.setQtyteori(0);

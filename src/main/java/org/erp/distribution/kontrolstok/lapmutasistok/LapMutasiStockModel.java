@@ -41,7 +41,6 @@ public class LapMutasiStockModel extends CustomComponent{
 	private FProductgroupdivisiJpaService fProductgroupdivisiJpaService;
 
 	private FStockJpaService fStockJpaService;
-	private LapMutasiStockJpaService lapMutasiStockJpaService;
 	
 	private ProductAndStockHelper productAndStockHelper =new ProductAndStockHelper();
 	
@@ -83,8 +82,6 @@ public class LapMutasiStockModel extends CustomComponent{
 
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
 		setfProductgroupdivisiJpaService(((DashboardUI) getUI().getCurrent()).getfProductgroupdivisiJpaService());
-		
-		setLapMutasiStockJpaService((((DashboardUI) getUI().getCurrent()).getLapMutasiStockJpaService()));
 		
 	}
 
@@ -169,13 +166,6 @@ public class LapMutasiStockModel extends CustomComponent{
 	}
 	public void setProductAndStockHelper(ProductAndStockHelper productAndStockHelper) {
 		this.productAndStockHelper = productAndStockHelper;
-	}
-	public LapMutasiStockJpaService getLapMutasiStockJpaService() {
-		return lapMutasiStockJpaService;
-	}
-	public void setLapMutasiStockJpaService(
-			LapMutasiStockJpaService lapMutasiStockJpaService) {
-		this.lapMutasiStockJpaService = lapMutasiStockJpaService;
 	}
 	public FVendorJpaService getfVendorJpaService() {
 		return fVendorJpaService;

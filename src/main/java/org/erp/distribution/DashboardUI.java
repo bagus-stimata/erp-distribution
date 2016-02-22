@@ -265,9 +265,6 @@ import org.erp.distribution.purchaseorder.retur.lapmrv.LapMrvView;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaModel;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaPresenter;
 import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKerjaView;
-import org.erp.distribution.salesorder.salesorder.lapsalesareaperbarang.LapSalesAreaPerBarangModel;
-import org.erp.distribution.salesorder.salesorder.lapsalesareaperbarang.LapSalesAreaPerBarangPresenter;
-import org.erp.distribution.salesorder.salesorder.lapsalesareaperbarang.LapSalesAreaPerBarangView;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderModel;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderView;
@@ -277,15 +274,12 @@ import org.erp.distribution.salesorder.salesorder.lapsalesperbarang.LapSalesView
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerModel;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerView;
-import org.erp.distribution.salesorder.salesorder.lapsalesproductgrupperbarang.LapSalesProductGroupPerBarangModel;
-import org.erp.distribution.salesorder.salesorder.lapsalesproductgrupperbarang.LapSalesProductGroupPerBarangPresenter;
-import org.erp.distribution.salesorder.salesorder.lapsalesproductgrupperbarang.LapSalesProductGroupPerBarangView;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelModel;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelView;
-import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesVendorPerBarangModel;
-import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesVendorPerBarangPresenter;
-import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesVendorPerBarangView;
+import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesPerBarangModel;
+import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesPerBarangPresenter;
+import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesPerBarangView;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListModel;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListPresenter;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListView;
@@ -363,12 +357,14 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	private Button btnUserSignOut = new Button("Sign Out");
 
     private User userActive = new User();
-	
+	//DILOAD SEBELUM MUNCUL LOGIN
 	private SysvarJpaService sysvarJpaService = new SysvarJpaServiceImpl();
 	private UserJpaService userJpaService = new UserJpaServiceImpl();
-	private SysvarHelper sysvarHelper = new SysvarHelper();
-	private UpdateSystemHelper updateSystemHelper  = new UpdateSystemHelper();
+//	private SysvarHelper sysvarHelper = new SysvarHelper();
+	private SysvarHelper sysvarHelper = new SysvarHelper(sysvarJpaService, userJpaService);
+	private UpdateSystemHelper 	updateSystemHelper;
 	
+	//DI LOAD SETELAH LOGIN SCREEN
 	private SCustomerJpaService sCustomerJpaService;
 	private STeknisiJpaService sTeknisiJpaService;
 	private StServiceJpaService stServiceJpaService;
@@ -423,12 +419,13 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	private BukutransferJpaService bukutransferJpaService;
 
 	private LapAktifitasPromoListJpaService lapAktifitasPromoListJpaService;
-	private LapPrestasiKerjaJpaService lapPrestasiKerjaJpaService;
-	private LapMutasiStockJpaService lapMutasiStockJpaService;
-	private LapPackingListJpaService lapPackingListJpaService;
-	private LapSJPenagihanListJpaService lapSJPenagihanListJpaService;
-	private LapStockOpanameJpaService lapStockOpanameJpaService;
-	private LapTemplate1JpaService lapTemplate1JpaService;
+	
+//	private LapPrestasiKerjaJpaService lapPrestasiKerjaJpaService;
+//	private LapMutasiStockJpaService lapMutasiStockJpaService;
+//	private LapPackingListJpaService lapPackingListJpaService;
+//	private LapSJPenagihanListJpaService lapSJPenagihanListJpaService;
+//	private LapStockOpanameJpaService lapStockOpanameJpaService;
+//	private LapTemplate1JpaService lapTemplate1JpaService;
 	
 	
 //	Panel panelWorkspace1 = new Panel();
@@ -529,11 +526,11 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	//			public MenuItem menuSalesPerbarang = menuSalesOrderLaporan1.addItem("Lap. Sales per Barang", this);
 	//		public MenuItem menuSalesPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Barang", null, null);
 			public MenuItem menuSalesOrderLaporanSeparator3  = menuSalesOrderLaporan1.addSeparator();
-			public MenuItem menuSalesVendorPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Vendor Per Barang", this);
-			public MenuItem menuSalesAreaPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Area Per Barang", this);
-			public MenuItem menuSalesGrupPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Grup Per Barang", this);
-			public MenuItem menuSalesOrderLaporanSeparator4  = menuSalesOrderLaporan1.addSeparator();
+			public MenuItem menuSalesPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Barang", this);
+//			public MenuItem menuSalesAreaPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Area Per Barang", this);
+//			public MenuItem menuSalesGrupPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Grup Per Barang", this);
 			public MenuItem menuSalesPrestasiKerja = menuSalesOrderLaporan1.addItem("Lap. Prestasi Kerja", this);
+			public MenuItem menuSalesOrderLaporanSeparator4  = menuSalesOrderLaporan1.addSeparator();
 			public MenuItem menuSalesToExel = menuSalesOrderLaporan1.addItem("Export Sales Detil To Exel", this);
 
 		public MenuItem menuSalesOrderSeparator1  = menuSalesOrder.addSeparator();
@@ -997,33 +994,33 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);
-		}else if (selectedItem == menuSalesVendorPerBarang) {
-			LapSalesVendorPerBarangModel objModel = new LapSalesVendorPerBarangModel();
-			LapSalesVendorPerBarangView objView = new LapSalesVendorPerBarangView(objModel);
-			LapSalesVendorPerBarangPresenter objPresenter = new LapSalesVendorPerBarangPresenter(objModel, objView);				
+		}else if (selectedItem == menuSalesPerBarang) {
+			LapSalesPerBarangModel objModel = new LapSalesPerBarangModel();
+			LapSalesPerBarangView objView = new LapSalesPerBarangView(objModel);
+			LapSalesPerBarangPresenter objPresenter = new LapSalesPerBarangPresenter(objModel, objView);				
 			
 			workspace1.setCaption("LAP. SALES SUPPLIER PER BARANG");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);
-		}else if (selectedItem == menuSalesAreaPerBarang) {
-			LapSalesAreaPerBarangModel objModel = new LapSalesAreaPerBarangModel();
-			LapSalesAreaPerBarangView objView = new LapSalesAreaPerBarangView(objModel);
-			LapSalesAreaPerBarangPresenter objPresenter = new LapSalesAreaPerBarangPresenter(objModel, objView);				
-			
-			workspace1.setCaption("LAP. SALES AREA PER BARANG");
-			objView.setSizeFull();
-			
-			workspace1.setContent(objView);
-		}else if (selectedItem == menuSalesGrupPerBarang) {
-			LapSalesProductGroupPerBarangModel objModel = new LapSalesProductGroupPerBarangModel();
-			LapSalesProductGroupPerBarangView objView = new LapSalesProductGroupPerBarangView(objModel);
-			LapSalesProductGroupPerBarangPresenter objPresenter = new LapSalesProductGroupPerBarangPresenter(objModel, objView);				
-			
-			workspace1.setCaption("LAP. SALES PER GRUP PER BARANG");
-			objView.setSizeFull();
-			
-			workspace1.setContent(objView);
+//		}else if (selectedItem == menuSalesAreaPerBarang) {
+//			LapSalesAreaPerBarangModel objModel = new LapSalesAreaPerBarangModel();
+//			LapSalesAreaPerBarangView objView = new LapSalesAreaPerBarangView(objModel);
+//			LapSalesAreaPerBarangPresenter objPresenter = new LapSalesAreaPerBarangPresenter(objModel, objView);				
+//			
+//			workspace1.setCaption("LAP. SALES AREA PER BARANG");
+//			objView.setSizeFull();
+//			
+//			workspace1.setContent(objView);
+//		}else if (selectedItem == menuSalesGrupPerBarang) {
+//			LapSalesProductGroupPerBarangModel objModel = new LapSalesProductGroupPerBarangModel();
+//			LapSalesProductGroupPerBarangView objView = new LapSalesProductGroupPerBarangView(objModel);
+//			LapSalesProductGroupPerBarangPresenter objPresenter = new LapSalesProductGroupPerBarangPresenter(objModel, objView);				
+//			
+//			workspace1.setCaption("LAP. SALES PER GRUP PER BARANG");
+//			objView.setSizeFull();
+//			
+//			workspace1.setContent(objView);
 		}else if (selectedItem == menuSalesToExel) {
 			LapSalesExelModel objModel = new LapSalesExelModel();
 			LapSalesExelView objView = new LapSalesExelView(objModel);
@@ -1462,11 +1459,6 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		showWindowLogin();
 //      initSystemVariable();
 
-		//####UPDATE SYSTEM
-		updateSystemHelper.updateVersion11();
-		updateSystemHelper.updateVersion12();
-
-
 		panelLogin.addActionHandler(this);
 		
 		//SET IMAGE ON BACKGROUND
@@ -1548,17 +1540,27 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		bukutransferJpaService = new BukutransferJpaServiceImpl();
 
 		lapAktifitasPromoListJpaService = new LapAktifitasPromoListJpaServiceImpl();
-		lapPrestasiKerjaJpaService = new LapPrestasiKerjaJpaServiceImpl();
-		lapMutasiStockJpaService = new LapMutasiStockJpaServiceImpl();
-		lapPackingListJpaService = new LapPackingListJpaServiceImpl();
-		lapSJPenagihanListJpaService = new LapSJPenagihanListJpaServiceImpl();
-		lapStockOpanameJpaService = new LapStockOpanameJpaServiceImpl();
-		lapTemplate1JpaService = new LapTemplate1JpaServiceImpl();
+		
+//		lapPrestasiKerjaJpaService = new LapPrestasiKerjaJpaServiceImpl();
+//		lapMutasiStockJpaService = new LapMutasiStockJpaServiceImpl();
+//		lapPackingListJpaService = new LapPackingListJpaServiceImpl();
+//		lapSJPenagihanListJpaService = new LapSJPenagihanListJpaServiceImpl();
+//		lapStockOpanameJpaService = new LapStockOpanameJpaServiceImpl();
+//		lapTemplate1JpaService = new LapTemplate1JpaServiceImpl();
 		
 		sCustomerJpaService = new SCustomerJpaServiceImpl();
 		sTeknisiJpaService = new STeknisiJpaServiceImpl();
 		stServiceJpaService = new StServiceJpaServiceImpl();
 		sMerkJpaService = new SMerkJpaServiceImpl();
+		
+		
+		//UPDATE DEFAULT JIKA PERLU
+//		sysvarHelper.defaultConfigSysvar();
+		updateSystemHelper  = new UpdateSystemHelper(ftSalesdJpaService, fStockJpaService);
+		//####UPDATE SYSTEM
+//		updateSystemHelper.updateVersion11();
+//		updateSystemHelper.updateVersion12();
+		
 		
 		
 	}
@@ -2315,18 +2317,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		this.menuAbout = menuAbout;
 	}
 
-	public LapPrestasiKerjaJpaService getLapPrestasiKerjaJpaService() {
-		return lapPrestasiKerjaJpaService;
-	}
 
-	public MenuItem getMenuSalesOrderLaporan1() {
-		return menuSalesOrderLaporan1;
-	}
-
-
-	public MenuItem getMenuSalesPrestasiKerja() {
-		return menuSalesPrestasiKerja;
-	}
 
 	public MenuItem getMenuUtilitasTheme() {
 		return menuUtilitasTheme;
@@ -2336,14 +2327,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		return menuUtilitasThemeGantiTheme;
 	}
 
-	public void setLapPrestasiKerjaJpaService(
-			LapPrestasiKerjaJpaService lapPrestasiKerjaJpaService) {
-		this.lapPrestasiKerjaJpaService = lapPrestasiKerjaJpaService;
-	}
-
-	public void setMenuSalesOrderLaporan1(MenuItem menuSalesOrderLaporan1) {
-		this.menuSalesOrderLaporan1 = menuSalesOrderLaporan1;
-	}
+	
 
 
 	public void setMenuSalesPrestasiKerja(MenuItem menuSalesPrestasiKerja) {
@@ -2420,57 +2404,13 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		this.updateSystemHelper = updateSystemHelper;
 	}
 
-	public LapMutasiStockJpaService getLapMutasiStockJpaService() {
-		return lapMutasiStockJpaService;
-	}
 
-	public MenuItem getMenuSalesOrderPencetakan() {
-		return menuSalesOrderPencetakan;
-	}
-
-	public void setLapMutasiStockJpaService(
-			LapMutasiStockJpaService lapMutasiStockJpaService) {
-		this.lapMutasiStockJpaService = lapMutasiStockJpaService;
-	}
-
-	public void setMenuSalesOrderPencetakan(MenuItem menuSalesOrderPencetakan) {
-		this.menuSalesOrderPencetakan = menuSalesOrderPencetakan;
-	}
-
-	public LapPackingListJpaService getLapPackingListJpaService() {
-		return lapPackingListJpaService;
-	}
-
-	public MenuItem getMenuSalesOrderPackingList1() {
-		return menuSalesOrderPackingList1;
-	}
-
-	public MenuItem getMenuSalesOrderPackingListRekapPerhari() {
-		return menuSalesOrderPackingListRekapPerhari;
-	}
-
-	public void setLapPackingListJpaService(
-			LapPackingListJpaService lapPackingListJpaService) {
-		this.lapPackingListJpaService = lapPackingListJpaService;
-	}
-
-	public void setMenuSalesOrderPackingList1(MenuItem menuSalesOrderPackingList1) {
-		this.menuSalesOrderPackingList1 = menuSalesOrderPackingList1;
-	}
 
 	public void setMenuSalesOrderPackingListRekapPerhari(
 			MenuItem menuSalesOrderPackingListRekapPerhari) {
 		this.menuSalesOrderPackingListRekapPerhari = menuSalesOrderPackingListRekapPerhari;
 	}
 
-	public LapStockOpanameJpaService getLapStockOpanameJpaService() {
-		return lapStockOpanameJpaService;
-	}
-
-	public void setLapStockOpanameJpaService(
-			LapStockOpanameJpaService lapStockOpanameJpaService) {
-		this.lapStockOpanameJpaService = lapStockOpanameJpaService;
-	}
 
 	public Panel getPanelLogin() {
 		return panelLogin;
@@ -2571,25 +2511,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	}
 
 
-	public LapSJPenagihanListJpaService getLapSJPenagihanListJpaService() {
-		return lapSJPenagihanListJpaService;
-	}
-
-	public void setLapSJPenagihanListJpaService(
-			LapSJPenagihanListJpaService lapSJPenagihanListJpaService) {
-		this.lapSJPenagihanListJpaService = lapSJPenagihanListJpaService;
-	}
-
-
-	public LapAktifitasPromoListJpaService getLapAktifitasPromoListJpaService() {
-		return lapAktifitasPromoListJpaService;
-	}
-
-	public void setLapAktifitasPromoListJpaService(
-			LapAktifitasPromoListJpaService lapAktifitasPromoListJpaService) {
-		this.lapAktifitasPromoListJpaService = lapAktifitasPromoListJpaService;
-	}
-
+	
 
 	public FtSalesdPromoTprbJpaService getFtSalesdPromoTprbJpaService() {
 		return ftSalesdPromoTprbJpaService;
@@ -2681,16 +2603,6 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	}
 
 
-	public LapTemplate1JpaService getLapTemplate1JpaService() {
-		return lapTemplate1JpaService;
-	}
-
-	public void setLapTemplate1JpaService(
-			LapTemplate1JpaService lapTemplate1JpaService) {
-		this.lapTemplate1JpaService = lapTemplate1JpaService;
-	}
-
-
 	public FParamDiskonItemVendorJpaService getfParamDiskonItemVendorJpaService() {
 		return fParamDiskonItemVendorJpaService;
 	}
@@ -2717,6 +2629,16 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	public void setFtappaymentdJpaService(
 			FtappaymentdJpaService ftappaymentdJpaService) {
 		this.ftappaymentdJpaService = ftappaymentdJpaService;
+	}
+
+
+	public LapAktifitasPromoListJpaService getLapAktifitasPromoListJpaService() {
+		return lapAktifitasPromoListJpaService;
+	}
+
+	public void setLapAktifitasPromoListJpaService(
+			LapAktifitasPromoListJpaService lapAktifitasPromoListJpaService) {
+		this.lapAktifitasPromoListJpaService = lapAktifitasPromoListJpaService;
 	}
 
 

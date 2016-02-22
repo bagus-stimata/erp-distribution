@@ -35,7 +35,6 @@ public class LapPrestasiKerjaModel extends CustomComponent{
 	
 	private FVendorJpaService fVendorJpaService;
 
-	private LapPrestasiKerjaJpaService lapPrestasiKerjaJpaService;
 	
 //2. ENTITY		
 //	protected MenuAccessTemp menuAccessTemp;
@@ -77,8 +76,6 @@ public class LapPrestasiKerjaModel extends CustomComponent{
 		setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));
 		setFtSaleshJpaService((((DashboardUI) getUI().getCurrent()).getFtSaleshJpaService()));
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
-
-		setLapPrestasiKerjaJpaService((((DashboardUI) getUI().getCurrent()).getLapPrestasiKerjaJpaService()));
 		
 	}
 
@@ -162,13 +159,6 @@ public class LapPrestasiKerjaModel extends CustomComponent{
 	}
 	public void setfSalesmanJpaService(FSalesmanJpaService fSalesmanJpaService) {
 		this.fSalesmanJpaService = fSalesmanJpaService;
-	}
-	public LapPrestasiKerjaJpaService getLapPrestasiKerjaJpaService() {
-		return lapPrestasiKerjaJpaService;
-	}
-	public void setLapPrestasiKerjaJpaService(
-			LapPrestasiKerjaJpaService lapPrestasiKerjaJpaService) {
-		this.lapPrestasiKerjaJpaService = lapPrestasiKerjaJpaService;
 	}
 	public FtSaleshJpaService getFtSaleshJpaService() {
 		return ftSaleshJpaService;

@@ -48,7 +48,6 @@ public class LapPiutangCustomerSalesmanAreaModel extends CustomComponent impleme
 	private FtArpaymentdJpaService ftArpaymentdJpaService;
 	private FDivisionJpaService fDivisionJpaService;
 	private FtSaleshRekapTampunganJpaService FtSaleshRekapTampunganJpaService;
-	private LapSJPenagihanListJpaService lapSJPenagihanListJpaService;
 	
 	private FAreaJpaService fAreaJpaService;
 	private FSubareaJpaService fSubareaJpaService;
@@ -93,8 +92,7 @@ public class LapPiutangCustomerSalesmanAreaModel extends CustomComponent impleme
 		setfSalesmanJpaService(((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService());
 		setfCustomerJpaService(((DashboardUI) getUI().getCurrent()).getfCustomerJpaService());
 		
-		setLapSJPenagihanListJpaService(((DashboardUI) getUI().getCurrent()).getLapSJPenagihanListJpaService());
-		
+			
 		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
 		
 //		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");
@@ -145,15 +143,6 @@ public class LapPiutangCustomerSalesmanAreaModel extends CustomComponent impleme
 	}
 
 	
-	public LapSJPenagihanListJpaService getLapSJPenagihanListJpaService() {
-		return lapSJPenagihanListJpaService;
-	}
-
-	public void setLapSJPenagihanListJpaService(
-			LapSJPenagihanListJpaService lapSJPenagihanListJpaService) {
-		this.lapSJPenagihanListJpaService = lapSJPenagihanListJpaService;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

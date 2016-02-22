@@ -48,7 +48,6 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 	private FtArpaymentdJpaService ftArpaymentdJpaService;
 	private FDivisionJpaService fDivisionJpaService;
 	private FtSaleshRekapTampunganJpaService FtSaleshRekapTampunganJpaService;
-	private LapSJPenagihanListJpaService lapSJPenagihanListJpaService;
 	
 	private FAreaJpaService fAreaJpaService;
 	private FSubareaJpaService fSubareaJpaService;
@@ -93,7 +92,6 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 		setfSalesmanJpaService(((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService());
 		setfCustomerJpaService(((DashboardUI) getUI().getCurrent()).getfCustomerJpaService());
 		
-		setLapSJPenagihanListJpaService(((DashboardUI) getUI().getCurrent()).getLapSJPenagihanListJpaService());
 		
 		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
 		
@@ -145,14 +143,6 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 	}
 
 	
-	public LapSJPenagihanListJpaService getLapSJPenagihanListJpaService() {
-		return lapSJPenagihanListJpaService;
-	}
-
-	public void setLapSJPenagihanListJpaService(
-			LapSJPenagihanListJpaService lapSJPenagihanListJpaService) {
-		this.lapSJPenagihanListJpaService = lapSJPenagihanListJpaService;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

@@ -955,11 +955,6 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 	}
 	
 	public void fillDatabaseReportLengkap(){
-		//HAPUS DATA
-		Iterator<ZLapStockOpname> iterZLapMutasiStockDelete = model.getLapStockOpanameJpaService().findAll().iterator();
-		while (iterZLapMutasiStockDelete.hasNext()) {
-			model.getLapStockOpanameJpaService().removeObject(iterZLapMutasiStockDelete.next());
-		}
 		Long refno = model.getItemHeader().getRefno();
 		String strParamWarehouseId = model.getItemHeader().getFwarehouseBean().getId();
 		Date trDate = model.getItemHeader().getTrdate();
@@ -1191,8 +1186,6 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 //					":" + model.getProductAndStockHelper().getKecFromPcs(ftOpnamed.getQty(), fProduct)
 //									);
 		//::SIMPAN::
-			model.getLapStockOpanameJpaService().createObject(domain);
-			
 		}
 		
 		

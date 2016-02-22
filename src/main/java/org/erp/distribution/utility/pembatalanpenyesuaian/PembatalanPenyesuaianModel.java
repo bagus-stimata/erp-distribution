@@ -38,7 +38,7 @@ public class PembatalanPenyesuaianModel extends CustomComponent{
 	private FtOpnamehJpaService ftOpnamehJpaService;
 	private FtOpnamedJpaService ftOpnamedJpaService;
 	private FVendorJpaService fVendorJpaService;
-	private LapStockOpanameJpaService lapStockOpanameJpaService;
+	
 	
 	private SysvarJpaService sysvarJpaService;
 	private FProductJpaService fProductJpaService;
@@ -76,7 +76,6 @@ public class PembatalanPenyesuaianModel extends CustomComponent{
 		setSysvarJpaService((((DashboardUI) getUI().getCurrent()).getSysvarJpaService()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
-		setLapStockOpanameJpaService((((DashboardUI) getUI().getCurrent()).getLapStockOpanameJpaService()));
 		
 		setFtOpnamehJpaService((((DashboardUI) getUI().getCurrent()).getFtOpnamehJpaService()));
 		setFtOpnamedJpaService((((DashboardUI) getUI().getCurrent()).getFtOpnamedJpaService()));
@@ -102,9 +101,6 @@ public class PembatalanPenyesuaianModel extends CustomComponent{
 	}
 	public FVendorJpaService getfVendorJpaService() {
 		return fVendorJpaService;
-	}
-	public LapStockOpanameJpaService getLapStockOpanameJpaService() {
-		return lapStockOpanameJpaService;
 	}
 	public SysvarJpaService getSysvarJpaService() {
 		return sysvarJpaService;
@@ -147,10 +143,6 @@ public class PembatalanPenyesuaianModel extends CustomComponent{
 	}
 	public void setfVendorJpaService(FVendorJpaService fVendorJpaService) {
 		this.fVendorJpaService = fVendorJpaService;
-	}
-	public void setLapStockOpanameJpaService(
-			LapStockOpanameJpaService lapStockOpanameJpaService) {
-		this.lapStockOpanameJpaService = lapStockOpanameJpaService;
 	}
 	public void setSysvarJpaService(SysvarJpaService sysvarJpaService) {
 		this.sysvarJpaService = sysvarJpaService;

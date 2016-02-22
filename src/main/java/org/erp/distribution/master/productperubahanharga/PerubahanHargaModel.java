@@ -35,7 +35,6 @@ public class PerubahanHargaModel extends CustomComponent{
 		private FtPricedJpaService ftPricedJpaService;
 		private FVendorJpaService fVendorJpaService;
 		private FWarehouseJpaService fWarehouseJpaService;
-		private LapStockOpanameJpaService lapStockOpanameJpaService;
 		
 		private SysvarJpaService sysvarJpaService;
 		private FProductJpaService fProductJpaService;
@@ -88,7 +87,6 @@ public class PerubahanHargaModel extends CustomComponent{
 //		setProductAndStockHelper((((DashboardUI) getUI().getCurrent()).getProductAndStockHelper()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
-		setLapStockOpanameJpaService((((DashboardUI) getUI().getCurrent()).getLapStockOpanameJpaService()));
 		
 		setFtPricehJpaService((((DashboardUI) getUI().getCurrent()).getFtPricehJpaService()));
 		setFtPricedJpaService((((DashboardUI) getUI().getCurrent()).getFtPricedJpaService()));
@@ -140,10 +138,6 @@ public class PerubahanHargaModel extends CustomComponent{
 
 	public FWarehouseJpaService getfWarehouseJpaService() {
 		return fWarehouseJpaService;
-	}
-
-	public LapStockOpanameJpaService getLapStockOpanameJpaService() {
-		return lapStockOpanameJpaService;
 	}
 
 	public SysvarJpaService getSysvarJpaService() {
@@ -228,11 +222,6 @@ public class PerubahanHargaModel extends CustomComponent{
 
 	public void setfWarehouseJpaService(FWarehouseJpaService fWarehouseJpaService) {
 		this.fWarehouseJpaService = fWarehouseJpaService;
-	}
-
-	public void setLapStockOpanameJpaService(
-			LapStockOpanameJpaService lapStockOpanameJpaService) {
-		this.lapStockOpanameJpaService = lapStockOpanameJpaService;
 	}
 
 	public void setSysvarJpaService(SysvarJpaService sysvarJpaService) {

@@ -79,7 +79,6 @@ public class FormOpnameModel extends CustomComponent implements Serializable{
 		setfProductgroupdivisiJpaService(((DashboardUI) getUI().getCurrent()).getfProductgroupdivisiJpaService());
 		setfVendorJpaService(((DashboardUI) getUI().getCurrent()).getfVendorJpaService());
 
-		setLapPackingListJpaService(((DashboardUI) getUI().getCurrent()).getLapPackingListJpaService());
 		
 //		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");
 	};

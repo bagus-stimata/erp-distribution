@@ -41,7 +41,6 @@ public class LapServiceRekapModel extends CustomComponent{
 	private FProductgroupJpaService fProductgroupJpaService;
 	private FStockJpaService fStockJpaService;
 	
-	private LapTemplate1JpaService lapTemplate1JpaService;
 	private StServiceJpaService stServiceJpaService;
 	
 	private STeknisiJpaService sTeknisiJpaService;
@@ -73,7 +72,6 @@ public class LapServiceRekapModel extends CustomComponent{
 		setSysvarJpaService((((DashboardUI) getUI().getCurrent()).getSysvarJpaService()));
 //		setTransaksiHelper((((DashboardUI) getUI().getCurrent()).getTransaksiHelper()));
 		
-		setLapTemplate1JpaService((((DashboardUI) getUI().getCurrent()).getLapTemplate1JpaService()));
 		setStServiceJpaService((((DashboardUI) getUI().getCurrent()).getStServiceJpaService()));
 
 		setfProductgroupJpaService((((DashboardUI) getUI().getCurrent()).getfProductgroupJpaService()));
@@ -121,9 +119,6 @@ public class LapServiceRekapModel extends CustomComponent{
 	public FStockJpaService getfStockJpaService() {
 		return fStockJpaService;
 	}
-	public LapTemplate1JpaService getLapTemplate1JpaService() {
-		return lapTemplate1JpaService;
-	}
 	public StServiceJpaService getStServiceJpaService() {
 		return stServiceJpaService;
 	}
@@ -154,10 +149,6 @@ public class LapServiceRekapModel extends CustomComponent{
 	}
 	public void setfStockJpaService(FStockJpaService fStockJpaService) {
 		this.fStockJpaService = fStockJpaService;
-	}
-	public void setLapTemplate1JpaService(
-			LapTemplate1JpaService lapTemplate1JpaService) {
-		this.lapTemplate1JpaService = lapTemplate1JpaService;
 	}
 	public void setStServiceJpaService(StServiceJpaService stServiceJpaService) {
 		this.stServiceJpaService = stServiceJpaService;

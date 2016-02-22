@@ -777,11 +777,6 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 	}
 	
 	public void fillDatabaseReportLengkap(){
-		//1. HAPUS DATA
-		Iterator<ZLapTemplate1> iterZLapTemplate1Delete = model.getLapTemplate1JpaService().findAll().iterator();
-		while (iterZLapTemplate1Delete.hasNext()) {
-			model.getLapTemplate1JpaService().removeObject(iterZLapTemplate1Delete.next());
-		}
 
 		if (! model.itemHeader.getNorek().equals("New") || ! model.itemHeader.getNorek().equals("")) {
 			//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
@@ -809,7 +804,6 @@ public class StockTransferPresenter implements ClickListener, ValueChangeListene
 				domain.setInt3(model.getProductAndStockHelper().getSedFromPcs(itemDetil.getQty(), itemDetil.getFproductBean()));
 				domain.setInt4(model.getProductAndStockHelper().getKecFromPcs(itemDetil.getQty(), itemDetil.getFproductBean()));
 				
-				model.getLapTemplate1JpaService().createObject(domain);
 						
 				
 			}
