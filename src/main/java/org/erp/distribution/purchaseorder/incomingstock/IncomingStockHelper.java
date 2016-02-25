@@ -11,6 +11,8 @@ import org.apache.poi.ss.formula.functions.Subtotal;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchasedPK;
+import org.erp.distribution.util.HeaderDetilHelper;
+import org.erp.distribution.util.HeaderDetilHelperImpl;
 
 import com.vaadin.ui.Notification;
 
@@ -25,7 +27,13 @@ public class IncomingStockHelper {
 	}
 
 	public Double getParamPpn(){
-		return model.getTransaksiHelper().getParamPpn();
+		double paramPPn = 10.0;
+		try{
+			if (model.getTransaksiHelper().getParamPpn()>0) {
+				paramPPn = model.getTransaksiHelper().getParamPpn();
+			}
+		} catch(Exception ex){}
+		return paramPPn;
 	}
 
 	public void updateAndCalculateHeaderByItemDetil(){
@@ -44,6 +52,10 @@ public class IncomingStockHelper {
 		for (Object itemId : itemIds) {
 			FtPurchased item = new FtPurchased();
 			item = model.getBeanItemContainerDetil().getItem(itemId).getBean();
+			
+			//antisipasi
+			if (item.getDisc1()==null) item.setDisc1(0.0);
+			if (item.getDisc2()==null) item.setDisc2(0.0);
 			
 			record++;
 			sumDiscrp1 += item.getDisc1rp();
@@ -64,17 +76,17 @@ public class IncomingStockHelper {
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMinimumFractionDigits(0);
 		nf.setMinimumIntegerDigits(0);
-		
-		view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
-		view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
-		view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
-		view.getTableDetil().setColumnFooter("disc2rpfaterppn", nf.format(sumDiscrp2afterppn));
-		
-		view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn	));
-		
+		try{
+			view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
+			view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
+			view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
+			view.getTableDetil().setColumnFooter("disc2rpfaterppn", nf.format(sumDiscrp2afterppn));
+			
+			view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn	));
+		} catch(Exception ex){}
 		//HEADER
 		Double disc1persen = model.itemHeader.getDisc1()/100;
 		Double disc1rp = sumTotalAfterdiscNoPpn * disc1persen;

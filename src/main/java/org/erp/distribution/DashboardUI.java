@@ -1,10 +1,5 @@
 package org.erp.distribution;
 
-import com.google.gwt.view.client.SetSelectionModel;
-import com.vaadin.event.ShortcutListener;
-import com.vaadin.server.*;
-import com.vaadin.ui.*;
-
 import org.erp.distribution.ap.kredittunai.VendorCreditModel;
 import org.erp.distribution.ap.kredittunai.VendorCreditPresenter;
 import org.erp.distribution.ap.kredittunai.VendorCreditView;
@@ -62,6 +57,7 @@ import org.erp.distribution.jpaservice.FProductgroupdeptJpaService;
 import org.erp.distribution.jpaservice.FProductgroupdeptJpaServiceImpl;
 import org.erp.distribution.jpaservice.FProductgroupdivisiJpaService;
 import org.erp.distribution.jpaservice.FProductgroupdivisiJpaServiceImpl;
+import org.erp.distribution.jpaservice.FPromoJpaService2;
 import org.erp.distribution.jpaservice.FPromoJpaService2Impl;
 import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FSalesmanJpaServiceImpl;
@@ -73,7 +69,6 @@ import org.erp.distribution.jpaservice.FVendorJpaService;
 import org.erp.distribution.jpaservice.FVendorJpaServiceImpl;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaServiceImpl;
-import org.erp.distribution.jpaservice.FPromoJpaService2;
 import org.erp.distribution.jpaservice.FtAdjustdJpaService;
 import org.erp.distribution.jpaservice.FtAdjustdJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtAdjusthJpaService;
@@ -90,6 +85,10 @@ import org.erp.distribution.jpaservice.FtPriceAltdJpaService;
 import org.erp.distribution.jpaservice.FtPriceAltdJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtPriceAlthJpaService;
 import org.erp.distribution.jpaservice.FtPriceAlthJpaServiceImpl;
+import org.erp.distribution.jpaservice.FtPricedJpaService;
+import org.erp.distribution.jpaservice.FtPricedJpaServiceImpl;
+import org.erp.distribution.jpaservice.FtPricehJpaService;
+import org.erp.distribution.jpaservice.FtPricehJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtPurchasedJpaService;
 import org.erp.distribution.jpaservice.FtPurchasedJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtPurchasehJpaService;
@@ -106,10 +105,6 @@ import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.FtSaleshJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtSaleshRekapTampunganJpaService;
 import org.erp.distribution.jpaservice.FtSaleshRekapTampunganJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPricedJpaService;
-import org.erp.distribution.jpaservice.FtPricedJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPricehJpaService;
-import org.erp.distribution.jpaservice.FtPricehJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtStocktransferdJpaService;
 import org.erp.distribution.jpaservice.FtStocktransferdJpaServiceImpl;
 import org.erp.distribution.jpaservice.FtStocktransferhJpaService;
@@ -132,18 +127,6 @@ import org.erp.distribution.jpaservicehp.StServiceJpaService;
 import org.erp.distribution.jpaservicehp.StServiceJpaServiceImpl;
 import org.erp.distribution.jpaservicerep.LapAktifitasPromoListJpaService;
 import org.erp.distribution.jpaservicerep.LapAktifitasPromoListJpaServiceImpl;
-import org.erp.distribution.jpaservicerep.LapMutasiStockJpaService;
-import org.erp.distribution.jpaservicerep.LapMutasiStockJpaServiceImpl;
-import org.erp.distribution.jpaservicerep.LapPackingListJpaService;
-import org.erp.distribution.jpaservicerep.LapPackingListJpaServiceImpl;
-import org.erp.distribution.jpaservicerep.LapPrestasiKerjaJpaService;
-import org.erp.distribution.jpaservicerep.LapPrestasiKerjaJpaServiceImpl;
-import org.erp.distribution.jpaservicerep.LapSJPenagihanListJpaService;
-import org.erp.distribution.jpaservicerep.LapSJPenagihanListJpaServiceImpl;
-import org.erp.distribution.jpaservicerep.LapStockOpanameJpaService;
-import org.erp.distribution.jpaservicerep.LapStockOpanameJpaServiceImpl;
-import org.erp.distribution.jpaservicerep.LapTemplate1JpaService;
-import org.erp.distribution.jpaservicerep.LapTemplate1JpaServiceImpl;
 import org.erp.distribution.kontrolstok.lapmutasisaldostok.LapMutasiSaldoStockModel;
 import org.erp.distribution.kontrolstok.lapmutasisaldostok.LapMutasiSaldoStockPresenter;
 import org.erp.distribution.kontrolstok.lapmutasisaldostok.LapMutasiSaldoStockView;
@@ -240,10 +223,7 @@ import org.erp.distribution.master.vendor.VendorView;
 import org.erp.distribution.master.warehouse.WarehouseModel;
 import org.erp.distribution.master.warehouse.WarehousePresenter;
 import org.erp.distribution.master.warehouse.WarehouseView;
-import org.erp.distribution.model.FtSalesd;
-import org.erp.distribution.model.FtSalesdPromoTpruCb;
 import org.erp.distribution.model.User;
-import org.erp.distribution.model.modelenum.EnumOperationStatus;
 import org.erp.distribution.pengguna.UserAccountModel;
 import org.erp.distribution.pengguna.UserAccountPresenter;
 import org.erp.distribution.pengguna.UserAccountView;
@@ -268,18 +248,15 @@ import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKe
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderModel;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderView;
-import org.erp.distribution.salesorder.salesorder.lapsalesperbarang.LapSalesModel;
-import org.erp.distribution.salesorder.salesorder.lapsalesperbarang.LapSalesPresenter;
-import org.erp.distribution.salesorder.salesorder.lapsalesperbarang.LapSalesView;
+import org.erp.distribution.salesorder.salesorder.lapsalesorder2.LapSalesOrder2Model;
+import org.erp.distribution.salesorder.salesorder.lapsalesorder2.LapSalesOrder2Presenter;
+import org.erp.distribution.salesorder.salesorder.lapsalesorder2.LapSalesOrder2View;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerModel;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerView;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelModel;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalestoexel.LapSalesExelView;
-import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesPerBarangModel;
-import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesPerBarangPresenter;
-import org.erp.distribution.salesorder.salesorder.lapsalesvendorperbarang.LapSalesPerBarangView;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListModel;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListPresenter;
 import org.erp.distribution.salesorder.salesorder.packinglist.PackingListView;
@@ -304,9 +281,7 @@ import org.erp.distribution.servicehp.lapservicerekap.LapServiceRekapView;
 import org.erp.distribution.servicehp.penerimaanservice.PenerimaanServiceModel;
 import org.erp.distribution.servicehp.penerimaanservice.PenerimaanServicePresenter;
 import org.erp.distribution.servicehp.penerimaanservice.PenerimaanServiceView;
-import org.erp.distribution.util.ProductAndStockHelper;
 import org.erp.distribution.util.SysvarHelper;
-import org.erp.distribution.util.TransaksiHelperImpl;
 import org.erp.distribution.util.UpdateSystemHelper;
 import org.erp.distribution.util.UserOtorizeHelper;
 import org.erp.distribution.util.export_import.siptigadara.ExportImportSipTigaDaraModel;
@@ -318,24 +293,36 @@ import org.erp.distribution.utility.pembatalanpenyesuaian.PembatalanPenyesuaianV
 import org.erp.distribution.utility.recalculatesaldostock.RecalculateSaldoStockModel;
 import org.erp.distribution.utility.recalculatesaldostock.RecalculateSaldoStockPresenter;
 import org.erp.distribution.utility.recalculatesaldostock.RecalculateSaldoStockView;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.event.Action;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.Action.Handler;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
-
-import org.vaadin.dialogs.ConfirmDialog;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SuppressWarnings("serial")
 @Theme("vaadin_theme")
@@ -526,7 +513,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	//			public MenuItem menuSalesPerbarang = menuSalesOrderLaporan1.addItem("Lap. Sales per Barang", this);
 	//		public MenuItem menuSalesPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Barang", null, null);
 			public MenuItem menuSalesOrderLaporanSeparator3  = menuSalesOrderLaporan1.addSeparator();
-			public MenuItem menuSalesPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Barang", this);
+			public MenuItem menuSalesOrderLaporan1SalesOrderRep = menuSalesOrderLaporan1.addItem("Lap. Sales Order", this);
 //			public MenuItem menuSalesAreaPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Area Per Barang", this);
 //			public MenuItem menuSalesGrupPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Grup Per Barang", this);
 			public MenuItem menuSalesPrestasiKerja = menuSalesOrderLaporan1.addItem("Lap. Prestasi Kerja", this);
@@ -959,9 +946,9 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			
 			workspace1.setContent(objView);
 		}else if (selectedItem == menuSalesOrderRep) {
-			LapSalesOrderModel objModel = new LapSalesOrderModel();
-			LapSalesOrderView objView = new LapSalesOrderView(objModel);
-			LapSalesOrderPresenter objPresenter = new LapSalesOrderPresenter(objModel, objView);				
+			LapSalesOrder2Model objModel = new LapSalesOrder2Model();
+			LapSalesOrder2View objView = new LapSalesOrder2View(objModel);
+			LapSalesOrder2Presenter objPresenter = new LapSalesOrder2Presenter(objModel, objView);				
 			
 			workspace1.setCaption("LAP. SALES ORDER");
 			objView.setSizeFull();
@@ -994,10 +981,10 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);
-		}else if (selectedItem == menuSalesPerBarang) {
-			LapSalesPerBarangModel objModel = new LapSalesPerBarangModel();
-			LapSalesPerBarangView objView = new LapSalesPerBarangView(objModel);
-			LapSalesPerBarangPresenter objPresenter = new LapSalesPerBarangPresenter(objModel, objView);				
+		}else if (selectedItem == menuSalesOrderLaporan1SalesOrderRep) {
+			LapSalesOrderModel objModel = new LapSalesOrderModel();
+			LapSalesOrderView objView = new LapSalesOrderView(objModel);
+			LapSalesOrderPresenter objPresenter = new LapSalesOrderPresenter(objModel, objView);				
 			
 			workspace1.setCaption("LAP. SALES SUPPLIER PER BARANG");
 			objView.setSizeFull();

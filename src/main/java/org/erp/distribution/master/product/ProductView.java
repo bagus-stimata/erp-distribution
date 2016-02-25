@@ -58,6 +58,7 @@ public class ProductView extends CustomComponent{
 	private TextField fieldSprice = new TextField("HRG. JUAL BESAR");
 	private TextField fieldSpriceafterppn = new TextField("HRG. JUAL BESAR+PPN");
 	private TextField fieldSprice2 = new TextField("HRG. JUAL KECIL");
+	private TextField fieldVolume = new TextField("Volume (dalam Mili Liter)");
 	private TextField fieldWeight = new TextField("BERAT");
 	private TextField fieldSupplier = new TextField("SUPPLIER");
 	private ComboBox comboSupplier = new ComboBox("Supplier");
@@ -135,7 +136,10 @@ public class ProductView extends CustomComponent{
 		fieldId.setWidth("100px");
 		comboGrup.setWidth("200px");
 		comboGrup.setFilteringMode(FilteringMode.CONTAINS);
-		fieldDescription.setWidth("400px");
+		fieldProdclass.setWidth("100px");
+		
+		fieldDescription.setWidth("300px");
+		fieldPackaging.setWidth("100px");
 		
 
 		btnSearch.setIcon(new ThemeResource("../images/navigation/12x12/Find.png"));
@@ -153,13 +157,12 @@ public class ProductView extends CustomComponent{
 //		btnRemoveItem.setIcon(new ThemeResource("../images/navigation/12x12/Erase.png"));
 		
 		//TAMBAHAN
-		fieldShortcode.setWidth("200px");
-		fieldDistcode.setWidth("200px");
-		fieldBarcode.setWidth("400px");
-		fieldProdclass.setWidth("200px");
-		fieldPackaging.setWidth("200px");
+		fieldDistcode.setWidth("150px");
+		fieldBarcode.setWidth("250px");
+		
+		fieldShortcode.setWidth("100px");
 		fieldShortname.setWidth("200px");
-		fieldShortpackaging.setWidth("200px");
+		fieldShortpackaging.setWidth("100px");
 		fieldUom1.setWidth("100px");
 		fieldUom2.setWidth("100px");
 		fieldUom3.setWidth("100px");
@@ -171,7 +174,33 @@ public class ProductView extends CustomComponent{
 		fieldSprice.setWidth("200px");
 		fieldSpriceafterppn.setWidth("200px");
 		fieldSprice2.setWidth("200px");
+		fieldVolume.setWidth("200px");
 		fieldWeight.setWidth("200px");
+		
+		
+		fieldDescription.setCaption(null);
+		fieldPackaging.setCaption(null);
+		comboGrup.setCaption(null);
+		fieldProdclass.setCaption(null);
+		fieldDistcode.setCaption(null);
+		fieldBarcode.setCaption(null);
+
+		
+		fieldShortcode.setCaption(null);
+		fieldShortname.setCaption(null);
+		fieldShortpackaging.setCaption(null);
+		
+		
+		fieldDescription.setInputPrompt("Nama Barang");
+		fieldPackaging.setInputPrompt("Packaging");
+		comboGrup.setInputPrompt("Grup Barang");
+		fieldProdclass.setInputPrompt("Prod Class");
+		fieldDistcode.setInputPrompt("Dist Code");
+		fieldBarcode.setInputPrompt("Bar Code");
+		
+		fieldShortcode.setInputPrompt("Short Code");
+		fieldShortname.setInputPrompt("Short Name");
+		fieldShortpackaging.setInputPrompt("Short Packaging");
 		
 		//VALIDATOR
 		fieldId.setRequired(true);
@@ -232,19 +261,36 @@ public class ProductView extends CustomComponent{
 		//FORM LAYOUT		
 		formLayout.setMargin(true);
 		formLayout.addComponent(fieldId);
-		formLayout.addComponent(fieldDescription);
-		formLayout.addComponent(fieldPackaging);
-		formLayout.addComponent(comboGrup);
+		
+		HorizontalLayout descriptionAndPackagingLayout = new HorizontalLayout();	
+		descriptionAndPackagingLayout.setCaption("NAMA-Packaging");
+		descriptionAndPackagingLayout.addComponent(fieldDescription);
+		descriptionAndPackagingLayout.addComponent(fieldPackaging);
+		
+		formLayout.addComponent(descriptionAndPackagingLayout);
+		
+		HorizontalLayout comboGrupAndProdClassLayout = new HorizontalLayout();	
+		comboGrupAndProdClassLayout.setCaption("Grup Barang-Prod Class");
+		comboGrupAndProdClassLayout.addComponent(comboGrup);
+		comboGrupAndProdClassLayout.addComponent(fieldProdclass);
+		formLayout.addComponent(comboGrupAndProdClassLayout);
+		
 		formLayout.addComponent(fieldSupplier);
 		formLayout.addComponent(comboSupplier);
-
-		formLayout.addComponent(fieldShortcode);
-		formLayout.addComponent(fieldDistcode);
-		formLayout.addComponent(fieldBarcode);
-		formLayout.addComponent(fieldProdclass);
-		formLayout.addComponent(fieldShortname);
-		formLayout.addComponent(fieldShortname);
-		formLayout.addComponent(fieldShortpackaging);
+		
+		HorizontalLayout discCodeAndBarcodeLayout = new HorizontalLayout();	
+		discCodeAndBarcodeLayout.setCaption("Dist Code-Bar Code");
+		discCodeAndBarcodeLayout.addComponent(fieldDistcode);
+		discCodeAndBarcodeLayout.addComponent(fieldBarcode);
+		formLayout.addComponent(discCodeAndBarcodeLayout);
+		
+		HorizontalLayout shortCodeAndNameLayout = new HorizontalLayout();	
+		shortCodeAndNameLayout.setCaption("Short Code-Name-Packaging");
+		shortCodeAndNameLayout.addComponent(fieldShortcode);
+		shortCodeAndNameLayout.addComponent(fieldShortname);
+		shortCodeAndNameLayout.addComponent(fieldShortpackaging);
+		formLayout.addComponent(shortCodeAndNameLayout);
+		
 		
 		HorizontalLayout layoutUom = new HorizontalLayout();
 		layoutUom.addComponent(fieldUom1);
@@ -267,6 +313,11 @@ public class ProductView extends CustomComponent{
 		formLayout.addComponent(layoutSprice);
 //		formLayout.addComponent(fieldSprice2);
 		
+		HorizontalLayout volumeAndWeightLayout = new HorizontalLayout();
+		volumeAndWeightLayout.addComponent(fieldVolume);
+		volumeAndWeightLayout.addComponent(fieldWeight);
+		
+		formLayout.addComponent(volumeAndWeightLayout);
 		formLayout.addComponent(checkStatusActive);
 		
 		HorizontalLayout formLayoutHorizontal = new HorizontalLayout();
@@ -276,7 +327,6 @@ public class ProductView extends CustomComponent{
 		formLayout.addComponent(formLayoutHorizontal);
 		
 		panelForm.setContent(formLayout);
-
 		
 		//MASUKKAN KE ROOT
 		layoutTop.addComponent(layoutTop1);
@@ -402,6 +452,7 @@ public class ProductView extends CustomComponent{
 		model.getBinderHeader().bind(fieldSprice, "sprice");
 		model.getBinderHeader().bind(fieldSpriceafterppn, "spriceafterppn");
 		model.getBinderHeader().bind(fieldSprice2, "sprice2");
+		model.getBinderHeader().bind(fieldVolume, "volume");
 		model.getBinderHeader().bind(fieldWeight, "weight");
 		model.getBinderHeader().bind(fieldSupplier, "supplier");
 		model.getBinderHeader().bind(comboSupplier, "fvendorBean");
@@ -476,8 +527,8 @@ public class ProductView extends CustomComponent{
 		windowForm.setModal(true);
 		windowForm.center();
 //		windowForm.setStyleName("login-layout");
-		windowForm.setWidth("750px");
-		windowForm.setHeight("770px");
+		windowForm.setWidth("800px");
+		windowForm.setHeight("750px");
 		windowForm.setClosable(true);	
 		windowForm.setResizable(false);
 
@@ -864,6 +915,22 @@ public class ProductView extends CustomComponent{
 
 	public void setWindowForm(Window windowForm) {
 		this.windowForm = windowForm;
+	}
+
+	public TextField getFieldVolume() {
+		return fieldVolume;
+	}
+
+	public ComboBox getComboSupplier() {
+		return comboSupplier;
+	}
+
+	public void setFieldVolume(TextField fieldVolume) {
+		this.fieldVolume = fieldVolume;
+	}
+
+	public void setComboSupplier(ComboBox comboSupplier) {
+		this.comboSupplier = comboSupplier;
 	}
 
 	

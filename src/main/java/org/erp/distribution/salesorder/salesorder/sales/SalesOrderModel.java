@@ -160,6 +160,9 @@ public class SalesOrderModel extends CustomComponent{
 		beanItemContainerDetil.addNestedContainerProperty("fproductBean.pcode");
 		beanItemContainerDetil.addNestedContainerProperty("fproductBean.pname");
 		beanItemContainerDetil.addNestedContainerProperty("fproductBean.packaging");
+		
+		beanItemContainerDetil.addNestedContainerProperty("id.freegood");
+		
 		try{
 			beanItemContainerSalesman.addAll(fSalesmanJpaService.findAll());
 		} catch(Exception ex){}

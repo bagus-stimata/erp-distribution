@@ -128,7 +128,6 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		ValueChangeListener listenerCheckSearch1 = new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
 				view.getBtnSearch().click();
 			}
 		};
@@ -199,6 +198,8 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			}
 		};
 		view.getComboCustomer().addValueChangeListener(listenerComboCustomer);
+		
+		
 		
 	}
 
@@ -290,8 +291,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 	@Override
 	public void blur(BlurEvent event) {
 		if (event.getComponent() == view.getFieldDisc1()) {
-			helper.updateAndCalculateHeaderByItemDetil();
-			
+			helper.updateAndCalculateHeaderByItemDetil();		
 		}else if (event.getComponent() == view.getFieldDisc2()) {
 			helper.updateAndCalculateHeaderByItemDetil();			
 		}else if (event.getComponent() == view.getFieldDisc()) {
@@ -825,8 +825,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			view.getItemDetilView().getComboProduct().setValue(null);
 		} catch(Exception ex){}
 	}
-	
-	
+		
 	public FtSalesd generateResetFsalesd(FtSalesd ftSalesd){
 //		FtSalesd ftSalesd = new FtSalesd();
 		FtSalesdPK freeId = new FtSalesdPK();
@@ -1006,19 +1005,23 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 	public void saveFormAdding(){
 		//1. VALIDASI
 		if (helper.isValidSaveFormAdding()) {
-	
+
+			//ANTISIPASI RECALCULATE DETIL
+			
 			//CEK DISKON DAN UPDATE DETIL PER SUPPLIER
 			helper.cekAndUpdateParamDiskonItemByVendor();
 			//0. Cek and Update Aktifitas Promo Detail			
 			helper.cekAktifitasPromoItem();
 			
-			//1.. RECEK  and CALCULATE header
+			//1.. RECEK  and CALCULATE header :: CUMA KALKULASI
 			helper.updateAndCalculateHeaderByItemDetil();
 			
 			//2. TERBITKAN NOMOR PO
 			model.itemHeader.setOrderno(model.getTransaksiHelper().getNextFtSaleshRefno());
 			//3. SAVE ULANG HEADER
 			model.getFtSaleshJpaService().updateObject(model.itemHeader);
+			
+			//ANTISIPASI
 			
 			//4. UPDATE STOCK :: UPDATE STOK TERJADI SETELAH DI SAVE ATAU DITERBITKANNYA NOMOR PO			
 			//****update stock saat print dan terbitkan invoice****

@@ -27,6 +27,7 @@ public class FCustomer {
 	private String custno;
 	
 	private String custname;
+	private String namaPadaFakturPajak;
 	private String tunaikredit;
 	private Integer top;
 	private Double creditlimit;
@@ -238,6 +239,14 @@ public class FCustomer {
 
 	public void setFtPriceAlthBean(FtPriceAlth ftPriceAlthBean) {
 		this.ftPriceAlthBean = ftPriceAlthBean;
+	}
+
+	public String getNamaPadaFakturPajak() {
+		return namaPadaFakturPajak;
+	}
+
+	public void setNamaPadaFakturPajak(String namaPadaFakturPajak) {
+		this.namaPadaFakturPajak = namaPadaFakturPajak;
 	}
 
 	@Override

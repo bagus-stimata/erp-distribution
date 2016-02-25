@@ -1,4 +1,4 @@
-package org.erp.distribution.salesorder.salesorder.lapsalesperbarang;
+package org.erp.distribution.salesorder.salesorder.lapsalesorder2;
 
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.Button;
@@ -10,19 +10,20 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class LapSalesView extends CustomComponent{
-	private LapSalesModel model;
+public class LapSalesOrder2View extends CustomComponent{
+	private LapSalesOrder2Model model;
 
 	private VerticalLayout content = new VerticalLayout();
-	private ComboBox comboGroup1= new ComboBox("SALESMAN");
+	private ComboBox comboGroup1= new ComboBox("WAREHOUSE/GUDANG");
 	private ComboBox comboGroup2= new ComboBox("GRUP BARANG");
 
-	private DateField dateField1From = new DateField("TANGGAL PENJUALAN");
-	private DateField dateField1To = new DateField("S.D");
-	
+	private DateField dateField1From = new DateField("TANGGAL INVOICE");
+	private DateField dateField1To = new DateField("TANGGAL INVOICE");
+
 	private CheckBox checkBox1= new CheckBox("DIPOTONG RETUR");
 	private CheckBox checkBox2= new CheckBox("CHECK2");
 	
+	private Button btnExtractToExel = new Button("Extract To Exel");
 	private Button btnPreview = new Button("Preview");
 	private Button btnClose = new Button("Close");
 	
@@ -31,7 +32,7 @@ public class LapSalesView extends CustomComponent{
 	private Panel panelBottom = new Panel();
 	
 	
-	public LapSalesView(LapSalesModel model){
+	public LapSalesOrder2View(LapSalesOrder2Model model){
 		this.model = model;
 		initComponent();
 		buildView();
@@ -63,12 +64,12 @@ public class LapSalesView extends CustomComponent{
 		layoutBottom.setMargin(true);
 		
 //		layoutTop.addComponent(comboGroup1);
-		layoutTop.addComponent(comboGroup2);
+//		layoutTop.addComponent(comboGroup2);
 		layoutTop.addComponent(dateField1From);
-		layoutTop.addComponent(dateField1To);
-
+//		layoutTop.addComponent(dateField1To);
 		layoutTop.addComponent(checkBox1);
 		
+		layoutBottom.addComponent(btnExtractToExel);
 		layoutBottom.addComponent(btnPreview);
 		layoutBottom.addComponent(btnClose);
 		
@@ -97,7 +98,7 @@ public class LapSalesView extends CustomComponent{
 		
 	}
 
-	public LapSalesModel getModel() {
+	public LapSalesOrder2Model getModel() {
 		return model;
 	}
 
@@ -141,7 +142,7 @@ public class LapSalesView extends CustomComponent{
 		return panelBottom;
 	}
 
-	public void setModel(LapSalesModel model) {
+	public void setModel(LapSalesOrder2Model model) {
 		this.model = model;
 	}
 
@@ -199,6 +200,14 @@ public class LapSalesView extends CustomComponent{
 
 	public void setCheckBox2(CheckBox checkBox2) {
 		this.checkBox2 = checkBox2;
+	}
+
+	public Button getBtnExtractToExel() {
+		return btnExtractToExel;
+	}
+
+	public void setBtnExtractToExel(Button btnExtractToExel) {
+		this.btnExtractToExel = btnExtractToExel;
 	}
 	
 	

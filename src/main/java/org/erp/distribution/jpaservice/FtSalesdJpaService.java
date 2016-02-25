@@ -25,9 +25,21 @@ public interface FtSalesdJpaService extends GenericJpaService<FtSalesd, Serializ
 	public List<FtSalesd> findAllByArea(String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
+	public List<FtSalesd> findAllByTipeCust(String vcode, String areaId, String subAreaId, 
+			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
+			String pcode, String pname, String productGroup);
 	public List<FtSalesd> findAllByProductGroup(String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
+	
+	
+	public List<FtSalesd> findAllByTipeAndInvoice(String vcode, String areaId, String subAreaId, 
+			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
+			String pcode, String pname, String productGroup);
+	public List<FtSalesd> findAllByAreaAndInvoice(String vcode, String areaId, String subAreaId, 
+			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
+			String pcode, String pname, String productGroup);
+	
 
 	public void setNullFreegoodAsFalse();
 	public List<FtSalesd> findAllById(Long refno, Long id, boolean freegood);

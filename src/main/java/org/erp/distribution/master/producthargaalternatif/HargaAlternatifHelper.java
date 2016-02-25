@@ -278,12 +278,14 @@ public class HargaAlternatifHelper {
 			isValid = false;
 			message += "\n::Item masih kosong!";			
 		}
-		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
-		if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldTrdate().getValue().getTime()) {
-			isValid = false;
-			message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
-			"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
-		}
+		
+		//TIDAK BERLAKU UNTUK HARGA ALTERNATIF
+//		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
+//		if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldTrdate().getValue().getTime()) {
+//			isValid = false;
+//			message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
+//			"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+//		}
 		
 		if (isValid==false) {
 			Notification.show(message, Notification.TYPE_TRAY_NOTIFICATION);
@@ -307,12 +309,13 @@ public class HargaAlternatifHelper {
 			message += "\n::Item masih kosong!";
 			
 		}
-		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
-		if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldTrdate().getValue().getTime()) {
-			isValid = false;
-			message += " \n::Tanggal PO tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
-			"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
-		}
+		//## tidak berlaku untuk harga alternatif
+//		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
+//		if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldTrdate().getValue().getTime()) {
+//			isValid = false;
+//			message += " \n::Tanggal PO tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
+//			"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+//		}
 		
 		
 		

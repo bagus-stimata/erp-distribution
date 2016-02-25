@@ -75,7 +75,7 @@ public class UserOtorizeHelper {
             mainUI.menuSalesOrderPackingListRekapPerhari.setEnabled(true);
             mainUI.menuSalesOrderLaporan1.setEnabled(true);
             mainUI.menuSalesOrderRep.setEnabled(true);
-            mainUI.menuSalesPerBarang.setEnabled(true);
+//            mainUI.menuSalesOrderLaporan1SalesOrderRep.setEnabled(true);
             mainUI.menuSalesPrestasiKerja.setEnabled(true);
             mainUI.menuSalesOrderSeparator1.setEnabled(true);
 
@@ -338,7 +338,7 @@ public class UserOtorizeHelper {
         mainUI.menuSalesOrderPackingListRekapPerhari.setVisible(true);
         mainUI.menuSalesOrderLaporan1.setVisible(true);
         mainUI.menuSalesOrderRep.setVisible(true);
-        mainUI.menuSalesPerBarang.setVisible(true);
+//        mainUI.menuSalesOrderLaporan1SalesOrderRep.setVisible(true);
         mainUI.menuSalesPrestasiKerja.setVisible(true);
         mainUI.menuSalesOrderSeparator1.setVisible(true);
         mainUI.menuSalesOrderSalesReturn.setVisible(true);
@@ -436,7 +436,7 @@ public class UserOtorizeHelper {
         mainUI.menuSalesOrderPackingListRekapPerhari.setEnabled(true);
         mainUI.menuSalesOrderLaporan1.setEnabled(true);
         mainUI.menuSalesOrderRep.setEnabled(true);
-        mainUI.menuSalesPerBarang.setEnabled(true);
+//        mainUI.menuSalesOrderLaporan1SalesOrderRep.setEnabled(true);
         mainUI.menuSalesPrestasiKerja.setEnabled(true);
         mainUI.menuSalesOrderSeparator1.setEnabled(true);
         mainUI.menuSalesOrderSalesReturn.setEnabled(true);

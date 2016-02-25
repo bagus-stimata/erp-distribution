@@ -10,29 +10,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import ognl.ListPropertyAccessor;
-
-import org.apache.poi.ss.formula.functions.Subtotal;
-import org.erp.distribution.model.FParamDiskonItem;
 import org.erp.distribution.model.FParamDiskonItemVendor;
-import org.erp.distribution.model.FParamDiskonNota;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
 import org.erp.distribution.model.FPromo;
-import org.erp.distribution.model.FStock;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtArpaymentd;
 import org.erp.distribution.model.FtArpaymentdPK;
 import org.erp.distribution.model.FtArpaymenth;
-import org.erp.distribution.model.FtPurchased;
-import org.erp.distribution.model.FtPurchasedPK;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.FtSalesdPromoTprb;
 import org.erp.distribution.model.FtSalesdPromoTpruDisc;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.util.FormatAndConvertionUtil;
+import org.erp.distribution.util.HeaderDetilHelper;
+import org.erp.distribution.util.HeaderDetilHelperImpl;
+import org.erp.distribution.util.KonversiProductAndStock;
 
 import com.vaadin.ui.Notification;
 
@@ -50,13 +45,20 @@ public class SalesOrderHelper {
 	}																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							
 
 	public Double getParamPpn(){
-		return model.getTransaksiHelper().getParamPpn();
+		double paramPPn = 10.0;
+		try{
+			if (model.getTransaksiHelper().getParamPpn()>0) {
+				paramPPn = model.getTransaksiHelper().getParamPpn();
+			}
+		} catch(Exception ex){}
+		return paramPPn;
 	}
 
 	private double detailTotalAfterdiscWithPpn;
 	private double detailTotalAfterdiscNoPpn;
 	
 	public void updateAndCalculateHeaderByItemDetil(){
+		
 		Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
 		double sumDiscrp1 = 0;
 		double sumDiscrp1afterppn = 0;		
@@ -73,8 +75,19 @@ public class SalesOrderHelper {
 			FtSalesd item = new FtSalesd();
 			item = model.getBeanItemContainerDetil().getItem(itemId).getBean();
 			
-			record++;
+			//antisipasi
+			if (item.getDisc1()==null) item.setDisc1(0.0);
+			if (item.getDisc2()==null) item.setDisc2(0.0);
 			
+			HeaderDetilHelper headerDetilHelper = new HeaderDetilHelperImpl(item);
+			headerDetilHelper.getFillFtSalesdOnly();
+			if (item.getDisc1rp()==0 && item.getDisc1()>0) item.setDisc1rp(headerDetilHelper.getDetilDisc1Rp());
+			if (item.getDisc1rpafterppn()==0 && item.getDisc1()>0) item.setDisc1rpafterppn(headerDetilHelper.getDetilDisc1RpAfterPpn());
+			if (item.getDisc2rp()==0 && item.getDisc2()>0) item.setDisc2rp(headerDetilHelper.getDetilDisc2Rp());
+			if (item.getDisc2rpafterppn()==0 && item.getDisc2()>0) item.setDisc2rpafterppn(headerDetilHelper.getDetilDisc2RpAfterPpn());
+			//end antisipasi
+			
+			record++;
 			sumDiscrp1 += item.getDisc1rp();
 			sumDiscrp1afterppn += item.getDisc1rpafterppn();
 			sumDiscrp2 += item.getDisc2rp();
@@ -94,19 +107,29 @@ public class SalesOrderHelper {
 		nf.setMinimumFractionDigits(0);
 		nf.setMinimumIntegerDigits(0);
 		
-		view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
-		view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
-		view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
-		view.getTableDetil().setColumnFooter("disc2rpafterppn", nf.format(sumDiscrp2afterppn));
+		try{
+			view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
+			view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
+			view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
+			view.getTableDetil().setColumnFooter("disc2rpafterppn", nf.format(sumDiscrp2afterppn));
+			
+			view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn));
+		} catch(Exception ex){}
+		try{
+			detailTotalAfterdiscNoPpn = sumTotalAfterdiscNoPpn;
+			detailTotalAfterdiscWithPpn = sumTotalAfterdiscWithPpn;
+		} catch(Exception ex){}
 		
-		view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn));
-
-		detailTotalAfterdiscNoPpn = sumTotalAfterdiscNoPpn;
-		detailTotalAfterdiscWithPpn = sumTotalAfterdiscWithPpn;
-		
+		//## ANTISIPASI HEADER
+		if (model.itemHeader.getDisc1()==null) model.itemHeader.setDisc1(Double.parseDouble(view.getFieldDisc1().getValue()));
+		if (model.itemHeader.getDisc1()==null) model.itemHeader.setDisc1(0.0);
+		if (model.itemHeader.getDisc2()==null) model.itemHeader.setDisc2(Double.parseDouble(view.getFieldDisc2().getValue()));
+		if (model.itemHeader.getDisc2()==null) model.itemHeader.setDisc2(0.0);
+		if (model.itemHeader.getDisc()==null) model.itemHeader.setDisc(Double.parseDouble(view.getFieldDisc().getValue()));
+		if (model.itemHeader.getDisc()==null) model.itemHeader.setDisc(0.0);
 		//HEADER
 		Double disc1persen = model.itemHeader.getDisc1()/100;
 		Double disc1rp = sumTotalAfterdiscNoPpn * disc1persen;
@@ -127,6 +150,7 @@ public class SalesOrderHelper {
 		Double discpersen = model.itemHeader.getDisc()/100;
 		Double discrp = sumTotalAfterdisc12Noppn * discpersen;
 		Double discrpafterppn = sumTotalAfterdisc12Withppn * discpersen;
+		
 		model.itemHeader.setDiscrp((double) Math.round(discrp));
 		model.itemHeader.setDiscrpafterppn((double) Math.round(discrpafterppn));
 		
@@ -623,9 +647,11 @@ public class SalesOrderHelper {
 					domain.getFproductBean()));
 			
 			domain.setNourut(noUrut++);
-			model.getBeanItemContainerDetil().addItem(domain);
-			model.getFtSalesdJpaService().createObject(domain);
-			
+			//MASUKKAN KE DATABASE DAN Container
+			if (domain.getQty()>0){
+				model.getBeanItemContainerDetil().addItem(domain);
+				model.getFtSalesdJpaService().createObject(domain);
+			}
 //			System.out.println("FtSalesd Hitung: " + domain.getId().getRefno()+":"+domain.getId().getId()+":"+domain.getFproductBean().getPname()+":"+domain.getQty());
 			
 		}
@@ -691,7 +717,9 @@ public class SalesOrderHelper {
 						tprbItem = fPromoByGroupItem.getFreeQtyGet4();	
 					}
 					sumTprbItem += tprbItem;
-					System.out.println("MASUK SINI LHO 4");
+					
+//					System.out.println("MASUK SINI LHO 4");
+					
 				}else if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty3() && fPromoByGroupItem.getFreeQty3()>0) {						
 					if (fPromoByGroupItem.getFreeKelipatan()==true){
 						tprbItem = fPromoByGroupItem.getFreeQtyGet3() * Math.round(sumQtyItemDetilPerProductGroup/fPromoByGroupItem.getFreeQty3());
@@ -699,7 +727,9 @@ public class SalesOrderHelper {
 						tprbItem = fPromoByGroupItem.getFreeQtyGet3();	
 					}
 					sumTprbItem += tprbItem;
-					System.out.println("MASUK SINI LHO 3");
+					
+//					System.out.println("MASUK SINI LHO 3");
+					
 				}else if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty2() && fPromoByGroupItem.getFreeQty2()>0) {
 					if (fPromoByGroupItem.getFreeKelipatan()==true){
 						tprbItem = fPromoByGroupItem.getFreeQtyGet2() * Math.round(sumQtyItemDetilPerProductGroup/fPromoByGroupItem.getFreeQty2());
@@ -707,7 +737,9 @@ public class SalesOrderHelper {
 						tprbItem = fPromoByGroupItem.getFreeQtyGet2();	
 					}
 					sumTprbItem += tprbItem;
-					System.out.println("MASUK SINI LHO 2");
+					
+//					System.out.println("MASUK SINI LHO 2");
+					
 				}else if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty1() && fPromoByGroupItem.getFreeQty1()>0) {
 					if (fPromoByGroupItem.getFreeKelipatan()==true){
 						tprbItem = fPromoByGroupItem.getFreeQtyGet1() * Math.round(sumQtyItemDetilPerProductGroup/fPromoByGroupItem.getFreeQty1());
@@ -716,7 +748,7 @@ public class SalesOrderHelper {
 					}
 					sumTprbItem += tprbItem;
 					
-					System.out.println("MASUK SINI LHO 1");
+//					System.out.println("MASUK SINI LHO 1");
 				}
 				
 				//3.2 # HASIL KALKULASI DIATAS :: Tentukan diskonnnya
@@ -730,7 +762,7 @@ public class SalesOrderHelper {
 					discItem1 = fPromoByGroupItem.getDiscPercentGet1();
 				}
 				
-				System.out.println("Jumlah Diskon: " + discItem1);
+//				System.out.println("Jumlah Diskon: " + discItem1);
 				
 				//3.3 # UPDATE DETIL SETELAH ADA DISKON		
 				Collection itemIds2 = model.getBeanItemContainerDetil().getItemIds();
@@ -739,10 +771,12 @@ public class SalesOrderHelper {
 					ftSalesdBean = model.getBeanItemContainerDetil().getItem(itemId).getBean();
 					if (ftSalesdBean.getFproductBean().getFproductgroupBean().equals(fProductgroupBean)) {
 						ftSalesdBean.setDisc1(ftSalesdBean.getDisc1() + discItem1);
+						
 						//UPDATE KE ITEM TABLE DAN DATABASE
 						model.getFtSalesdJpaService().updateObject(ftSalesdBean);
 						model.getBeanItemContainerDetil().addItem(ftSalesdBean);
 						view.getTableDetil().addItem(ftSalesdBean);
+						
 					}					
 				}
 				
@@ -824,7 +858,6 @@ public class SalesOrderHelper {
 		view.setDisplayDetil();
 
 		return listFtSalesdPromoTotal;
-		
 		
 	}
 

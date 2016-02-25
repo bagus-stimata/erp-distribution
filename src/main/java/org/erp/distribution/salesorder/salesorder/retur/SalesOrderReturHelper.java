@@ -12,6 +12,8 @@ import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchasedPK;
 import org.erp.distribution.model.FtSalesd;
+import org.erp.distribution.util.HeaderDetilHelper;
+import org.erp.distribution.util.HeaderDetilHelperImpl;
 
 import com.vaadin.ui.Notification;
 
@@ -26,7 +28,13 @@ public class SalesOrderReturHelper {
 	}
 
 	public Double getParamPpn(){
-		return model.getTransaksiHelper().getParamPpn();
+		double paramPPn = 10.0;
+		try{
+			if (model.getTransaksiHelper().getParamPpn()>0) {
+				paramPPn = model.getTransaksiHelper().getParamPpn();
+			}
+		} catch(Exception ex){}
+		return paramPPn;
 	}
 
 	public void updateAndCalculateHeaderByItemDetil(){
@@ -44,6 +52,18 @@ public class SalesOrderReturHelper {
 		for (Object itemId : itemIds) {
 			FtSalesd item = new FtSalesd();
 			item = model.getBeanItemContainerDetil().getItem(itemId).getBean();
+			
+			//antisipasi
+			if (item.getDisc1()==null) item.setDisc1(0.0);
+			if (item.getDisc2()==null) item.setDisc2(0.0);
+			
+			HeaderDetilHelper headerDetilHelper = new HeaderDetilHelperImpl(item);
+			headerDetilHelper.getFillFtSalesdOnly();
+			if (item.getDisc1rp()==0 && item.getDisc1()>0) item.setDisc1rp(headerDetilHelper.getDetilDisc1Rp());
+			if (item.getDisc1rpafterppn()==0 && item.getDisc1()>0) item.setDisc1rpafterppn(headerDetilHelper.getDetilDisc1RpAfterPpn());
+			if (item.getDisc2rp()==0 && item.getDisc2()>0) item.setDisc2rp(headerDetilHelper.getDetilDisc2Rp());
+			if (item.getDisc2rpafterppn()==0 && item.getDisc2()>0) item.setDisc2rpafterppn(headerDetilHelper.getDetilDisc2RpAfterPpn());
+			//end antisipasi
 			
 			record++;
 			
@@ -66,15 +86,25 @@ public class SalesOrderReturHelper {
 		nf.setMinimumFractionDigits(0);
 		nf.setMinimumIntegerDigits(0);
 		
-		view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
-		view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
-		view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
-		view.getTableDetil().setColumnFooter("disc2rpafterppn", nf.format(sumDiscrp2afterppn));
+		try{
+			view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
+			view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
+			view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
+			view.getTableDetil().setColumnFooter("disc2rpafterppn", nf.format(sumDiscrp2afterppn));
+			
+			view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn));
+		} catch(Exception ex){}
 		
-		view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn));
+		//## ANTISIPASI HEADER
+		if (model.itemHeader.getDisc1()==null) model.itemHeader.setDisc1(Double.parseDouble(view.getFieldDisc1().getValue()));
+		if (model.itemHeader.getDisc1()==null) model.itemHeader.setDisc1(0.0);
+		if (model.itemHeader.getDisc2()==null) model.itemHeader.setDisc2(Double.parseDouble(view.getFieldDisc2().getValue()));
+		if (model.itemHeader.getDisc2()==null) model.itemHeader.setDisc2(0.0);
+		if (model.itemHeader.getDisc()==null) model.itemHeader.setDisc(Double.parseDouble(view.getFieldDisc().getValue()));
+		if (model.itemHeader.getDisc()==null) model.itemHeader.setDisc(0.0);
 		
 		//HEADER
 		Double disc1persen = model.itemHeader.getDisc1()/100;

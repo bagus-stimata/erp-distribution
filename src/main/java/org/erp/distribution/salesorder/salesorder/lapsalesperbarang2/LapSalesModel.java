@@ -1,4 +1,4 @@
-package org.erp.distribution.salesorder.salesorder.lapsalesperbarang;
+package org.erp.distribution.salesorder.salesorder.lapsalesperbarang2;
 
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FCustomerJpaService;

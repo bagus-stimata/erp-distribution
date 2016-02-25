@@ -182,13 +182,15 @@ public class SalesOrderView extends CustomComponent{
 		            return df.format((Date)property.getValue());
 		        }
 		        
-//		        if (property.getType()==Boolean.class){
-//		        	if ((Boolean) property.getValue()==true) {
-//		        		return "Active";
-//		        	} else {
-//		        		return "-";
-//		        	}
-//		        }
+		        try{
+			        if (property.getType()==Boolean.class){
+			        	if ((Boolean) property.getValue()==true) {
+			        		return "FG";
+			        	} else {
+			        		return "";
+			        	}
+			        }
+		        } catch(Exception ex){}
 		        
 		        return super.formatPropertyValue(rowId, colId, property);
 		    }
@@ -728,7 +730,7 @@ public class SalesOrderView extends CustomComponent{
 	public void setTablePropertiesDetil(){
 
 		setVisibleTablePropertiesDetil("nourut", "fproductBean.pcode", "fproductBean.pname", "fproductBean.packaging", 
-				"sprice", "spriceafterppn", "qty1", "qty2", "qty3", "qty", "subtotal", "subtotalafterppn",  
+				"sprice", "spriceafterppn", "id.freegood", "qty1", "qty2", "qty3", "qty", "subtotal", "subtotalafterppn",  
 				"disc1", "disc1rp", "disc1rpafterppn", "disc2", "disc2rp", "disc2rpafterppn", 
 				"subtotalafterdisc", "subtotalafterdiscafterppn");
 		
@@ -758,6 +760,7 @@ public class SalesOrderView extends CustomComponent{
 		//ALIGNMENT
 		tableDetil.setColumnAlignment("sprice", Align.RIGHT);
 		tableDetil.setColumnAlignment("spriceafterppn", Align.RIGHT);
+		tableDetil.setColumnAlignment("id.freegood", Align.CENTER);
 		tableDetil.setColumnAlignment("qty1", Align.CENTER);
 		tableDetil.setColumnAlignment("qty2", Align.CENTER);
 		tableDetil.setColumnAlignment("qty3", Align.CENTER);
@@ -779,6 +782,7 @@ public class SalesOrderView extends CustomComponent{
 		tableDetil.setColumnHeader("fproductBean.pname", "NAMA PRODUK");
 		tableDetil.setColumnHeader("fproductBean.packaging", "PACKAGING");
 		tableDetil.setColumnHeader("sprice", "HRG JUAL");
+		tableDetil.setColumnHeader("id.freegood", "FG");
 		tableDetil.setColumnHeader("spriceafterppn", "JUAL+PPN");
 		tableDetil.setColumnHeader("qty1", "BES");
 		tableDetil.setColumnHeader("qty2", "SED");
@@ -799,6 +803,7 @@ public class SalesOrderView extends CustomComponent{
 		tableDetil.setColumnExpandRatio("fproductBean.pname", 10);
 		tableDetil.setColumnExpandRatio("sprice", 5);
 		tableDetil.setColumnExpandRatio("spriceafterppn", 5);
+		tableDetil.setColumnExpandRatio("id.freegood", 1);
 		tableDetil.setColumnExpandRatio("qty1", 2);
 		tableDetil.setColumnExpandRatio("qty2", 2);
 		tableDetil.setColumnExpandRatio("qty3", 2);

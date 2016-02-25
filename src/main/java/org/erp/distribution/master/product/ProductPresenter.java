@@ -263,6 +263,8 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 			model.newItemHeader.setUom2("PAK");
 			model.newItemHeader.setUom3("PCS");
 			model.newItemHeader.setWeight(0.0);
+			model.newItemHeader.setVolume(0);
+			model.newItemHeader.setWeight(0.0);
 			
 			
 			//2. SET NEW DATA ITEM TO BINDER

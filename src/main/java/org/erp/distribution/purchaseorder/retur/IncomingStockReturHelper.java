@@ -25,7 +25,13 @@ public class IncomingStockReturHelper {
 	}
 
 	public Double getParamPpn(){
-		return model.getTransaksiHelper().getParamPpn();
+		double paramPPn = 10.0;
+		try{
+			if (model.getTransaksiHelper().getParamPpn()>0) {
+				paramPPn = model.getTransaksiHelper().getParamPpn();
+			}
+		} catch(Exception ex){}
+		return paramPPn;
 	}
 
 	public void updateAndCalculateHeaderByItemDetil(){
@@ -64,17 +70,17 @@ public class IncomingStockReturHelper {
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMinimumFractionDigits(0);
 		nf.setMinimumIntegerDigits(0);
-		
-		view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
-		view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
-		view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
-		view.getTableDetil().setColumnFooter("disc2rpfaterppn", nf.format(sumDiscrp2afterppn));
-		
-		view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
-		view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn	));
-		
+		try{
+			view.getTableDetil().setColumnFooter("disc1rp", nf.format(sumDiscrp1));
+			view.getTableDetil().setColumnFooter("disc1rpafterppn", nf.format(sumDiscrp1afterppn));
+			view.getTableDetil().setColumnFooter("disc2rp", nf.format(sumDiscrp2));
+			view.getTableDetil().setColumnFooter("disc2rpfaterppn", nf.format(sumDiscrp2afterppn));
+			
+			view.getTableDetil().setColumnFooter("subtotal", nf.format(sumTotalNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterppn", nf.format(sumTotalWithPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdisc", nf.format(sumTotalAfterdiscNoPpn));
+			view.getTableDetil().setColumnFooter("subtotalafterdiscafterppn", nf.format(sumTotalAfterdiscWithPpn	));
+		} catch(Exception ex){}
 		//HEADER
 		Double disc1persen = model.itemHeader.getDisc1()/100;
 		Double disc1rp = sumTotalAfterdiscNoPpn * disc1persen;

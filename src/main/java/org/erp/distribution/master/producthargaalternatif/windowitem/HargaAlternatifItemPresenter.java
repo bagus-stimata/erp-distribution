@@ -228,10 +228,43 @@ public class HargaAlternatifItemPresenter implements ClickListener, BlurListener
 			helper.updateAndCalculateItemDetil();
 		}		
 		view.setFormButtonAndTextState();		
+		
+//### yang di pakai khusus untuk HARGA ALTERNATIF
+		
+		int convfact1 = (model.itemDetil.getFproductBean().getConvfact1()==null?1:model.itemDetil.getFproductBean().getConvfact1());
+		
+		if (event.getComponent()==view.getComboProduct()) {				
+			helper.updateAndCalulateItemDetilProduct();
+			helper.updateAndCalculateItemDetil();
+			
+		}else if (event.getComponent()==view.getFieldSprice()){
+			helper.updateAndCalculateSPrice(model.getItemDetil().getSprice(), convfact1);
+			
+		}else if (event.getComponent()==view.getFieldSpriceafterppn()){
+			helper.updateAndCalculateSPrice(helper.getPriceBeforePPN(model.getItemDetil().getSpriceafterppn()), convfact1);
+			
+		}else if (event.getComponent()==view.getFieldSprice2()){
+			helper.updateAndCalculateSPrice(model.getItemDetil().getSprice2() * convfact1, convfact1);
+			
+		}else if (event.getComponent()==view.getFieldSprice2afterppn()){
+			helper.updateAndCalculateSPrice(helper.getPriceBeforePPN(model.getItemDetil().getSprice2afterppn() * convfact1), convfact1);
+			
+		}else if (event.getComponent()==view.getFieldSpricealt()){
+			helper.updateAndCalculateSPricealt(model.getItemDetil().getSpricealt(), convfact1);
+		}else if (event.getComponent()==view.getFieldSpricealtafterppn()){
+			helper.updateAndCalculateSPricealt(helper.getPriceBeforePPN(model.getItemDetil().getSpricealtafterppn()), convfact1);
+			
+		}else if (event.getComponent()==view.getFieldSpricealt2()){
+			helper.updateAndCalculateSPricealt(model.getItemDetil().getSpricealt2() * convfact1, convfact1);
+			
+		}else if (event.getComponent()==view.getFieldSpricealt2afterppn()){
+			helper.updateAndCalculateSPricealt(helper.getPriceBeforePPN(model.getItemDetil().getSpricealt2afterppn() * convfact1), convfact1);
+			
+		}
+		
 	}
 	@Override
-	public void valueChange(ValueChangeEvent event) {
-		
+	public void valueChange(ValueChangeEvent event) {		
 	}
 	
 

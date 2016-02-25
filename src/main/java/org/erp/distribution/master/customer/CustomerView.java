@@ -55,6 +55,7 @@ public class CustomerView extends CustomComponent{
 	private TextField fieldId = new TextField("ID");
 	private ComboBox comboGrup = new ComboBox("JENIS CUSTOMER");
 	private TextField fieldDescription= new TextField("NAMA CUSTOMER");
+	private TextField fieldNamaPadaFakturPajak= new TextField("Nama pada F. Pajak");
 	private TextField fieldReportDesc= new TextField("REPORT DESC");
 	private CheckBox checkStatusActive = new CheckBox("AKTIF", false);
 	
@@ -150,6 +151,7 @@ public class CustomerView extends CustomComponent{
 		//Init Field
 		fieldId.setNullRepresentation("");
 		fieldDescription.setNullRepresentation("");
+		fieldNamaPadaFakturPajak.setNullRepresentation("");
 		fieldReportDesc.setNullRepresentation("");
 		
 		fieldId.setWidth("100px");
@@ -160,6 +162,7 @@ public class CustomerView extends CustomComponent{
 		comboTunaiKredit.setWidth("200px");
 		comboTunaiKredit.setFilteringMode(FilteringMode.CONTAINS);
 		fieldDescription.setWidth("400px");
+		fieldDescription.setWidth("500px");
 
 		btnSearch.setIcon(new ThemeResource("../images/navigation/12x12/Find.png"));
 
@@ -254,6 +257,7 @@ public class CustomerView extends CustomComponent{
 		formLayout.setMargin(true);
 		formLayout.addComponent(fieldId);
 		formLayout.addComponent(fieldDescription);
+		formLayout.addComponent(fieldNamaPadaFakturPajak);
 		formLayout.addComponent(comboGrup);
 		formLayout.addComponent(comboGrup2);
 		formLayout.addComponent(comboTunaiKredit);
@@ -392,6 +396,7 @@ public class CustomerView extends CustomComponent{
 		
 		model.getBinderHeader().bind(fieldId, "custno");
 		model.getBinderHeader().bind(fieldDescription, "custname");
+		model.getBinderHeader().bind(fieldNamaPadaFakturPajak, "namaPadaFakturPajak");
 		model.getBinderHeader().bind(comboGrup, "fcustomersubgroupBean");
 		model.getBinderHeader().bind(comboGrup2, "fsubareaBean");
 		model.getBinderHeader().bind(comboTunaiKredit, "tunaikredit");

@@ -52,8 +52,12 @@ public class FProduct {
 	private Double spriceafterppn;
 	private Double sprice2;
 	private Double sprice2afterppn;
+	
+	//TIDAK BOLEH DIGANTI-GANTI
+	private int volume;
 	private Double weight;
 	private Boolean statusactive;
+	
 	
 	private String supplier;
 	
@@ -127,6 +131,18 @@ public class FProduct {
 
 	public void setFtSalesdPromoTprbSet(Set<FtSalesdPromoTprb> ftSalesdPromoTprbSet) {
 		FtSalesdPromoTprbSet = ftSalesdPromoTprbSet;
+	}
+
+
+
+	public int getVolume() {
+		return volume;
+	}
+
+
+
+	public void setVolume(int volume) {
+		this.volume = volume;
 	}
 
 
