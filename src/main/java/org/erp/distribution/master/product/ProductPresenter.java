@@ -33,9 +33,12 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
@@ -49,7 +52,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
 
-public class ProductPresenter implements ClickListener, ValueChangeListener, ItemClickListener, BlurListener{
+public class ProductPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener, BlurListener{
 	private ProductModel model;
 	private ProductView view;
 	
@@ -76,6 +79,8 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 		view.getFieldSpriceafterppn().addBlurListener(this);
 		
 		view.getTable().addItemClickListener(this);
+		
+		view.getPanelTop().addActionHandler(this);
 	}
 	
 	@Override
@@ -226,7 +231,7 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 		} else if (event.getButton() == view.getBtnSearch()) {
 			searchForm();
 		} else if (event.getButton() == view.getBtnPrint()){			
-			printForm();
+			extractToExel();
 		}else if (event.getButton() == view.getBtnHelp()){
 			helpForm();
 		}
@@ -492,7 +497,7 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 		
 	}
 	
-	public void printForm(){	
+	public void extractToExel(){	
 
 		String basepath = VaadinService.getCurrent()
 	            .getBaseDirectory().getAbsolutePath();
@@ -571,13 +576,6 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 		view.getUI().getPage().open(resource, "_new_masterproduct_" , false);
 	
 	
-        
-        
-//		Resource res = new FileResource(new File(filePathDestination));		
-//		FileDownloader fd = new FileDownloader(res);
-//		
-//		fd.extend(view.getBtnPrint());
-	
 	}
 	
 	public void helpForm(){
@@ -595,6 +593,27 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Ite
 		this.view = view;
 	}
 
+	private static final ShortcutAction ENTER_FIELDSEARCHID= new ShortcutAction("Enter",
+			KeyCode.ENTER, null);
+	
+	private static final Action[] ACTIONS = new Action[] {};
+	private static final Action[] ACTIONS_FIELDSEARCHID = new Action[] { ENTER_FIELDSEARCHID };
+	
+	@Override
+	public Action[] getActions(Object target, Object sender) {
+		if (sender == view.getPanelTop()) {
+			return ACTIONS_FIELDSEARCHID;
+		}
+		return ACTIONS;
+	}
+
+	@Override
+	public void handleAction(Action action, Object sender, Object target) {
+		if (action==ENTER_FIELDSEARCHID){
+			view.getBtnSearch().click();
+		}		
+	}
+	
 
 	
 	

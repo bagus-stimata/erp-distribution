@@ -1,31 +1,13 @@
 package org.erp.distribution.salesorder.salesorder.sales;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.util.JRLoader;
-
-import org.apache.tools.ant.types.selectors.modifiedselector.EqualComparator;
 import org.erp.distribution.model.FCustomer;
-import org.erp.distribution.model.FProduct;
-import org.erp.distribution.model.FStock;
-import org.erp.distribution.model.FtPurchased;
-import org.erp.distribution.model.FtPurchasedPK;
-import org.erp.distribution.model.FtPurchaseh;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.FtSalesdPromoTprb;
@@ -33,9 +15,6 @@ import org.erp.distribution.model.FtSalesdPromoTpruCb;
 import org.erp.distribution.model.FtSalesdPromoTpruDisc;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
-import org.erp.distribution.salesorder.salesorder.windowitem.SalesOrderItemHelper;
-import org.erp.distribution.util.ProductAndStockHelper;
-import org.erp.distribution.util.ReportJdbcConfigHelper;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Container.Filter;
@@ -45,28 +24,31 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
-import com.vaadin.server.StreamResource;
-import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
 
-public class SalesOrderPresenter implements ClickListener, ValueChangeListener, ItemClickListener, BlurListener{
+public class SalesOrderPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener, BlurListener{
 	private SalesOrderModel model;
 	private SalesOrderView view;
 	
 	private SalesOrderHelper helper;
+	private SalesOrderPrintHelper salesOrderPrintHelper;
 	
 	public SalesOrderPresenter(SalesOrderModel model, SalesOrderView view){
 		this.model = model;
 		this.view = view;
 		helper = new SalesOrderHelper(model, view);
+		salesOrderPrintHelper = new SalesOrderPrintHelper(model, view);
 		
 		initListener();
 		
@@ -96,6 +78,8 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		view.getFieldDisc().addBlurListener(this);
 		view.getFieldPpnpercent().addBlurListener(this);
 		
+		view.getPanelTop().addActionHandler(this);
+			
 		ValueChangeListener listenerValueChangeOrderDate = new ValueChangeListener() {			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
@@ -1067,8 +1051,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			
 		}
 	}
-	
-	
+		
 	public void cancelFormAdding(){
 		//1. HAPUS DETIL DAN HEADER
 		deleteFtSaleshAndFtSalesd();
@@ -1302,6 +1285,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		try{
 			//TAMBAH COUNTER ITEM PRINTE
 			if (model.itemHeader.getPrintcounter()==null) model.itemHeader.setPrintcounter(1);
+			if (model.itemHeader.getPrintcounter()==0) model.itemHeader.setPrintcounter(1);
 			model.itemHeader.setPrintcounter(model.getItemHeader().getPrintcounter()+1);        			
 			model.getFtSaleshJpaService().updateObject(model.itemHeader);
 		} catch(Exception ex){}
@@ -1351,7 +1335,8 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 	            				}
 	            				
 	            				//PREVIEW INVOICE
-	        					previewInvoice();
+	            				salesOrderPrintHelper.setJenisFaktur("PENJUALAN");
+	        					salesOrderPrintHelper.previewInvoice();
 	        					
 	        					//####TAMBAHAN:: AGAR YANG SUDAH CETAK HILANG
 	        					if (view.getCheckSearch1().getValue()==true) {
@@ -1389,7 +1374,8 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		 //PRINT INVOICE
 		if (! model.getItemHeader().getInvoiceno().trim().equals("") ) {
 			//PREVIEW INVOICE
-			previewInvoice();
+			salesOrderPrintHelper.setJenisFaktur("PENJUALAN");
+			salesOrderPrintHelper.previewInvoice();
 		}
 	}
 
@@ -1445,7 +1431,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 	            					Notification.show("INVOICE AND STOK UPDATED!", Notification.TYPE_TRAY_NOTIFICATION );
 	            				}
 	            				
-	            				previewInvoiceRetail();
+	            				salesOrderPrintHelper.previewInvoiceRetail();
 	        					
 	        					//####TAMBAHAN:: AGAR YANG SUDAH CETAK HILANG
 	        					if (view.getCheckSearch1().getValue()==true) {
@@ -1483,184 +1469,10 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		 //PRINT INVOICE
 		if (! model.getItemHeader().getInvoiceno().trim().equals("") ) {
 			//PREVIEW INVOICE
-			previewInvoiceRetail();
+			salesOrderPrintHelper.previewInvoiceRetail();
 		}
 	}
 	
-	public void previewInvoice(){
-		String inputFilePath = "";
-		
-		if (model.getSysvarHelper().getFormatFaktur()==1) {
-			inputFilePath = "/erp/distribution/reports/salesorder/invoice1/standart1.jasper";
-		} else if (model.getSysvarHelper().getFormatFaktur()==2) {
-			inputFilePath = "/erp/distribution/reports/salesorder/invoice2/standart2.jasper";
-		} else if (model.getSysvarHelper().getFormatFaktur()==10) {
-			inputFilePath = "/erp/distribution/reports/invoicestd1/invoicestd1.jasper";
-		} else if (model.getSysvarHelper().getFormatFaktur()==11) {
-			inputFilePath = "/erp/distribution/reports/invoicestd2/invoicestd2.jasper";
-		} else if (model.getSysvarHelper().getFormatFaktur()==12) {
-			inputFilePath = "/erp/distribution/reports/invoicestd3/invoicestd3.jasper";
-		} else if (model.getSysvarHelper().getFormatFaktur()==13) {
-			inputFilePath = "/erp/distribution/reports/invoicestd4/invoicestd4.jasper";
-		} else if (model.getSysvarHelper().getFormatFaktur()==14) {
-			inputFilePath = "/erp/distribution/reports/invoicestd5/invoicestd5.jasper";
-		} else if (model.getSysvarHelper().getFormatFaktur()==15) {
-			inputFilePath = "/erp/distribution/reports/salesorder/invoicestd/invoicestd1/invoicestd1.jasper";
-		}
-		
-		String outputFilePath = "sales_invoice";
-		
-		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
-		
-			
-		final Map parameters=new HashMap();
-		if (model.getItemHeader().getTipefaktur().equals("R")) {
-			parameters.put("paramJudulFaktur", model.getSysvarHelper().getJudulFakturRetur());
-		}else if (model.getItemHeader().getTunaikredit().equals("T")) {
-			parameters.put("paramJudulFaktur", model.getSysvarHelper().getJudulFakturTunai());
-		}else if (model.getItemHeader().getTunaikredit().equals("K"))  {
-			parameters.put("paramJudulFaktur", model.getSysvarHelper().getJudulFakturKredit());			
-		} else {
-			parameters.put("paramJudulFaktur", "FAKTUR");						
-		}
-		parameters.put("paramJudulFakturTunai", model.getSysvarHelper().getJudulFakturTunai());
-		parameters.put("paramJudulFakturKredit", model.getSysvarHelper().getJudulFakturKredit());			
-		parameters.put("paramJudulFakturRetur", model.getSysvarHelper().getJudulFakturRetur());			
-
-		parameters.put("paramTipefaktur","F");
-
-		parameters.put("paramCompanyName", model.getSysvarHelper().getCompanyNameFaktur());
-		parameters.put("paramCompanyAddress", model.getSysvarHelper().getCompanyAddressFaktur());
-		parameters.put("paramCompanyPhone", model.getSysvarHelper().getCompanyPhoneFaktur());
-		parameters.put("paramCompanyNpwp", model.getSysvarHelper().getCompanyNpwpFaktur());
-
-		parameters.put("paramInvoicedateFrom",model.itemHeader.getInvoicedate());
-		parameters.put("paramInvoicedateTo",model.itemHeader.getInvoicedate());
-		parameters.put("paramRefnoFrom",model.itemHeader.getRefno());
-		parameters.put("paramRefnoTo",model.itemHeader.getRefno());
-		parameters.put("paramInvoiceno","%");
-
-		
-		parameters.put("paramRefno", model.itemHeader.getRefno());
-		
-		parameters.put("paramProductShortname", model.getSysvarHelper().isShortNamePadaFaktur());
-
-
-		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
-		
-		
-		StreamResource.StreamSource source = new StreamSource() {			
-			@Override
-			public InputStream getStream() {
-				byte[] b = null;
-				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
-				} catch (JRException ex) {
-//					System.out.println(ex);
-				}
-				return new ByteArrayInputStream(b);
-			}
-		};
-		
-		String fileName = "salesorder_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
-		StreamResource resource = new StreamResource( source, fileName);
-		resource.setMIMEType("application/pdf");
-		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
-		
-		view.getUI().getPage().open(resource, "_new_print_nota_" + outputFilePath, false);
-	
-		} catch (JRException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	public void previewInvoiceRetail(){
-		String inputFilePath = "";
-		
-		if (model.getSysvarHelper().getFormatFakturRetail()==101) {
-			inputFilePath = "/erp/distribution/reports/invoiceretail1/invoicestd1.jasper";
-		} else if (model.getSysvarHelper().getFormatFakturRetail()==102) {
-			inputFilePath = "/erp/distribution/reports/invoiceretail2/invoicestd2.jasper";
-		} else if (model.getSysvarHelper().getFormatFakturRetail()==103) {
-			inputFilePath = "/erp/distribution/reports/invoiceretail3/invoicestd3.jasper";
-		} else if (model.getSysvarHelper().getFormatFakturRetail()==104) {
-			inputFilePath = "/erp/distribution/reports/invoiceretail4/invoicestd4.jasper";
-		} else if (model.getSysvarHelper().getFormatFakturRetail()==105) {
-			inputFilePath = "/erp/distribution/reports/invoiceretail5/invoicestd5.jasper";
-		} else if (model.getSysvarHelper().getFormatFakturRetail()==115) {
-			inputFilePath = "/erp/distribution/reports/salesorder/invoiceret/invoiceret1/invoiceret1.jasper";
-		}
-		
-		String outputFilePath = "sls_inv_r";
-		
-		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
-		
-			
-		final Map parameters=new HashMap();
-		if (model.getItemHeader().getTipefaktur().equals("R")) {
-			parameters.put("paramJudulFaktur", model.getSysvarHelper().getJudulFakturRetail());
-		}else if (model.getItemHeader().getTunaikredit().equals("T")) {
-			parameters.put("paramJudulFaktur", model.getSysvarHelper().getJudulFakturRetail());
-		}else if (model.getItemHeader().getTunaikredit().equals("K"))  {
-			parameters.put("paramJudulFaktur", model.getSysvarHelper().getJudulFakturRetail());			
-		} else {
-			parameters.put("paramJudulFaktur", "FAKTUR");						
-		}
-		parameters.put("paramJudulFakturTunai", model.getSysvarHelper().getJudulFakturRetail());
-		parameters.put("paramJudulFakturKredit", model.getSysvarHelper().getJudulFakturRetail());			
-		parameters.put("paramJudulFakturRetur", model.getSysvarHelper().getJudulFakturRetail());			
-
-		parameters.put("paramTipefaktur","F");
-
-		parameters.put("paramCompanyName", model.getSysvarHelper().getCompanyNameFakturRetail());
-		parameters.put("paramCompanyAddress", model.getSysvarHelper().getCompanyAddressFakturRetail());
-		parameters.put("paramCompanyPhone", model.getSysvarHelper().getCompanyPhoneFakturRetail());
-		parameters.put("paramCompanyNpwp", model.getSysvarHelper().getCompanyNpwpFakturRetail());
-
-		parameters.put("paramInvoicedateFrom",model.itemHeader.getInvoicedate());
-		parameters.put("paramInvoicedateTo",model.itemHeader.getInvoicedate());
-		parameters.put("paramRefnoFrom",model.itemHeader.getRefno());
-		parameters.put("paramRefnoTo",model.itemHeader.getRefno());
-		parameters.put("paramInvoiceno","%");
-
-		parameters.put("paramRefno", model.itemHeader.getRefno());
-		
-		parameters.put("paramProductShortname", model.getSysvarHelper().isShortNamePadaFaktur());
-
-		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
-		
-		
-		StreamResource.StreamSource source = new StreamSource() {			
-			@Override
-			public InputStream getStream() {
-				byte[] b = null;
-				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
-				} catch (JRException ex) {
-//					System.out.println(ex);
-				}
-				return new ByteArrayInputStream(b);
-			}
-		};
-		
-		String fileName = "so_r_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
-		StreamResource resource = new StreamResource( source, fileName);
-		resource.setMIMEType("application/pdf");
-		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
-		
-		view.getUI().getPage().open(resource, "_new_notar_" + outputFilePath, false);
-	
-		} catch (JRException e) {
-			e.printStackTrace();
-		}
-		
-	}
 	public void helpForm(){
 	}
 	
@@ -1678,6 +1490,26 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		this.view = view;
 	}
 
+	private static final ShortcutAction ENTER_FIELDSEARCHID= new ShortcutAction("Enter",
+			KeyCode.ENTER, null);
+	
+	private static final Action[] ACTIONS = new Action[] {};
+	private static final Action[] ACTIONS_FIELDSEARCHID = new Action[] { ENTER_FIELDSEARCHID };
+	
+	@Override
+	public Action[] getActions(Object target, Object sender) {
+		if (sender == view.getPanelTop()) {
+			return ACTIONS_FIELDSEARCHID;
+		}
+		return ACTIONS;
+	}
+
+	@Override
+	public void handleAction(Action action, Object sender, Object target) {
+		if (action==ENTER_FIELDSEARCHID){
+			view.getBtnSearch().click();
+		}		
+	}
 
 	
 	

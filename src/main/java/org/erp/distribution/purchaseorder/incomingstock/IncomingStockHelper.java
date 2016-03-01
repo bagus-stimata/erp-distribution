@@ -11,8 +11,8 @@ import org.apache.poi.ss.formula.functions.Subtotal;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchasedPK;
-import org.erp.distribution.util.HeaderDetilHelper;
-import org.erp.distribution.util.HeaderDetilHelperImpl;
+import org.erp.distribution.util.HeaderDetilSalesHelper;
+import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 
 import com.vaadin.ui.Notification;
 

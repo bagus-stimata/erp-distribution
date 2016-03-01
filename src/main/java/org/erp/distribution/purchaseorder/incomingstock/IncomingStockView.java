@@ -109,6 +109,7 @@ public class IncomingStockView extends CustomComponent{
 	private VerticalLayout layoutDetil = new VerticalLayout();
 	
 	//Panel
+	private Panel panelTop = new Panel();
 	private Panel panelUtamaList = new Panel();
 	private Panel panelUtamaDetil = new Panel();
 	private Panel panelTopDetil = new Panel();
@@ -311,7 +312,9 @@ public class IncomingStockView extends CustomComponent{
 		layoutList.setMargin(true);
 		VerticalLayout layoutTopList = new VerticalLayout();
 		HorizontalLayout layoutTopList1 = new HorizontalLayout();		
-		layoutTopList.addComponent(layoutTopList1);
+		
+		panelTop.setContent(layoutTopList1);
+		layoutTopList.addComponent(panelTop);
 		
 		layoutTopList1.addComponent(fieldSearch1);
 		layoutTopList1.addComponent(fieldSearch2);
@@ -1392,6 +1395,14 @@ public class IncomingStockView extends CustomComponent{
 
 	public void setDateFieldDuedate(DateField dateFieldDuedate) {
 		this.dateFieldDuedate = dateFieldDuedate;
+	}
+
+	public Panel getPanelTop() {
+		return panelTop;
+	}
+
+	public void setPanelTop(Panel panelTop) {
+		this.panelTop = panelTop;
 	}
 
 

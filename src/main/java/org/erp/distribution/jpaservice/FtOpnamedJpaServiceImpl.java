@@ -46,4 +46,27 @@ public class FtOpnamedJpaServiceImpl extends GenericJpaServiceImpl<FtOpnamed, Se
 	        }    
 	}
 
+	@Override
+	public List<FtOpnamed> findAllByRefno(long refno) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtOpnamed a WHERE a.id.refno= :refno "
+	            		+ " ORDER BY a.id.refno ASC";
+	            //ORDER BY BERPERAN SANGAT PENTING
+	            
+	            List<FtOpnamed> list = em.createQuery(query)
+	            		.setParameter("refno", refno)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+
 }

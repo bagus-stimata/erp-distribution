@@ -582,6 +582,7 @@ public class FormOpnameView extends CustomComponent {
 		
 		table.setColumnCollapsingAllowed(true);
 		try{
+			table.setColumnCollapsed("id", true);
 			table.setColumnCollapsed("refno", true);
 			table.setColumnCollapsed("recapno", true);
 			table.setColumnCollapsed("duedate", true);
@@ -601,7 +602,7 @@ public class FormOpnameView extends CustomComponent {
 		//set header
 		table.setColumnHeader("selected", "<input type='checkbox'/>");
 		table.setColumnHeader("recapno", "REKAP");
-		table.setColumnHeader("id", "INVOICE-DIV-F/R");
+		table.setColumnHeader("id", "ID");
 		table.setColumnHeader("custname", "CUSTOMER TRANS");
 		table.setColumnHeader("spname", "SALESMAN TRANS");
 		table.setColumnHeader("amountafterdiscafterppn", "NOMINAL+PPN");

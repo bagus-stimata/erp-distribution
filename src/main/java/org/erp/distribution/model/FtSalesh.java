@@ -102,6 +102,13 @@ public class FtSalesh {
 	private Double amount;
 	@Transient
 	private Double amountafterppn;
+
+	//AMOUNT AFTER DISC1 dan DISC2
+	@Transient
+	private Double amountafterdisc12;
+	@Transient
+	private Double amountafterdisc12afterppn;
+
 	//AMOUNT AFTER DISC
 	@Column(name="AMOUNTAFTERDISC")
 	private Double amountafterdisc;
@@ -167,6 +174,22 @@ public class FtSalesh {
 	
 
 	
+	public Double getAmountafterdisc12() {
+		return amountafterdisc12;
+	}
+
+	public Double getAmountafterdisc12afterppn() {
+		return amountafterdisc12afterppn;
+	}
+
+	public void setAmountafterdisc12(Double amountafterdisc12) {
+		this.amountafterdisc12 = amountafterdisc12;
+	}
+
+	public void setAmountafterdisc12afterppn(Double amountafterdisc12afterppn) {
+		this.amountafterdisc12afterppn = amountafterdisc12afterppn;
+	}
+
 	public String getSjpenagihanno() {
 		return sjpenagihanno;
 	}

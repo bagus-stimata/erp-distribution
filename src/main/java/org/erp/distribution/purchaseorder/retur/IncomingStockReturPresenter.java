@@ -29,9 +29,12 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
@@ -41,7 +44,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
 
-public class IncomingStockReturPresenter implements ClickListener, ValueChangeListener, ItemClickListener, BlurListener{
+public class IncomingStockReturPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener, BlurListener{
 	private IncomingStockReturModel model;
 	private IncomingStockReturView view;
 	
@@ -79,6 +82,9 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		view.getFieldDisc2().addBlurListener(this);
 		view.getFieldDisc().addBlurListener(this);
 		view.getFieldPpnpercent().addBlurListener(this);
+		
+		view.getPanelTop().addActionHandler(this);
+		
 		ValueChangeListener listenerValueChangeOrderDate = new ValueChangeListener() {			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
@@ -916,6 +922,26 @@ public class IncomingStockReturPresenter implements ClickListener, ValueChangeLi
 		this.view = view;
 	}
 
+	private static final ShortcutAction ENTER_FIELDSEARCHID= new ShortcutAction("Enter",
+			KeyCode.ENTER, null);
+	
+	private static final Action[] ACTIONS = new Action[] {};
+	private static final Action[] ACTIONS_FIELDSEARCHID = new Action[] { ENTER_FIELDSEARCHID };
+	
+	@Override
+	public Action[] getActions(Object target, Object sender) {
+		if (sender == view.getPanelTop()) {
+			return ACTIONS_FIELDSEARCHID;
+		}
+		return ACTIONS;
+	}
+
+	@Override
+	public void handleAction(Action action, Object sender, Object target) {
+		if (action==ENTER_FIELDSEARCHID){
+			view.getBtnSearch().click();
+		}		
+	}
 
 	
 	

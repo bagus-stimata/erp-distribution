@@ -48,7 +48,17 @@ public class ZLapTemplate2 {
 	private	String string14;
 	@Column(name="STRING15")
 	private	String string15;
-
+	@Column(name="STRING16")
+	private	String string16;
+	@Column(name="STRING17")
+	private	String string17;
+	@Column(name="STRING18")
+	private	String string18;
+	@Column(name="STRING19")
+	private	String string19;
+	@Column(name="STRING20")
+	private	String string20;
+	
 	@Column(name="INTEGER1")
 	private int int1;
 	@Column(name="INTEGER2")
@@ -91,6 +101,27 @@ public class ZLapTemplate2 {
 	private double double9;
 	@Column(name="DOUBLE10")
 	private double double10;
+	@Column(name="DOUBLE11")
+	private double double11;
+	@Column(name="DOUBLE12")
+	private double double12;
+	@Column(name="DOUBLE13")
+	private double double13;
+	@Column(name="DOUBLE14")
+	private double double14;
+	@Column(name="DOUBLE15")
+	private double double15;
+	@Column(name="DOUBLE16")
+	private double double16;
+	@Column(name="DOUBLE17")
+	private double double17;
+	@Column(name="DOUBLE18")
+	private double double18;
+	@Column(name="DOUBLE19")
+	private double double19;
+	@Column(name="DOUBLE20")
+	private double double20;
+	
 	
 	@Column(name="DATE1")
 	@Temporal(TemporalType.DATE)
@@ -420,6 +451,123 @@ public class ZLapTemplate2 {
 	}
 	public void setBol5(boolean bol5) {
 		this.bol5 = bol5;
+	}
+	public String getString16() {
+		return string16;
+	}
+	public String getString17() {
+		return string17;
+	}
+	public String getString18() {
+		return string18;
+	}
+	public String getString19() {
+		return string19;
+	}
+	public String getString20() {
+		return string20;
+	}
+	public double getDouble11() {
+		return double11;
+	}
+	public double getDouble12() {
+		return double12;
+	}
+	public double getDouble13() {
+		return double13;
+	}
+	public double getDouble14() {
+		return double14;
+	}
+	public double getDouble15() {
+		return double15;
+	}
+	public double getDouble16() {
+		return double16;
+	}
+	public double getDouble17() {
+		return double17;
+	}
+	public double getDouble18() {
+		return double18;
+	}
+	public double getDouble19() {
+		return double19;
+	}
+	public double getDouble20() {
+		return double20;
+	}
+	public void setString16(String string16) {
+		this.string16 = string16;
+	}
+	public void setString17(String string17) {
+		this.string17 = string17;
+	}
+	public void setString18(String string18) {
+		this.string18 = string18;
+	}
+	public void setString19(String string19) {
+		this.string19 = string19;
+	}
+	public void setString20(String string20) {
+		this.string20 = string20;
+	}
+	public void setDouble11(double double11) {
+		this.double11 = double11;
+	}
+	public void setDouble12(double double12) {
+		this.double12 = double12;
+	}
+	public void setDouble13(double double13) {
+		this.double13 = double13;
+	}
+	public void setDouble14(double double14) {
+		this.double14 = double14;
+	}
+	public void setDouble15(double double15) {
+		this.double15 = double15;
+	}
+	public void setDouble16(double double16) {
+		this.double16 = double16;
+	}
+	public void setDouble17(double double17) {
+		this.double17 = double17;
+	}
+	public void setDouble18(double double18) {
+		this.double18 = double18;
+	}
+	public void setDouble19(double double19) {
+		this.double19 = double19;
+	}
+	public void setDouble20(double double20) {
+		this.double20 = double20;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ZLapTemplate2 other = (ZLapTemplate2) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "ZLapTemplate2 [id=" + id + "]";
 	}
 	
 	

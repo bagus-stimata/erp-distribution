@@ -41,6 +41,8 @@ public interface FtSalesdJpaService extends GenericJpaService<FtSalesd, Serializ
 			String pcode, String pname, String productGroup);
 	
 
+	public List<FtSalesd> findAllByRefno(Long refno);
+	
 	public void setNullFreegoodAsFalse();
 	public List<FtSalesd> findAllById(Long refno, Long id, boolean freegood);
 	public List<FtSalesd> findAllById(Long id, boolean freegood);

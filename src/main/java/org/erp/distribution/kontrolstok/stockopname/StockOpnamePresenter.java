@@ -12,8 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.erp.distribution.kontrolstok.lapmutasistok.LapMutasiStockModel;
@@ -42,9 +46,12 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
@@ -54,7 +61,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
 
-public class StockOpnamePresenter implements ClickListener, ValueChangeListener, ItemClickListener, BlurListener{
+public class StockOpnamePresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener, BlurListener{
 	private StockOpnameModel model;
 	private StockOpnameView view;
 	
@@ -94,6 +101,8 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		view.getFieldDisc2().addBlurListener(this);
 		view.getFieldDisc().addBlurListener(this);
 		view.getFieldPpnpercent().addBlurListener(this);
+		
+		view.getPanelTop().addActionHandler(this);
 
 	}
 
@@ -874,7 +883,7 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 	
 	public void previewLapSelisih(){
 		if (model.getBeanItemContainerDetil().getItemIds().size()>0) {
-			previewLengkap();
+			previewSelisih();
 		}
 	}
 	
@@ -897,69 +906,70 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 	}
 	
 	
-	public void previewLengkap(){
-		try{
-			if (model.getItemHeader().getPosting().equals(true)) {
-				resetParameters();
-				reloadParameter();
-				
-				//1. ISI DATABASE UNTUK TEMP
-				fillDatabaseReportLengkap();
-				//2. PREVIEW LAPORAN
-				showPreview("/erp/distribution/reports/kontrolstock/lapstockopname/lapstockopname1.jasper", "lapstockopname1");
-			} else {
-				Notification.show("Dokumen belum diposting atau di lakukan kalkulasi stok!", Notification.TYPE_TRAY_NOTIFICATION);
-			}
-		} catch(Exception ex){}
-	}
-	public void showPreview(String inputFilePath, String outputFilePath){
-		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
-		
+	public void previewSelisih(){
+		if (model.getItemHeader().getPosting().equals(true)) {
+			resetParameters();
+			reloadParameter();
 			
-		final Map parameters=new HashMap();
-		parameters.put("CompanyName","");
-		
-		parameters.put("paramNorek", strParamNorek);
-		parameters.put("paramWarehouse", strParamWarehouse);		
-		parameters.put("paramTrdate", dateParamTrdate);
-		
-		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
-		
-		StreamResource.StreamSource source = new StreamSource() {			
-			@Override
-			public InputStream getStream() {
-				byte[] b = null;
-				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
-				} catch (JRException ex) {
-					System.out.println(ex);
-				}
-				return new ByteArrayInputStream(b);
-			}
-		};
-		
-		String fileName = "ar_kas_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
-		StreamResource resource = new StreamResource( source, fileName);
-		resource.setMIMEType("application/pdf");
-		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
-		
-		view.getUI().getPage().open(resource, "_new_stock_opname_" + outputFilePath, false);
+			//1. ISI DATABASE UNTUK TEMP
+			fillDatabaseReportSelisih();
+			//2. PREVIEW LAPORAN
+			showPreviewSelisih("/erp/distribution/reports/kontrolstock/lapstockopname/lapstockopname1Ds.jasper", "lapstockopname1Ds");
+		} else {
+			Notification.show("Dokumen belum diposting atau di lakukan kalkulasi stok!", Notification.TYPE_TRAY_NOTIFICATION);
+		}
+	}
+	public void showPreviewSelisih(String inputFilePath, String outputFilePath){
+		try{	
+			final Map parameters=new HashMap();
+			parameters.put("CompanyName","");
+			
+			parameters.put("paramNorek", strParamNorek);
+			parameters.put("paramWarehouse", strParamWarehouse);		
+			parameters.put("paramTrdate", dateParamTrdate);
 	
-		} catch (JRException e) {
-			e.printStackTrace();
+		
+			final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listLapStockOpname);
+			InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+			final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
+			
+			StreamResource.StreamSource source = new StreamSource() {			
+				@Override
+				public InputStream getStream() {
+					byte[] b = null;
+					try {
+						b = JasperExportManager.exportReportToPdf(jasperPrint);
+					} catch (JRException ex) {
+						System.out.println(ex);
+					}
+					return new ByteArrayInputStream(b);
+				}
+			};
+			
+			String fileName = "opname_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+			StreamResource resource = new StreamResource( source, fileName);
+			resource.setMIMEType("application/pdf");
+			resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
+			
+			view.getUI().getPage().open(resource, "_new_" + outputFilePath, false);
+	
+		} catch(Exception ex){
+			ex.printStackTrace();
 		}
 	
+	
 	}
 	
+	List<ZLapStockOpname> listLapStockOpname = new ArrayList<ZLapStockOpname>();
 	public void fillDatabaseReportLengkap(){
+		
+		listLapStockOpname = new ArrayList<ZLapStockOpname>();
+		
 		Long refno = model.getItemHeader().getRefno();
 		String strParamWarehouseId = model.getItemHeader().getFwarehouseBean().getId();
 		Date trDate = model.getItemHeader().getTrdate();
 		
-		Iterator<FtOpnamed> iterFOpnamed = model.getFtOpnamedJpaService().findAllDetilByRefno(refno).iterator();
+		Iterator<FtOpnamed> iterFOpnamed = model.getFtOpnamedJpaService().findAllByRefno(refno).iterator();
 		while (iterFOpnamed.hasNext()) {
 			FtOpnamed ftOpnamed = new FtOpnamed();
 			ftOpnamed = iterFOpnamed.next();
@@ -976,6 +986,252 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 
 			Iterator<FStock> iterStock = model.getfStockJpaService().findAll(strParamWarehouseId, fProduct ,trDate, trDate).iterator();			
 			
+			
+			int penerimaanPembelianPcs =0 ;
+			int penerimaanReturjualPcs =0;
+			int penerimaanTransferinPcs =0;
+
+			int pengeluaranReturpembelianPcs =0 ;
+			int pengeluaranPenjualanPcs =0;
+			int pengeluaranTransferoutPcs =0;
+			
+			//FOR STOCK OPNAME
+			int adjustPcs =0;
+			int adjustPenambahanPcs=0;
+			int adjustPenguranganPcs=0;
+			
+			if (iterStock.hasNext()) {
+				
+				FStock fStock = new FStock();
+				fStock = iterStock.next();
+
+				//::SALDO AWAL
+				domain.setSaldoAwalPcs(fStock.getSaldoawal());
+				domain.setSaldoAwalBes(model.getProductAndStockHelper().getBesFromPcs(fStock.getSaldoawal(), fProduct));
+				domain.setSaldoAwalSed(model.getProductAndStockHelper().getSedFromPcs(fStock.getSaldoawal(), fProduct));
+				domain.setSaldoAwalKec(model.getProductAndStockHelper().getKecFromPcs(fStock.getSaldoawal(), fProduct));
+				
+				domain.setSaldoAwalNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(fStock.getSaldoawal(), fProduct));
+				domain.setSaldoAwalNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(fStock.getSaldoawal(), fProduct));
+				
+				//1. *PENERIMAAN PEMBELIAN
+					penerimaanPembelianPcs += model.getProductAndStockHelper().getStockInPurchase(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				//2. *RETUR PENJUALAN
+					penerimaanReturjualPcs += model.getProductAndStockHelper().getStockInSalesReturn(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				//3. *TRANSFER IN
+					penerimaanTransferinPcs += model.getProductAndStockHelper().getStockInStocktransferIn(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+
+				//1. #RETUR PEMBELIAN
+					pengeluaranReturpembelianPcs += model.getProductAndStockHelper().getStockOutPurchaseReturn(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				//2. #PENJUALAN
+					pengeluaranPenjualanPcs += model.getProductAndStockHelper().getStockOutSalesOrder(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				//3. #TRANSFER OUT
+					pengeluaranTransferoutPcs += model.getProductAndStockHelper().getStockOutStocktransferOut(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				
+					
+				//*#ADJUST
+					adjustPcs += model.getProductAndStockHelper().getStockPenyesuaian(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+					adjustPcs +=  model.getProductAndStockHelper().getStockPenyesuaianStockopname(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				
+				//HITUNG ADJUST
+					if (adjustPcs>0) {
+						adjustPenambahanPcs += Math.abs(adjustPcs);
+					} else if (adjustPcs<0) {
+						adjustPenguranganPcs += Math.abs(adjustPcs);
+						
+					}
+					
+				//::SALDO AKHIR :: AKAN DIUBAHUBAH SAMPAI YANG TERAKHIR
+				domain.setSaldoAkhirPcs(fStock.getSaldoakhir());
+				domain.setSaldoAkhirBes(model.getProductAndStockHelper().getBesFromPcs(fStock.getSaldoakhir(), fProduct));
+				domain.setSaldoAkhirSed(model.getProductAndStockHelper().getSedFromPcs(fStock.getSaldoakhir(), fProduct));
+				domain.setSaldoAkhirKec(model.getProductAndStockHelper().getKecFromPcs(fStock.getSaldoakhir(), fProduct));
+
+				domain.setSaldoAkhirNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(fStock.getSaldoakhir(), fProduct));
+				domain.setSaldoAkhirNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(fStock.getSaldoakhir(), fProduct));
+				
+			}
+			while (iterStock.hasNext()) {
+				FStock fStock = new FStock();
+				fStock = iterStock.next();
+				
+				
+			//1. *PENERIMAAN PEMBELIAN
+				penerimaanPembelianPcs += model.getProductAndStockHelper().getStockInPurchase(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+			//2. *RETUR PENJUALAN
+				penerimaanReturjualPcs += model.getProductAndStockHelper().getStockInSalesReturn(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+			//3. *TRANSFER IN
+				penerimaanTransferinPcs += model.getProductAndStockHelper().getStockInStocktransferIn(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+
+			//1. #RETUR PEMBELIAN
+				pengeluaranReturpembelianPcs += model.getProductAndStockHelper().getStockOutPurchaseReturn(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+			//2. #PENJUALAN
+				pengeluaranPenjualanPcs += model.getProductAndStockHelper().getStockOutSalesOrder(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+			//3. #TRANSFER OUT
+				pengeluaranTransferoutPcs += model.getProductAndStockHelper().getStockOutStocktransferOut(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				
+				//*#ADJUST
+				adjustPcs += model.getProductAndStockHelper().getStockPenyesuaian(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				adjustPcs +=  model.getProductAndStockHelper().getStockPenyesuaianStockopname(fStock.getFwarehouseBean(), fProduct, fStock.getStockdate());
+				
+				//HITUNG ADJUST STOK OPNAME
+				if (adjustPcs>0) {
+					adjustPenambahanPcs += Math.abs(adjustPcs);
+					
+				} else if (adjustPcs<0) {
+					adjustPenguranganPcs += Math.abs(adjustPcs);
+					
+				}
+				
+				//::SALDO AKHIR :: AKAN DIUBAHUBAH SAMPAI YANG TERAKHIR
+				domain.setSaldoAkhirPcs(fStock.getSaldoakhir());
+				domain.setSaldoAkhirBes(model.getProductAndStockHelper().getBesFromPcs(fStock.getSaldoakhir(), fProduct));
+				domain.setSaldoAkhirSed(model.getProductAndStockHelper().getSedFromPcs(fStock.getSaldoakhir(), fProduct));
+				domain.setSaldoAkhirKec(model.getProductAndStockHelper().getKecFromPcs(fStock.getSaldoakhir(), fProduct));
+
+				domain.setSaldoAkhirNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(fStock.getSaldoakhir(), fProduct));
+				domain.setSaldoAkhirNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(fStock.getSaldoakhir(), fProduct));
+
+			}
+			
+			
+		//1. *PENERIMAAN PEMBELIAN
+			domain.setPembelianPcs(penerimaanPembelianPcs);
+			domain.setPembelianBes(model.getProductAndStockHelper().getBesFromPcs(penerimaanPembelianPcs, fProduct));
+			domain.setPembelianSed(model.getProductAndStockHelper().getSedFromPcs(penerimaanPembelianPcs, fProduct));
+			domain.setPembelianKec(model.getProductAndStockHelper().getKecFromPcs(penerimaanPembelianPcs, fProduct));
+			
+			domain.setPembelianNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(penerimaanPembelianPcs, fProduct));
+			domain.setPembelianNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(penerimaanPembelianPcs, fProduct));
+		//2. *RETUR PENJUALAN
+			domain.setReturPenjualanPcs(penerimaanReturjualPcs);
+			domain.setReturPenjualanBes(model.getProductAndStockHelper().getBesFromPcs(penerimaanReturjualPcs, fProduct));
+			domain.setReturPenjualanSed(model.getProductAndStockHelper().getSedFromPcs(penerimaanReturjualPcs, fProduct));
+			domain.setReturPenjualanKec(model.getProductAndStockHelper().getKecFromPcs(penerimaanReturjualPcs, fProduct));
+			
+			domain.setReturPenjualanNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(penerimaanReturjualPcs, fProduct));
+			domain.setReturPenjualanNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(penerimaanReturjualPcs, fProduct));
+		//3. *TRANSFER IN
+			domain.setTransferInPcs(penerimaanTransferinPcs);
+			domain.setTransferInBes(model.getProductAndStockHelper().getBesFromPcs(penerimaanTransferinPcs, fProduct));
+			domain.setTransferInSed(model.getProductAndStockHelper().getSedFromPcs(penerimaanTransferinPcs, fProduct));
+			domain.setTransferInKec(model.getProductAndStockHelper().getKecFromPcs(penerimaanTransferinPcs, fProduct));
+			
+			domain.setTransferInNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(penerimaanTransferinPcs, fProduct));
+			domain.setTransferInNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(penerimaanTransferinPcs, fProduct));
+
+		//1. #RETUR PEMBELIAN
+			domain.setReturPembelianPcs(pengeluaranReturpembelianPcs);
+			domain.setReturPembelianBes(model.getProductAndStockHelper().getBesFromPcs(pengeluaranReturpembelianPcs, fProduct));
+			domain.setReturPembelianSed(model.getProductAndStockHelper().getSedFromPcs(pengeluaranReturpembelianPcs, fProduct));
+			domain.setReturPembelianKec(model.getProductAndStockHelper().getKecFromPcs(pengeluaranReturpembelianPcs, fProduct));
+			
+			domain.setReturPembelianNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(pengeluaranReturpembelianPcs, fProduct));
+			domain.setReturPembelianNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(pengeluaranReturpembelianPcs, fProduct));			
+		//2. #PENJUALAN
+			domain.setPenjualanPcs(pengeluaranPenjualanPcs);
+			domain.setPenjualanBes(model.getProductAndStockHelper().getBesFromPcs(pengeluaranPenjualanPcs, fProduct));
+			domain.setPenjualanSed(model.getProductAndStockHelper().getSedFromPcs(pengeluaranPenjualanPcs, fProduct));
+			domain.setPenjualanKec(model.getProductAndStockHelper().getKecFromPcs(pengeluaranPenjualanPcs, fProduct));
+			
+			domain.setPenjualanNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(pengeluaranPenjualanPcs, fProduct));
+			domain.setPenjualanNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(pengeluaranPenjualanPcs, fProduct));			
+		//3. #TRANSFER OUT
+			domain.setTransferOutPcs(pengeluaranTransferoutPcs);
+			domain.setTransferOutBes(model.getProductAndStockHelper().getBesFromPcs(pengeluaranTransferoutPcs, fProduct));
+			domain.setTransferOutSed(model.getProductAndStockHelper().getSedFromPcs(pengeluaranTransferoutPcs, fProduct));
+			domain.setTransferOutKec(model.getProductAndStockHelper().getKecFromPcs(pengeluaranTransferoutPcs, fProduct));
+			
+			domain.setTransferOutNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(pengeluaranTransferoutPcs, fProduct));
+			domain.setTransferOutNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(pengeluaranTransferoutPcs, fProduct));			
+			
+		//*#PENYESUAIAN/ADJUST
+			domain.setPenyesuaianPcs(adjustPcs);
+			domain.setPenyesuaianBes(model.getProductAndStockHelper().getBesFromPcs(adjustPcs, fProduct));
+			domain.setPenyesuaianSed(model.getProductAndStockHelper().getSedFromPcs(adjustPcs, fProduct));
+			domain.setPenyesuaianKec(model.getProductAndStockHelper().getKecFromPcs(adjustPcs, fProduct));
+			
+			domain.setPenyesuaianNilaiBeli(model.getProductAndStockHelper().getPPriceBeforePpnFromFProduct(adjustPcs, fProduct));
+			domain.setPenyesuaianNilaiJual(model.getProductAndStockHelper().getSPriceBeforePpnFromFProduct(adjustPcs, fProduct));			
+			
+		//*** ADJUST STOK OPNAME	
+			domain.setPenambahanBes(model.getProductAndStockHelper().getBesFromPcs(adjustPenambahanPcs, fProduct));
+			domain.setPenambahanSed(model.getProductAndStockHelper().getSedFromPcs(adjustPenambahanPcs, fProduct));
+			domain.setPenambahanKec(model.getProductAndStockHelper().getKecFromPcs(adjustPenambahanPcs, fProduct));
+			
+			domain.setPenguranganBes(model.getProductAndStockHelper().getBesFromPcs(adjustPenguranganPcs, fProduct));
+			domain.setPenguranganSed(model.getProductAndStockHelper().getSedFromPcs(adjustPenguranganPcs, fProduct));
+			domain.setPenguranganKec(model.getProductAndStockHelper().getKecFromPcs(adjustPenguranganPcs, fProduct));
+			
+			if (domain.getPenyesuaianNilaiBeli() >= 0.0) {				
+				domain.setPenambahanNilaiBeli(domain.getPenyesuaianNilaiBeli());
+				domain.setPenambahanNilaiJual(domain.getPenyesuaianNilaiJual());
+			} else if (domain.getPenyesuaianNilaiBeli() <= 0.0) {
+				domain.setPenguranganNilaiBeli(domain.getPenyesuaianNilaiBeli());
+				domain.setPenguranganNilaiJual(domain.getPenyesuaianNilaiJual());
+			}
+			
+			if (domain.getPenambahanNilaiBeli()==null) {
+				domain.setPenambahanNilaiBeli(0.0);
+			}
+			if (domain.getPenguranganNilaiBeli()==null) {
+				domain.setPenguranganNilaiBeli(0.0);
+			}
+			
+		//STOK TEORI
+			domain.setTeoriBes(model.getProductAndStockHelper().getBesFromPcs(ftOpnamed.getQtyteori(), fProduct));
+			domain.setTeoriSed(model.getProductAndStockHelper().getSedFromPcs(ftOpnamed.getQtyteori(), fProduct));
+			domain.setTeoriKec(model.getProductAndStockHelper().getKecFromPcs(ftOpnamed.getQtyteori(), fProduct));
+			
+		//STOK FISIK
+			domain.setFisikBes(model.getProductAndStockHelper().getBesFromPcs(ftOpnamed.getQty(), fProduct));
+			domain.setFisikSed(model.getProductAndStockHelper().getSedFromPcs(ftOpnamed.getQty(), fProduct));
+			domain.setFisikKec(model.getProductAndStockHelper().getKecFromPcs(ftOpnamed.getQty(), fProduct));
+		
+//			System.out.println("" + ftOpnamed.getFproductBean().getPcode()+":"+fProduct.getPcode()+":"+ftOpnamed.getFproductBean().getPname()+
+//					">>"+ftOpnamed.getQty() +
+//					":" + model.getProductAndStockHelper().getBesFromPcs(ftOpnamed.getQty(), fProduct)+
+//					":" + model.getProductAndStockHelper().getSedFromPcs(ftOpnamed.getQty(), fProduct)+
+//					":" + model.getProductAndStockHelper().getKecFromPcs(ftOpnamed.getQty(), fProduct)
+//									);
+		//::SIMPAN::
+			listLapStockOpname.add(domain);
+			
+		}
+		
+		
+		
+ 	}
+	
+	public void fillDatabaseReportSelisih(){
+		
+		listLapStockOpname = new ArrayList<ZLapStockOpname>();
+		
+		Long refno = model.getItemHeader().getRefno();
+		String strParamWarehouseId = model.getItemHeader().getFwarehouseBean().getId();
+		Date trDate = model.getItemHeader().getTrdate();
+		
+		Iterator<FtOpnamed> iterFOpnamed = model.getFtOpnamedJpaService().findAllByRefno(refno).iterator();
+//		System.out.println("FOpname: " + model.getFtOpnamedJpaService().findAllByRefno(refno).size());
+
+		while (iterFOpnamed.hasNext()) {
+			FtOpnamed ftOpnamed = new FtOpnamed();
+			ftOpnamed = iterFOpnamed.next();
+
+			ZLapStockOpname domain = new ZLapStockOpname();
+//			domain.setId(0);
+			domain.setGrup1("G1");
+			domain.setGrup2("G2");
+			domain.setGrup3("G3");
+			FProduct fProduct = new FProduct();
+			fProduct = ftOpnamed.getFproductBean();
+			domain.setPcode(fProduct.getPcode());
+			domain.setPname(fProduct.getPname() + " " + fProduct.getPackaging());
+
+			Iterator<FStock> iterStock = model.getfStockJpaService().findAll(strParamWarehouseId, fProduct ,trDate, trDate).iterator();			
+//			System.out.println("Fstok: " + model.getfStockJpaService().findAll(strParamWarehouseId, fProduct ,trDate, trDate).size());
+
+		
 
 			
 			int penerimaanPembelianPcs =0 ;
@@ -1186,7 +1442,11 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 //					":" + model.getProductAndStockHelper().getKecFromPcs(ftOpnamed.getQty(), fProduct)
 //									);
 		//::SIMPAN::
+			listLapStockOpname.add(domain);
+			
 		}
+		
+//		System.out.println("akhir:" + listLapStockOpname.size());
 		
 		
 		
@@ -1207,6 +1467,26 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 		this.view = view;
 	}
 
+	private static final ShortcutAction ENTER_FIELDSEARCHID= new ShortcutAction("Enter",
+			KeyCode.ENTER, null);
+	
+	private static final Action[] ACTIONS = new Action[] {};
+	private static final Action[] ACTIONS_FIELDSEARCHID = new Action[] { ENTER_FIELDSEARCHID };
+	
+	@Override
+	public Action[] getActions(Object target, Object sender) {
+		if (sender == view.getPanelTop()) {
+			return ACTIONS_FIELDSEARCHID;
+		}
+		return ACTIONS;
+	}
+
+	@Override
+	public void handleAction(Action action, Object sender, Object target) {
+		if (action==ENTER_FIELDSEARCHID){
+			view.getBtnSearch().click();
+		}		
+	}
 	
 	
 }

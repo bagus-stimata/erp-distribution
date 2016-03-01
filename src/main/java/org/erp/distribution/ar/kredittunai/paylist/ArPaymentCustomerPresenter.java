@@ -370,14 +370,20 @@ public class ArPaymentCustomerPresenter implements ClickListener, ValueChangeLis
                     			model.getArInvoiceService().updateObject(newArinvoiceRetur);
                     		}
                     		
-                    		System.out.println("REFNO AND DIVISION: " + model.getItemHeader().getRefno() + " : " );
-                    		
+//                    		System.out.println("REFNO AND DIVISION: " + model.getItemHeader().getRefno() + " : " );
+                			model.getArPaymentDetailService().removeObject(model.getItemDetail());
                     		model.getBeanItemContainerDetail().removeItem(model.getItemDetail());
                     		if (model.getBeanItemContainerDetail().size() == 0){
-	            				model.getBeanItemContainerHeader().removeItem(model.getItemHeader());	            				
 	            				try{
 	            					model.getArPaymentHeaderService().removeObject(model.getItemHeader());
-	            				} catch(Exception ex){}
+	            				} catch(Exception ex){
+	            					ex.printStackTrace();
+	            				}
+	            				try{
+	            					model.getBeanItemContainerHeader().removeItem(model.getItemHeader());	 
+	            				} catch(Exception ex){
+	            					ex.printStackTrace();
+	            				}
                     		}
                     		
                     		//PERBAIKI INVOICE AMOUNTPAY >> Sorry Harus manual

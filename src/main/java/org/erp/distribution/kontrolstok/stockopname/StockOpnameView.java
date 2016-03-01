@@ -97,6 +97,7 @@ public class StockOpnameView extends CustomComponent{
 	private CheckBox checkPosting = new CheckBox("POSTING");
 	
 	//Additional Component
+	private Panel panelTop = new Panel();
 	private Button btnSearch = new Button("Search & Reload");
 	private Button btnPosting = new Button("Posting");
 	private Button btnPostingBatal = new Button("Pembatalan Posting");
@@ -318,7 +319,9 @@ public class StockOpnameView extends CustomComponent{
 		layoutList.setMargin(true);
 		VerticalLayout layoutTopList = new VerticalLayout();
 		HorizontalLayout layoutTopList1 = new HorizontalLayout();		
-		layoutTopList.addComponent(layoutTopList1);
+		
+		panelTop.setContent(layoutTopList1);
+		layoutTopList.addComponent(panelTop);
 		
 		layoutTopList1.addComponent(fieldSearch1);
 //		layoutTopList1.addComponent(fieldSearch2);
@@ -869,6 +872,9 @@ public class StockOpnameView extends CustomComponent{
 			if (checkPosting.getValue()==true) {
 				btnPosting.setEnabled(false);
 				btnPostingBatal.setEnabled(true);
+				
+				btnEditForm.setEnabled(false);
+				btnDeleteForm.setEnabled(false);
 			}else {
 				btnPosting.setEnabled(true);
 				btnPostingBatal.setEnabled(false);			
@@ -1434,6 +1440,14 @@ public class StockOpnameView extends CustomComponent{
 
 	public void setBtnPostingBatal(Button btnPostingBatal) {
 		this.btnPostingBatal = btnPostingBatal;
+	}
+
+	public Panel getPanelTop() {
+		return panelTop;
+	}
+
+	public void setPanelTop(Panel panelTop) {
+		this.panelTop = panelTop;
 	}
 
 

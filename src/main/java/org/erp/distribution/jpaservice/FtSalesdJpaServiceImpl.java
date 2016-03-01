@@ -440,5 +440,26 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            em.close();
 	        }    
 	}
+	@Override
+	public List<FtSalesd> findAllByRefno(Long refno) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesd a WHERE a.id.refno = :refno "
+	            		+ " ORDER BY  a.id.refno ASC ";
+	            
+	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("refno", refno)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
 
 }

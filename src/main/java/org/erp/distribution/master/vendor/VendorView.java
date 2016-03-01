@@ -232,7 +232,8 @@ public class VendorView extends CustomComponent{
 
 		
 		//MASUKKAN KE ROOT
-		layoutTop.addComponent(layoutTop1);
+		panelTop.setContent(layoutTop1);
+		layoutTop.addComponent(panelTop);
 		
 		content.addComponent(layoutTop);
 		content.addComponent(layoutTable);

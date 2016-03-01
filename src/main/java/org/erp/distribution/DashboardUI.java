@@ -508,7 +508,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			public MenuItem menuSalesOrderPackingList1 = menuSalesOrderPackingList.addItem("Paking List", this);
 			public MenuItem menuSalesOrderPackingListRekapPerhari = menuSalesOrderPackingList.addItem("Rekap Per Hari", this);
 		public MenuItem menuSalesOrderLaporan1 = menuSalesOrder.addItem("Lap. Sales Order", null, null);
-			public MenuItem menuSalesOrderRep = menuSalesOrderLaporan1.addItem("Lap. Sales Order(IPH)", this);
+			public MenuItem menuSalesOrderRep = menuSalesOrderLaporan1.addItem("Ihtisar Penjualan Harian(IPH)", this);
 			public MenuItem menuSalesPerCustomer = menuSalesOrderLaporan1.addItem("Lap. Sales Per Customer", this);
 	//			public MenuItem menuSalesPerbarang = menuSalesOrderLaporan1.addItem("Lap. Sales per Barang", this);
 	//		public MenuItem menuSalesPerBarang = menuSalesOrderLaporan1.addItem("Lap. Sales Per Barang", null, null);

@@ -31,8 +31,8 @@ import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.ZLapTemplate2;
-import org.erp.distribution.util.HeaderDetilHelper;
-import org.erp.distribution.util.HeaderDetilHelperImpl;
+import org.erp.distribution.util.HeaderDetilSalesHelper;
+import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 import org.erp.distribution.util.KonversiProductAndStock;
 import org.erp.distribution.util.KonversiProductAndStockImpl;
 import org.erp.distribution.util.ReportJdbcConfigHelper;
@@ -125,7 +125,7 @@ public class LapSalesExelPresenter implements ClickListener{
 					ftSalesd.setSprice(- ftSalesd.getSprice());
 					ftSalesd.setQty(-ftSalesd.getQty());
 				}
-				HeaderDetilHelper headerDetilHelper = new HeaderDetilHelperImpl(ftSalesd);
+				HeaderDetilSalesHelper headerDetilHelper = new HeaderDetilSalesHelperImpl(ftSalesd);
 				newFtSalesd = headerDetilHelper.getFillFtSalesd();
 
 				String productGroup  = ftSalesd.getFproductBean().getFproductgroupBean().getId()  + "-" + ftSalesd.getFproductBean().getFproductgroupBean().getId();

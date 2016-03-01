@@ -13,5 +13,6 @@ import org.erp.distribution.model.FtPurchased;
 
 public interface FtOpnamedJpaService extends GenericJpaService<FtOpnamed, Serializable>{
 	public List<FtOpnamed> findAll(FWarehouse fWarehouse, FProduct fProduct, Date trDate);
+	public List<FtOpnamed> findAllByRefno(long refno);
 
 }

@@ -74,7 +74,7 @@ public class ProductView extends CustomComponent{
 	private TextField fieldSearchById = new TextField("ID");
 	private TextField fieldSearchByDesc = new TextField("PRODUCT NAME");
 	private Button btnSearch = new Button("Search & Reload");
-	private Button btnPrint = new Button("Print");
+	private Button btnPrint = new Button("Extract To Exel");
 	private Button btnHelp = new Button("Help");
 
 	//LAYOUT
@@ -206,6 +206,7 @@ public class ProductView extends CustomComponent{
 		fieldId.setRequired(true);
 		fieldDescription.setRequired(true);
 		comboGrup.setRequired(true);
+		comboSupplier.setRequired(true);
 		
 		fieldConvfact1.setRequired(true);
 		fieldConvfact2.setRequired(true);
@@ -329,7 +330,8 @@ public class ProductView extends CustomComponent{
 		panelForm.setContent(formLayout);
 		
 		//MASUKKAN KE ROOT
-		layoutTop.addComponent(layoutTop1);
+		panelTop.setContent(layoutTop1);
+		layoutTop.addComponent(panelTop);
 		
 		content.addComponent(layoutTop);
 		content.addComponent(layoutTable);
@@ -466,26 +468,50 @@ public class ProductView extends CustomComponent{
 	}
 	public void setTableProperties(){
 
-		setVisibleTableProperties("pcode",  "pname", "packaging", "fproductgroupBean", "pprice", "sprice", "shortname", "shortpackaging");
+		setVisibleTableProperties("pcode",  "pname", "packaging", "fproductgroupBean", "pprice", "pprice2", "ppriceafterppn",
+				"sprice", "sprice2", "spriceafterppn",  "shortname", "shortpackaging",
+				"fvendorBean", "convfact1", "convfact2", "volume", "weight", "statusactive");
 		
 		table.setColumnCollapsingAllowed(true);
 		try{
 			table.setColumnCollapsed("shortname", true);
 			table.setColumnCollapsed("shortpackaging", true);
 			
+//			table.setColumnCollapsed("fvendorBean", true);
+//			table.setColumnCollapsed("fproductgroupBean", true);
+			table.setColumnCollapsed("convfact1", true);
+			table.setColumnCollapsed("convfact2", true);
+			table.setColumnCollapsed("volume", true);
+			table.setColumnCollapsed("weight", true);
+			
+			table.setColumnCollapsed("pprice2", true);
+			table.setColumnCollapsed("ppriceafterppn", true);
+			table.setColumnCollapsed("sprice2", true);
+//			table.setColumnCollapsed("spriceafterppn", true);
 		} catch(Exception ex){}
 		
 		//ALIGNMENT
 		table.setColumnAlignment("pprice", Align.RIGHT);
+		table.setColumnAlignment("pprice2", Align.RIGHT);
+		table.setColumnAlignment("ppriceafterppn", Align.RIGHT);
 		table.setColumnAlignment("sprice", Align.RIGHT);
+		table.setColumnAlignment("sprice2", Align.RIGHT);
+		table.setColumnAlignment("spriceafterppn", Align.RIGHT);
 		
 		//set header
 		table.setColumnHeader("pcode", "PCODE");
 		table.setColumnHeader("pname", "PRODUCT NAME");
 		table.setColumnHeader("packaging", "PACKAGING");
 		table.setColumnHeader("fproductgroupBean", "GROUP");
-		table.setColumnHeader("pprice", "HRG. BELI No Ppn");
-		table.setColumnHeader("sprice", "HRG. JUAL No Ppn");
+		table.setColumnHeader("pprice", "H BELI No Ppn");
+		table.setColumnHeader("pprice2", "H BELINoPPnPcs");
+		table.setColumnHeader("pprice", "H BELI+Ppn");
+		
+		table.setColumnHeader("sprice", "H JUAL No Ppn");
+		table.setColumnHeader("sprice2", "H JUALNoPPnPcs");
+		table.setColumnHeader("spriceafterppn", "H JUAL+Ppn");
+
+		table.setColumnHeader("statusactive", "AKTIVE");
 		
 //		table.setColumnExpandRatio("id", 2);
 //		table.setColumnExpandRatio("description", 5);

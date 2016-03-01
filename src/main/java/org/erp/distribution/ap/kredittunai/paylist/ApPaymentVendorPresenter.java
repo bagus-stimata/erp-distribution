@@ -374,13 +374,16 @@ public class ApPaymentVendorPresenter implements ClickListener, ValueChangeListe
                     			model.getFtPurchasehJpaService().updateObject(newArinvoiceRetur);
                     		}
                     		
-                    		System.out.println("REFNO AND DIVISION: " + model.getItemHeader().getRefno() + " : " );
+//                    		System.out.println("REFNO AND DIVISION: " + model.getItemHeader().getRefno() + " : " );
                     		
                     		model.getBeanItemContainerDetail().removeItem(model.getItemDetail());
+                    		model.getApPaymentDetailService().removeObject(model.getItemDetail());
                     		if (model.getBeanItemContainerDetail().size() == 0){
-	            				model.getBeanItemContainerHeader().removeItem(model.getItemHeader());	            				
 	            				try{
 	            					model.getApPaymentHeaderService().removeObject(model.getItemHeader());
+	            				} catch(Exception ex){}
+	            				try{
+	            					model.getBeanItemContainerHeader().removeItem(model.getItemHeader());	            				
 	            				} catch(Exception ex){}
                     		}
                     		

@@ -125,6 +125,7 @@ public class SalesOrderView extends CustomComponent{
 	private VerticalLayout layoutDetil = new VerticalLayout();
 	
 	//Panel
+	private Panel panelTop = new Panel();
 	private Panel panelUtamaList = new Panel();
 	private Panel panelUtamaDetil = new Panel();
 	private Panel panelTopDetil = new Panel();
@@ -366,8 +367,10 @@ public class SalesOrderView extends CustomComponent{
 		layoutList.setSizeFull();
 		layoutList.setMargin(true);
 		VerticalLayout layoutTopList = new VerticalLayout();
-		HorizontalLayout layoutTopList1 = new HorizontalLayout();		
-		layoutTopList.addComponent(layoutTopList1);
+		HorizontalLayout layoutTopList1 = new HorizontalLayout();	
+		
+		panelTop.setContent(layoutTopList1);
+		layoutTopList.addComponent(panelTop);
 		
 		layoutTopList1.addComponent(fieldSearch1);
 		layoutTopList1.addComponent(fieldSearch2);
@@ -1544,6 +1547,14 @@ public class SalesOrderView extends CustomComponent{
 
 	public void setBtnPrintRetail(Button btnPrintRetail) {
 		this.btnPrintRetail = btnPrintRetail;
+	}
+
+	public Panel getPanelTop() {
+		return panelTop;
+	}
+
+	public void setPanelTop(Panel panelTop) {
+		this.panelTop = panelTop;
 	}
 
 

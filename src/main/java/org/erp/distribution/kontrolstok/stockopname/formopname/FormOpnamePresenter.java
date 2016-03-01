@@ -20,8 +20,12 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -461,7 +465,7 @@ public class FormOpnamePresenter implements ClickListener, ValueChangeListener, 
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/kontrolstock/formopname/formopname1.jasper", "formopname11");
+		showPreview("/erp/distribution/reports/kontrolstock/formopname/formopname1Ds.jasper", "formopnameDs1");
 		
 	}
 
@@ -537,8 +541,10 @@ public class FormOpnamePresenter implements ClickListener, ValueChangeListener, 
 		
 	}
 	
+	List<ZLapMutasiStock> listLapMutasiStock = new ArrayList<ZLapMutasiStock>();	
 	public void fillDatabaseReportLengkap(){
 
+		
 		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
 		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
 		long numberId = 0;
@@ -546,66 +552,50 @@ public class FormOpnamePresenter implements ClickListener, ValueChangeListener, 
 			FProduct fProduct = new FProduct();
 			fProduct = model.getTableBeanItemContainer().getItem(itemId).getBean();
 			if (fProduct.getSelected().getValue()==true){				
-				ZLapPackingList domain = new ZLapPackingList();
-				domain.setId(numberId++);
+				ZLapMutasiStock domain = new ZLapMutasiStock();
+//				domain.setId(0);
+				domain.setGrup1("G1");
+				domain.setGrup2(fProduct.getFproductgroupBean().getId());
+				domain.setGrup3(fProduct.getUom1() +"-" +fProduct.getUom2() + "-" +fProduct.getUom3());
+				
 				domain.setPcode(fProduct.getPcode());
 				domain.setPname(fProduct.getPname() + " " + fProduct.getPackaging());
-				domain.setUom1(fProduct.getUom1());
-				domain.setUom2(fProduct.getUom2());
-				domain.setUom3(fProduct.getUom3());
 				
-			}
-			
-		}
-		
-		
-	}		
-	public void showPreview(String inputFilePath, String outputFilePath){
-		try {			
-			final JasperReport report;
-			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
-		
-			
-		final Map parameters=new HashMap();
-		parameters.put("CompanyName","");
-		
-		//BUAT TANPA KOMA DI DEPAN
-		try{
-			paramSuratJalanList = paramSuratJalanList.trim().substring(1, paramSuratJalanList.length());
-			paramInvoiceList = paramInvoiceList.trim().substring(1, paramInvoiceList.length());
-		} catch(Exception ex){
-			ex.printStackTrace();
-		}
-		
-		parameters.put("paramSuratJalanList", paramSuratJalanList);
-		parameters.put("paramInvoiceList", paramInvoiceList);
-		
-		//CONNECTION
-		final Connection con = new ReportJdbcConfigHelper().getConnection();
-		
-		StreamResource.StreamSource source = new StreamSource() {			
-			@Override
-			public InputStream getStream() {
-				byte[] b = null;
-				try {
-					b = JasperRunManager.runReportToPdf(report, parameters, con);
-				} catch (JRException ex) {
-					System.out.println(ex);
-				}
-				return new ByteArrayInputStream(b);
-			}
-		};
-		
-		String fileName = "ar_kas_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
-		StreamResource resource = new StreamResource( source, fileName);
-		resource.setMIMEType("application/pdf");
-		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
-		
-		view.getUI().getPage().open(resource, "_new_packinglistpersj_" + outputFilePath, false);
+				listLapMutasiStock.add(domain);
+			}			
+		}				
+	}	
 	
-		} catch (JRException e) {
-			e.printStackTrace();
-		}
+	public void showPreview(String inputFilePath, String outputFilePath){
+		try{	
+			final Map parameters=new HashMap();
+			parameters.put("CompanyName","");
+	
+			final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listLapMutasiStock);
+			InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+			final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
+			
+			StreamResource.StreamSource source = new StreamSource() {			
+				@Override
+				public InputStream getStream() {
+					byte[] b = null;
+					try {
+						b = JasperExportManager.exportReportToPdf(jasperPrint);
+					} catch (JRException ex) {
+						System.out.println(ex);
+					}
+					return new ByteArrayInputStream(b);
+				}
+			};
+			
+			String fileName = "opname_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+			StreamResource resource = new StreamResource( source, fileName);
+			resource.setMIMEType("application/pdf");
+			resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
+			
+			view.getUI().getPage().open(resource, "_new_" + outputFilePath, false);
+	
+		} catch(Exception ex){}
 	
 		
 	}

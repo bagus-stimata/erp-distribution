@@ -12,8 +12,8 @@ import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchasedPK;
 import org.erp.distribution.model.FtSalesd;
-import org.erp.distribution.util.HeaderDetilHelper;
-import org.erp.distribution.util.HeaderDetilHelperImpl;
+import org.erp.distribution.util.HeaderDetilSalesHelper;
+import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 
 import com.vaadin.ui.Notification;
 
@@ -57,7 +57,7 @@ public class SalesOrderReturHelper {
 			if (item.getDisc1()==null) item.setDisc1(0.0);
 			if (item.getDisc2()==null) item.setDisc2(0.0);
 			
-			HeaderDetilHelper headerDetilHelper = new HeaderDetilHelperImpl(item);
+			HeaderDetilSalesHelper headerDetilHelper = new HeaderDetilSalesHelperImpl(item);
 			headerDetilHelper.getFillFtSalesdOnly();
 			if (item.getDisc1rp()==0 && item.getDisc1()>0) item.setDisc1rp(headerDetilHelper.getDetilDisc1Rp());
 			if (item.getDisc1rpafterppn()==0 && item.getDisc1()>0) item.setDisc1rpafterppn(headerDetilHelper.getDetilDisc1RpAfterPpn());

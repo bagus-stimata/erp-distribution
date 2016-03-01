@@ -66,13 +66,7 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 	private List<ZLapAktifitasPromoList> lapAktifitasPromoList = new ArrayList<ZLapAktifitasPromoList>();
 	public void fillDatabaseReportLengkap(){
 		
-//		//1. HAPUS DATA
-//		Iterator<ZLapAktifitasPromoList> iterZLapListDelete = model.getLapAktifitasPromoListJpaService().findAll().iterator();
-//		while (iterZLapListDelete.hasNext()) {
-//			model.getLapAktifitasPromoListJpaService().removeObject(iterZLapListDelete.next());
-//		}
-
-		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
+		//1. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
 		lapAktifitasPromoList = new ArrayList<ZLapAktifitasPromoList>();
 		
 		Date invoicedateFrom = view.getDateField1From().getValue();
@@ -84,9 +78,10 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 			List<FtSalesdPromoTprb> listFtSalesdPromoTprb = new ArrayList<FtSalesdPromoTprb>(
 					model.getFtSalesdPromoTprbJpaService().findAllByFPromoId(fPromoSelected.getId()));
 			for (FtSalesdPromoTprb  ftSalesdPromoTprb: listFtSalesdPromoTprb) {
-				if (ftSalesdPromoTprb.getFtSalesdBean().getFtsaleshBean().getInvoicedate().getTime() <= invoicedateTo.getTime() && 
-						ftSalesdPromoTprb.getFtSalesdBean().getFtsaleshBean().getInvoicedate().getTime() >= invoicedateFrom.getTime() && 
-						! ftSalesdPromoTprb.getFtSalesdBean().getFtsaleshBean().getInvoiceno().trim().equals("")) {
+				if (ftSalesdPromoTprb.getFtSalesdBean().getFtsaleshBean().getInvoicedate().getTime() <= invoicedateTo.getTime() 
+						&& ftSalesdPromoTprb.getFtSalesdBean().getFtsaleshBean().getInvoicedate().getTime() >= invoicedateFrom.getTime() 
+						&& ! ftSalesdPromoTprb.getFtSalesdBean().getFtsaleshBean().getInvoiceno().trim().equals("")
+						) {
 					
 					ZLapAktifitasPromoList domain = new ZLapAktifitasPromoList();
 					domain.setGrup1("Grup1");
@@ -136,7 +131,7 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 				
 			}
 			
-			//BONUS UANG DISKON
+			//BONUS UANG & DISKON
 			List<FtSalesdPromoTpruDisc> listFtSalesdPromoTprudisc = new ArrayList<FtSalesdPromoTpruDisc>(
 					model.getFtSalesdPromoTpruDiscJpaService().findAllByFPromoId(fPromoSelected.getId()));
 			for (FtSalesdPromoTpruDisc  ftSalesdPromoTprudisc: listFtSalesdPromoTprudisc) {

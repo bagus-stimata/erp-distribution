@@ -14,7 +14,10 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.Action.Handler;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -22,7 +25,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
 
-public class VendorPresenter implements ClickListener, ValueChangeListener, ItemClickListener{
+public class VendorPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener{
 	private VendorModel model;
 	private VendorView view;
 	
@@ -44,6 +47,8 @@ public class VendorPresenter implements ClickListener, ValueChangeListener, Item
 		view.getBtnSearch().addClickListener(this);
 
 		view.getTable().addItemClickListener(this);
+		view.getPanelTop().addActionHandler(this);
+	
 	}
 	
 
@@ -400,6 +405,27 @@ public class VendorPresenter implements ClickListener, ValueChangeListener, Item
 	}
 	public void setView(VendorView view) {
 		this.view = view;
+	}
+
+	private static final ShortcutAction ENTER_FIELDSEARCHID= new ShortcutAction("Enter",
+			KeyCode.ENTER, null);
+	
+	private static final Action[] ACTIONS = new Action[] {};
+	private static final Action[] ACTIONS_FIELDSEARCHID = new Action[] { ENTER_FIELDSEARCHID };
+	
+	@Override
+	public Action[] getActions(Object target, Object sender) {
+		if (sender == view.getPanelTop()) {
+			return ACTIONS_FIELDSEARCHID;
+		}
+		return ACTIONS;
+	}
+
+	@Override
+	public void handleAction(Action action, Object sender, Object target) {
+		if (action==ENTER_FIELDSEARCHID){
+			view.getBtnSearch().click();
+		}		
 	}
 
 	

@@ -19,10 +19,13 @@ import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
 import org.erp.distribution.model.FPromo;
 import org.erp.distribution.model.FtPriceAltd;
+import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.FtSalesdPromoTprb;
 import org.erp.distribution.model.FtSalesdPromoTpruCb;
 import org.erp.distribution.model.FtSalesdPromoTpruDisc;
+import org.erp.distribution.util.HeaderDetilSalesHelper;
+import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 import org.erp.distribution.util.TransaksiHelper;
 
 import com.vaadin.ui.CustomComponent;
@@ -33,7 +36,6 @@ public class SalesOrderItemHelper{
 	
 	private SalesOrderItemModel model;
 	private SalesOrderItemView view;
-
 	
 	FProduct fProduct = new FProduct();
 	
@@ -137,7 +139,6 @@ public class SalesOrderItemHelper{
 			}else {
 				amountPpnPrice = model.itemDetil.getSprice() * getParamPpn()/100;
 				//##PERHITUNGAN BARU
-//				priceAfterppn = (double) Math.round(model.itemDetil.getSprice() + amountPpnPrice);
 				itemPriceAfterPpn = model.itemDetil.getSprice() * pecahanPpn;
 				model.itemDetil.setSpriceafterppn((double) Math.round(itemPriceAfterPpn));
 			}
@@ -148,28 +149,10 @@ public class SalesOrderItemHelper{
 					+ model.getItemDetil().getQty3();
 			model.itemDetil.setQty(qty);
 			
-			//QTY1
-			Integer qty1 = model.itemDetil.getQty()/fProduct.getConvfact1();
-			model.itemDetil.setQty1(qty1);
-			//QTY2
-			Integer sisaqty1 = model.itemDetil.getQty() % fProduct.getConvfact1();
-			Integer qty2 = sisaqty1/fProduct.getConvfact2();
-			model.itemDetil.setQty2(qty2);
-			//QTY3
-			Integer sisaqty2 = sisaqty1 % fProduct.getConvfact2();
-			Integer qty3 = sisaqty2;
-			model.itemDetil.setQty3(qty3);
-			
-			//PRICE PCS
+			//PRICE2 PCS
 			Double pricePcsNoPpn = model.itemDetil.getSprice() / fProduct.getConvfact1();
 			itemPricePcsAfterPpn = itemPriceAfterPpn / fProduct.getConvfact1();
 	
-			//SUBTOTAL BEFORE DISC
-			Double subtotalBeforedisc = pricePcsNoPpn * model.itemDetil.getQty();			
-			itemSubtotalBeforeDiscAfterPpn = itemPricePcsAfterPpn * model.itemDetil.getQty();
-			model.itemDetil.setSubtotal((double) Math.round(subtotalBeforedisc));
-			model.itemDetil.setSubtotalafterppn((double) Math.round(itemSubtotalBeforeDiscAfterPpn));
-
 //			//CEK AKTIFITAS PROMO:: METHOD ADA DI BAWAHNYA::CEK AKTIFITAS PROMO DI TARUH DI SALESORDER PRESENTER
 			//CEK DETIL CUMA BISA DILAKUKAN UNTUK NGECEK BERAPA PERSEN DISKON YANG DIBERIKAN
 			//TIDAK BOLEH DIBALIK 
@@ -187,29 +170,10 @@ public class SalesOrderItemHelper{
 				model.itemDetil.setDisc1(diskon1FromParam + diskon1FromAktivitasPromo);				
 			}
 			
-			//::DISCOUNT::Perhitungan diskon
-			Double disc1persen = (double) model.itemDetil.getDisc1()/100.0;
-			Double disc1rp = subtotalBeforedisc * disc1persen;
-			Double disc1rpafterppn = itemSubtotalBeforeDiscAfterPpn * disc1persen;
-			Double subtotalAfterdisc1 =  subtotalBeforedisc-disc1rp;
-			Double subtotalAfterdisc1afterppn =  itemSubtotalBeforeDiscAfterPpn-disc1rpafterppn;
-			model.itemDetil.setDisc1rp((double) Math.round(disc1rp));
-			model.itemDetil.setDisc1rpafterppn((double) Math.round(disc1rpafterppn));
-			
-			Double disc2persen = (double) model.itemDetil.getDisc2() /100.0;
-			Double disc2rp = subtotalAfterdisc1 * disc2persen;
-			Double disc2rpafterppn = subtotalAfterdisc1afterppn * disc2persen;
-			Double subtotalAfterdisc2 =  subtotalAfterdisc1-disc2rp;
-			Double subtotalAfterdisc2afterppn =  subtotalAfterdisc1afterppn-disc2rpafterppn;
-			model.itemDetil.setDisc2rp((double) Math.round(disc2rp));
-			model.itemDetil.setDisc2rpafterppn((double) Math.round(disc2rpafterppn));
-			
-			//SUB TOTAL AFTER DISC
-			Double subtotalAfterdisc = subtotalAfterdisc2;
-			Double subtotalAfterdiscafterppn = subtotalAfterdisc2afterppn;
-						
-			model.itemDetil.setSubtotalafterdisc((double) Math.round(subtotalAfterdisc) );
-			model.itemDetil.setSubtotalafterdiscafterppn((double) Math.round(subtotalAfterdiscafterppn));
+			HeaderDetilSalesHelper headerDetilSalesHelper = new HeaderDetilSalesHelperImpl(model.itemDetil);		
+			headerDetilSalesHelper.setRoundedTotal(true);
+			model.itemDetil = new FtSalesd();
+			model.itemDetil = headerDetilSalesHelper.getFillFtSalesdOnly();
 			
 		} catch(Exception ex){}
 		
