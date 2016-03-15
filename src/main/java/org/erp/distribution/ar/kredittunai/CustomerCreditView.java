@@ -112,7 +112,6 @@ public class CustomerCreditView extends CustomComponent {
 
 	VerticalLayout layoutTop = new VerticalLayout();
 	
-	
     //TEKS FIELD FOR SELECTED ROW
     private TextField fieldSelectedCount = new TextField("Rec Selected: ");
     private TextField fieldTunaiCount = new TextField("Tunai: ");
@@ -256,8 +255,8 @@ public class CustomerCreditView extends CustomComponent {
 		fieldSearchComboToCanvas.setItemCaption("C", "Canvas");
 		fieldSearchComboToCanvas.addItem("R");
 		fieldSearchComboToCanvas.setItemCaption("R", "Retur");
-		fieldSearchComboToCanvas.addItem("S");
-		fieldSearchComboToCanvas.setItemCaption("S", "Semua");
+//		fieldSearchComboToCanvas.addItem("S");
+//		fieldSearchComboToCanvas.setItemCaption("S", "Semua");
 		fieldSearchComboToCanvas.addItem("SNR");
 		fieldSearchComboToCanvas.setItemCaption("SNR", "Semua Non Retur");
 		fieldSearchComboToCanvas.setStyleName(Reindeer.TEXTFIELD_SMALL);
@@ -838,8 +837,6 @@ public class CustomerCreditView extends CustomComponent {
 		table.setColumnFooter("amountreturtampung", nf.format(sumAmountReturTampunganFaktur));
 		
 	}
-	
-	
 	
 	public void setFormButtonAndText(){
 		if (operationStatus.equals(EnumOperationStatus.OPEN.getStrCode())){

@@ -19,24 +19,36 @@ public interface FtSalesdJpaService extends GenericJpaService<FtSalesd, Serializ
 	public List<FtSalesd> findAllByVendor(String vcode, String custno, Date trDateFrom, 
 			Date trDateTo, String tipefaktur, String pcode);
 	
-	public List<FtSalesd> findAllByVendor(String vcode, String areaId, String subAreaId, 
+	public List<FtSalesd> findAllByVendor(String spcode, String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
-	public List<FtSalesd> findAllByArea(String vcode, String areaId, String subAreaId, 
+	public List<FtSalesd> findAllByArea(String spcode, String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
-	public List<FtSalesd> findAllByTipeCust(String vcode, String areaId, String subAreaId, 
+	public List<FtSalesd> findAllByTipeCust(String spcode, String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
-	public List<FtSalesd> findAllByProductGroup(String vcode, String areaId, String subAreaId, 
+	public List<FtSalesd> findAllByProductGroup(String spcode, String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
 	
-	
-	public List<FtSalesd> findAllByTipeAndInvoice(String vcode, String areaId, String subAreaId, 
+	public List<FtSalesd> findAllByForTotalSupplier(String spcode, String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
-	public List<FtSalesd> findAllByAreaAndInvoice(String vcode, String areaId, String subAreaId, 
+	public List<FtSalesd> findAllByForTotalCustomer(String spcode, String vcode, String areaId, String subAreaId, 
+			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
+			String pcode, String pname, String productGroup);
+	public List<FtSalesd> findAllByForTotalBarang(String spcode, String vcode, String areaId, String subAreaId, 
+			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
+			String pcode, String pname, String productGroup);
+	public List<FtSalesd> findAllByForTotalSalesman(String spcode, String vcode, String areaId, String subAreaId, 
+			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
+			String pcode, String pname, String productGroup);
+	
+	public List<FtSalesd> findAllByTipeAndInvoice(String spcode, String vcode, String areaId, String subAreaId, 
+			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
+			String pcode, String pname, String productGroup);
+	public List<FtSalesd> findAllByAreaAndInvoice(String spcode, String vcode, String areaId, String subAreaId, 
 			String custno, Date trDateFrom, Date trDateTo, String tipefaktur,
 			String pcode, String pname, String productGroup);
 	

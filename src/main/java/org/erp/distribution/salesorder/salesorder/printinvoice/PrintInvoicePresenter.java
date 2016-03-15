@@ -889,51 +889,7 @@ public class PrintInvoicePresenter implements ClickListener, ValueChangeListener
 	@Override
 	public void itemClick(ItemClickEvent event) {
 		try{
-			Object itemId = event.getItemId();
-			model.item = model.getTableBeanItemContainer().getItem(itemId).getBean();			
-			itemTableSelected = view.getTable().getItem(itemId);
-			
-			
-			//biar checked
-			model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setReadOnly(false);
-			if (model.getItem().getSelected().getValue()==true){
-				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(false);
-			} else {
-				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(true);				
-			}
-
-			if (model.getItem().getTipefaktur().equals("R")){
-				List<FtArpaymentd> listArpaymentdetail = new ArrayList<FtArpaymentd>(model.getItem().getFtarpaymentdSet());
-				Iterator<FtArpaymentd> iter = listArpaymentdetail.iterator();
-				String invoices = "RETUR DIGUNAKAN UNTUK MELUNASKAN INVOICE: ";
-				while (iter.hasNext()){
-					invoices += iter.next().getFtsaleshBean().getInvoiceno();
-					if (iter.hasNext()) {
-						invoices += ", ";
-					}
-				}
-				
-			}
-			
-//			//BUAT UP-TO-DATE DATA
-			boolean hapusLunas = true;
-			if (view.getFieldSearchComboLunas().getValue().equals("B")){
-				//Jika belum maka yang terkirim harus dihapus
-				hapusLunas = true;					
-			} else if (view.getFieldSearchComboLunas().getValue().equals("L")){
-				hapusLunas = false;					
-			}
-//			cekAndDeleteProcessedByOthers(hapusLunas);
-			
-			
 			view.setDisplayFooter();
-			
-			boolean entitySelected = item != null;
-			//JIKA DOUBLE CLICK
-			if (event.isDoubleClick()){
-				view.getBtnPay().click();
-			}
-			
 		} catch (Exception ex){}
 		
 	}
@@ -981,9 +937,13 @@ public class PrintInvoicePresenter implements ClickListener, ValueChangeListener
 				headerDetilHelper.setRoundedTotal(true);
 				newFtSalesd = headerDetilHelper.getFillFtSalesd();
 				
-				ZLapTemplate2 domain = new ZLapTemplate2();
-
-				String vendorName  = ftSalesd.getFproductBean().getFvendorBean().getVcode()  + "-" + ftSalesd.getFproductBean().getFvendorBean().getVname();
+				ZLapTemplate2 domain = new ZLapTemplate2();		
+				
+				String vendorName  = "";
+				try{
+					vendorName  = ftSalesd.getFproductBean().getFvendorBean().getVcode()  + "-" + ftSalesd.getFproductBean().getFvendorBean().getVname();
+				} catch(Exception ex){}
+				
 				String areaName  = ftSalesd.getFtsaleshBean().getFcustomerBean().getFsubareaBean().getFareaBean().getId()  
 						+ "-" + ftSalesd.getFtsaleshBean().getFcustomerBean().getFsubareaBean().getFareaBean().getDescription();
 				String tipeName = ftSalesd.getFtsaleshBean().getFcustomerBean().getFcustomersubgroupBean().getId()

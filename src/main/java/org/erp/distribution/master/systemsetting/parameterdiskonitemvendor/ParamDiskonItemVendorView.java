@@ -174,6 +174,26 @@ public class ParamDiskonItemVendorView extends CustomComponent{
 //		fieldId.setRequired(true);
 		fieldDescription.setRequired(true);
 		
+		field1.setNullRepresentation("0");
+		field11.setNullRepresentation("0");
+		field11plus.setNullRepresentation("0");
+		
+		field2.setNullRepresentation("0");
+		field22.setNullRepresentation("0");
+		field22plus.setNullRepresentation("0");
+		
+		field3.setNullRepresentation("0");
+		field33.setNullRepresentation("0");
+		field33plus.setNullRepresentation("0");
+		
+		field4.setNullRepresentation("0");
+		field4.setNullRepresentation("0");
+		field44plus.setNullRepresentation("0");
+
+		field5.setNullRepresentation("0");
+		field55.setNullRepresentation("0");
+		field55plus.setNullRepresentation("0");
+
 	}
 	
 	public void buildView(){
@@ -426,10 +446,10 @@ public void setComponentStyles(){
 		setVisibleTableProperties("id",  "description", "fvendorBean", "statusActive");
 		
 		table.setColumnCollapsingAllowed(true);
-//		try{
-//			table.setColumnCollapsed("id", true);
-//			
-//		} catch(Exception ex){}
+		try{
+			table.setColumnCollapsed("id", true);
+			
+		} catch(Exception ex){}
 		
 		//ALIGNMENT
 //		table.setColumnAlignment("amount", Align.RIGHT);

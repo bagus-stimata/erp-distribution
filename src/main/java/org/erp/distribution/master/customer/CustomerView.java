@@ -58,6 +58,9 @@ public class CustomerView extends CustomComponent{
 	private TextField fieldNamaPadaFakturPajak= new TextField("Nama pada F. Pajak");
 	private TextField fieldReportDesc= new TextField("REPORT DESC");
 	private CheckBox checkStatusActive = new CheckBox("AKTIF", false);
+
+	private ComboBox comboChannel = new ComboBox("CHANNEL CUSTOMER");
+	private ComboBox comboTerritory = new ComboBox("TERRITORY");
 	
 	//TAMBAHAN
 	private ComboBox comboGrup2 = new ComboBox("SUB AREA/PASAR");
@@ -82,6 +85,8 @@ public class CustomerView extends CustomComponent{
 	private TextField fieldEmail = new TextField("EMAIL");
 	private TextField fieldNpwp = new TextField("NPWP");
 	
+	private TextField fieldHariKunjungan = new TextField("HARI KUNJUNGAN(1-7)");
+	private TextField fieldPekanKunjungan = new TextField("PEKAN KUNJUNGAN(1-5)");
 	
 	private Button btnSaveForm= new Button("Save");
 	private Button btnCancelForm= new Button("Cancel");
@@ -162,8 +167,13 @@ public class CustomerView extends CustomComponent{
 		comboTunaiKredit.setWidth("200px");
 		comboTunaiKredit.setFilteringMode(FilteringMode.CONTAINS);
 		fieldDescription.setWidth("400px");
-		fieldDescription.setWidth("500px");
+		fieldNamaPadaFakturPajak.setWidth("400px");
 
+		comboChannel.setWidth("200px");
+		comboChannel.setFilteringMode(FilteringMode.CONTAINS);
+		comboTerritory.setWidth("200px");
+		comboTerritory.setFilteringMode(FilteringMode.CONTAINS);
+		
 		btnSearch.setIcon(new ThemeResource("../images/navigation/12x12/Find.png"));
 
 		btnNewForm.setIcon(new ThemeResource("../images/navigation/12x12/Create.png"));
@@ -198,12 +208,18 @@ public class CustomerView extends CustomComponent{
 		fieldNpwp.setWidth("400px");		
 		fieldEmail.setWidth("400px");		
 
+		fieldHariKunjungan.setWidth("200px");		
+		fieldPekanKunjungan.setWidth("200px");		
+		
 		//VALIDATOR
 		fieldId.setRequired(true);
 		fieldDescription.setRequired(true);
 		comboGrup.setRequired(true);
 		comboGrup2.setRequired(true);
 		comboTunaiKredit.setRequired(true);
+		
+		comboChannel.setRequired(true);
+//		comboTerritory.setRequired(true);
 		
 	}
 	
@@ -260,11 +276,22 @@ public class CustomerView extends CustomComponent{
 		formLayout.addComponent(fieldNamaPadaFakturPajak);
 		formLayout.addComponent(comboGrup);
 		formLayout.addComponent(comboGrup2);
+		
+		formLayout.addComponent(comboChannel);
+		formLayout.addComponent(comboTerritory);
+		
 		formLayout.addComponent(comboTunaiKredit);
 
-		formLayout.addComponent(fieldTop);
-		formLayout.addComponent(fieldCreditlimit);
-		formLayout.addComponent(fieldOpenlnvoice);
+//		formLayout.addComponent(fieldTop);
+//		formLayout.addComponent(fieldCreditlimit);
+//		formLayout.addComponent(fieldOpenlnvoice);
+
+		HorizontalLayout topCreditLimitLayout = new HorizontalLayout();
+		topCreditLimitLayout.setCaption("TOP/CR.LIMIT/OPEN INV");
+		topCreditLimitLayout.addComponent(fieldTop);
+		topCreditLimitLayout.addComponent(fieldCreditlimit);		
+		topCreditLimitLayout.addComponent(fieldOpenlnvoice);		
+		formLayout.addComponent(topCreditLimitLayout);
 		
 		formLayout.addComponent(comboHargaAlternatif);
 		
@@ -279,6 +306,12 @@ public class CustomerView extends CustomComponent{
 		formLayout.addComponent(fieldNpwp);
 		formLayout.addComponent(fieldEmail);
 
+		HorizontalLayout kunjunganLayout = new HorizontalLayout();
+		kunjunganLayout.setCaption("JADWAL KUNJUNGAN");
+		kunjunganLayout.addComponent(fieldHariKunjungan);
+		kunjunganLayout.addComponent(fieldPekanKunjungan);		
+		formLayout.addComponent(kunjunganLayout);
+		
 		formLayout.addComponent(checkStatusActive);
 		
 		HorizontalLayout formLayoutHorizontal = new HorizontalLayout();
@@ -383,6 +416,17 @@ public class CustomerView extends CustomComponent{
 		comboGrup2.setFilteringMode(FilteringMode.CONTAINS);
 		comboGrup2.setNullSelectionAllowed(false);
 
+		
+		comboChannel.setContainerDataSource(model.getBeanItemContainerFChannel());
+		comboChannel.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboChannel.setFilteringMode(FilteringMode.CONTAINS);
+		comboChannel.setNullSelectionAllowed(false);
+
+		comboTerritory.setContainerDataSource(model.getBeanItemContainerPTerritory());
+		comboTerritory.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboTerritory.setFilteringMode(FilteringMode.CONTAINS);
+		comboTerritory.setNullSelectionAllowed(false);
+		
 		comboTunaiKredit.addItem("T");
 		comboTunaiKredit.setItemCaption("T", "T - Tunai");
 		comboTunaiKredit.addItem("K");

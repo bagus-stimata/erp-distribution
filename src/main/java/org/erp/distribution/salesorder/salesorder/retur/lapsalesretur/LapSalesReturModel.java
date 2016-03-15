@@ -33,6 +33,7 @@ import org.erp.distribution.model.ZLapTemplate1;
 import org.erp.distribution.util.HeaderDetilSalesHelper;
 import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 import org.erp.distribution.util.ProductAndStockHelper;
+import org.erp.distribution.util.SysvarHelper;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
 
@@ -47,6 +48,8 @@ public class LapSalesReturModel extends CustomComponent{
 	private SysvarJpaService sysvarJpaService;
 	private FtSaleshJpaService ftSaleshJpaService;
 	private FtSalesdJpaService ftSalesdJpaService;
+	
+	private FSalesmanJpaService fSalesmanJpaService;
 	private FVendorJpaService fVendorJpaService;
 	private FCustomerJpaService fCustomerJpaService;
 	private FProductJpaService fProductJpaService;
@@ -59,6 +62,8 @@ public class LapSalesReturModel extends CustomComponent{
 	
 //2. ENTITY		
 //	protected MenuAccessTemp menuAccessTemp;
+	private BeanItemContainer<FSalesman> beanItemContainerFSalesman = 
+			new BeanItemContainer<FSalesman>(FSalesman.class);
 	private BeanItemContainer<FVendor> beanItemContainerFVendor = 
 			new BeanItemContainer<FVendor>(FVendor.class);
 	private BeanItemContainer<FCustomer> beanItemContainerFCustomer = 
@@ -71,6 +76,9 @@ public class LapSalesReturModel extends CustomComponent{
 			new BeanItemContainer<FSubarea>(FSubarea.class);
 	private BeanItemContainer<FProductgroup> beanItemContainerFProductGroup = 
 			new BeanItemContainer<FProductgroup>(FProductgroup.class);
+	
+	
+	private SysvarHelper sysvarHelper;
 	
 //3. LIST >> JIKA PERLU
 //4. BeanItemContainer, Jpa Container
@@ -85,19 +93,22 @@ public class LapSalesReturModel extends CustomComponent{
 		initVariableData();
 		
 	}
-	
 	public void initVariable(){
 		setSysvarJpaService((((DashboardUI) getUI().getCurrent()).getSysvarJpaService()));
 //		setTransaksiHelper((((DashboardUI) getUI().getCurrent()).getTransaksiHelper()));
 		
 		setFtSaleshJpaService((((DashboardUI) getUI().getCurrent()).getFtSaleshJpaService()));
 		setFtSalesdJpaService((((DashboardUI) getUI().getCurrent()).getFtSalesdJpaService()));
+		
+		setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
 		setfCustomerJpaService((((DashboardUI) getUI().getCurrent()).getfCustomerJpaService()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		setfAreaJpaService((((DashboardUI) getUI().getCurrent()).getfAreaJpaService()));
 		setfSubareaJpaService((((DashboardUI) getUI().getCurrent()).getfSubareaJpaService()));
 		setfProductgroupJpaService((((DashboardUI) getUI().getCurrent()).getfProductgroupJpaService()));
+		
+		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
 		
 	}
 
@@ -108,6 +119,7 @@ public class LapSalesReturModel extends CustomComponent{
 	public void reload(){
 //		beanItemContainerProductgroup.removeAllContainerFilters();
 //		beanItemContainerProductgroup.removeAllItems();
+		beanItemContainerFSalesman.addAll(fSalesmanJpaService.findAll());
 		beanItemContainerFVendor.addAll(fVendorJpaService.findAll());
 		beanItemContainerFCustomer.addAll(fCustomerJpaService.findAll());
 		beanItemContainerFArea.addAll(fAreaJpaService.findAll());
@@ -223,6 +235,25 @@ public class LapSalesReturModel extends CustomComponent{
 	public void setBeanItemContainerFProductGroup(
 			BeanItemContainer<FProductgroup> beanItemContainerFProductGroup) {
 		this.beanItemContainerFProductGroup = beanItemContainerFProductGroup;
+	}
+	public FSalesmanJpaService getfSalesmanJpaService() {
+		return fSalesmanJpaService;
+	}
+	public BeanItemContainer<FSalesman> getBeanItemContainerFSalesman() {
+		return beanItemContainerFSalesman;
+	}
+	public void setfSalesmanJpaService(FSalesmanJpaService fSalesmanJpaService) {
+		this.fSalesmanJpaService = fSalesmanJpaService;
+	}
+	public void setBeanItemContainerFSalesman(
+			BeanItemContainer<FSalesman> beanItemContainerFSalesman) {
+		this.beanItemContainerFSalesman = beanItemContainerFSalesman;
+	}
+	public SysvarHelper getSysvarHelper() {
+		return sysvarHelper;
+	}
+	public void setSysvarHelper(SysvarHelper sysvarHelper) {
+		this.sysvarHelper = sysvarHelper;
 	}
 		
 	

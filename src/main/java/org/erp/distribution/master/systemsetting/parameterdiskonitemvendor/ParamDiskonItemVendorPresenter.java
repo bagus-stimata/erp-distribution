@@ -282,6 +282,39 @@ public class ParamDiskonItemVendorPresenter implements ClickListener, ValueChang
 	}
 
 	public int insertAndValidateForm(){
+		if (model.newItemHeader.getDiskon1()==null)
+			model.newItemHeader.setDiskon1(0.0);
+		if (model.newItemHeader.getDiskon1plus()==null)
+			model.newItemHeader.setDiskon1plus(0.0);
+		if (model.newItemHeader.getDiskon2()==null)
+			model.newItemHeader.setDiskon2(0.0);
+		if (model.newItemHeader.getDiskon2plus()==null)
+			model.newItemHeader.setDiskon2plus(0.0);
+		if (model.newItemHeader.getDiskon3()==null)
+			model.newItemHeader.setDiskon3(0.0);
+		if (model.newItemHeader.getDiskon3plus()==null)
+			model.newItemHeader.setDiskon3plus(0.0);
+		if (model.newItemHeader.getDiskon4()==null)
+			model.newItemHeader.setDiskon4(0.0);
+		if (model.newItemHeader.getDiskon4plus()==null)
+			model.newItemHeader.setDiskon4plus(0.0);
+		if (model.newItemHeader.getDiskon5()==null)
+			model.newItemHeader.setDiskon5(0.0);
+		if (model.newItemHeader.getDiskon5plus()==null)
+			model.newItemHeader.setDiskon5plus(0.0);
+		
+		if (model.newItemHeader.getNominal1()==null)
+			model.newItemHeader.setNominal1(0.0);
+		if (model.newItemHeader.getNominal2()==null)
+			model.newItemHeader.setNominal2(0.0);
+		if (model.newItemHeader.getNominal3()==null)
+			model.newItemHeader.setNominal3(0.0);
+		if (model.newItemHeader.getNominal4()==null)
+			model.newItemHeader.setNominal4(0.0);
+		if (model.newItemHeader.getNominal5()==null)
+			model.newItemHeader.setNominal5(0.0);
+
+		
 		boolean kodeValid = true;
 		boolean inputValid = true;
 
@@ -341,6 +374,39 @@ public class ParamDiskonItemVendorPresenter implements ClickListener, ValueChang
 	}
 	
 	public int updateAndValidateForm(){
+		
+		if (model.itemHeader.getDiskon1()==null)
+			model.itemHeader.setDiskon1(0.0);
+		if (model.itemHeader.getDiskon1plus()==null)
+			model.itemHeader.setDiskon1plus(0.0);
+		if (model.itemHeader.getDiskon2()==null)
+			model.itemHeader.setDiskon2(0.0);
+		if (model.itemHeader.getDiskon2plus()==null)
+			model.itemHeader.setDiskon2plus(0.0);
+		if (model.itemHeader.getDiskon3()==null)
+			model.itemHeader.setDiskon3(0.0);
+		if (model.itemHeader.getDiskon3plus()==null)
+			model.itemHeader.setDiskon3plus(0.0);
+		if (model.itemHeader.getDiskon4()==null)
+			model.itemHeader.setDiskon4(0.0);
+		if (model.itemHeader.getDiskon4plus()==null)
+			model.itemHeader.setDiskon4plus(0.0);
+		if (model.itemHeader.getDiskon5()==null)
+			model.itemHeader.setDiskon5(0.0);
+		if (model.itemHeader.getDiskon5plus()==null)
+			model.itemHeader.setDiskon5plus(0.0);
+		
+		if (model.itemHeader.getNominal1()==null)
+			model.itemHeader.setNominal1(0.0);
+		if (model.itemHeader.getNominal2()==null)
+			model.itemHeader.setNominal2(0.0);
+		if (model.itemHeader.getNominal3()==null)
+			model.itemHeader.setNominal3(0.0);
+		if (model.itemHeader.getNominal4()==null)
+			model.itemHeader.setNominal4(0.0);
+		if (model.itemHeader.getNominal5()==null)
+			model.itemHeader.setNominal5(0.0);
+
 		try{
 			//3.2 Masukkan nilai form yang valid(commit) ke dalam tabel >> dan database
 			model.getBinderHeader().commit();

@@ -2,6 +2,7 @@ package org.erp.distribution.model;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,43 +25,73 @@ public class FProduct {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ID")
 	private Long id;
 	
+	@Column(name="PCODE", length=15)
 	private String pcode;
+	@Column(name="PNAME", length=100)
 	private String pname;
 	
 	@Transient
 	CheckBox selected = new CheckBox();
 	
+	@Column(name="SHORTCODE", length=12)
 	private String shortcode;
+	@Column(name="DISTCODE", length=25)
 	private String distcode;
+	@Column(name="BARCODE", length=100)
 	private String barcode;
+	@Column(name="PRODCLASS")
 	private Integer prodclass;
+	@Column(name="PACKAGING", length=35)
 	private String packaging;
+	@Column(name="SHORTNAME", length=50)
 	private String shortname;
+	@Column(name="SHORTPACKAGING", length=25)
 	private String shortpackaging;
+	@Column(name="UOM1", length=15)
 	private String uom1;
+	@Column(name="UOM2", length=15)
 	private String uom2;
+	@Column(name="UOM3", length=15)
 	private String uom3;
+	@Column(name="CONVFACT1")
 	private Integer convfact1;
+	@Column(name="CONVFACT2")
 	private Integer convfact2;
+	@Column(name="PPRICE")
 	private Double pprice;
+	@Column(name="PPRICEAFTERPPN")
 	private Double ppriceafterppn;
+	@Column(name="PPRICE2")
 	private Double pprice2;
+	@Column(name="PPRICE2AFTERPPN")
 	private Double pprice2afterppn;
+	@Column(name="SPRICE")
 	private Double sprice;
+	@Column(name="SPRICEAFTERPPN")
 	private Double spriceafterppn;
+	@Column(name="SPRICE2")
 	private Double sprice2;
+	@Column(name="SPRICE2AFTERPPN")
 	private Double sprice2afterppn;
 	
+	@Column(name="MIQTYSTOK")
+	private Integer minqtystok;
+	@Column(name="MAXQTYSTOK")
+	private Integer maxqtystok;
+	
 	//TIDAK BOLEH DIGANTI-GANTI
+	@Column(name="VOLUME")
 	private int volume;
+	@Column(name="WEIGHT")
 	private Double weight;
+	@Column(name="STATUSACTIVE")
 	private Boolean statusactive;
 	
-	
+	@Column(name="SUPPLIER", length=75)
 	private String supplier;
-	
 	
 	@ManyToOne
 	@JoinColumn(name="fvendorBean", referencedColumnName="id", nullable=true)
@@ -450,6 +481,31 @@ public class FProduct {
 	public void setFtstocktransferdSet(Set<FtStocktransferd> ftstocktransferdSet) {
 		this.ftstocktransferdSet = ftstocktransferdSet;
 	}
+	
+
+	public Integer getMinqtystok() {
+		return minqtystok;
+	}
+
+
+
+	public Integer getMaxqtystok() {
+		return maxqtystok;
+	}
+
+
+
+	public void setMinqtystok(Integer minqtystok) {
+		this.minqtystok = minqtystok;
+	}
+
+
+
+	public void setMaxqtystok(Integer maxqtystok) {
+		this.maxqtystok = maxqtystok;
+	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {

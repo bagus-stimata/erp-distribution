@@ -734,7 +734,7 @@ public class LapMutasiSaldoStockPresenter implements ClickListener{
 			
 			String fileName = "saldostok"  +System.currentTimeMillis() +".xls";
 			StreamResource resource = new StreamResource( source, fileName);
-			resource.setMIMEType("application/xls");
+			resource.setMIMEType("application/vnd.ms-excel");
 			resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
 			
 			view.getUI().getPage().open(resource, "_new_" , false);

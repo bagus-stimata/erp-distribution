@@ -177,13 +177,14 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	        }    
 	}
 	@Override
-	public List<FtSalesd> findAllByVendor(String vcode, String areaId,
+	public List<FtSalesd> findAllByVendor(String spcode, String vcode, String areaId,
 			String subAreaId, String custno, Date trDateFrom, Date trDateTo,
 			String tipefaktur, String pcode, String pname, String productGroup) {
 		       EntityManager em = getFactory().createEntityManager();
 		        try {
 		            em.getTransaction().begin();
 		            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+		            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
 		            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
 		            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
 		            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
@@ -199,6 +200,7 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 		            //ORDER BY BERPERAN SANGAT PENTING
 		            
 		            List<FtSalesd> list = em.createQuery(query)
+		            		.setParameter("spcode", spcode)
 		            		.setParameter("vcode", vcode)
 		            		.setParameter("areaId", areaId)
 		            		.setParameter("subAreaId", subAreaId)
@@ -221,13 +223,14 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 		        }    
 	}
 	@Override
-	public List<FtSalesd> findAllByArea(String vcode, String areaId,
+	public List<FtSalesd> findAllByArea(String spcode, String vcode, String areaId,
 			String subAreaId, String custno, Date trDateFrom, Date trDateTo,
 			String tipefaktur, String pcode, String pname, String productGroup) {
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
 	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
@@ -243,6 +246,7 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            //ORDER BY BERPERAN SANGAT PENTING
 	            
 	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
 	            		.setParameter("vcode", vcode)
 	            		.setParameter("areaId", areaId)
 	            		.setParameter("subAreaId", subAreaId)
@@ -265,13 +269,14 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	        }    
 	}
 	@Override
-	public List<FtSalesd> findAllByTipeCust(String vcode, String areaId,
+	public List<FtSalesd> findAllByTipeCust(String spcode, String vcode, String areaId,
 			String subAreaId, String custno, Date trDateFrom, Date trDateTo,
 			String tipefaktur, String pcode, String pname, String productGroup) {
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
 	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
@@ -287,6 +292,7 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            //ORDER BY BERPERAN SANGAT PENTING
 	            
 	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
 	            		.setParameter("vcode", vcode)
 	            		.setParameter("areaId", areaId)
 	            		.setParameter("subAreaId", subAreaId)
@@ -309,13 +315,14 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	        }    
 	}
 	@Override
-	public List<FtSalesd> findAllByProductGroup(String vcode, String areaId,
+	public List<FtSalesd> findAllByProductGroup(String spcode, String vcode, String areaId,
 			String subAreaId, String custno, Date trDateFrom, Date trDateTo,
 			String tipefaktur, String pcode, String pname, String productGroup) {
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
 	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
@@ -331,6 +338,7 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            //ORDER BY BERPERAN SANGAT PENTING
 	            
 	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
 	            		.setParameter("vcode", vcode)
 	            		.setParameter("areaId", areaId)
 	            		.setParameter("subAreaId", subAreaId)
@@ -353,13 +361,14 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	        }    
 	}
 	@Override
-	public List<FtSalesd> findAllByTipeAndInvoice(String vcode, String areaId,
+	public List<FtSalesd> findAllByTipeAndInvoice(String spcode, String vcode, String areaId,
 			String subAreaId, String custno, Date trDateFrom, Date trDateTo,
 			String tipefaktur, String pcode, String pname, String productGroup) {
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
 	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
@@ -375,6 +384,7 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            //ORDER BY BERPERAN SANGAT PENTING
 	            
 	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
 	            		.setParameter("vcode", vcode)
 	            		.setParameter("areaId", areaId)
 	            		.setParameter("subAreaId", subAreaId)
@@ -397,13 +407,14 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	        }    
 	}
 	@Override
-	public List<FtSalesd> findAllByAreaAndInvoice(String vcode, String areaId,
+	public List<FtSalesd> findAllByAreaAndInvoice(String spcode, String vcode, String areaId,
 			String subAreaId, String custno, Date trDateFrom, Date trDateTo,
 			String tipefaktur, String pcode, String pname, String productGroup) {
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
 	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
 	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
@@ -419,6 +430,7 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            //ORDER BY BERPERAN SANGAT PENTING
 	            
 	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
 	            		.setParameter("vcode", vcode)
 	            		.setParameter("areaId", areaId)
 	            		.setParameter("subAreaId", subAreaId)
@@ -440,6 +452,7 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            em.close();
 	        }    
 	}
+	
 	@Override
 	public List<FtSalesd> findAllByRefno(Long refno) {
 	       EntityManager em = getFactory().createEntityManager();
@@ -461,5 +474,191 @@ public class FtSalesdJpaServiceImpl extends GenericJpaServiceImpl<FtSalesd, Seri
 	            em.close();
 	        }    
 	}
+	@Override
+	public List<FtSalesd> findAllByForTotalSupplier(String spcode, String vcode,
+			String areaId, String subAreaId, String custno, Date trDateFrom,
+			Date trDateTo, String tipefaktur, String pcode, String pname,
+			String productGroup) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
+	            		+ " AND a.ftsaleshBean.invoicedate >= :trdateFrom AND a.ftsaleshBean.invoicedate <= :trdateTo "
+	            		+ " AND a.ftsaleshBean.tipefaktur LIKE :tipefaktur "
+	            		+ " AND NOT a.ftsaleshBean.invoiceno IS NULL "
+	            		+ " AND NOT a.ftsaleshBean.tipefaktur IS NULL "
+	            		+ " AND a.fproductBean.pcode LIKE :pcode "
+	            		+ " AND a.fproductBean.pname LIKE :pname "
+	            		+ " AND a.fproductBean.fproductgroupBean.id LIKE :productGroup "
+	            		+ " ORDER BY  a.fproductBean.fvendorBean.vcode ASC";
+	            //ORDER BY BERPERAN SANGAT PENTING
+	            
+	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
+	            		.setParameter("vcode", vcode)
+	            		.setParameter("areaId", areaId)
+	            		.setParameter("subAreaId", subAreaId)
+	            		.setParameter("custno", custno)
+	            		.setParameter("trdateFrom", trDateFrom)
+	            		.setParameter("trdateTo", trDateTo)
+	            		.setParameter("tipefaktur", tipefaktur)
+	            		.setParameter("pcode", pcode)
+	            		.setParameter("pname", pname)
+	            		.setParameter("productGroup", productGroup)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+	@Override
+	public List<FtSalesd> findAllByForTotalCustomer(String spcode, String vcode,
+			String areaId, String subAreaId, String custno, Date trDateFrom,
+			Date trDateTo, String tipefaktur, String pcode, String pname,
+			String productGroup) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
+	            		+ " AND a.ftsaleshBean.invoicedate >= :trdateFrom AND a.ftsaleshBean.invoicedate <= :trdateTo "
+	            		+ " AND a.ftsaleshBean.tipefaktur LIKE :tipefaktur "
+	            		+ " AND NOT a.ftsaleshBean.invoiceno IS NULL "
+	            		+ " AND NOT a.ftsaleshBean.tipefaktur IS NULL "
+	            		+ " AND a.fproductBean.pcode LIKE :pcode "
+	            		+ " AND a.fproductBean.pname LIKE :pname "
+	            		+ " AND a.fproductBean.fproductgroupBean.id LIKE :productGroup "
+	            		+ " ORDER BY  a.ftsaleshBean.fcustomerBean.custno ASC";
+	            //ORDER BY BERPERAN SANGAT PENTING
+	            
+	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
+	            		.setParameter("vcode", vcode)
+	            		.setParameter("areaId", areaId)
+	            		.setParameter("subAreaId", subAreaId)
+	            		.setParameter("custno", custno)
+	            		.setParameter("trdateFrom", trDateFrom)
+	            		.setParameter("trdateTo", trDateTo)
+	            		.setParameter("tipefaktur", tipefaktur)
+	            		.setParameter("pcode", pcode)
+	            		.setParameter("pname", pname)
+	            		.setParameter("productGroup", productGroup)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+	
+	@Override
+	public List<FtSalesd> findAllByForTotalBarang(String spcode, String vcode,
+			String areaId, String subAreaId, String custno, Date trDateFrom,
+			Date trDateTo, String tipefaktur, String pcode, String pname,
+			String productGroup) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
+	            		+ " AND a.ftsaleshBean.invoicedate >= :trdateFrom AND a.ftsaleshBean.invoicedate <= :trdateTo "
+	            		+ " AND a.ftsaleshBean.tipefaktur LIKE :tipefaktur "
+	            		+ " AND NOT a.ftsaleshBean.invoiceno IS NULL "
+	            		+ " AND NOT a.ftsaleshBean.tipefaktur IS NULL "
+	            		+ " AND a.fproductBean.pcode LIKE :pcode "
+	            		+ " AND a.fproductBean.pname LIKE :pname "
+	            		+ " AND a.fproductBean.fproductgroupBean.id LIKE :productGroup "
+	            		+ " ORDER BY  a.fproductBean.id ASC";
+	            //ORDER BY BERPERAN SANGAT PENTING
+	            
+	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
+	            		.setParameter("vcode", vcode)
+	            		.setParameter("areaId", areaId)
+	            		.setParameter("subAreaId", subAreaId)
+	            		.setParameter("custno", custno)
+	            		.setParameter("trdateFrom", trDateFrom)
+	            		.setParameter("trdateTo", trDateTo)
+	            		.setParameter("tipefaktur", tipefaktur)
+	            		.setParameter("pcode", pcode)
+	            		.setParameter("pname", pname)
+	            		.setParameter("productGroup", productGroup)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+	@Override
+	public List<FtSalesd> findAllByForTotalSalesman(String spcode, String vcode,
+			String areaId, String subAreaId, String custno, Date trDateFrom,
+			Date trDateTo, String tipefaktur, String pcode, String pname,
+			String productGroup) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesd a WHERE a.fproductBean.fvendorBean.vcode LIKE :vcode "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.fareaBean.id LIKE :areaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.fsubareaBean.id LIKE :subAreaId "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
+	            		+ " AND a.ftsaleshBean.invoicedate >= :trdateFrom AND a.ftsaleshBean.invoicedate <= :trdateTo "
+	            		+ " AND a.ftsaleshBean.tipefaktur LIKE :tipefaktur "
+	            		+ " AND NOT a.ftsaleshBean.invoiceno IS NULL "
+	            		+ " AND NOT a.ftsaleshBean.tipefaktur IS NULL "
+	            		+ " AND a.fproductBean.pcode LIKE :pcode "
+	            		+ " AND a.fproductBean.pname LIKE :pname "
+	            		+ " AND a.fproductBean.fproductgroupBean.id LIKE :productGroup "
+	            		+ " ORDER BY a.ftsaleshBean.fsalesmanBean.spcode ASC";
+	            //ORDER BY BERPERAN SANGAT PENTING
+	            
+	            List<FtSalesd> list = em.createQuery(query)
+	            		.setParameter("spcode", spcode)
+	            		.setParameter("vcode", vcode)
+	            		.setParameter("areaId", areaId)
+	            		.setParameter("subAreaId", subAreaId)
+	            		.setParameter("custno", custno)
+	            		.setParameter("trdateFrom", trDateFrom)
+	            		.setParameter("trdateTo", trDateTo)
+	            		.setParameter("tipefaktur", tipefaktur)
+	            		.setParameter("pcode", pcode)
+	            		.setParameter("pname", pname)
+	            		.setParameter("productGroup", productGroup)
+	            		.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+	
 
 }

@@ -15,6 +15,7 @@ import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.util.ProductAndStockHelper;
+import org.erp.distribution.util.SysvarHelper;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
 
@@ -34,6 +35,7 @@ public class LapPrestasiKerjaModel extends CustomComponent{
 	private FtSaleshJpaService ftSaleshJpaService;
 	
 	private FVendorJpaService fVendorJpaService;
+	private SysvarHelper sysvarHelper;
 
 	
 //2. ENTITY		
@@ -76,6 +78,7 @@ public class LapPrestasiKerjaModel extends CustomComponent{
 		setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));
 		setFtSaleshJpaService((((DashboardUI) getUI().getCurrent()).getFtSaleshJpaService()));
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
+		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
 		
 	}
 
@@ -191,6 +194,14 @@ public class LapPrestasiKerjaModel extends CustomComponent{
 	public void setBeanItemContainerVendor(
 			BeanItemContainer<FVendor> beanItemContainerVendor) {
 		this.beanItemContainerVendor = beanItemContainerVendor;
+	}
+
+	public SysvarHelper getSysvarHelper() {
+		return sysvarHelper;
+	}
+
+	public void setSysvarHelper(SysvarHelper sysvarHelper) {
+		this.sysvarHelper = sysvarHelper;
 	}
 
 	

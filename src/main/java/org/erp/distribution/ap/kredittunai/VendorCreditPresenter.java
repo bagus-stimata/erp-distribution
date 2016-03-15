@@ -203,7 +203,7 @@ public class VendorCreditPresenter implements ClickListener, ValueChangeListener
 					model.item.setAmountpay(view.getApPaymentCustomerModel().getItemInvoice().getAmountpay());
 					//LUNAS ATAU TIDAK LUNAS amountPay >= amount maka :: tolerasi Rp. 50,-
 					double toleransiKurang = 50.0;
-					if (model.item.getAmountpay() >= (model.item.getAmount() + model.item.getAmountrevisi()
+					if (model.item.getAmountpay() >= ((model.item.getAmount()*1.1)  + model.item.getAmountrevisi()
 							- toleransiKurang) ){
 						model.item.setLunas(true);
 					} else {

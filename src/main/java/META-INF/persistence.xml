@@ -37,6 +37,7 @@
 	    
 	    <class>org.erp.distribution.model.FStock</class>
 	    <class>org.erp.distribution.model.FSubarea</class>
+	    <class>org.erp.distribution.model.FChannel</class>
 	    
 	    <class>org.erp.distribution.model.FtArpaymenth</class>
 	    <class>org.erp.distribution.model.FtArpaymentd</class>
@@ -105,6 +106,15 @@
 	    <class>org.erp.distribution.model.StService</class>
 	    <class>org.erp.distribution.model.StServiceItem</class>
 	    <class>org.erp.distribution.model.StServiceItemPK</class>
+	    
+	    
+	    <!-- PRINCIPAL -->
+	    <class>org.erp.distribution.model.PRegion</class>
+	    <class>org.erp.distribution.model.PTeam</class>
+	    <class>org.erp.distribution.model.PDistributor</class>
+	    <class>org.erp.distribution.model.PArea</class>
+	    
+	    
 	    					
 	    <exclude-unlisted-classes>false</exclude-unlisted-classes>
 	    <properties>

@@ -762,71 +762,7 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 	@Override
 	public void itemClick(ItemClickEvent event) {
 		try{
-			Object itemId = event.getItemId();
-			model.item = model.getTableBeanItemContainer().getItem(itemId).getBean();			
-			itemTableSelected = view.getTable().getItem(itemId);
-			
-			
-			//biar checked
-			model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setReadOnly(false);
-			if (model.getItem().getSelected().getValue()==true){
-				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(false);
-			} else {
-				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(true);				
-			}
-
-			if (model.getItem().getTipefaktur().equals("R")){
-				List<FtArpaymentd> listArpaymentdetail = new ArrayList<FtArpaymentd>(model.getItem().getFtarpaymentdSet());
-				Iterator<FtArpaymentd> iter = listArpaymentdetail.iterator();
-				String invoices = "RETUR DIGUNAKAN UNTUK MELUNASKAN INVOICE: ";
-				while (iter.hasNext()){
-					invoices += iter.next().getFtsaleshBean().getInvoiceno();
-					if (iter.hasNext()) {
-						invoices += ", ";
-					}
-				}
-				
-				
-				
-				if (listArpaymentdetail.size()>0){
-					Notification.show(invoices,Notification.TYPE_WARNING_MESSAGE);
-				} else {
-					//PERBAIKI JIKA TIDAK ADA
-					model.getItem().setAmountpay(0.0);
-					model.getFtSaleshJpaService().updateObject(model.getItem());
-					model.getTableBeanItemContainer().addItem(model.getItem());
-					view.getTable().refreshRowCache();
-					
-					Notification.show("PERBAIKI BAYAR PADA RETUR: " + model.getItem().getInvoiceno(), Notification.TYPE_WARNING_MESSAGE);					
-					
-				}
-			}
-			//JIKA LUNAS TIDAK BOLEH DI CHECK
-			if (model.getItem().isLunas()==true){
-				Notification.show("FAKTUR " + " SUDAH LUNAS!!", Notification.TYPE_TRAY_NOTIFICATION);
-				//FAKTUR SUDAH LUNAS KEMUNGKINAN MASIH AKAN DI EDIT
-//				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(false);			
-			}
-			
-//			//BUAT UP-TO-DATE DATA
-			boolean hapusLunas = true;
-			if (view.getFieldSearchComboLunas().getValue().equals("B")){
-				//Jika belum maka yang terkirim harus dihapus
-				hapusLunas = true;					
-			} else if (view.getFieldSearchComboLunas().getValue().equals("L")){
-				hapusLunas = false;					
-			}
-//			cekAndDeleteProcessedByOthers(hapusLunas);
-			
-			
 			view.setDisplayFooter();
-			
-			boolean entitySelected = item != null;
-			//JIKA DOUBLE CLICK
-			if (event.isDoubleClick()){
-				view.getBtnPay().click();
-			}
-			
 		} catch (Exception ex){}
 		
 	}

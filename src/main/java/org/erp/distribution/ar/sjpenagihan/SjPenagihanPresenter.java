@@ -59,6 +59,8 @@ import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.ShortcutAction;
@@ -75,7 +77,7 @@ import com.vaadin.ui.Table.HeaderClickListener;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-public class SjPenagihanPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener {
+public class SjPenagihanPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener, SelectionListener {
 	/**
 	 * 
 	 */
@@ -115,6 +117,9 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 		
 //		view.getTable().addValueChangeListener(this);
 		view.getTable().addItemClickListener(this);
+		
+		view.getGrid1().addItemClickListener(this);
+		view.getGrid1().addSelectionListener(this);
 		
 		view.getPanelTop().addActionHandler(this);
 
@@ -484,12 +489,12 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 		
 		List<Object> listItemProses = new ArrayList<Object>();				
 		int nomorUrut=0;
-		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-		FtSalesh itemDummyArinvoice = new FtSalesh();
-		for (Object itemId: itemIds){
-			
+		
+		Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+		while (iterFtSalesh.hasNext()){
 			FtSalesh itemArinvoice = new FtSalesh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
+			itemArinvoice = iterFtSalesh.next();
 			//Menghindari null
 			try{
 				if (itemArinvoice.getSjpenagihanno().equals(null)) {
@@ -499,7 +504,7 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 				itemArinvoice.setSjpenagihanno("");				
 			}
 			
-			if ((itemArinvoice.getSelected().getValue()==true) && (itemArinvoice.getSjpenagihanno().equals(""))){
+			if (itemArinvoice.getSjpenagihanno().equals("")){
 				//UPDATE 
 //				itemArinvoice.setSuratjalan(true);
 				itemArinvoice.setSjpenagihanno(newSJPenagihanNo);
@@ -513,7 +518,9 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 				model.getFtSaleshJpaService().updateObject(itemArinvoice);
 				//REFRESH TAMPILAH
 				model.getTableBeanItemContainer().addItem(itemArinvoice);
-				view.getTable().refreshRowCache();
+//				view.getTable().refreshRowCache();
+				view.setDisplay();
+				
 			}
 		}
 		
@@ -526,13 +533,12 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 		
 		List<Object> listItemProses = new ArrayList<Object>();				
 		int nomorUrut=0;
-		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-		FtSalesh itemDummyArinvoice = new FtSalesh();
-		for (Object itemId: itemIds){
-			
+		Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+		while (iterFtSalesh.hasNext()){
 			FtSalesh itemArinvoice = new FtSalesh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
-			
+			itemArinvoice = iterFtSalesh.next();
+		
 				//Menghindari null
 				try{
 					if (itemArinvoice.getSjpenagihanno().equals(null)) {
@@ -543,7 +549,7 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 				}
 				
 				//JIKA BELUM LUNAS BOLEH DIBATALKAN
-				if (itemArinvoice.getAmountafterdiscafterppn()>itemArinvoice.getAmountpay() && itemArinvoice.getSelected().getValue()==true){
+				if (itemArinvoice.getAmountafterdiscafterppn()>itemArinvoice.getAmountpay()){
 						//UPDATE 
 						itemArinvoice.setSjpenagihanno("");
 						
@@ -551,7 +557,8 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 						model.getFtSaleshJpaService().updateObject(itemArinvoice);
 						//REFRESH TAMPILAH
 						model.getTableBeanItemContainer().addItem(itemArinvoice);
-						view.getTable().refreshRowCache();
+						view.setDisplay();
+//						view.getTable().refreshRowCache();
 				}
 			
 		}
@@ -754,21 +761,17 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 	List<ZLapSJPenagihanList> lapSJPenagihanList=new ArrayList<ZLapSJPenagihanList>();
 	
 	public void fillDatabaseReportLengkap(){
-		//1. HAPUS DATA
-//		Iterator<ZLapSJPenagihanList> iterZLapSJPenagihanListDelete = model.getLapSJPenagihanListJpaService().findAll().iterator();
-//		while (iterZLapSJPenagihanListDelete.hasNext()) {
-//			model.getLapSJPenagihanListJpaService().removeObject(iterZLapSJPenagihanListDelete.next());
-//		}
 		//MENGHINDARI DOUBLE
 		lapSJPenagihanList=new ArrayList<ZLapSJPenagihanList>();
 		Set<String> setSuratJalanList = new LinkedHashSet<String>();
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
 
 		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
-		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-		for (Object itemId: itemIds){			
+		Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+		while (iterFtSalesh.hasNext()){
 			FtSalesh itemArinvoice = new FtSalesh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
+			itemArinvoice = iterFtSalesh.next();
 			//Menghindari null
 			try{	
 				if (itemArinvoice.getSjpenagihanno().equals(null)) {
@@ -778,7 +781,7 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 				itemArinvoice.setSjpenagihanno("");				
 			}			
 			
-			if ((itemArinvoice.getSelected().getValue()==true) && (! itemArinvoice.getSjpenagihanno().equals(""))){
+			if ( ! itemArinvoice.getSjpenagihanno().equals("")){
 				List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>(itemArinvoice.getFtsalesdSet());
 				setSuratJalanList.add(itemArinvoice.getSjpenagihanno());
 				setInvoiceList.add(itemArinvoice.getInvoiceno());
@@ -884,74 +887,11 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 	public void valueChange(ValueChangeEvent event) {
 	}
 	@Override
-	public void itemClick(ItemClickEvent event) {
-		try{
-			Object itemId = event.getItemId();
-			model.item = model.getTableBeanItemContainer().getItem(itemId).getBean();			
-			itemTableSelected = view.getTable().getItem(itemId);
-			
-			
-			//biar checked
-			model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setReadOnly(false);
-			if (model.getItem().getSelected().getValue()==true){
-				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(false);
-			} else {
-				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(true);				
-			}
-
-			if (model.getItem().getTipefaktur().equals("R")){
-				List<FtArpaymentd> listArpaymentdetail = new ArrayList<FtArpaymentd>(model.getItem().getFtarpaymentdSet());
-				Iterator<FtArpaymentd> iter = listArpaymentdetail.iterator();
-				String invoices = "RETUR DIGUNAKAN UNTUK MELUNASKAN INVOICE: ";
-				while (iter.hasNext()){
-					invoices += iter.next().getFtsaleshBean().getInvoiceno();
-					if (iter.hasNext()) {
-						invoices += ", ";
-					}
-				}
-				
-				
-				
-				if (listArpaymentdetail.size()>0){
-					Notification.show(invoices,Notification.TYPE_WARNING_MESSAGE);
-				} else {
-					//PERBAIKI JIKA TIDAK ADA
-					model.getItem().setAmountpay(0.0);
-					model.getFtSaleshJpaService().updateObject(model.getItem());
-					model.getTableBeanItemContainer().addItem(model.getItem());
-					view.getTable().refreshRowCache();
-					
-					Notification.show("PERBAIKI BAYAR PADA RETUR: " + model.getItem().getInvoiceno(), Notification.TYPE_WARNING_MESSAGE);					
-					
-				}
-			}
-			//JIKA LUNAS TIDAK BOLEH DI CHECK
-			if (model.getItem().isLunas()==true){
-				Notification.show("FAKTUR " + " SUDAH LUNAS!!", Notification.TYPE_TRAY_NOTIFICATION);
-				//FAKTUR SUDAH LUNAS KEMUNGKINAN MASIH AKAN DI EDIT
-//				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(false);			
-			}
-			
-//			//BUAT UP-TO-DATE DATA
-			boolean hapusLunas = true;
-			if (view.getFieldSearchComboLunas().getValue().equals("B")){
-				//Jika belum maka yang terkirim harus dihapus
-				hapusLunas = true;					
-			} else if (view.getFieldSearchComboLunas().getValue().equals("L")){
-				hapusLunas = false;					
-			}
-//			cekAndDeleteProcessedByOthers(hapusLunas);
-			
-			
-			view.setDisplayFooter();
-			
-			boolean entitySelected = item != null;
-			//JIKA DOUBLE CLICK
-			if (event.isDoubleClick()){
-				view.getBtnPay().click();
-			}
-			
-		} catch (Exception ex){}
+	public void itemClick(ItemClickEvent event) {		
+	}
+	@Override
+	public void select(SelectionEvent event) {
+		view.setDisplayGridFooter();
 		
 	}
 	
@@ -1057,6 +997,7 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 			
 		}
 	}
+
 
 	
 }

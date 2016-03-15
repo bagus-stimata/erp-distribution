@@ -12,6 +12,8 @@ import org.erp.distribution.model.FtArpaymentdPK;
 import org.erp.distribution.model.FtArpaymenth;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
+import org.erp.distribution.util.HeaderDetilSalesHelper;
+import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -218,6 +220,11 @@ public class ArPaymentCustomerPresenter implements ClickListener, ValueChangeLis
 	//MAIN EVENT >> BUTTON EVENT
 	@Override
 	public void buttonClick(ClickEvent event) {
+		HeaderDetilSalesHelper  headerDetilSalesHelper = new HeaderDetilSalesHelperImpl(model.getItemInvoice());
+		headerDetilSalesHelper.setRoundedTotal(true);
+		FtSalesh newFtSalesh = new FtSalesh();
+		newFtSalesh = headerDetilSalesHelper.getFillFtSalesh();
+		
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(0);
 		nf.setMinimumFractionDigits(0);
@@ -228,7 +235,7 @@ public class ArPaymentCustomerPresenter implements ClickListener, ValueChangeLis
 //	
 		if (event.getButton() == view.getBtnAddDetail()){
 			//Jika amount lebih kecil dari amout pay maka masih boleh tambah
-			if (model.getItemInvoice().getAmount() > model.getItemInvoice().getAmountpay() ){				
+			if (newFtSalesh.getAmountafterdiscafterppn() > model.getItemInvoice().getAmountpay() ){				
 				//ARPAYMENTDETAIL DAN ARPAYMENT HEADER --> BUAT BARU
 				model.itemHeader = new FtArpaymenth();
 //				ArpaymentheaderPK id = new ArpaymentheaderPK();
@@ -255,9 +262,9 @@ public class ArPaymentCustomerPresenter implements ClickListener, ValueChangeLis
 //				divisionBean = model.getItemInvoice().getDivisionBean();
 //				model.getItemDetail().setDivisionBean(model.getItemInvoice().getDivisionBean());
 				//INVOICENO
-				FtSalesh invoiceBean = new FtSalesh();
-				invoiceBean = model.getItemInvoice();
-				model.getItemDetail().setFtsaleshBean(invoiceBean);
+//				FtSalesh invoiceBean = new FtSalesh();
+//				invoiceBean = model.getItemInvoice();
+				model.getItemDetail().setFtsaleshBean(newFtSalesh);
 				
 				model.itemDetail.setId(itemDetailPK);	
 				model.itemDetail.setCashamountpay(0.0);

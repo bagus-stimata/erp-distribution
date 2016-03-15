@@ -23,7 +23,8 @@ public class LapSalesOrderView extends CustomComponent{
 	private TextField textField2= new TextField("NAMA BRG");
 	private TextField textField3= new TextField("");
 	
-	private ComboBox comboGroup1= new ComboBox("VENDOR");
+	private ComboBox comboGroup0= new ComboBox("SALESMAN");
+	private ComboBox comboGroup1= new ComboBox("VENDOR/SUPPLIER");
 	private ComboBox comboGroup2= new ComboBox("CUSTOMER/OUTLET");
 	private ComboBox comboGroup3= new ComboBox("AREA");
 	private ComboBox comboGroup4= new ComboBox("SUB AREA");
@@ -38,15 +39,21 @@ public class LapSalesOrderView extends CustomComponent{
 	private CheckBox checkBoxFaktur= new CheckBox("Faktur", true);
 	private CheckBox checkBoxRetur= new CheckBox("Retur", false);
 
-	private CheckBox checkBoxOutput1= new CheckBox("LAP. SALES RETUR PER AREA PER NOTA");
-	private CheckBox checkBoxOutput2= new CheckBox("LAP. SALES RETUR PER TIPE OUTLET PER NOTA");
+	private CheckBox checkBoxOutput1= new CheckBox("LAP. SALES CUSTOMER PER NOTA - PER AREA");
+	private CheckBox checkBoxOutput2= new CheckBox("LAP. SALES CUSTOMER PER NOTA - PER TIPE OUTLET");
 	
-	private CheckBox checkBoxOutput3= new CheckBox("LAP. SALES RETUR PER SUPPLIER PER BARANG");
-	private CheckBox checkBoxOutput4= new CheckBox("LAP. SALES RETUR PER AREA PER BARANG");
-	private CheckBox checkBoxOutput5= new CheckBox("LAP. SALES RETUR PER TIPE OUTLET PER BARANG");
-	private CheckBox checkBoxOutput6= new CheckBox("LAP. SALES RETUR PER GRUP BARANG PER BARANG");
-	private CheckBox checkBoxOutput7= new CheckBox("LAP. ");
+	private CheckBox checkBoxOutput3= new CheckBox("LAP. SALES PER BARANG PER NOTA - PER SUPPLIER");
+	private CheckBox checkBoxOutput4= new CheckBox("LAP. SALES PER BARANG PER NOTA - PER AREA");
+	private CheckBox checkBoxOutput5= new CheckBox("LAP. SALES PER BARANG PER NOTA - PER TIPE OUTLET");
+	private CheckBox checkBoxOutput6= new CheckBox("LAP. SALES PER BARANG PER NOTA - PER GRUP BARANG");
+	private CheckBox checkBoxOutput7= new CheckBox("LAP.");
 	
+	private CheckBox checkBoxOutput10= new CheckBox("LAP. PENJUALAN SUPPLIER");
+	private CheckBox checkBoxOutput11= new CheckBox("LAP. PENJUALAN CUSTOMER");
+	private CheckBox checkBoxOutput12= new CheckBox("LAP. PENJUALAN BARANG");
+	private CheckBox checkBoxOutput13= new CheckBox("LAP. PENJUALAN SALESMAN");
+
+	private Button btnPreviewInExel = new Button("Preview In Exel");
 	private Button btnPreview = new Button("Print");
 	private Button btnClose = new Button("Close");
 	
@@ -65,6 +72,7 @@ public class LapSalesOrderView extends CustomComponent{
 	}
 
 	public void initComponent(){
+		comboGroup0.setWidth("300px");
 		comboGroup1.setWidth("300px");
 		comboGroup2.setWidth("300px");
 		comboGroup3.setWidth("300px");
@@ -102,6 +110,7 @@ public class LapSalesOrderView extends CustomComponent{
 //		layoutBottom.setMargin(true);
 //		layoutBottom.setSizeFull();
 		
+		layoutFilter.addComponent(comboGroup0);
 		layoutFilter.addComponent(comboGroup1);
 		layoutFilter.addComponent(comboGroup2);
 		layoutFilter.addComponent(comboGroup3);
@@ -122,15 +131,20 @@ public class LapSalesOrderView extends CustomComponent{
 		layoutFilter.addComponent(layoutFakturRetur);
 		layoutFilter.addComponent(checkBox2);
 		
-		Panel panelOutput1 = new Panel("Laporan Per Nota");
+		Panel panelOutput1 = new Panel("Laporan Penjualan Customer Per Nota");
 			VerticalLayout layoutOutput1 = new VerticalLayout();
 			layoutOutput1.setMargin(true);
 		panelOutput1.setContent(layoutOutput1);
 	
-		Panel panelOutput2 = new Panel("Laporan Per Barang");
+		Panel panelOutput2 = new Panel("Laporan Penjualan Barang Per Nota");
 			VerticalLayout layoutOutput2 = new VerticalLayout();
 			layoutOutput2.setMargin(true);
 		panelOutput2.setContent(layoutOutput2);
+
+		Panel panelOutput3 = new Panel("Laporan Penjualan Total");
+		VerticalLayout layoutOutput3 = new VerticalLayout();
+		layoutOutput3.setMargin(true);
+		panelOutput3.setContent(layoutOutput3);
 		
 		layoutOutput1.addComponent(checkBoxOutput1);
 		layoutOutput1.addComponent(checkBoxOutput2);
@@ -140,13 +154,18 @@ public class LapSalesOrderView extends CustomComponent{
 		layoutOutput2.addComponent(checkBoxOutput5);
 		layoutOutput2.addComponent(checkBoxOutput6);
 		
+		layoutOutput3.addComponent(checkBoxOutput10);
+		layoutOutput3.addComponent(checkBoxOutput11);
+		layoutOutput3.addComponent(checkBoxOutput12);
+		layoutOutput3.addComponent(checkBoxOutput13);
+		
 		layoutOutput.addComponent(panelOutput1);
 		layoutOutput.addComponent(panelOutput2);
+		layoutOutput.addComponent(panelOutput3);
 		
+		layoutBottom.addComponent(btnPreviewInExel);
 		layoutBottom.addComponent(btnPreview);
 		layoutBottom.addComponent(btnClose);
-		
-		
 		
 		panelFilter.setContent(layoutFilter);
 		panelOutput.setContent(layoutOutput);
@@ -163,6 +182,11 @@ public class LapSalesOrderView extends CustomComponent{
 	}
 	
 	public void setDisplay(){
+		comboGroup0.setContainerDataSource(model.getBeanItemContainerFSalesman());
+		comboGroup0.setNewItemsAllowed(false);
+		comboGroup0.setFilteringMode(FilteringMode.CONTAINS);
+		comboGroup0.setNullSelectionAllowed(true);
+		
 		comboGroup1.setContainerDataSource(model.getBeanItemContainerFVendor());
 		comboGroup1.setNewItemsAllowed(false);
 		comboGroup1.setFilteringMode(FilteringMode.CONTAINS);
@@ -432,8 +456,55 @@ public class LapSalesOrderView extends CustomComponent{
 	public void setPanelOutput(Panel panelOutput) {
 		this.panelOutput = panelOutput;
 	}
-	
-	
+
+	public ComboBox getComboGroup0() {
+		return comboGroup0;
+	}
+
+	public CheckBox getCheckBoxOutput10() {
+		return checkBoxOutput10;
+	}
+
+	public CheckBox getCheckBoxOutput11() {
+		return checkBoxOutput11;
+	}
+
+	public CheckBox getCheckBoxOutput12() {
+		return checkBoxOutput12;
+	}
+
+	public CheckBox getCheckBoxOutput13() {
+		return checkBoxOutput13;
+	}
+
+	public void setComboGroup0(ComboBox comboGroup0) {
+		this.comboGroup0 = comboGroup0;
+	}
+
+	public void setCheckBoxOutput10(CheckBox checkBoxOutput10) {
+		this.checkBoxOutput10 = checkBoxOutput10;
+	}
+
+	public void setCheckBoxOutput11(CheckBox checkBoxOutput11) {
+		this.checkBoxOutput11 = checkBoxOutput11;
+	}
+
+	public void setCheckBoxOutput12(CheckBox checkBoxOutput12) {
+		this.checkBoxOutput12 = checkBoxOutput12;
+	}
+
+	public void setCheckBoxOutput13(CheckBox checkBoxOutput13) {
+		this.checkBoxOutput13 = checkBoxOutput13;
+	}
+
+	public Button getBtnPreviewInExel() {
+		return btnPreviewInExel;
+	}
+
+	public void setBtnPreviewInExel(Button btnPreviewInExel) {
+		this.btnPreviewInExel = btnPreviewInExel;
+	}
+
 	
 	
 	

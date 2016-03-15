@@ -107,7 +107,6 @@ public class FtPurchaseh {
 	
 	@Column(name="amountrevisi")
 	private double amountrevisi;
-
 	
 	@ManyToOne
 	@JoinColumn(name="fvendorBean", referencedColumnName="id")

@@ -5,17 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.erp.distribution.model.Bukugiro;
-import org.erp.distribution.model.Bukutransfer;
 import org.erp.distribution.model.FtAppaymentd;
 import org.erp.distribution.model.FtAppaymentdPK;
 import org.erp.distribution.model.FtAppaymenth;
-import org.erp.distribution.model.FtArpaymentd;
-import org.erp.distribution.model.FtArpaymentdPK;
-import org.erp.distribution.model.FtArpaymenth;
 import org.erp.distribution.model.FtPurchaseh;
-import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
+import org.erp.distribution.util.HeaderDetilSalesHelper;
+import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -23,8 +19,8 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.Action;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.Action.Handler;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -390,9 +386,9 @@ public class ApPaymentVendorPresenter implements ClickListener, ValueChangeListe
                     		//PERBAIKI INVOICE AMOUNTPAY >> Sorry Harus manual
                     		model.getItemInvoice().setAmountpay(model.getItemInvoice().getAmountpay()- amountThisDetail);  
                     		
-                    		if (model.getItemInvoice().getAmount() + model.getItemInvoice().getAmountrevisi()>model.getItemInvoice().getAmountpay()){
-                    			model.getItemInvoice().setLunas(false);
-                    		}
+//                    		if (model.getItemInvoice().getAmount() + model.getItemInvoice().getAmountrevisi()>model.getItemInvoice().getAmountpay()){
+//                    			model.getItemInvoice().setLunas(false);
+//                    		}
                     		model.getFtPurchasehJpaService().updateObject(model.getItemInvoice());
                     		
                     		

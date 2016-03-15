@@ -7,21 +7,16 @@ import org.erp.distribution.model.Bukugiro;
 import org.erp.distribution.model.Bukutransfer;
 import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FtAppaymentdPK;
-import org.erp.distribution.model.FtArpaymentdPK;
 import org.erp.distribution.model.FtPurchaseh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
-import com.vaadin.data.Container.ItemSetChangeEvent;
-import com.vaadin.data.Container.ItemSetChangeListener;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Field.ValueChangeEvent;
 import com.vaadin.ui.Notification;
 
 public class ApPaymentVendorPembayaranPresenter implements ClickListener{
@@ -238,10 +233,10 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 					}
 					try{
 						if ((Double) view.getFieldReturPay().getConvertedValue() <= 0){
-							double nilaiRetur = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmount();
-							double nilaiReturAfterPPn = Math.round(nilaiRetur + (nilaiRetur * model.getTransaksiHelper().getParamPpn()/100.0));
+							double nilaiReturAfterPpn = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountafterdiscafterppn();
+							double nilaiReturAmountPay = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountpay();
 							double nilaiReturRevisi = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
-							view.getFieldReturPay().setConvertedValue(nilaiReturAfterPPn + nilaiReturRevisi);
+							view.getFieldReturPay().setConvertedValue(nilaiReturAfterPpn + nilaiReturRevisi - nilaiReturAmountPay);
 							
 							double nilaiAfter = Double.parseDouble(view.getFieldReturPay().getValue().replaceAll(",", ""));
 							view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("RETUR", nilaiAfter)));	
@@ -453,8 +448,17 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 			setInvoiceTerbayar();
 			
 		} else if (event.getButton()==view.getBtnEqualRetur()){
+			double nilaiReturAfterPpn = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountafterdiscafterppn();
+			double nilaiReturAmountPay = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountpay();
+			double nilaiReturRevisi = (double) ((FtPurchaseh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
+			view.getFieldReturPay().setConvertedValue(nilaiReturAfterPpn + nilaiReturRevisi - nilaiReturAmountPay);
+
+			double nilaiAvailableRetur = nilaiReturAfterPpn + nilaiReturRevisi - nilaiReturAmountPay;
+			double nilaiPenambahanBayar = penambahanBayar() + (Double) view.getFieldReturPay().getConvertedValue();
+			if (nilaiPenambahanBayar > nilaiAvailableRetur)
+				nilaiPenambahanBayar = nilaiAvailableRetur;
 			//NEW VALUE >> penambahan + nilai sekaran			
-			view.getFieldReturPay().setValue(String.valueOf(penambahanBayar() + (Double) view.getFieldReturPay().getConvertedValue()));
+			view.getFieldReturPay().setValue(String.valueOf(nilaiPenambahanBayar));
 			//NILAI AFTER PENAMBAHAN
 			view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("Dummy",0.0)));			
 			//MERUBAH VARIABLE
@@ -517,8 +521,8 @@ public class ApPaymentVendorPembayaranPresenter implements ClickListener{
 			}
 			
 		} else if (event.getButton()==view.getBtnTransferBrowse()){
-		} else if (event.getButton()==view.getBtnGiroBrowse()){
 			
+		} else if (event.getButton()==view.getBtnGiroBrowse()){			
 			
 		}
 		

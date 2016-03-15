@@ -1,6 +1,10 @@
 package org.erp.distribution.salesorder.salesorder.lapsalesorder;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,14 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 
 import org.erp.distribution.model.FArea;
 import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FProductgroup;
+import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FVendor;
 import org.erp.distribution.model.FtSalesd;
@@ -44,6 +52,7 @@ public class LapSalesOrderPresenter implements ClickListener{
 	public void initListener(){
 		view.getBtnPreview().addClickListener(this);
 		view.getBtnClose().addClickListener(this);
+		view.getBtnPreviewInExel().addClickListener(this);
 	}
 	
 	@Override
@@ -51,14 +60,26 @@ public class LapSalesOrderPresenter implements ClickListener{
 		if (event.getButton()==view.getBtnPreview()){
 			printForm();
 		} else if (event.getButton()==view.getBtnClose()){
+		}else if (event.getButton()==view.getBtnPreviewInExel()){
+			previewInExel();
 		}
 	}
 		
+	private String paramCompanyName = "W-DES";
+	private String paramCompanyAddress = "Jl. Kauman Gang IV/A Malang";
+	private String paramCompanyPhone = "Telp.082143574692";
+	private String paramJudulLaporan = "LAPORAN SALES";
+	
 	public void printForm(){
+		paramCompanyName = model.getSysvarHelper().getCompanyNameFaktur();
+		paramCompanyAddress = model.getSysvarHelper().getCompanyAddressFaktur();
+		paramCompanyPhone = model.getSysvarHelper().getCompanyPhoneFaktur();
+		
 		//1. ISI DATABASE UNTUK TEMP
 		if (view.getCheckBoxOutput1().getValue()==true){
 			fillDatabaseReport(1);
 			//2. PREVIEW LAPORAN
+			paramJudulLaporan = "Laporan Penjualan Customer-Per Area";
 			if (view.getCheckBox2().getValue()==true){
 				showPreview("/erp/distribution/reports/salesorder/lapsalesorderpernota/lapsalesorderperareapernota1LengkapDs.jasper", "lapsalesorderperareapernota1Lengkap");			
 			}else {
@@ -67,6 +88,7 @@ public class LapSalesOrderPresenter implements ClickListener{
 		}
 		if (view.getCheckBoxOutput2().getValue()==true){
 			fillDatabaseReport(2);
+			paramJudulLaporan = "Laporan Penjualan Customer-Per Tipe Outlet";
 			//2. PREVIEW LAPORAN
 			if (view.getCheckBox2().getValue()==true){
 				showPreview("/erp/distribution/reports/salesorder/lapsalesorderpernota/lapsalesorderpertipepernota1LengkapDs.jasper", "lapsalesorderpertipepernota1Lengkap");			
@@ -77,6 +99,7 @@ public class LapSalesOrderPresenter implements ClickListener{
 		
 		if (view.getCheckBoxOutput3().getValue()==true){
 			fillDatabaseReport(3);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Supplier";
 			//2. PREVIEW LAPORAN
 			if (view.getCheckBox2().getValue()==true){
 				showPreview("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1LengkapDs.jasper", "lapsalesvendorperbaranglengkap1");			
@@ -86,6 +109,7 @@ public class LapSalesOrderPresenter implements ClickListener{
 		}
 		if (view.getCheckBoxOutput4().getValue()==true){
 			fillDatabaseReport(4);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Area";
 			//2. PREVIEW LAPORAN
 			if (view.getCheckBox2().getValue()==true){
 				showPreview("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesareaperbarang/lapsalesareaperbarang1LengkapDs.jasper", "lapsalesareaperbaranglengkap1");			
@@ -95,6 +119,7 @@ public class LapSalesOrderPresenter implements ClickListener{
 		}
 		if (view.getCheckBoxOutput5().getValue()==true){
 			fillDatabaseReport(5);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Tipe Customer";
 			//2. PREVIEW LAPORAN
 			if (view.getCheckBox2().getValue()==true){
 				showPreview("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalestipecustperbarang/lapsalestipecustperbarang1LengkapDs.jasper", "lapsalestipecustperbaranglengkap1");			
@@ -104,6 +129,7 @@ public class LapSalesOrderPresenter implements ClickListener{
 		}
 		if (view.getCheckBoxOutput6().getValue()==true){
 			fillDatabaseReport(6);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Grup Barang";
 			//2. PREVIEW LAPORAN
 			if (view.getCheckBox2().getValue()==true){
 				showPreview("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesproductgroupperbarang/lapsalesproductgroupperbarang1LengkapDs.jasper", "lapsalesproductgroupperbaranglengkap1");			
@@ -112,11 +138,172 @@ public class LapSalesOrderPresenter implements ClickListener{
 			}
 		}
 		
+		if (view.getCheckBoxOutput10().getValue()==true){
+			fillDatabaseReport(10);
+			paramJudulLaporan = "Laporan Penjualan Total Supplier";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1LengkapDs.jasper", "lappenjulantotalsupplierlengkap");			
+			}else {
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1Ds.jasper", "lappenjualansupplier");
+			}
+		}
+		if (view.getCheckBoxOutput11().getValue()==true){
+			fillDatabaseReport(11);
+			paramJudulLaporan = "Laporan Penjualan Total Customer";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1LengkapDs.jasper", "lappenjulantotalsupplierlengkap");			
+			}else {
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1Ds.jasper", "lappenjualansupplier");
+			}
+		}
+		if (view.getCheckBoxOutput12().getValue()==true){
+			fillDatabaseReport(12);
+			paramJudulLaporan = "Laporan Penjualan Total Barang";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/denganbarang/lapsalesordertotal1LengkapDs.jasper", "lapsalesordertotal1LengkapDs");			
+			}else {
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/denganbarang/lapsalesordertotal1Ds.jasper", "lapsalesordertotal1Ds");
+			}
+		}
+		if (view.getCheckBoxOutput13().getValue()==true){
+			fillDatabaseReport(13);
+			paramJudulLaporan = "Laporan Penjualan Total Salesman";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1LengkapDs.jasper", "lappenjulantotalsupplierlengkap");			
+			}else {
+				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1Ds.jasper", "lappenjualansupplier");
+			}
+		}
+		
+		
+	}
+
+	public void previewInExel(){
+		paramCompanyName = model.getSysvarHelper().getCompanyNameFaktur();
+		paramCompanyAddress = model.getSysvarHelper().getCompanyAddressFaktur();
+		paramCompanyPhone = model.getSysvarHelper().getCompanyPhoneFaktur();
+		
+		//1. ISI DATABASE UNTUK TEMP
+		if (view.getCheckBoxOutput1().getValue()==true){
+			fillDatabaseReport(1);
+			//2. PREVIEW LAPORAN
+			paramJudulLaporan = "Laporan Penjualan Customer-Per Area";
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderpernota/lapsalesorderperareapernota1LengkapDs.jasper", "lapsalesorderperareapernota1Lengkap");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderpernota/lapsalesorderperareapernota1Ds.jasper", "lapsalesorderperareapernota1");
+			}
+		}
+		if (view.getCheckBoxOutput2().getValue()==true){
+			fillDatabaseReport(2);
+			paramJudulLaporan = "Laporan Penjualan Customer-Per Tipe Outlet";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderpernota/lapsalesorderpertipepernota1LengkapDs.jasper", "lapsalesorderpertipepernota1Lengkap");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderpernota/lapsalesorderpertipepernota1Ds.jasper", "lapsalesorderpertipepernota1");
+			}
+		}
+		
+		if (view.getCheckBoxOutput3().getValue()==true){
+			fillDatabaseReport(3);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Supplier";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1LengkapDs.jasper", "lapsalesvendorperbaranglengkap1");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesvendorperbarang/lapsalesvendorperbarang1Ds.jasper", "lapsalesvendorperbarang1");
+			}
+		}
+		if (view.getCheckBoxOutput4().getValue()==true){
+			fillDatabaseReport(4);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Area";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesareaperbarang/lapsalesareaperbarang1LengkapDs.jasper", "lapsalesareaperbaranglengkap1");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesareaperbarang/lapsalesareaperbarang1Ds.jasper", "lapsalesareaperbarang1");
+			}
+		}
+		if (view.getCheckBoxOutput5().getValue()==true){
+			fillDatabaseReport(5);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Tipe Customer";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalestipecustperbarang/lapsalestipecustperbarang1LengkapDs.jasper", "lapsalestipecustperbaranglengkap1");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalestipecustperbarang/lapsalestipecustperbarang1Ds.jasper", "lapsalestipecustperbarang1");
+			}
+		}
+		if (view.getCheckBoxOutput6().getValue()==true){
+			fillDatabaseReport(6);
+			paramJudulLaporan = "Laporan Penjualan Per Barang-Per Grup Barang";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesproductgroupperbarang/lapsalesproductgroupperbarang1LengkapDs.jasper", "lapsalesproductgroupperbaranglengkap1");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesorderperbarang/lapsalesproductgroupperbarang/lapsalesproductgroupperbarang1Ds.jasper", "lapsalesproductgroupperbarang1");
+			}
+		}
+		
+		if (view.getCheckBoxOutput10().getValue()==true){
+			fillDatabaseReport(10);
+			paramJudulLaporan = "Laporan Penjualan Total Supplier";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1LengkapDs.jasper", "lappenjulantotalsupplierlengkap");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1Ds.jasper", "lappenjualansupplier");
+			}
+		}
+		if (view.getCheckBoxOutput11().getValue()==true){
+			fillDatabaseReport(11);
+			paramJudulLaporan = "Laporan Penjualan Total Customer";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1LengkapDs.jasper", "lappenjulantotalsupplierlengkap");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1Ds.jasper", "lappenjualansupplier");
+			}
+		}
+		if (view.getCheckBoxOutput12().getValue()==true){
+			fillDatabaseReport(12);
+			paramJudulLaporan = "Laporan Penjualan Total Barang";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/denganbarang/lapsalesordertotal1LengkapDs.jasper", "lapsalesordertotal1LengkapDs");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/denganbarang/lapsalesordertotal1Ds.jasper", "lapsalesordertotal1Ds");
+			}
+		}
+		if (view.getCheckBoxOutput13().getValue()==true){
+			fillDatabaseReport(13);
+			paramJudulLaporan = "Laporan Penjualan Total Salesman";
+			//2. PREVIEW LAPORAN
+			if (view.getCheckBox2().getValue()==true){
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1LengkapDs.jasper", "lappenjulantotalsupplierlengkap");			
+			}else {
+				jasperToExel("/erp/distribution/reports/salesorder/lapsalesordertotal/rupiahsaja/lapsalesordertotal1Ds.jasper", "lappenjualansupplier");
+			}
+		}
+		
+		
 	}
 	
+	private String paramSalesman = "Semua Salesman";
 	private List<ZLapTemplate2> lapTemplate2 = new ArrayList<ZLapTemplate2>();
 	public void fillDatabaseReport(int laporan){
 
+		String paramSpcode = "%";
+		paramSalesman = "Semua Salesman";
+		try{
+			paramSpcode = "%" + ((FSalesman) view.getComboGroup0().getValue()).getSpcode() + "%";
+			paramSalesman = paramSpcode + "-" + ((FSalesman) view.getComboGroup0().getValue()).getSpname();
+		} catch(Exception ex){}
 		String paramVcode = "%";
 		try{
 			paramVcode = "%" + ((FVendor) view.getComboGroup1().getValue()).getVcode() + "%";
@@ -154,29 +341,50 @@ public class LapSalesOrderPresenter implements ClickListener{
 		List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>();
 		if (laporan==1){
 			listFtSalesd = model.getFtSalesdJpaService()
-					.findAllByAreaAndInvoice(paramVcode, paramArea, paramSubArea, paramCustno, 
+					.findAllByAreaAndInvoice(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
 							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
 		}else if (laporan==2){
 			listFtSalesd = model.getFtSalesdJpaService()
-					.findAllByTipeAndInvoice(paramVcode, paramArea, paramSubArea, paramCustno, 
+					.findAllByTipeAndInvoice(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
 							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);
 			
 		}else if (laporan==3){
 			listFtSalesd = model.getFtSalesdJpaService()
-					.findAllByVendor(paramVcode, paramArea, paramSubArea, paramCustno, 
+					.findAllByVendor(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
 							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);
 		}else if (laporan==4){
 			listFtSalesd = model.getFtSalesdJpaService()
-					.findAllByArea(paramVcode, paramArea, paramSubArea, paramCustno, 
+					.findAllByArea(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
 							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
 		}else if (laporan==5){
 			listFtSalesd = model.getFtSalesdJpaService()
-					.findAllByTipeCust(paramVcode, paramArea, paramSubArea, paramCustno, 
+					.findAllByTipeCust(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
 							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
 		}else if (laporan==6){
 			listFtSalesd = model.getFtSalesdJpaService()
-					.findAllByProductGroup(paramVcode, paramArea, paramSubArea, paramCustno, 
+					.findAllByProductGroup(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
+							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);		
+			
+			
+		}else if (laporan==12){
+			listFtSalesd = model.getFtSalesdJpaService()
+					.findAllByForTotalBarang(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
 							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
+
+	
+		}else if (laporan==10){
+			listFtSalesd = model.getFtSalesdJpaService()
+					.findAllByForTotalSupplier(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
+							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
+		}else if (laporan==11){
+			listFtSalesd = model.getFtSalesdJpaService()
+					.findAllByForTotalCustomer(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
+							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
+		}else if (laporan==13){
+			listFtSalesd = model.getFtSalesdJpaService()
+					.findAllByForTotalSalesman(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
+							paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);			
+		
 		}
 		
 		fillIntoTemplateReport(laporan, listFtSalesd);
@@ -188,26 +396,39 @@ public class LapSalesOrderPresenter implements ClickListener{
 		lapTemplate2 = new ArrayList<ZLapTemplate2>();		
 				
 		for (FtSalesd ftSalesd: listFtSalesd){			
-				FtSalesd newFtSalesd = new FtSalesd();
 				//JIKA RETUR MAKA DI MINUSKAN
 				if (ftSalesd.getFtsaleshBean().getTipefaktur().equals("R")) {
 //					ftSalesd.setSprice(- ftSalesd.getSprice());
 					ftSalesd.setQty(-ftSalesd.getQty());
 				}
+				FtSalesd newFtSalesd = new FtSalesd();
 				HeaderDetilSalesHelper headerDetilHelper = new HeaderDetilSalesHelperImpl(ftSalesd);
 				newFtSalesd = headerDetilHelper.getFillFtSalesd();
 				
 				ZLapTemplate2 domain = new ZLapTemplate2();
 
-				String vendorName  = ftSalesd.getFproductBean().getFvendorBean().getVcode()  + "-" + ftSalesd.getFproductBean().getFvendorBean().getVname();
-				String areaName  = ftSalesd.getFtsaleshBean().getFcustomerBean().getFsubareaBean().getFareaBean().getId()  
-						+ "-" + ftSalesd.getFtsaleshBean().getFcustomerBean().getFsubareaBean().getFareaBean().getDescription();
-				String tipeName = ftSalesd.getFtsaleshBean().getFcustomerBean().getFcustomersubgroupBean().getId()
-						+ "-" + ftSalesd.getFtsaleshBean().getFcustomerBean().getFcustomersubgroupBean().getDescription();
-				String custName = ftSalesd.getFtsaleshBean().getFcustomerBean().getCustno() + 
-						"-" + ftSalesd.getFtsaleshBean().getFcustomerBean().getCustname();
-				String productGroupName  = ftSalesd.getFproductBean().getFproductgroupBean().getId() 
-						+ "-" + ftSalesd.getFproductBean().getFproductgroupBean().getDescription();
+				String vendorCode  = "";
+				String vendorName  = "";
+				try{
+					vendorCode  = ftSalesd.getFproductBean().getFvendorBean().getVcode();
+					vendorName  = vendorCode  + "-" + ftSalesd.getFproductBean().getFvendorBean().getVname();
+				} catch(Exception ex){}
+				
+				String salesmanCode  = ftSalesd.getFtsaleshBean().getFsalesmanBean().getSpcode();
+				String salesmanDesc  = ftSalesd.getFtsaleshBean().getFsalesmanBean().getSpname();
+				String salesmanName  = salesmanCode + "-" + salesmanDesc;
+
+				String areaId  = ftSalesd.getFtsaleshBean().getFcustomerBean().getFsubareaBean().getFareaBean().getId();
+				String areaName  = areaId + "-" + ftSalesd.getFtsaleshBean().getFcustomerBean().getFsubareaBean().getFareaBean().getDescription();
+				String tipeCustomerId = ftSalesd.getFtsaleshBean().getFcustomerBean().getFcustomersubgroupBean().getId();
+				String tipeCustomerName = tipeCustomerId + "-" + ftSalesd.getFtsaleshBean().getFcustomerBean().getFcustomersubgroupBean().getDescription();
+				
+				String custNo = ftSalesd.getFtsaleshBean().getFcustomerBean().getCustno() ;
+				String custDesc=ftSalesd.getFtsaleshBean().getFcustomerBean().getCustname();
+				String custName = custNo +"-" + custDesc;
+				
+				String productGroupId  = ftSalesd.getFproductBean().getFproductgroupBean().getId();
+				String productGroupName  = productGroupId + "-" + ftSalesd.getFproductBean().getFproductgroupBean().getDescription();
 				
 				String address1 = ftSalesd.getFtsaleshBean().getFcustomerBean().getAddress1();
 				String city1 = ftSalesd.getFtsaleshBean().getFcustomerBean().getCity1();
@@ -220,7 +441,11 @@ public class LapSalesOrderPresenter implements ClickListener{
 				String invoiceRefno = String.valueOf(ftSalesd.getFtsaleshBean().getRefno());
 				Date invoiceTrdate = ftSalesd.getFtsaleshBean().getInvoicedate();
 				Date invoiceDuedate = ftSalesd.getFtsaleshBean().getDuedate();
-				String productName = ftSalesd.getFproductBean().getPcode() + "-" +ftSalesd.getFproductBean().getPname();
+				
+				String productCode = ftSalesd.getFproductBean().getPcode();
+				String productDesc = ftSalesd.getFproductBean().getPname();
+				String productName =  productCode + "-" + productDesc;
+				String productPackaging =  ftSalesd.getFproductBean().getPackaging();
 				
 				double totalBrutoDpp = newFtSalesd.getSubtotal();
 				double totalDiscBarangDpp = newFtSalesd.getDisc1rp() + newFtSalesd.getDisc2rp();
@@ -231,27 +456,51 @@ public class LapSalesOrderPresenter implements ClickListener{
 				if (laporan==1){
 					domain.setGrup1("GRAND TOTAL");
 					domain.setGrup2(areaName);
-					domain.setString1(ftSalesd.getFtsaleshBean().getFcustomerBean().getFsubareaBean().getFareaBean().getId());		
+					domain.setString1(areaId);		
+					domain.setGrup3(invoiceno);			
 				} else if (laporan==2){
 					domain.setGrup1("GRAND TOTAL");
-					domain.setGrup2(tipeName);
-					domain.setString1(ftSalesd.getFtsaleshBean().getFcustomerBean().getFcustomersubgroupBean().getId());		
+					domain.setGrup2(tipeCustomerName);
+					domain.setString1(tipeCustomerId);		
+					domain.setGrup3(invoiceno);			
 
 				}else if (laporan==3){
 					domain.setGrup1(vendorName);
 					domain.setGrup2(invoiceno);
+					domain.setGrup3(invoiceno);			
 				} else if (laporan==4){
 					domain.setGrup1(areaName);					
 					domain.setGrup2(invoiceno);
+					domain.setGrup3(invoiceno);			
 				}else if (laporan==5){
-					domain.setGrup1(tipeName);					
+					domain.setGrup1(tipeCustomerName);					
 					domain.setGrup2(invoiceno);
+					domain.setGrup3(invoiceno);			
 				}else if (laporan==6){
 					domain.setGrup1(productGroupName);					
 					domain.setGrup2(invoiceno);
+					domain.setGrup3(invoiceno);			
+
+				}else if (laporan==110){
+					domain.setGrup1("-");					
+					domain.setGrup2("-");			
+					domain.setGrup3(vendorCode);
+				}else if (laporan==11){
+					domain.setGrup1("-");					
+					domain.setGrup2("-");			
+					domain.setGrup3(custNo);
+				
+				}else if (laporan==12){
+					domain.setGrup1("-");					
+					domain.setGrup2("-");			
+					domain.setGrup3(productCode);
+					
+				}else if (laporan==13){
+					domain.setGrup1("-");					
+					domain.setGrup2("-");			
+					domain.setGrup3(salesmanCode);
 				}
 				
-				domain.setGrup3(invoiceno);			
 				
 				if (laporan<=2){
 					domain.setString2(custName);
@@ -272,17 +521,85 @@ public class LapSalesOrderPresenter implements ClickListener{
 					domain.setDouble5(totalDpp);
 					
 					domain.setDouble1(totalAfterDisc2AfterPpn);
-				}else {
-					domain.setString1(ftSalesd.getFproductBean().getFvendorBean().getVcode());					
+				}else if (laporan>=3 && laporan<=9){
+					domain.setString1(vendorCode);					
 					domain.setString2(custName);
 					domain.setString3(invoiceno);
 					domain.setDate1(invoiceTrdate);
 					domain.setDate2(invoiceDuedate);
-					domain.setString4(productName);  
+					domain.setString4(productName + " " + productPackaging);  
 					
 					KonversiProductAndStock kps = new KonversiProductAndStockImpl(ftSalesd.getQty(), ftSalesd.getFproductBean());		
 					domain.setInt1(kps.getBesFromPcs());
 					domain.setString5(kps.getBesSedKecString());
+					
+					domain.setDouble2(totalBrutoDpp);
+					domain.setDouble3(totalDiscBarangDpp);
+					domain.setDouble4(totalDiscNotaDpp);
+					domain.setDouble5(totalDpp);
+					
+					domain.setDouble1(totalAfterDisc2AfterPpn);
+				}else if (laporan == 10){
+					domain.setString1("-");					
+					domain.setString2("-");
+					domain.setString3(vendorCode);
+//					domain.setDate1(invoiceTrdate);
+//					domain.setDate2(invoiceDuedate);
+					domain.setString4(vendorName);  
+					
+					
+					domain.setDouble2(totalBrutoDpp);
+					domain.setDouble3(totalDiscBarangDpp);
+					domain.setDouble4(totalDiscNotaDpp);
+					domain.setDouble5(totalDpp);
+					
+					domain.setDouble1(totalAfterDisc2AfterPpn);
+				}else if (laporan == 11){
+					domain.setString1(areaName);					
+					domain.setString2(tipeCustomerId);
+					domain.setString3(custNo);
+//					domain.setDate1(invoiceTrdate);
+//					domain.setDate2(invoiceDuedate);
+					domain.setString4(custDesc);  
+					
+					domain.setDouble2(totalBrutoDpp);
+					domain.setDouble3(totalDiscBarangDpp);
+					domain.setDouble4(totalDiscNotaDpp);
+					domain.setDouble5(totalDpp);
+					
+					domain.setDouble1(totalAfterDisc2AfterPpn);
+					
+				}else if (laporan == 12){
+					domain.setString1(vendorCode);					
+					domain.setString2(productGroupId);
+					domain.setString3(productCode);
+//					domain.setDate1(invoiceTrdate);
+//					domain.setDate2(invoiceDuedate);
+					domain.setString4(productDesc + " " + productPackaging);  
+
+//					domain.setInt2(ftSalesd.getFproductBean().getConvfact1());
+//					domain.setInt3(ftSalesd.getFproductBean().getConvfact2());
+					KonversiProductAndStock kps = new KonversiProductAndStockImpl(ftSalesd.getQty(), ftSalesd.getFproductBean());		
+					domain.setInt1(kps.getBesFromPcs());
+					domain.setInt2(kps.getSedFromPcs());
+					domain.setInt3(kps.getKecFromPcs());
+					
+//					domain.setString5(kps.getBesSedKecString());
+					
+					domain.setDouble2(totalBrutoDpp);
+					domain.setDouble3(totalDiscBarangDpp);
+					domain.setDouble4(totalDiscNotaDpp);
+					domain.setDouble5(totalDpp);
+					
+					domain.setDouble1(totalAfterDisc2AfterPpn);
+					
+				}else if (laporan == 13){
+					domain.setString1(ftSalesd.getFtsaleshBean().getFsalesmanBean().getSalestype());					
+					domain.setString2(tipeCustomerId);
+					domain.setString3(salesmanCode);
+//					domain.setDate1(invoiceTrdate);
+//					domain.setDate2(invoiceDuedate);
+					domain.setString4(salesmanDesc);  
 					
 					domain.setDouble2(totalBrutoDpp);
 					domain.setDouble3(totalDiscBarangDpp);
@@ -313,10 +630,16 @@ public class LapSalesOrderPresenter implements ClickListener{
 //			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
 		
 		final Map parameters=new HashMap();
-		parameters.put("CompanyName","");
+		
+		parameters.put("paramJudulLaporan", paramJudulLaporan);
+		parameters.put("paramCompanyName", paramCompanyName);
+		parameters.put("paramCompanyAddress", paramCompanyAddress);
+		parameters.put("paramCompanyPhone", paramCompanyPhone);
+		parameters.put("paramSalesman", paramSalesman);
 		
 		parameters.put("paramDate1", view.getDateField1From().getValue());
 		parameters.put("paramDate2", view.getDateField1To().getValue());
+		
 		if (view.getCheckBoxRetur().getValue()==true){
 			parameters.put("paramDipotongRetur", "*Dipotong Retur");
 		}else {
@@ -358,6 +681,73 @@ public class LapSalesOrderPresenter implements ClickListener{
 	
 		
 	}
+	public void jasperToExel(String inputFilePath, String outputFilePath){
+		try {			
+//			final JasperReport report;
+//			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
+		
+		final Map parameters=new HashMap();
+		
+		parameters.put("paramJudulLaporan", paramJudulLaporan);
+		parameters.put("paramCompanyName", paramCompanyName);
+		parameters.put("paramCompanyAddress", paramCompanyAddress);
+		parameters.put("paramCompanyPhone", paramCompanyPhone);
+		parameters.put("paramSalesman", paramSalesman);
+		
+		parameters.put("paramDate1", view.getDateField1From().getValue());
+		parameters.put("paramDate2", view.getDateField1To().getValue());
+		
+		if (view.getCheckBoxRetur().getValue()==true){
+			parameters.put("paramDipotongRetur", "*Dipotong Retur");
+		}else {
+			parameters.put("paramDipotongRetur", "*Tidak Dipotong Retur");
+			
+		}
+		
+		//CONNECTION
+//		final Connection con = new ReportJdbcConfigHelper().getConnection();
+		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lapTemplate2);
+		InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
+		
+		
+        //OUTPUT KE FILE
+//		File xlsx = new File("/Users/yhawin/sample.xls");
+       final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
+		JRXlsExporter xlsExporter = new JRXlsExporter();
+		xlsExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
+		xlsExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+		xlsExporter.setParameter(JRXlsExporterParameter.IGNORE_PAGE_MARGINS, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.SHEET_NAMES, new String[]{"Sheet1"});
+		xlsExporter.setParameter(JRXlsExporterParameter.IGNORE_PAGE_MARGINS, true);
+		xlsExporter.exportReport();
+
+		
+ 		StreamResource.StreamSource source = new StreamSource() {			
+			@Override
+			public InputStream getStream() {
+				byte[] b = null;
+					b = out.toByteArray();
+				return new ByteArrayInputStream(b);
+			}
+		};
+		
+		String fileName = "exel"  +System.currentTimeMillis() +".xls";
+		StreamResource resource = new StreamResource( source, fileName);
+		resource.setMIMEType("application/vnd.ms-excel");
+		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
+		
+		view.getUI().getPage().open(resource, "_new_" , false);
 	
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

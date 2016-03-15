@@ -1,11 +1,13 @@
 package org.erp.distribution.ar.sjpenagihan;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +26,9 @@ import org.springframework.boot.autoconfigure.condition.SearchStrategy;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -34,6 +39,12 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.Column;
+import com.vaadin.ui.Grid.FooterRow;
+import com.vaadin.ui.Grid.HeaderCell;
+import com.vaadin.ui.Grid.HeaderRow;
+import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -42,13 +53,18 @@ import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class SjPenagihanView extends CustomComponent {
 	
 	private SjPenagihanModel model;
 	private VerticalLayout content = new VerticalLayout();
 
+	private Grid grid1 = new Grid();
+	private FooterRow footerRow;
+	
 	private Table table;
 	private Form form;
 	private FieldFactory fieldFactory;
@@ -401,6 +417,36 @@ public class SjPenagihanView extends CustomComponent {
 		//Init komponen tengah
 		table.setSizeFull();
 		table.setSelectable(true);
+		
+		grid1.setContainerDataSource(model.getTableBeanItemContainer());
+		grid1.setSizeFull();
+		grid1.setSelectionMode(SelectionMode.MULTI);
+		
+		footerRow = grid1.appendFooterRow();
+		
+		HeaderRow headerRow = grid1.appendHeaderRow();
+		HeaderCell headerCellOrderNo = headerRow.getCell("orderno");
+		HeaderCell headerCellInvoiceNo = headerRow.getCell("invoiceno");
+		HeaderCell headerCellSjPenagihanNo = headerRow.getCell("sjpenagihanno");
+		
+		TextField fieldOrderNoFilter = new TextField();
+		fieldOrderNoFilter.setImmediate(true);
+		fieldOrderNoFilter.setSizeFull();
+		TextField fieldInvoiceNoFilter = new TextField();
+		fieldInvoiceNoFilter.setImmediate(true);
+		fieldInvoiceNoFilter.setSizeFull();
+		TextField fieldSjPenagihanNoFilter = new TextField();
+		fieldSjPenagihanNoFilter.setImmediate(true);
+		fieldSjPenagihanNoFilter.setSizeFull();
+		
+		
+		fieldOrderNoFilter.addTextChangeListener(getOrderNoFilter());
+		fieldInvoiceNoFilter.addTextChangeListener(getInvoiceNoFilter());
+		fieldSjPenagihanNoFilter.addTextChangeListener(getSjPenagihanNoFilter());
+		headerCellOrderNo.setComponent(fieldOrderNoFilter);		
+		headerCellInvoiceNo.setComponent(fieldInvoiceNoFilter);		
+		headerCellSjPenagihanNo.setComponent(fieldSjPenagihanNoFilter);		
+		
 //		table.addValueChangeListener(this);
 		table.setImmediate(true);
 		table.setBuffered(false);
@@ -410,6 +456,53 @@ public class SjPenagihanView extends CustomComponent {
 		fieldAmountReturTampunganFaktur.setImmediate(true);
                 
 	}
+
+	private TextChangeListener getOrderNoFilter() {
+		 return new TextChangeListener() {
+			 
+			  @Override
+			  public void textChange(TextChangeEvent event) {
+				   String newValue = (String) event.getText();
+				   model.getTableBeanItemContainer().removeContainerFilters("orderno");
+				   if (null != newValue && !newValue.isEmpty()) {
+					   model.getTableBeanItemContainer().addContainerFilter(new SimpleStringFilter(
+				      "orderno", newValue, true, false));
+				   }
+				   grid1.recalculateColumnWidths();
+			 }
+		};
+	}
+	private TextChangeListener getInvoiceNoFilter() {
+		 return new TextChangeListener() {
+			 
+			  @Override
+			  public void textChange(TextChangeEvent event) {
+				   String newValue = (String) event.getText();
+				   model.getTableBeanItemContainer().removeContainerFilters("invoiceno");
+				   if (null != newValue && !newValue.isEmpty()) {
+					   model.getTableBeanItemContainer().addContainerFilter(new SimpleStringFilter(
+				      "invoiceno", newValue, true, false));
+				   }
+				   grid1.recalculateColumnWidths();
+			 }
+		};
+	}
+	private TextChangeListener getSjPenagihanNoFilter() {
+		 return new TextChangeListener() {
+			 
+			  @Override
+			  public void textChange(TextChangeEvent event) {
+				   String newValue = (String) event.getText();
+				   model.getTableBeanItemContainer().removeContainerFilters("sjpenagihanno");
+				   if (null != newValue && !newValue.isEmpty()) {
+					   model.getTableBeanItemContainer().addContainerFilter(new SimpleStringFilter(
+				      "sjpenagihanno", newValue, true, false));
+				   }
+				   grid1.recalculateColumnWidths();
+			 }
+		};
+	}
+ 	
 	public void initFieldFactory(){
 //		fieldFactory = new FieldFactory();
 //		customFieldFactory = new CustomFieldFactory();		
@@ -426,7 +519,7 @@ public class SjPenagihanView extends CustomComponent {
 		HorizontalLayout layoutTopInner1 = new HorizontalLayout();	
 		
 		HorizontalLayout layoutTopInner2 = new HorizontalLayout();					
-		layoutTop.addComponent(layoutTopInner0);
+//		layoutTop.addComponent(layoutTopInner0);
 		layoutTop.addComponent(layoutTopInner1);
 		layoutTop.addComponent(layoutTopInner2);
 		panelTop.setContent(layoutTop);
@@ -434,14 +527,15 @@ public class SjPenagihanView extends CustomComponent {
                 //LAYOUT TABLE
 		VerticalLayout layoutTable = new VerticalLayout();
 		layoutTable.setSizeFull();
-        layoutTable.addComponent(table);
+//        layoutTable.addComponent(table);
+		layoutTable.addComponent(grid1);
                 
                 //LAYOUT BOTTOM
 		VerticalLayout layoutBottom = new VerticalLayout();
 		HorizontalLayout layoutFooter1 = new HorizontalLayout();
 		HorizontalLayout layoutFooter2 = new HorizontalLayout();
-		layoutBottom.addComponent(layoutFooter1);
-		layoutBottom.addComponent(layoutFooter2);
+//		layoutBottom.addComponent(layoutFooter1);
+//		layoutBottom.addComponent(layoutFooter2);
 		
         //LAYOUT UTAMA
         content.addComponent(panelTop);
@@ -558,11 +652,14 @@ public class SjPenagihanView extends CustomComponent {
 	
 	public void setVisibleTableProperties(Object... tablePropertyIds) {
 		table.setVisibleColumns(tablePropertyIds);		
+	
 	}
+	
 	public void setVisibleFormProperties(Object... formPropertyIds) {
 		this.formPropertyIds = formPropertyIds;
 		form.setVisibleItemProperties(formPropertyIds);
 	}
+	
 	public void setTableProperties(){
 		
 //		setVisibleTableProperties("selected", "recapno", "id", "tunaikredit", "salesmanBean", 
@@ -574,6 +671,7 @@ public class SjPenagihanView extends CustomComponent {
 		
 		setVisibleTableProperties("selected", "refno", "recapno", "invoiceno", "sjpenagihanno", "tunaikredit", "invoicedate", "top", "duedate", 
 				"suratjalanno", "amountafterdiscafterppn", "amountpay", "fsalesmanBean", "fcustomerBean");
+		
 		
 		table.setColumnCollapsingAllowed(true);
 		try{
@@ -650,13 +748,301 @@ public class SjPenagihanView extends CustomComponent {
 			getFieldSearchComboDivisi().select(model.getBeanItemContainerDivision().getIdByIndex(0));
 		} catch(Exception ex){}
 	}
+	
 	public void setDisplay(){
 		
 		//1. Refresh Table displa
-		table.setContainerDataSource(model.getTableBeanItemContainer());
+//		table.setContainerDataSource(model.getTableBeanItemContainer());
+//		
+//		setTableProperties();
+//		setDisplayFooter();
 		
-		setTableProperties();
-		setDisplayFooter();
+		grid1.setContainerDataSource(model.getTableBeanItemContainer());
+		setGridProperties();
+	}
+	
+	public void setGridProperties(){
+		
+		for (Column c : grid1.getColumns()) {
+        	c.setHidable(true);
+        	c.setHidden(true);
+        }
+		
+		grid1.getColumn("orderno").setHidden(false);
+		grid1.getColumn("invoiceno").setHidden(false);
+		grid1.getColumn("sjpenagihanno").setHidden(false);
+		grid1.getColumn("tunaikredit").setHidden(false);
+		grid1.getColumn("invoicedate").setHidden(false);
+		grid1.getColumn("top").setHidden(false);
+		grid1.getColumn("amountafterdiscafterppn").setHidden(false);
+		grid1.getColumn("amountpay").setHidden(false);
+		grid1.getColumn("fsalesmanBean").setHidden(false);
+		grid1.getColumn("fcustomerBean").setHidden(false);
+		
+		grid1.getColumn("orderno").setHeaderCaption("NO.ORDER");
+		grid1.getColumn("invoiceno").setHeaderCaption("NO.INV");
+		grid1.getColumn("sjpenagihanno").setHeaderCaption("SJ PENAGIHAN");
+		grid1.getColumn("tunaikredit").setHeaderCaption("T/K");
+		grid1.getColumn("invoicedate").setHeaderCaption("TGL.INV");
+		grid1.getColumn("top").setHeaderCaption("TOP");
+		grid1.getColumn("duedate").setHeaderCaption("JTH.TEMPO");
+		grid1.getColumn("amountafterdiscafterppn").setHeaderCaption("AMOUNT+PPN");
+		grid1.getColumn("amountpay").setHeaderCaption("BAYAR");
+		grid1.getColumn("fsalesmanBean").setHeaderCaption("SALESMAN");
+		grid1.getColumn("fcustomerBean").setHeaderCaption("CUSTOMER");
+		
+		grid1.setColumnOrder("orderno", "invoiceno", "sjpenagihanno", "tunaikredit", 
+				"invoicedate", "top", "duedate", "amountafterdiscafterppn", "amountpay", "fsalesmanBean", "fcustomerBean");
+		
+		grid1.getColumn("orderno").setExpandRatio(3);
+		grid1.getColumn("invoiceno").setExpandRatio(3);
+		grid1.getColumn("sjpenagihanno").setExpandRatio(3);
+		grid1.getColumn("tunaikredit").setExpandRatio(1);
+		grid1.getColumn("invoicedate").setExpandRatio(2);
+		grid1.getColumn("top").setExpandRatio(1);
+		grid1.getColumn("duedate").setExpandRatio(2);
+		grid1.getColumn("amountafterdiscafterppn").setExpandRatio(3);
+		grid1.getColumn("amountpay").setExpandRatio(3);
+		grid1.getColumn("fsalesmanBean").setExpandRatio(5);
+		grid1.getColumn("fcustomerBean").setExpandRatio(5);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+		grid1.getColumn("invoicedate").setRenderer(new DateRenderer(sdf));
+		grid1.getColumn("duedate").setRenderer(new DateRenderer(sdf));
+		
+		grid1.setCellStyleGenerator(new Grid.CellStyleGenerator() {
+            @Override
+            public String getStyle(Grid.CellReference cellReference) {
+                if ("amountafterdiscafterppn".equals(cellReference.getPropertyId())) {
+                    // when the current cell is number such as age, align text to right
+                    return "rightAligned";
+                } else if ("amountpay".equals(cellReference.getPropertyId())){                	
+                	return "rightAligned";
+                } else if ("invoicedate".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("duedate".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("top".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("tunaikredit".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else {
+                    // otherwise, align text to left
+                    return "leftAligned";
+                }
+            }
+        });			
+
+	}
+	public void setDisplayGridFooter(){
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMinimumFractionDigits(0);
+		nf.setMaximumFractionDigits(0);
+		
+		//3. Hitung Total & Jumlah Record dll
+		double sumAmount=0 ;
+		double sumAmountPay=0;
+		double sumAmountRevisi=0;
+		double sumAmountReturTampunganFaktur=0;
+		int countTerkirim=0;
+		int countLunas=0;
+		int countTertunda=0;
+		
+		int countSelected=0;
+		int countTunaiSelected=0;
+		int countKreditSelected=0;
+		double sumTunaiSelected=0;
+		double sumKreditSelected=0;
+		int countToSelected=0;
+		int countCanvasSelected = 0;
+		double sumToSelected=0;
+		double sumCanvasSelected=0;
+		double sumAmountPaySelected=0;
+		
+		//DARI REKAP
+		double sumAmountSelected=0;
+		double sumAmountSelectedPayNew=0;
+		double sumAmountReturTampunganSelected=0;
+		double sumAmountReturTampunganFakturSelected=0;
+		double sumAmountRevisiSelected=0;
+		double sumAmountDiskonKhususSelected=0;
+		double sumAmountTotalSelected=0;
+		
+		Set<String> recapNoSet = new HashSet<String>();
+		
+		Collection itemIds = grid1.getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+		while (iterFtSalesh.hasNext()){
+			FtSalesh item = new FtSalesh();
+			item = iterFtSalesh.next();
+			//::FOOTER TABLE
+//			if (item.getId().getTipefaktur().equals("R")){
+//				sumAmount -= (item.getAmount() + item.getAmountrevisi());
+//				sumAmountPay -= item.getAmountpay();
+//			}else {
+				sumAmount += (item.getAmount() + item.getAmountrevisi());
+				sumAmountPay += item.getAmountpay();	
+				if(item.isReturtampunglunas()==false){				
+					sumAmountReturTampunganFaktur += item.getAmountreturtampung();
+				}
+				sumAmountRevisi += item.getAmountrevisi();
+//			}	
+			if (item.isLunas()==true){
+				countLunas +=1;
+			}
+			if (item.isTerkirim()==true){
+				countTerkirim+=1;
+			}
+			if (item.getTertundacounter()>0){
+				countTertunda+=1;
+			}
+			//:::YANG TER SELEKSI SAJA
+			if (item.getSelected().getValue()==true){
+				countSelected += 1;
+				
+				try{
+					recapNoSet.add(item.getRecapno());
+				} catch(Exception ex){}
+				
+				//TUNAI/KREDIT
+				if (item.getTunaikredit().equals("K")){
+					countKreditSelected +=1;
+//					if (item.getId().getTipefaktur().equals("R")){
+//						sumKreditSelected -= (item.getAmount() + item.getAmountrevisi());						
+//					} else {
+						sumKreditSelected += (item.getAmount() + item.getAmountrevisi());												
+//					}
+				} else {
+					countTunaiSelected += 1;				
+//					if (item.getId().getTipefaktur().equals("R")){
+//						sumTunaiSelected -= (item.getAmount() + item.getAmountrevisi());
+//					} else {
+						sumTunaiSelected += (item.getAmount() + item.getAmountrevisi());						
+//					}
+				}
+				if (item.getRecapno()==null){
+					countCanvasSelected +=1;
+//					if (item.getId().getTipefaktur().equals("R")){
+//						sumCanvasSelected -= (item.getAmount() + item.getAmountrevisi());
+//					} else {
+						sumCanvasSelected += (item.getAmount() + item.getAmountrevisi());						
+//					}
+				} else {
+					if (item.getRecapno().trim().equals("")){
+						countCanvasSelected	+=1;
+//						if (item.getId().getTipefaktur().equals("R")){
+//						sumCanvasSelected -= (item.getAmount() + item.getAmountrevisi());
+//						} else {
+							sumCanvasSelected += (item.getAmount() + item.getAmountrevisi());							
+//						}
+					} else {
+						countToSelected +=1;
+//						if (item.getId().getTipefaktur().equals("R")){						
+//							sumToSelected -= (item.getAmount() + item.getAmountrevisi());
+//						} else {
+							sumToSelected += (item.getAmount() + item.getAmountrevisi());							
+//						}
+					}
+				}
+				
+//				if (item.getId().getTipefaktur().equals("R")){						
+//					sumAmountSelected -= (item.getAmount() + item.getAmountrevisi());
+//					sumAmountSelectedPayNew -= item.getAmountpay();
+//					sumAmountPaySelected -= (item.getAmount()-item.getAmountpay());
+//					sumAmountReturTampunganFakturSelected -= item.getAmountreturtampung();
+//				} else {
+					sumAmountSelected += (item.getAmount() + item.getAmountrevisi());					
+					sumAmountSelectedPayNew += item.getAmountpay();
+					sumAmountPaySelected += (item.getAmount()-item.getAmountpay());
+					if(item.isReturtampunglunas()==false){
+						sumAmountReturTampunganFakturSelected += item.getAmountreturtampung();
+					}
+					sumAmountRevisiSelected += item.getAmountrevisi();
+//				}
+				//HITUNG DISKON KHUSUS BY NOTA
+				List<FtArpaymentd> listFtarpaymentd = new ArrayList<FtArpaymentd>(item.getFtarpaymentdSet());
+				for (FtArpaymentd itemArpaymentdetail: listFtarpaymentd){
+					sumAmountDiskonKhususSelected += itemArpaymentdetail.getPotonganamount();
+				}
+				
+			}
+			item.getSelected().setReadOnly(true);
+			
+			
+		}
+		
+		fieldSelectedCount.setReadOnly(false);
+		fieldTunaiCount.setReadOnly(false);
+		fieldKreditCount.setReadOnly(false);
+		fieldTunaiSum.setReadOnly(false);
+		fieldKreditSum.setReadOnly(false);
+		fieldToCount.setReadOnly(false);
+		fieldCanvasCount.setReadOnly(false);
+		fieldToSum.setReadOnly(false);
+		fieldCanvasSum.setReadOnly(false);
+		fieldAmountPaySum.setReadOnly(false);
+
+		fieldAmountSum.setReadOnly(false);
+//		fieldAmountReturTampungan.setReadOnly(false);
+//		fieldAmountDiskonKhusus.setReadOnly(false);
+//		fieldAmountTotal.setReadOnly(false);
+		
+		fieldSelectedCount.setValue(nf.format(countSelected));
+		fieldTunaiCount.setValue(nf.format(countTunaiSelected));
+		fieldKreditCount.setValue(nf.format(countKreditSelected));
+		fieldTunaiSum.setValue(nf.format(sumTunaiSelected));
+		fieldKreditSum.setValue(nf.format(sumKreditSelected));
+		fieldToCount.setValue(nf.format(countToSelected));
+		fieldCanvasCount.setValue(nf.format(countCanvasSelected));
+		fieldToSum.setValue(nf.format(sumToSelected));
+		fieldCanvasSum.setValue(nf.format(sumCanvasSelected));
+		fieldAmountPaySum.setValue(nf.format(sumAmountPaySelected));
+
+		//FOOTER BAWAH
+		fieldAmountSum.setValue(nf.format(sumAmountSelected));
+
+		//DIFFERNT CONCEPT
+//		fieldAmountPaySum.setValue(nf.format(sumAmountPaySelected));
+		fieldAmountPaySum.setValue(nf.format(sumAmountSelectedPayNew));
+
+		fieldAmountReturTampungan.setValue(nf.format(sumAmountReturTampunganSelected));
+		fieldAmountReturTampunganFaktur.setValue(nf.format(sumAmountReturTampunganFakturSelected));
+		
+//		fieldAmountDiskonKhusus.setValue(nf.format(sumAmountDiskonKhususSelected));
+		
+		double total = sumAmountSelected - sumAmountSelectedPayNew - sumAmountReturTampunganSelected - sumAmountReturTampunganFakturSelected;
+		fieldAmountTotal.setValue(nf.format(total));
+		
+		
+		fieldSelectedCount.setReadOnly(true);
+		fieldTunaiCount.setReadOnly(true);
+		fieldKreditCount.setReadOnly(true);
+		fieldTunaiSum.setReadOnly(true);
+		fieldKreditSum.setReadOnly(true);
+		fieldToCount.setReadOnly(true);
+		fieldCanvasCount.setReadOnly(true);
+		fieldToSum.setReadOnly(true);
+		fieldCanvasSum.setReadOnly(true);
+		fieldAmountSum.setReadOnly(true);
+//		fieldAmountReturTampungan.setReadOnly(true);
+//		fieldAmountDiskonKhusus.setReadOnly(true);
+//		fieldAmountTotal.setReadOnly(true);
+		
+//		//DI AKTIFKAN TERUS KARENA BOLEH LEBIH BAYAR
+//		fieldAmountPaySum.setReadOnly(true);
+		
+		footerRow.getCell("amount").setText(nf.format(sumAmount));
+		footerRow.getCell("amountpay").setText(nf.format(sumAmountPay));
+		
+		footerRow.getCell("recapno").setText("*Record: " + itemIds.size());
+		footerRow.getCell("terkirim").setText(nf.format(countTerkirim));
+		footerRow.getCell("lunas").setText( nf.format(countLunas));
+		footerRow.getCell("tertundacounter").setText(nf.format(countTertunda));
+		footerRow.getCell("amountrevisi").setText(nf.format(sumAmountRevisi));
+		footerRow.getCell("amountreturtampung").setText( nf.format(sumAmountReturTampunganFaktur));
+		
+		
+		
 	}
 	public void setDisplayFooter(){
 		NumberFormat nf = NumberFormat.getInstance();
@@ -1372,6 +1758,12 @@ public class SjPenagihanView extends CustomComponent {
 	}
 	public void setSearchComboCustomer(ComboBox searchComboCustomer) {
 		this.searchComboCustomer = searchComboCustomer;
+	}
+	public Grid getGrid1() {
+		return grid1;
+	}
+	public void setGrid1(Grid grid1) {
+		this.grid1 = grid1;
 	}
 	
 	

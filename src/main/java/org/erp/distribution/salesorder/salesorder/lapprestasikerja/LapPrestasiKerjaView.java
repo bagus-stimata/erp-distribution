@@ -30,7 +30,7 @@ public class LapPrestasiKerjaView extends CustomComponent{
 	private DateField dateField1From = new DateField("TANGGAL PENJUALAN");
 	private DateField dateField1To = new DateField("S.D");
 	
-	private CheckBox checkBox1= new CheckBox("DIPOTONG RETUR");
+	private CheckBox checkBox1= new CheckBox("TOTAL DIPOTONG RETUR", true);
 	private CheckBox checkBox2= new CheckBox("CHECK2");
 	
 	private Button btnPreview = new Button("Preview");
@@ -88,7 +88,7 @@ public class LapPrestasiKerjaView extends CustomComponent{
 		layoutTop.addComponent(dateField1From);
 		layoutTop.addComponent(dateField1To);
 		
-//		layoutTop.addComponent(checkBox1);
+		layoutTop.addComponent(checkBox1);
 		
 		layoutBottom.addComponent(btnPreview);
 		layoutBottom.addComponent(btnClose);

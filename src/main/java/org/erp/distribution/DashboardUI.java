@@ -27,98 +27,7 @@ import org.erp.distribution.ar.sjpenagihan.SjPenagihanView;
 import org.erp.distribution.gl.labarugi.LapLabaRugiKotorModel;
 import org.erp.distribution.gl.labarugi.LapLabaRugiKotorPresenter;
 import org.erp.distribution.gl.labarugi.LapLabaRugiKotorView;
-import org.erp.distribution.jpaservice.BankJpaService;
-import org.erp.distribution.jpaservice.BankJpaServiceImpl;
-import org.erp.distribution.jpaservice.BukugiroJpaService;
-import org.erp.distribution.jpaservice.BukugiroJpaServiceImpl;
-import org.erp.distribution.jpaservice.BukutransferJpaService;
-import org.erp.distribution.jpaservice.BukutransferJpaServiceImpl;
-import org.erp.distribution.jpaservice.FAreaJpaService;
-import org.erp.distribution.jpaservice.FAreaJpaServiceImpl;
-import org.erp.distribution.jpaservice.FCustomerJpaService;
-import org.erp.distribution.jpaservice.FCustomerJpaServiceImpl;
-import org.erp.distribution.jpaservice.FCustomergroupJpaService;
-import org.erp.distribution.jpaservice.FCustomergroupJpaServiceImpl;
-import org.erp.distribution.jpaservice.FCustomersubgroupJpaService;
-import org.erp.distribution.jpaservice.FCustomersubgroupJpaServiceImpl;
-import org.erp.distribution.jpaservice.FDivisionJpaService;
-import org.erp.distribution.jpaservice.FDivisionJpaServiceImpl;
-import org.erp.distribution.jpaservice.FParamDiskonItemJpaService;
-import org.erp.distribution.jpaservice.FParamDiskonItemJpaServiceImpl;
-import org.erp.distribution.jpaservice.FParamDiskonItemVendorJpaService;
-import org.erp.distribution.jpaservice.FParamDiskonItemVendorJpaServiceImpl;
-import org.erp.distribution.jpaservice.FParamDiskonJpaService;
-import org.erp.distribution.jpaservice.FParamDiskonJpaServiceImpl;
-import org.erp.distribution.jpaservice.FProductJpaService;
-import org.erp.distribution.jpaservice.FProductJpaServiceImpl;
-import org.erp.distribution.jpaservice.FProductgroupJpaService;
-import org.erp.distribution.jpaservice.FProductgroupJpaServiceImpl;
-import org.erp.distribution.jpaservice.FProductgroupdeptJpaService;
-import org.erp.distribution.jpaservice.FProductgroupdeptJpaServiceImpl;
-import org.erp.distribution.jpaservice.FProductgroupdivisiJpaService;
-import org.erp.distribution.jpaservice.FProductgroupdivisiJpaServiceImpl;
-import org.erp.distribution.jpaservice.FPromoJpaService2;
-import org.erp.distribution.jpaservice.FPromoJpaService2Impl;
-import org.erp.distribution.jpaservice.FSalesmanJpaService;
-import org.erp.distribution.jpaservice.FSalesmanJpaServiceImpl;
-import org.erp.distribution.jpaservice.FStockJpaService;
-import org.erp.distribution.jpaservice.FStockJpaServiceImpl;
-import org.erp.distribution.jpaservice.FSubareaJpaService;
-import org.erp.distribution.jpaservice.FSubareaJpaServiceImpl;
-import org.erp.distribution.jpaservice.FVendorJpaService;
-import org.erp.distribution.jpaservice.FVendorJpaServiceImpl;
-import org.erp.distribution.jpaservice.FWarehouseJpaService;
-import org.erp.distribution.jpaservice.FWarehouseJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtAdjustdJpaService;
-import org.erp.distribution.jpaservice.FtAdjustdJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtAdjusthJpaService;
-import org.erp.distribution.jpaservice.FtAdjusthJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtArpaymentdJpaService;
-import org.erp.distribution.jpaservice.FtArpaymentdJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtArpaymenthJpaService;
-import org.erp.distribution.jpaservice.FtArpaymenthJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtOpnamedJpaService;
-import org.erp.distribution.jpaservice.FtOpnamedJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtOpnamehJpaService;
-import org.erp.distribution.jpaservice.FtOpnamehJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPriceAltdJpaService;
-import org.erp.distribution.jpaservice.FtPriceAltdJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPriceAlthJpaService;
-import org.erp.distribution.jpaservice.FtPriceAlthJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPricedJpaService;
-import org.erp.distribution.jpaservice.FtPricedJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPricehJpaService;
-import org.erp.distribution.jpaservice.FtPricehJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPurchasedJpaService;
-import org.erp.distribution.jpaservice.FtPurchasedJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtPurchasehJpaService;
-import org.erp.distribution.jpaservice.FtPurchasehJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtSalesdJpaService;
-import org.erp.distribution.jpaservice.FtSalesdJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtSalesdPromoTprbJpaService;
-import org.erp.distribution.jpaservice.FtSalesdPromoTprbJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtSalesdPromoTpruCbJpaService;
-import org.erp.distribution.jpaservice.FtSalesdPromoTpruCbJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtSalesdPromoTpruDiscJpaService;
-import org.erp.distribution.jpaservice.FtSalesdPromoTpruDiscJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtSaleshJpaService;
-import org.erp.distribution.jpaservice.FtSaleshJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtSaleshRekapTampunganJpaService;
-import org.erp.distribution.jpaservice.FtSaleshRekapTampunganJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtStocktransferdJpaService;
-import org.erp.distribution.jpaservice.FtStocktransferdJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtStocktransferhJpaService;
-import org.erp.distribution.jpaservice.FtStocktransferhJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtappaymentdJpaService;
-import org.erp.distribution.jpaservice.FtappaymentdJpaServiceImpl;
-import org.erp.distribution.jpaservice.FtappaymenthJpaService;
-import org.erp.distribution.jpaservice.FtappaymenthJpaServiceImpl;
-import org.erp.distribution.jpaservice.SMerkJpaService;
-import org.erp.distribution.jpaservice.SMerkJpaServiceImpl;
-import org.erp.distribution.jpaservice.SysvarJpaService;
-import org.erp.distribution.jpaservice.SysvarJpaServiceImpl;
-import org.erp.distribution.jpaservice.UserJpaService;
-import org.erp.distribution.jpaservice.UserJpaServiceImpl;
+import org.erp.distribution.jpaservice.*;
 import org.erp.distribution.jpaservicehp.SCustomerJpaService;
 import org.erp.distribution.jpaservicehp.SCustomerJpaServiceImpl;
 import org.erp.distribution.jpaservicehp.STeknisiJpaService;
@@ -148,9 +57,21 @@ import org.erp.distribution.kontrolstok.stocktransfer.StockTransferView;
 import org.erp.distribution.master.customer.CustomerModel;
 import org.erp.distribution.master.customer.CustomerPresenter;
 import org.erp.distribution.master.customer.CustomerView;
+import org.erp.distribution.master.customer.channel.CustomerChannelModel;
+import org.erp.distribution.master.customer.channel.CustomerChannelPresenter;
+import org.erp.distribution.master.customer.channel.CustomerChannelView;
 import org.erp.distribution.master.division.DivisionModel;
 import org.erp.distribution.master.division.DivisionPresenter;
 import org.erp.distribution.master.division.DivisionView;
+import org.erp.distribution.master.principal.area.PrincipalAreaModel;
+import org.erp.distribution.master.principal.area.PrincipalAreaPresenter;
+import org.erp.distribution.master.principal.area.PrincipalAreaView;
+import org.erp.distribution.master.principal.region.PrincipalRegionModel;
+import org.erp.distribution.master.principal.region.PrincipalRegionPresenter;
+import org.erp.distribution.master.principal.region.PrincipalRegionView;
+import org.erp.distribution.master.principal.territory.PrincipalTerritoryModel;
+import org.erp.distribution.master.principal.territory.PrincipalTerritoryPresenter;
+import org.erp.distribution.master.principal.territory.PrincipalTerritoryView;
 import org.erp.distribution.master.product.ProductModel;
 import org.erp.distribution.master.product.ProductPresenter;
 import org.erp.distribution.master.product.ProductView;
@@ -223,6 +144,7 @@ import org.erp.distribution.master.vendor.VendorView;
 import org.erp.distribution.master.warehouse.WarehouseModel;
 import org.erp.distribution.master.warehouse.WarehousePresenter;
 import org.erp.distribution.master.warehouse.WarehouseView;
+import org.erp.distribution.model.FChannel;
 import org.erp.distribution.model.User;
 import org.erp.distribution.pengguna.UserAccountModel;
 import org.erp.distribution.pengguna.UserAccountPresenter;
@@ -396,6 +318,12 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	private FVendorJpaService fVendorJpaService;
 	private FWarehouseJpaService fWarehouseJpaService;	
 
+	private PRegionJpaService pRegionJpaService;	
+	private PAreaJpaService pAreaJpaService;	
+	private PDistributorJpaService pDistributorJpaService;	
+	private FChannelJpaService fChannelJpaService;	
+	
+	
 	private FParamDiskonJpaService fParamDiskonJpaService;
 	private FParamDiskonItemJpaService fParamDiskonItemJpaService;
 	private FParamDiskonItemVendorJpaService fParamDiskonItemVendorJpaService;
@@ -448,6 +376,8 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			public MenuItem menuSetupMasterCustomerSeparator2  = menuSetupMasterCustomer.addSeparator();
 			public MenuItem menuSetupMasterCustomerArea = menuSetupMasterCustomer.addItem("Area", this);
 			public MenuItem menuSetupMasterCustomerSubArea = menuSetupMasterCustomer.addItem("Sub Area/Pasar", this);
+			public MenuItem menuSetupMasterCustomerSeparator3  = menuSetupMasterCustomer.addSeparator();
+			public MenuItem menuSetupMasterCustomerChannel = menuSetupMasterCustomer.addItem("Channel Cust", this);
 		public MenuItem menuSetupMasterProduct = menuSetupMaster.addItem("Produk", FontAwesome.STACK_OVERFLOW, null);
 			public MenuItem menuSetupMasterProduct1 = menuSetupMasterProduct.addItem("Produk", this);
 			public MenuItem menuSetupMasterProductSeparator1  = menuSetupMasterProduct.addSeparator();
@@ -479,6 +409,11 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		public MenuItem menuSetupMasterGL = menuSetupMaster.addItem("Master GL", this);
 			public MenuItem menuSetupMasterGLAccount = menuSetupMasterGL.addItem("Account", this);
 			public MenuItem menuSetupMasterGLBukuBank = menuSetupMasterGL.addItem("Buku Bank", this);
+			
+		public MenuItem menuSetupPrincipal = menuSetupMaster.addItem("MASTER PRINCIPAL", null);
+			public MenuItem menuSetupPrincipalRegion = menuSetupPrincipal.addItem("P. Region", this);
+			public MenuItem menuSetupPrincipalArea = menuSetupPrincipal.addItem("P. Area", this);
+			public MenuItem menuSetupPrincipalDistributor = menuSetupPrincipal.addItem("P. Distributor", this);
 			
 	public MenuItem menuWarehouseStock = menuBar1.addItem("Kontrol Stok Gudang", FontAwesome.DROPBOX, null);
 		public MenuItem menuWarehouseStockTransfer = menuWarehouseStock.addItem("Mutasi/Stock Transfer", FontAwesome.EXCHANGE, this);
@@ -600,7 +535,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			
 			workspace1.setCaption("AREA CUSTOMER");
 			objView.setSizeFull();
-//			
+			
 			workspace1.setContent(objView);
 			
 		}else if (selectedItem == menuSetupMasterCustomerSubArea) {
@@ -610,7 +545,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			
 			workspace1.setCaption("SUB AREA/PASAR");
 			objView.setSizeFull();
-//			
+			
 			workspace1.setContent(objView);
 			
 		}else if (selectedItem == menuSetupMasterCustomerGroup) {
@@ -620,7 +555,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			
 			workspace1.setCaption("KELOMPOK JENIS CUSTOMER");
 			objView.setSizeFull();
-//			
+			
 			workspace1.setContent(objView);
 		}else if (selectedItem == menuSetupMasterCustomerSubGroup) {
 			CustomerSubGroupModel objModel = new CustomerSubGroupModel();
@@ -628,6 +563,14 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			CustomerSubGroupPresenter objPresenter = new CustomerSubGroupPresenter(objModel, objView);				
 			
 			workspace1.setCaption("JENIS CUSTOMER");
+			objView.setSizeFull();
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSetupMasterCustomerChannel) {
+			CustomerChannelModel objModel = new CustomerChannelModel();
+			CustomerChannelView objView = new CustomerChannelView(objModel);
+			CustomerChannelPresenter objPresenter = new CustomerChannelPresenter(objModel, objView);				
+			
+			workspace1.setCaption("CUSTOMER CHANNEL");
 			objView.setSizeFull();
 //			
 			workspace1.setContent(objView);
@@ -1197,6 +1140,33 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);
+		}else if (selectedItem == menuSetupPrincipalRegion) {
+			PrincipalRegionModel objModel = new PrincipalRegionModel();
+			PrincipalRegionView objView = new PrincipalRegionView(objModel);
+			PrincipalRegionPresenter objPresenter = new PrincipalRegionPresenter(objModel, objView);				
+			
+			workspace1.setCaption("P. REGION");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSetupPrincipalArea) {
+			PrincipalAreaModel objModel = new PrincipalAreaModel();
+			PrincipalAreaView objView = new PrincipalAreaView(objModel);
+			PrincipalAreaPresenter objPresenter = new PrincipalAreaPresenter(objModel, objView);				
+			
+			workspace1.setCaption("P. AREA");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSetupPrincipalDistributor) {
+			PrincipalTerritoryModel objModel = new PrincipalTerritoryModel();
+			PrincipalTerritoryView objView = new PrincipalTerritoryView(objModel);
+			PrincipalTerritoryPresenter objPresenter = new PrincipalTerritoryPresenter(objModel, objView);				
+			
+			workspace1.setCaption("P. TERRITORY/DISTRIBUTOR");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
 		}else if (selectedItem == menuServiceHpStockProductHp) {
 			
 			LapSaldoStockModel objModel = new LapSaldoStockModel();
@@ -1517,6 +1487,11 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 		fWarehouseJpaService = new FWarehouseJpaServiceImpl();
 		
 
+		pRegionJpaService = new PRegionJpaServiceImpl();
+		pAreaJpaService = new PAreaJpaServiceImpl();
+		pDistributorJpaService = new PDistributorJpaServiceImpl();
+		fChannelJpaService = new FChannelJpaServiceImpl();
+		
 		fParamDiskonJpaService = new FParamDiskonJpaServiceImpl();
 		fParamDiskonItemJpaService = new FParamDiskonItemJpaServiceImpl();
 		fParamDiskonItemVendorJpaService = new FParamDiskonItemVendorJpaServiceImpl();
@@ -2626,6 +2601,40 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 	public void setLapAktifitasPromoListJpaService(
 			LapAktifitasPromoListJpaService lapAktifitasPromoListJpaService) {
 		this.lapAktifitasPromoListJpaService = lapAktifitasPromoListJpaService;
+	}
+
+
+	public PRegionJpaService getpRegionJpaService() {
+		return pRegionJpaService;
+	}
+
+	public PAreaJpaService getpAreaJpaService() {
+		return pAreaJpaService;
+	}
+
+	public PDistributorJpaService getpDistributorJpaService() {
+		return pDistributorJpaService;
+	}
+
+	public FChannelJpaService getfChannelJpaService() {
+		return fChannelJpaService;
+	}
+
+	public void setpRegionJpaService(PRegionJpaService pRegionJpaService) {
+		this.pRegionJpaService = pRegionJpaService;
+	}
+
+	public void setpAreaJpaService(PAreaJpaService pAreaJpaService) {
+		this.pAreaJpaService = pAreaJpaService;
+	}
+
+	public void setpDistributorJpaService(
+			PDistributorJpaService pDistributorJpaService) {
+		this.pDistributorJpaService = pDistributorJpaService;
+	}
+
+	public void setfChannelJpaService(FChannelJpaService fChannelJpaService) {
+		this.fChannelJpaService = fChannelJpaService;
 	}
 
 

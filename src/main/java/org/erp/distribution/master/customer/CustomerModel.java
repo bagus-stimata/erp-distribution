@@ -4,19 +4,23 @@ import java.util.List;
 
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FAreaJpaService;
+import org.erp.distribution.jpaservice.FChannelJpaService;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FCustomergroupJpaService;
 import org.erp.distribution.jpaservice.FCustomersubgroupJpaService;
 import org.erp.distribution.jpaservice.FSubareaJpaService;
 import org.erp.distribution.jpaservice.FtPriceAltdJpaService;
 import org.erp.distribution.jpaservice.FtPriceAlthJpaService;
+import org.erp.distribution.jpaservice.PDistributorJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FArea;
+import org.erp.distribution.model.FChannel;
 import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FCustomergroup;
 import org.erp.distribution.model.FCustomersubgroup;
 import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FtPriceAlth;
+import org.erp.distribution.model.PDistributor;
 import org.erp.distribution.util.ProductAndStockHelper;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
@@ -32,6 +36,10 @@ public class CustomerModel extends CustomComponent{
 		private FCustomersubgroupJpaService fCustomersubgroupJpaService;
 		private FSubareaJpaService fSubareaJpaService;
 		private FtPriceAlthJpaService ftPriceAlthJpaService;
+
+		private PDistributorJpaService pDistributorJpaService;
+		private FChannelJpaService fChannelJpaService;
+		
 		
 		private SysvarJpaService sysvarJpaService;
 		private TransaksiHelper transaksiHelper =new TransaksiHelperImpl();
@@ -52,6 +60,12 @@ public class CustomerModel extends CustomComponent{
 				new BeanItemContainer<FSubarea>(FSubarea.class);
 		private BeanItemContainer<FtPriceAlth> beanItemContainerFtPriceAlth = 
 				new BeanItemContainer<FtPriceAlth>(FtPriceAlth.class);
+
+		
+		private BeanItemContainer<PDistributor> beanItemContainerPTerritory = 
+				new BeanItemContainer<PDistributor>(PDistributor.class);
+		private BeanItemContainer<FChannel> beanItemContainerFChannel = 
+				new BeanItemContainer<FChannel>(FChannel.class);
 		
 	//5. Binder (BeanFieldGroup)
 		private BeanFieldGroup<FCustomer> binderHeader = 
@@ -73,7 +87,8 @@ public class CustomerModel extends CustomComponent{
 		setfSubareaJpaService((((DashboardUI) getUI().getCurrent()).getfSubareaJpaService()));
 		setFtPriceAlthJpaService((((DashboardUI) getUI().getCurrent()).getFtPriceAlthJpaService()));
 		
-		
+		setpDistributorJpaService((((DashboardUI) getUI().getCurrent()).getpDistributorJpaService()));
+		setfChannelJpaService((((DashboardUI) getUI().getCurrent()).getfChannelJpaService()));
 		
 	}
 	public void initVariableData(){
@@ -94,6 +109,9 @@ public class CustomerModel extends CustomComponent{
 		beanItemContainerSubarea.addAll(fSubareaJpaService.findAll());
 		
 		beanItemContainerFtPriceAlth.addAll(ftPriceAlthJpaService.findAll());
+
+		beanItemContainerPTerritory.addAll(pDistributorJpaService.findAll());
+		beanItemContainerFChannel.addAll(fChannelJpaService.findAll());
 		
 	}
 	public FCustomerJpaService getfCustomerJpaService() {
@@ -195,6 +213,33 @@ public class CustomerModel extends CustomComponent{
 	public void setBeanItemContainerFtPriceAlth(
 			BeanItemContainer<FtPriceAlth> beanItemContainerFtPriceAlth) {
 		this.beanItemContainerFtPriceAlth = beanItemContainerFtPriceAlth;
+	}
+	public FChannelJpaService getfChannelJpaService() {
+		return fChannelJpaService;
+	}
+	public BeanItemContainer<PDistributor> getBeanItemContainerPTerritory() {
+		return beanItemContainerPTerritory;
+	}
+	public BeanItemContainer<FChannel> getBeanItemContainerFChannel() {
+		return beanItemContainerFChannel;
+	}
+	public void setfChannelJpaService(FChannelJpaService fChannelJpaService) {
+		this.fChannelJpaService = fChannelJpaService;
+	}
+	public void setBeanItemContainerPTerritory(
+			BeanItemContainer<PDistributor> beanItemContainerPTerritory) {
+		this.beanItemContainerPTerritory = beanItemContainerPTerritory;
+	}
+	public void setBeanItemContainerFChannel(
+			BeanItemContainer<FChannel> beanItemContainerFChannel) {
+		this.beanItemContainerFChannel = beanItemContainerFChannel;
+	}
+	public PDistributorJpaService getpDistributorJpaService() {
+		return pDistributorJpaService;
+	}
+	public void setpDistributorJpaService(
+			PDistributorJpaService pDistributorJpaService) {
+		this.pDistributorJpaService = pDistributorJpaService;
 	}
 	
 	

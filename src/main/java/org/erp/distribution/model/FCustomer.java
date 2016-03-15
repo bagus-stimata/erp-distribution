@@ -3,6 +3,7 @@ package org.erp.distribution.model;
 import java.util.*;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -44,6 +45,11 @@ public class FCustomer {
 	private String npwp;
 	private String email;
 	private Boolean statusactive;
+
+	@Column(name="HARIKUNJUNGAN")
+	private Integer harikunjungan;
+	@Column(name="PEKANKUNJUNGAN")
+	private Integer pekankunjungan;
 	
 	@ManyToOne
 	@JoinColumn(name="fcustomersubgroupBean", referencedColumnName="id")
@@ -53,6 +59,14 @@ public class FCustomer {
 	@JoinColumn(name="fsubareaBean", referencedColumnName="id")
 	private FSubarea fsubareaBean;
 
+	@ManyToOne
+	@JoinColumn(name="fchannelBean", referencedColumnName="id")
+	private FChannel fchannelBean;
+
+	@ManyToOne
+	@JoinColumn(name="pdistributorBean", referencedColumnName="id")
+	private PDistributor pdistributorBean;
+	
 //	@OneToMany(mappedBy="fcustomerBean", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="fcustomerBean", fetch=FetchType.LAZY)
 	@Fetch(FetchMode.JOIN)
@@ -247,6 +261,22 @@ public class FCustomer {
 
 	public void setNamaPadaFakturPajak(String namaPadaFakturPajak) {
 		this.namaPadaFakturPajak = namaPadaFakturPajak;
+	}
+
+	public FChannel getFchannelBean() {
+		return fchannelBean;
+	}
+
+	public PDistributor getPdistributorBean() {
+		return pdistributorBean;
+	}
+
+	public void setFchannelBean(FChannel fchannelBean) {
+		this.fchannelBean = fchannelBean;
+	}
+
+	public void setPdistributorBean(PDistributor pdistributorBean) {
+		this.pdistributorBean = pdistributorBean;
 	}
 
 	@Override

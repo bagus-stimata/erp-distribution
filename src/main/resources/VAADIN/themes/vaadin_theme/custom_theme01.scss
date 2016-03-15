@@ -10,6 +10,17 @@
 
   /* Insert your theme rules here */
   
+  /*ALIGNMENT UNTUK GRID*/
+    .leftAligned {
+      text-align: left;
+    }
+    .rightAligned {
+      text-align: right;
+    }
+    .centerAligned {
+      text-align: center;
+    }
+    
  	.v-textfield.numerical {
     	text-align: right;
 	} 

@@ -102,6 +102,7 @@ public class LapSalesExelPresenter implements ClickListener{
         //ISI
 		List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>();
 	
+		String paramSpcode = "%";
 		String paramVcode = "%";
 		String paramCustno = "%";
 		String paramArea = "%";
@@ -114,7 +115,7 @@ public class LapSalesExelPresenter implements ClickListener{
 		Date paramDuedate = view.getDateField1To().getValue();
 		String paramTipeFaktur = "%";
 		listFtSalesd = model.getFtSalesdJpaService()
-				.findAllByVendor(paramVcode, paramArea, paramSubArea, paramCustno, 
+				.findAllByVendor(paramSpcode, paramVcode, paramArea, paramSubArea, paramCustno, 
 						paramTrdate, paramDuedate, paramTipeFaktur, paramPcode, paramPname, paramProductGroup);
 				
        int lastRow = 1;
@@ -220,7 +221,7 @@ public class LapSalesExelPresenter implements ClickListener{
 		
 		String fileName = "salesdetil"  +System.currentTimeMillis() +".xls";
 		StreamResource resource = new StreamResource( source, fileName);
-		resource.setMIMEType("application/xls");
+		resource.setMIMEType("application/vnd.ms-excel");
 		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
 		
 		view.getUI().getPage().open(resource, "_new_salesdetil_" , false);

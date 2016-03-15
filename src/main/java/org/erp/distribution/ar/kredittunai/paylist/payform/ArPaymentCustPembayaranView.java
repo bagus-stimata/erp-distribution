@@ -10,6 +10,7 @@ import org.erp.distribution.model.FtSalesh;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -23,9 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class ArPaymentCustPembayaranView extends CustomComponent {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private ArPaymentCustPembayaranModel model;
@@ -55,8 +54,7 @@ public class ArPaymentCustPembayaranView extends CustomComponent {
 	private ComboBox comboTransfer = new ComboBox("NO TRANSFER");
 	private Button btnTransferBrowse = new Button("...");
 //	private TextField fieldTransfer = new TextField("NO TRANSFER/KET");
-	
-	
+		
 	private TextField fieldPotLainPay = new TextField("POT LAIN/DISC KHUSUS:");
 	private Button btnEqualPotLain = new Button("=");
 	private ComboBox comboPotlainPayJenis= new ComboBox("JENIS D/K");
@@ -76,9 +74,12 @@ public class ArPaymentCustPembayaranView extends CustomComponent {
 	public ArPaymentCustPembayaranView(){
 		initFieldFactory();		
 		buildView();
+		
 		//USING FIELD GROUP
 //		bindAndBuildFieldGroupComponent();
+		
 	} 
+	
 	public ArPaymentCustPembayaranView(ArPaymentCustPembayaranModel model){
 		this.model = model;
 		initComponent();
@@ -87,9 +88,9 @@ public class ArPaymentCustPembayaranView extends CustomComponent {
                 initComponentFirstState();
                        
 		//USING FIELD GROUP
-		bindAndBuildFieldGroupComponent();
-			
+		bindAndBuildFieldGroupComponent();			
 	}
+	
 	public void initComponent(){
 		comboRetur.setWidth("250px");
 		comboTransfer.setWidth("250px");
@@ -117,10 +118,9 @@ public class ArPaymentCustPembayaranView extends CustomComponent {
                 btnSaveForm.setIcon(new ThemeResource("../images/navigation/12x12/Create.png") );
                 btnCancelForm.setIcon(new ThemeResource("../images/navigation/12x12/Undo.png") );
                 
-                
 	}
-	public void initFieldFactory(){
-		
+	
+	public void initFieldFactory(){		
 	}
 	
 	public void buildView(){
@@ -223,18 +223,19 @@ public class ArPaymentCustPembayaranView extends CustomComponent {
 		comboGiro.setContainerDataSource(model.getBeanItemContainerBukuGiro());
 		comboGiro.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);	
 		comboGiro.setItemCaptionPropertyId("gironumber");
+		comboGiro.setFilteringMode(FilteringMode.CONTAINS);
 //		comboGiro.setNullSelectionAllowed(false);
 	
 		comboTransfer.setContainerDataSource(model.getBeanItemContainerBukuTransfer());
 		comboTransfer.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);			
 		comboTransfer.setItemCaptionPropertyId("transfernumber");
+		comboTransfer.setFilteringMode(FilteringMode.CONTAINS);
 //		comboTransfer.setNullSelectionAllowed(false);
 		
 		comboRetur.setContainerDataSource(model.getBeanitemContainerReturBelumLunas());
 		comboRetur.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);			
+		comboRetur.setFilteringMode(FilteringMode.CONTAINS);
 //		comboTransfer.setNullSelectionAllowed(false);
-		
-
 		
 		binderArinvoice.bind(fieldInvoice, "invoiceno");
 		binderArinvoice.bind(fieldInvoiceAmount, "amountafterdiscafterppn");
@@ -244,8 +245,7 @@ public class ArPaymentCustPembayaranView extends CustomComponent {
 		binderArpaymentDetail.bind(fieldSubTotalAmountPaid, "subtotalpay");
 		
 		binderArpaymentDetail.bind(fieldCashPay, "cashamountpay");
-		
-		
+				
 		binderArpaymentDetail.bind(fieldReturPay, "returamountpay");
 		binderArpaymentDetail.bind(comboRetur, "returBean");
 		
@@ -315,7 +315,6 @@ public class ArPaymentCustPembayaranView extends CustomComponent {
 		windowInfoReturTransferGiro.setHeight("400px");
 
 		windowInfoReturTransferGiro.setContent(layout);
-		
 		
 		getUI().addWindow(windowInfoReturTransferGiro);
 		

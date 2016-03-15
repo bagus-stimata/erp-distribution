@@ -227,7 +227,8 @@ public class FtSaleshJpaServiceImpl extends GenericJpaServiceImpl<FtSalesh, Seri
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
-	            String query = "SELECT a FROM FtSalesh a WHERE a.tipefaktur LIKE 'R' AND (a.amount > a.amountpay OR a.amountpay IS NULL) ";
+	            String query = "SELECT a FROM FtSalesh a WHERE a.tipefaktur LIKE 'R' AND (a.amountafterdiscafterppn > a.amountpay OR a.amountpay IS NULL) ";
+//	            String query = "SELECT a FROM FtSalesh a WHERE a.tipefaktur LIKE 'R' ";
 	            
 	            List<FtSalesh> list = em.createQuery(query)
 	            		 .setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
@@ -247,7 +248,7 @@ public class FtSaleshJpaServiceImpl extends GenericJpaServiceImpl<FtSalesh, Seri
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
-	            String query = "SELECT a FROM FtSalesh a WHERE (a.tipefaktur LIKE 'R' AND (a.amount > a.amountpay  OR a.amountpay IS NULL)) "
+	            String query = "SELECT a FROM FtSalesh a WHERE (a.tipefaktur LIKE 'R' AND (a.amountafterdiscafterppn > a.amountpay  OR a.amountpay IS NULL)) "
 	            		+ " OR (a.refno = :exReturNo )";
 	            
 	            List<FtSalesh> list = em.createQuery(query)

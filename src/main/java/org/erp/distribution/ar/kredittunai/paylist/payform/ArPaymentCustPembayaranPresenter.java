@@ -238,10 +238,11 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 					}
 					try{
 						if ((Double) view.getFieldReturPay().getConvertedValue() <= 0){
-							double nilaiRetur = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmount();
-							double nilaiReturAfterPPn = Math.round(nilaiRetur + (nilaiRetur * model.getTransaksiHelper().getParamPpn()/100.0));
+							double nilaiRetur = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountafterdiscafterppn();
+							double nilaiReturAmountPay = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountpay();
+//							double nilaiReturAfterPPn = Math.round(nilaiRetur + (nilaiRetur * model.getTransaksiHelper().getParamPpn()/100.0));
 							double nilaiReturRevisi = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
-							view.getFieldReturPay().setConvertedValue(nilaiReturAfterPPn + nilaiReturRevisi);
+							view.getFieldReturPay().setConvertedValue(nilaiRetur + nilaiReturRevisi - nilaiReturAmountPay);
 
 							double nilaiAfter = Double.parseDouble(view.getFieldReturPay().getValue().replaceAll(",", ""));
 							view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("RETUR", nilaiAfter)));	
@@ -338,9 +339,9 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 		return sumJumlahBayar;
 	}
 	
-	public void comboGiroChangeListener(){
-		
+	public void comboGiroChangeListener(){		
 	}
+	
 	public void comboTransferChangeListener(){		
 	}
 	
@@ -412,7 +413,8 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			double toleransiAmountAvailable = 1;
 			cekRetur = model.getBeanitemContainerReturBelumLunas().getItem(itemId).getBean();
 
-			double amountAfterPpn = Math.round((cekRetur.getAmount() + (cekRetur.getAmount()*model.getTransaksiHelper().getParamPpn())));
+//			double amountAfterPpn = Math.round((cekRetur.getAmount() + (cekRetur.getAmount()*model.getTransaksiHelper().getParamPpn())));
+			double amountAfterPpn = Math.round((cekRetur.getAmountafterdiscafterppn()));
 			String identitas = cekRetur.getInvoiceno() + " - " +  cekRetur.getFcustomerBean().getCustname();
 			double amountAvailable = amountAfterPpn + cekRetur.getAmountrevisi() - cekRetur.getAmountpay();
 			double amountReturPayBefore = model.getArPaymentDetail().getReturamountpay();
@@ -424,10 +426,10 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			nf.setMaximumFractionDigits(0);
 			nf.setMinimumFractionDigits(0);
 			
-//			if ((amountAvailable+toleransiAmountAvailable) < amountReturPayPenambahan){
-//				error = -1;
-//				Notification.show("Sisa plafon RETUR " + identitas + " = Rp. " + nf.format(amountAvailable), Notification.TYPE_TRAY_NOTIFICATION);
-//			}
+			if ((amountAvailable+toleransiAmountAvailable) < amountReturPayPenambahan){
+				error = -1;
+				Notification.show("Sisa plafon RETUR " + identitas + " = Rp. " + nf.format(amountAvailable), Notification.TYPE_TRAY_NOTIFICATION);
+			}
 		} catch(Exception ex){
 			//BERARTI GAK PAKE
 		}
@@ -457,7 +459,16 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			
 		} else if (event.getButton()==view.getBtnEqualRetur()){
 			//NEW VALUE >> penambahan + nilai sekaran			
-			view.getFieldReturPay().setValue(String.valueOf(penambahanBayar() + (Double) view.getFieldReturPay().getConvertedValue()));
+			double nilaiRetur = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountafterdiscafterppn();
+			double nilaiReturAmountPay = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountpay();
+			double nilaiReturRevisi = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
+			double nilaiReturAvailable = nilaiRetur + nilaiReturRevisi - nilaiReturAmountPay;
+			//Penambahan Bayar Tidak boleh lebih besar dari available
+			double nilaiPenambahanBayar = penambahanBayar() + (Double) view.getFieldReturPay().getConvertedValue();
+			if (nilaiPenambahanBayar > nilaiReturAvailable) 
+				nilaiPenambahanBayar = nilaiReturAvailable;
+			
+			view.getFieldReturPay().setValue(String.valueOf(nilaiPenambahanBayar));
 			//NILAI AFTER PENAMBAHAN
 			view.getFieldSubTotalAmountPaid().setValue(String.valueOf(totalBayarDetailNow("Dummy",0.0)));			
 			//MERUBAH VARIABLE
@@ -521,8 +532,6 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			
 		} else if (event.getButton()==view.getBtnTransferBrowse()){
 		} else if (event.getButton()==view.getBtnGiroBrowse()){
-			
-			
 		}
 		
 	}
@@ -614,6 +623,19 @@ public class ArPaymentCustPembayaranPresenter implements ClickListener{
 			isValid = false;
 			Notification.show("TOTAL PEMBAYARAN TIDAK BOLEH 0", Notification.TYPE_TRAY_NOTIFICATION);
 		}
+		
+//		//Jika Nilai giro dan Retur Lebih besar dari amount
+//		double nilaiRetur = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountafterdiscafterppn();
+//		double nilaiReturAmountPay = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountpay();
+//		double nilaiReturRevisi = (double) ((FtSalesh) view.getComboRetur().getConvertedValue()).getAmountrevisi();
+//		double nilaiReturAvailable = nilaiRetur + nilaiReturRevisi - nilaiReturAmountPay;
+//
+//		//5 Rupiah Sebagai Toleransi
+//		if (Double.parseDouble(view.getFieldReturPay().getValue()) > nilaiReturAvailable+5){
+//			isValid=false;
+//			Notification.show("Nilai Retur Lebih Besar Dari Sisa Kredit", Notification.TYPE_TRAY_NOTIFICATION);			
+//		}
+			
 		//BUAT UPDATE TABEL GIRO, TRANSFER DAN RETUR DIBAWAH
 		double amountGiroPayBefore = model.getArPaymentDetail().getGiroamountpay();
 		double amountGiroPayAfter = (Double) view.getFieldGiroPay().getConvertedValue();				

@@ -151,7 +151,7 @@ public class ArPaymentCustomerModel extends CustomComponent implements Serializa
 		double amountInvoiceDetailAll = 0.0;
 		Collection itemIds = getBeanItemContainerDetail().getItemIds();
 		for (Object itemId: itemIds){
-			FtArpaymentd			item = getBeanItemContainerDetail().getItem(itemId).getBean();
+			FtArpaymentd item = getBeanItemContainerDetail().getItem(itemId).getBean();
 			amountInvoiceDetailAll += item.getCashamountpay() + item.getGiroamountpay() + 
 					item.getReturamountpay() + item.getTransferamountpay() + item.getPotonganamount() + item.getKelebihanbayaramount();
 		}

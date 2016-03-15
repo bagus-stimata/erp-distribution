@@ -62,6 +62,9 @@ public class ProductView extends CustomComponent{
 	private TextField fieldWeight = new TextField("BERAT");
 	private TextField fieldSupplier = new TextField("SUPPLIER");
 	private ComboBox comboSupplier = new ComboBox("Supplier");
+
+	private TextField fieldMinQtyStok = new TextField("MIN STOK IN PCS");
+	private TextField fieldMaxQtyStok = new TextField("MAX STOK IN PCS");
 	
 	private Button btnSaveForm= new Button("Save");
 	private Button btnCancelForm= new Button("Cancel");
@@ -177,6 +180,8 @@ public class ProductView extends CustomComponent{
 		fieldVolume.setWidth("200px");
 		fieldWeight.setWidth("200px");
 		
+		fieldMinQtyStok.setWidth("200px");
+		fieldMaxQtyStok.setWidth("200px");
 		
 		fieldDescription.setCaption(null);
 		fieldPackaging.setCaption(null);
@@ -190,6 +195,8 @@ public class ProductView extends CustomComponent{
 		fieldShortname.setCaption(null);
 		fieldShortpackaging.setCaption(null);
 		
+		fieldMinQtyStok.setCaption(null);
+		fieldMaxQtyStok.setCaption(null);
 		
 		fieldDescription.setInputPrompt("Nama Barang");
 		fieldPackaging.setInputPrompt("Packaging");
@@ -202,6 +209,8 @@ public class ProductView extends CustomComponent{
 		fieldShortname.setInputPrompt("Short Name");
 		fieldShortpackaging.setInputPrompt("Short Packaging");
 		
+		fieldMinQtyStok.setInputPrompt("Min Stok In Pcs");
+		fieldMaxQtyStok.setInputPrompt("Max stok In Pcs");
 		//VALIDATOR
 		fieldId.setRequired(true);
 		fieldDescription.setRequired(true);
@@ -315,10 +324,17 @@ public class ProductView extends CustomComponent{
 //		formLayout.addComponent(fieldSprice2);
 		
 		HorizontalLayout volumeAndWeightLayout = new HorizontalLayout();
+		volumeAndWeightLayout.setCaption("Volume And Weight");
 		volumeAndWeightLayout.addComponent(fieldVolume);
 		volumeAndWeightLayout.addComponent(fieldWeight);
-		
+
+		HorizontalLayout minAndMaxStokLayout = new HorizontalLayout();
+		minAndMaxStokLayout.setCaption("Min and Max Stok In PCS");
+		minAndMaxStokLayout.addComponent(fieldMinQtyStok);
+		minAndMaxStokLayout.addComponent(fieldMaxQtyStok);
+	
 		formLayout.addComponent(volumeAndWeightLayout);
+		formLayout.addComponent(minAndMaxStokLayout);
 		formLayout.addComponent(checkStatusActive);
 		
 		HorizontalLayout formLayoutHorizontal = new HorizontalLayout();
@@ -458,6 +474,9 @@ public class ProductView extends CustomComponent{
 		model.getBinderHeader().bind(fieldWeight, "weight");
 		model.getBinderHeader().bind(fieldSupplier, "supplier");
 		model.getBinderHeader().bind(comboSupplier, "fvendorBean");
+
+		model.getBinderHeader().bind(fieldMinQtyStok, "minqtystok");
+		model.getBinderHeader().bind(fieldMaxQtyStok, "maxqtystok");
 		
 		model.getBinderHeader().bind(checkStatusActive, "statusactive");
 		

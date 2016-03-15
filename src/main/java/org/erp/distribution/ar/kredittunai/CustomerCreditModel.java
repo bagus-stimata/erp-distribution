@@ -16,16 +16,11 @@ import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.FtSalesh;
-import org.erp.distribution.model.FtSaleshRekapTampungan;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
 
-import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.Not;
-import com.vaadin.data.util.filter.Or;
 import com.vaadin.ui.CustomComponent;
 
 public class CustomerCreditModel extends CustomComponent implements Serializable{
@@ -61,7 +56,6 @@ public class CustomerCreditModel extends CustomComponent implements Serializable
 	private BeanItemContainer<FArea> beanItemContainerArea = new BeanItemContainer<FArea>(FArea.class);
 	private BeanItemContainer<FSubarea> beanItemContainerSubArea = new BeanItemContainer<FSubarea>(FSubarea.class);
 	private BeanItemContainer<FSalesman> beanItemContainerSalesman = new BeanItemContainer<FSalesman>(FSalesman.class);
-
 	
 	public CustomerCreditModel(){
 		initData();
@@ -84,7 +78,6 @@ public class CustomerCreditModel extends CustomComponent implements Serializable
 		setfAreaJpaService(((DashboardUI) getUI().getCurrent()).getfAreaJpaService());
 		setfSubareaJpaService(((DashboardUI) getUI().getCurrent()).getfSubareaJpaService());
 		setfSalesmanJpaService(((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService());
-		
 		
 		
 //		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");

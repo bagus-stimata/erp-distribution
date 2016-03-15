@@ -17,6 +17,8 @@ import org.erp.distribution.model.FtArpaymenth;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 import org.erp.distribution.util.FormatAndConvertionUtil;
+import org.erp.distribution.util.HeaderDetilSalesHelper;
+import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import javassist.compiler.NoFieldException;
@@ -47,9 +49,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
 public class CustomerCreditPresenter implements ClickListener, ValueChangeListener, Handler, ItemClickListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private CustomerCreditModel model;
@@ -81,7 +81,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		view.getBtnLunaskan().addClickListener(this);
 		view.getBtnSelisihPlusMinus().addClickListener(this);
 		
-//		view.getTable().addValueChangeListener(this);
 		view.getTable().addItemClickListener(this);
 		
 		view.getPanelTop().addActionHandler(this);
@@ -201,14 +200,17 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 			
 			@Override
 			public void windowClose(CloseEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("SAAT >> CloseListener");
+				//##@@ POINT PERBAIKAN
+				HeaderDetilSalesHelper  headerDetilSalesHelper = new HeaderDetilSalesHelperImpl(model.item);
+				headerDetilSalesHelper.setRoundedTotal(true);
+				FtSalesh newFtSalesh = new FtSalesh();
+				newFtSalesh = headerDetilSalesHelper.getFillFtSalesh();
 				try{
 					//REMEMBER JPA CONTAINER LANGSUNG MENUJU KE DATABASE
 					model.item.setAmountpay(view.getArPaymentCustomerModel().getItemInvoice().getAmountpay());
 					//LUNAS ATAU TIDAK LUNAS amountPay >= amount maka :: tolerasi Rp. 50,-
 					double toleransiKurang = 50.0;
-					if (model.item.getAmountpay() >= (model.item.getAmount() + model.item.getAmountrevisi()
+					if (model.item.getAmountpay() >= (newFtSalesh.getAmountafterdiscafterppn() + model.item.getAmountrevisi()
 							- toleransiKurang - model.item.getAmountreturtampung()) ){
 						model.item.setLunas(true);
 					} else {
@@ -625,33 +627,6 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		
 	}
 	
-	public void cekAndDeleteProcessedByOthers(boolean bolValue){
-		
-		List<Object> listDeleted = new ArrayList<Object>();
-		Collection itemIds = model.getTableBeanItemContainer().getItemIds();
-		for (Object itemId: itemIds){
-			FtSalesh itemArinvoice = new FtSalesh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
-			
-			FtSalesh itemArinvoiceFromDb = new FtSalesh();
-			itemArinvoiceFromDb = model.getFtSaleshJpaService().findById(itemArinvoice.getRefno());
-			//true=terkirim 
-			if (itemArinvoiceFromDb.isLunas()==bolValue){
-				listDeleted.add(itemId);
-			}	
-		}
-	
-		for (Object itemId: listDeleted){
-			model.getTableBeanItemContainer().removeItem(itemId);
-		}
-		
-		if (listDeleted.size()>0){
-			Notification.show("Sejumlah " + listDeleted.size() + 
-					" sudah terproses oleh User Lain", Notification.TYPE_TRAY_NOTIFICATION);
-		}
-		
-	}
-	
 	public int reloadForm(){		
 		model.setFreshDataTable();
 		view.setDisplay();
@@ -674,6 +649,12 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 			Object itemId = event.getItemId();
 			model.item = model.getTableBeanItemContainer().getItem(itemId).getBean();			
 			itemTableSelected = view.getTable().getItem(itemId);
+			
+			//##@@ POINT PERBAIKAN
+			HeaderDetilSalesHelper  headerDetilSalesHelper = new HeaderDetilSalesHelperImpl(model.item);
+			headerDetilSalesHelper.setRoundedTotal(true);
+			FtSalesh newFtSalesh = new FtSalesh();
+			newFtSalesh = headerDetilSalesHelper.getFillFtSalesh();
 			
 			
 			//biar checked
@@ -698,19 +679,26 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 				if (listArpaymentdetail.size()>0){
 					Notification.show(invoices,Notification.TYPE_WARNING_MESSAGE);
 				} else {
-					//PERBAIKI JIKA TIDAK ADA
-					model.getItem().setAmountpay(0.0);
-					model.getFtSaleshJpaService().updateObject(model.getItem());
-					model.getTableBeanItemContainer().addItem(model.getItem());
-					view.getTable().refreshRowCache();
-					
-					Notification.show("PERBAIKI BAYAR PADA RETUR: " + model.getItem().getInvoiceno(), Notification.TYPE_WARNING_MESSAGE);					
-					
+//					//##@@ Point perbaikan
+//					//PERBAIKI JIKA TIDAK ADA
+//					model.getItem().setAmountpay(0.0);
+//					model.getFtSaleshJpaService().updateObject(model.getItem());
+//					model.getTableBeanItemContainer().addItem(model.getItem());
+//					view.getTable().refreshRowCache();
+//					
+//					Notification.show("PERBAIKI BAYAR PADA RETUR: " + model.getItem().getInvoiceno(), Notification.TYPE_WARNING_MESSAGE);										
 				}
 			}
 			//JIKA LUNAS TIDAK BOLEH DI CHECK
-			if (model.getItem().isLunas()==true){
-				Notification.show("FAKTUR " + " SUDAH LUNAS!!", Notification.TYPE_TRAY_NOTIFICATION);
+			if (model.getItem().isLunas()==true){ 
+				//Lunas Tapi
+				if (newFtSalesh.getAmountpay() < newFtSalesh.getAmountafterdiscafterppn() ) {
+					model.getItem().setLunas(false);
+					model.getFtSaleshJpaService().updateObject(model.item);
+				}else {
+					Notification.show("Faktur Sudah LUNAS!!", Notification.TYPE_TRAY_NOTIFICATION);
+					
+				}
 				//FAKTUR SUDAH LUNAS KEMUNGKINAN MASIH AKAN DI EDIT
 //				model.getTableBeanItemContainer().getItem(itemId).getBean().getSelected().setValue(false);			
 			}
