@@ -1,6 +1,7 @@
 package org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -11,12 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.erp.distribution.model.FPromo;
@@ -44,6 +48,7 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 	public void initListener(){
 		view.getBtnPreview().addClickListener(this);
 		view.getBtnClose().addClickListener(this);
+		view.getBtnExtractToExel().addClickListener(this);
 	}
 	
 	@Override
@@ -51,18 +56,50 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 		if (event.getButton()==view.getBtnPreview()){
 			preview();
 		} else if (event.getButton()==view.getBtnClose()){
+		}else if (event.getButton()==view.getBtnExtractToExel()){
+			previewExel();
 		}
 	}
 	
+	private String paramCompanyName = "W-DES";
+	private String paramCompanyAddress = "Jl. Kauman Gang IV/A Malang";
+	private String paramCompanyPhone = "Telp.082143574692";
+	private String paramJudulLaporan = "LAPORAN SALES";
 	
 	public void preview(){
+		paramCompanyName = model.getSysvarHelper().getCompanyNameFaktur();
+		paramCompanyAddress = model.getSysvarHelper().getCompanyAddressFaktur();
+		paramCompanyPhone = model.getSysvarHelper().getCompanyPhoneFaktur();
+		
+		//1. ISI DATABASE UNTUK TEMP
+		fillDatabaseReportLengkap();
+		
+		//2. PREVIEW LAPORAN
+		if (view.getCheckBox1().getValue()==false){
+			showPreview("/erp/distribution/reports/setupmaster/diskonpromosi/"
+					+ "lapaktifitaspromo1/lapaktifitaspromo1Ds.jasper", "lapaktipromo1");
+		} else {
+			showPreview("/erp/distribution/reports/setupmaster/diskonpromosi/"
+					+ "lapaktifitaspromo1/lapaktifitaspromo1LengkapDs.jasper", "lapaktipromo1");			
+		}
+	}
+	public void previewExel(){
+		paramCompanyName = model.getSysvarHelper().getCompanyNameFaktur();
+		paramCompanyAddress = model.getSysvarHelper().getCompanyAddressFaktur();
+		paramCompanyPhone = model.getSysvarHelper().getCompanyPhoneFaktur();
+		
 		//1. ISI DATABASE UNTUK TEMP
 		fillDatabaseReportLengkap();
 		//2. PREVIEW LAPORAN
-		showPreview("/erp/distribution/reports/setupmaster/diskonpromosi/"
-				+ "lapaktifitaspromo1/lapaktifitaspromo1.jasper", "lapaktipromo1");
-		
+		if (view.getCheckBox1().getValue()==false){
+			jasperToExel("/erp/distribution/reports/setupmaster/diskonpromosi/"
+				+ "lapaktifitaspromo1/lapaktifitaspromo1Ds.jasper", "lapaktipromo1");
+		} else {
+			jasperToExel("/erp/distribution/reports/setupmaster/diskonpromosi/"
+				+ "lapaktifitaspromo1/lapaktifitaspromo1LengkapDs.jasper", "lapaktipromolenkap1");			
+		}
 	}
+	
 	private List<ZLapAktifitasPromoList> lapAktifitasPromoList = new ArrayList<ZLapAktifitasPromoList>();
 	public void fillDatabaseReportLengkap(){
 		
@@ -190,47 +227,103 @@ public class LapAktifitasPromosiPresenter implements ClickListener{
 
 	public void showPreview(String inputFilePath, String outputFilePath){
 		try {			
-//			final JasperReport report;
-//			report = (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(inputFilePath));
-		
+			final Map parameters=new HashMap();		
+			parameters.put("paramJudulLaporan", paramJudulLaporan);
+			parameters.put("paramCompanyName", paramCompanyName);
+			parameters.put("paramCompanyAddress", paramCompanyAddress);
+			parameters.put("paramCompanyPhone", paramCompanyPhone);
+			//parameters.put("paramSalesman", paramSalesman);
 			
-		final Map parameters=new HashMap();
-		parameters.put("CompanyName","");
+			//CONNECTION
+	//		final Connection con = new ReportJdbcConfigHelper().getConnection();
+			
+			final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lapAktifitasPromoList);
+			InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
+			final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
+			
+			StreamResource.StreamSource source = new StreamSource() {			
+				@Override
+				public InputStream getStream() {
+					byte[] b = null;
+					try {
+	//					b = JasperRunManager.runReportToPdf(report, parameters, con);
+						b = JasperExportManager.exportReportToPdf(jasperPrint);
+					} catch (JRException ex) {
+						System.out.println(ex);
+					}
+					return new ByteArrayInputStream(b);
+				}
+			};
+			
+			String fileName = "promo_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+			StreamResource resource = new StreamResource( source, fileName);
+			resource.setMIMEType("application/pdf");
+			resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
+			
+			view.getUI().getPage().open(resource, "_new_" + outputFilePath, false);
+	
+		} catch (JRException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public void jasperToExel(String inputFilePath, String outputFilePath){
+		try {			
+		
+		final Map parameters=new HashMap();		
+		parameters.put("paramJudulLaporan", paramJudulLaporan);
+		parameters.put("paramCompanyName", paramCompanyName);
+		parameters.put("paramCompanyAddress", paramCompanyAddress);
+		parameters.put("paramCompanyPhone", paramCompanyPhone);
+//		parameters.put("paramSalesman", paramSalesman);
+		
+		parameters.put("paramDate1", view.getDateField1From().getValue());
+		parameters.put("paramDate2", view.getDateField1To().getValue());
 		
 		//CONNECTION
 //		final Connection con = new ReportJdbcConfigHelper().getConnection();
-		
 		final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lapAktifitasPromoList);
 		InputStream reportPathStream = getClass().getResourceAsStream(inputFilePath);
 		final JasperPrint jasperPrint = JasperFillManager.fillReport(reportPathStream, parameters, dataSource);
 		
-		StreamResource.StreamSource source = new StreamSource() {			
+		
+        //OUTPUT KE FILE
+//		File xlsx = new File("/Users/yhawin/sample.xls");
+       final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
+		JRXlsExporter xlsExporter = new JRXlsExporter();
+		xlsExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
+		xlsExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+		xlsExporter.setParameter(JRXlsExporterParameter.IGNORE_PAGE_MARGINS, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, true);
+		xlsExporter.setParameter(JRXlsExporterParameter.SHEET_NAMES, new String[]{"Sheet1"});
+		xlsExporter.setParameter(JRXlsExporterParameter.IGNORE_PAGE_MARGINS, true);
+		xlsExporter.exportReport();
+
+		
+ 		StreamResource.StreamSource source = new StreamSource() {			
 			@Override
 			public InputStream getStream() {
 				byte[] b = null;
-				try {
-//					b = JasperRunManager.runReportToPdf(report, parameters, con);
-					b = JasperExportManager.exportReportToPdf(jasperPrint);
-				} catch (JRException ex) {
-					System.out.println(ex);
-				}
+					b = out.toByteArray();
 				return new ByteArrayInputStream(b);
 			}
 		};
 		
-		String fileName = "ar_kas_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+		String fileName = "exel"  +System.currentTimeMillis() +".xls";
 		StreamResource resource = new StreamResource( source, fileName);
-		resource.setMIMEType("application/pdf");
+		resource.setMIMEType("application/vnd.ms-excel");
 		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
 		
-		view.getUI().getPage().open(resource, "_new_packinglistpersj_" + outputFilePath, false);
+		view.getUI().getPage().open(resource, "_new_" , false);
 	
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
-	
-		
 	}
-	
 	
 }

@@ -7,7 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.text.StrSubstitutor;
+import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FProductgroup;
+import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.util.ReportJdbcConfigHelper;
 
@@ -40,6 +43,7 @@ public class LapPembayaranPiutangPresenter implements ClickListener{
 	public void buttonClick(ClickEvent event) {
 		if (event.getButton()==view.getBtnPreview()){
 			preview();
+//			previewNew();
 		} else if (event.getButton()==view.getBtnClose()){
 		}
 	}
@@ -48,16 +52,27 @@ public class LapPembayaranPiutangPresenter implements ClickListener{
 	private String strParamTunaiKredit = "";
 	private Date dateArpaymentdateFrom = null;
 	private Date dateArpaymentdateTo = null;
+	
+	private String strParamSalesman = "";
+	private String strParamCustomer = "";
 
 	private String strParamProductgroup = "";
 	private String strParamWarehouseId = "";
 	private Date dateParamStockdate = null;
 	private Integer paramSumSaldostock = 0;
 	
+	private String paramCompanyName = "W-DES";
+	private String paramCompanyAddress = "Jl. Kauman Gang IV/A Malang";
+	private String paramCompanyPhone = "Telp.082143574692";
+	private String paramJudulLaporan = "LAPORAN SALES";
+	
 	
 	public void resetParameters(){
 		strParamSJPenagihan = "%";
 		strParamTunaiKredit = "%";
+
+		strParamSalesman = "%";
+		strParamCustomer = "%";
 		
 		strParamProductgroup= "%";
 		strParamWarehouseId = "%";
@@ -72,6 +87,22 @@ public class LapPembayaranPiutangPresenter implements ClickListener{
 		}else {
 			strParamTunaiKredit = "%";
 		}
+		
+		strParamSalesman = "%";
+		try{
+			strParamSalesman = ((FSalesman) view.getComboGroup3().getConvertedValue()).getSpcode();
+		} catch(Exception ex){}
+		strParamCustomer = "%";
+		try{
+			strParamCustomer = ((FCustomer) view.getComboGroup4().getConvertedValue()).getCustno();
+		} catch(Exception ex){}
+		
+		try{
+			FWarehouse fWarehouse = new FWarehouse();
+			fWarehouse = (FWarehouse) view.getComboGroup1().getConvertedValue();
+			strParamWarehouseId = fWarehouse.getId().trim();
+		} catch(Exception ex){}
+		
 		try{
 			strParamSJPenagihan = "%" + view.getFieldSuratJalanPenagihan().getValue().trim() + "%";
 		} catch(Exception ex){}
@@ -101,7 +132,9 @@ public class LapPembayaranPiutangPresenter implements ClickListener{
 		
 	}
 	public void preview(){
-		//PERBAIKI ITEM STOK 
+		paramCompanyName = model.getSysvarHelper().getCompanyNameFaktur();
+		paramCompanyAddress = model.getSysvarHelper().getCompanyAddressFaktur();
+		paramCompanyPhone = model.getSysvarHelper().getCompanyPhoneFaktur();
 		
 		
 		resetParameters();
@@ -117,14 +150,19 @@ public class LapPembayaranPiutangPresenter implements ClickListener{
 		
 			
 		final Map parameters=new HashMap();
-		parameters.put("CompanyName","");
+		parameters.put("paramJudulLaporan", paramJudulLaporan);
+		parameters.put("paramCompanyName", paramCompanyName);
+		parameters.put("paramCompanyAddress", paramCompanyAddress);
+		parameters.put("paramCompanyPhone", paramCompanyPhone);
 
 		
 		parameters.put("paramSJPenagihan", strParamSJPenagihan);
 		parameters.put("paramTunaiKredit", strParamTunaiKredit);
 		parameters.put("paramArpaymentdateFrom", dateArpaymentdateFrom);
 		parameters.put("paramArpaymentdateTo", dateArpaymentdateTo);
-//		
+		parameters.put("paramSalesman", strParamSalesman);
+		parameters.put("paramCustomer", strParamCustomer);
+		
 //		parameters.put("paramWarehouseId",  strParamWarehouseId);
 //		parameters.put("paramProductgroup", "%" +  strParamProductgroup  + "%");
 //		
@@ -148,12 +186,12 @@ public class LapPembayaranPiutangPresenter implements ClickListener{
 			}
 		};
 		
-		String fileName = "ar_kas_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
+		String fileName = "ar_bukupembayaran_" + outputFilePath + "_" +System.currentTimeMillis()+".pdf";
 		StreamResource resource = new StreamResource( source, fileName);
 		resource.setMIMEType("application/pdf");
 		resource.getStream().setParameter("Content-Disposition","attachment; filename="+fileName);		
 		
-		view.getUI().getPage().open(resource, "_new_pembayaran__" + outputFilePath, false);
+		view.getUI().getPage().open(resource, "_new__" + outputFilePath, false);
 	
 	} catch (JRException e) {
 		e.printStackTrace();
@@ -161,5 +199,7 @@ public class LapPembayaranPiutangPresenter implements ClickListener{
 	
 }
 	
-	
+	public void previewNew(){
+		
+	}
 }

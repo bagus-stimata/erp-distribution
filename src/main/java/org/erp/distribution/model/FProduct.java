@@ -1,5 +1,6 @@
 package org.erp.distribution.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
@@ -32,6 +35,19 @@ public class FProduct {
 	private String pcode;
 	@Column(name="PNAME", length=100)
 	private String pname;
+	
+	//BATCH CODE --> Berhubungan dengan Stockist atau Gudang
+	//PRODUCTION CODE --> Berhubungan dengan TANGGAL DIPRODUKSI DAN EXP.DATE
+	@Column(name="BATCHCODE", length=30)
+	private String batchCode;
+	@Column(name="PRODUCTIONCODE", length=30)
+	private String productionCode;
+	@Temporal(TemporalType.DATE)
+	@Column(name="PRODUCTIONDATE")
+	private Date productionDate;
+	@Temporal(TemporalType.DATE)
+	@Column(name="EXPIREDDATE")
+	private Date expiredDate;
 	
 	@Transient
 	CheckBox selected = new CheckBox();
@@ -90,8 +106,8 @@ public class FProduct {
 	@Column(name="STATUSACTIVE")
 	private Boolean statusactive;
 	
-	@Column(name="SUPPLIER", length=75)
-	private String supplier;
+//	@Column(name="SUPPLIER", length=75)
+//	private String supplier;
 	
 	@ManyToOne
 	@JoinColumn(name="fvendorBean", referencedColumnName="id", nullable=true)
@@ -306,9 +322,6 @@ public class FProduct {
 		return statusactive;
 	}
 
-	public String getSupplier() {
-		return supplier;
-	}
 
 	public FVendor getFvendorBean() {
 		return fvendorBean;
@@ -446,10 +459,6 @@ public class FProduct {
 		this.statusactive = statusactive;
 	}
 
-	public void setSupplier(String supplier) {
-		this.supplier = supplier;
-	}
-
 	public void setFvendorBean(FVendor fvendorBean) {
 		this.fvendorBean = fvendorBean;
 	}
@@ -503,6 +512,54 @@ public class FProduct {
 
 	public void setMaxqtystok(Integer maxqtystok) {
 		this.maxqtystok = maxqtystok;
+	}
+
+
+
+	public String getBatchCode() {
+		return batchCode;
+	}
+
+
+
+	public String getProductionCode() {
+		return productionCode;
+	}
+
+
+
+	public Date getProductionDate() {
+		return productionDate;
+	}
+
+
+
+	public Date getExpiredDate() {
+		return expiredDate;
+	}
+
+
+
+	public void setBatchCode(String batchCode) {
+		this.batchCode = batchCode;
+	}
+
+
+
+	public void setProductionCode(String productionCode) {
+		this.productionCode = productionCode;
+	}
+
+
+
+	public void setProductionDate(Date productionDate) {
+		this.productionDate = productionDate;
+	}
+
+
+
+	public void setExpiredDate(Date expiredDate) {
+		this.expiredDate = expiredDate;
 	}
 
 

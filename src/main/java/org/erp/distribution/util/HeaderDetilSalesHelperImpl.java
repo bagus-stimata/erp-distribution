@@ -389,6 +389,39 @@ public class HeaderDetilSalesHelperImpl implements HeaderDetilSalesHelper{
 	public void setRoundedTotal(boolean roundedTotal) {
 		this.roundedTotal = roundedTotal;
 	}
+	public void setSprice(double newSPrice){
+		ftSalesd.setSprice(newSPrice);
+	}
+	public FtSalesh getFtSalesh() {
+		return ftSalesh;
+	}
+	public FtSalesh getNewFtSalesh() {
+		return newFtSalesh;
+	}
+	public FtSalesd getFtSalesd() {
+		return ftSalesd;
+	}
+	public FtSalesd getNewFtSalesd() {
+		return newFtSalesd;
+	}
+	public Double getPpnFloat() {
+		return ppnFloat;
+	}
+	public void setFtSalesh(FtSalesh ftSalesh) {
+		this.ftSalesh = ftSalesh;
+	}
+	public void setNewFtSalesh(FtSalesh newFtSalesh) {
+		this.newFtSalesh = newFtSalesh;
+	}
+	public void setFtSalesd(FtSalesd ftSalesd) {
+		this.ftSalesd = ftSalesd;
+	}
+	public void setNewFtSalesd(FtSalesd newFtSalesd) {
+		this.newFtSalesd = newFtSalesd;
+	}
+	public void setPpnFloat(Double ppnFloat) {
+		this.ppnFloat = ppnFloat;
+	}
 	
 	
 	

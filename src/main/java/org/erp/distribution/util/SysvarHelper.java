@@ -146,6 +146,19 @@ public class SysvarHelper extends CustomComponent{
 	public void cekOrCreateNewConfigSysvar(){
 		Sysvar sysvar = new Sysvar();
 		
+		sysvar = sysvarJpaService.findById("_REPAIRMODE");
+		if (sysvar==null){
+			sysvar = new Sysvar();
+			sysvar.setId("_REPAIRMODE");
+
+			sysvar.setDeskripsi("Mode Repair/Perbaikan (Berbahaya Sebaiknya Backup Sebelum Melakukan Repair)");
+			sysvar.setGroupSysvar("_SYSTEM");
+			sysvar.setTipeData("BOL1");
+			sysvar.setNilaiBol1(false);
+			
+			sysvarJpaService.createObject(sysvar);
+		}		
+		
 		sysvar = sysvarJpaService.findById("_VERSION_PRG");
 		if (sysvar==null){
 			sysvar = new Sysvar();
@@ -1038,51 +1051,80 @@ public class SysvarHelper extends CustomComponent{
 			sysvarJpaService.createObject(sysvar);
 			
 		}
-			sysvar = sysvarJpaService.findById("_PATH_SIP_TIGADARA");
-			if (sysvar==null){
-				sysvar = new Sysvar();		
-				sysvar.setId("_PATH_SIP_TIGADARA");
-				
-				sysvar.setDeskripsi("Path Export-Import Sistem Sales Order Android Tiga Dara");
-				sysvar.setGroupSysvar("_UTILITIES");
-				sysvar.setTipeData("STRING1");
-				sysvar.setLenghtData(7);
-				sysvar.setNilaiString1("c://sip_android/");
-				
-				sysvarJpaService.createObject(sysvar);
-				
-			}
-					 
-			sysvar = sysvarJpaService.findById("_URUT_REGHP");
-			if (sysvar==null){
-				sysvar = new Sysvar();		
-				sysvar.setId("_URUT_REGHP");
-				
-				sysvar.setDeskripsi("Urut Register Service HP");
-				sysvar.setGroupSysvar("_SERVICEHP");
-				sysvar.setTipeData("STRING1");
-				sysvar.setLenghtData(7);
-				sysvar.setNilaiString1("0000001");
-				
-				sysvarJpaService.createObject(sysvar);
-				
-			}
-					 
-			sysvar = sysvarJpaService.findById("_URUT_JOBHP");
-			if (sysvar==null){
-				sysvar = new Sysvar();		
-				sysvar.setId("_URUT_JOBHP");
-				
-				sysvar.setDeskripsi("Urut Job Service HP");
-				sysvar.setGroupSysvar("_SERVICEHP");
-				sysvar.setTipeData("STRING1");
-				sysvar.setLenghtData(7);
-				sysvar.setNilaiString1("0000001");
-				
-				sysvarJpaService.createObject(sysvar);
-				
-			}
+		sysvar = sysvarJpaService.findById("_PATH_SIP_TIGADARA");
+		if (sysvar==null){
+			sysvar = new Sysvar();		
+			sysvar.setId("_PATH_SIP_TIGADARA");
+			
+			sysvar.setDeskripsi("Path Export-Import Sistem Sales Order Android Tiga Dara");
+			sysvar.setGroupSysvar("_UTILITIES");
+			sysvar.setTipeData("STRING1");
+			sysvar.setLenghtData(7);
+			sysvar.setNilaiString1("c://sip_android/");
+			
+			sysvarJpaService.createObject(sysvar);
+			
+		}
+				 
+		sysvar = sysvarJpaService.findById("_URUT_REGHP");
+		if (sysvar==null){
+			sysvar = new Sysvar();		
+			sysvar.setId("_URUT_REGHP");
+			
+			sysvar.setDeskripsi("Urut Register Service HP");
+			sysvar.setGroupSysvar("_SERVICEHP");
+			sysvar.setTipeData("STRING1");
+			sysvar.setLenghtData(7);
+			sysvar.setNilaiString1("0000001");
+			
+			sysvarJpaService.createObject(sysvar);
+			
+		}
+				 
+		sysvar = sysvarJpaService.findById("_URUT_JOBHP");
+		if (sysvar==null){
+			sysvar = new Sysvar();		
+			sysvar.setId("_URUT_JOBHP");
+			
+			sysvar.setDeskripsi("Urut Job Service HP");
+			sysvar.setGroupSysvar("_SERVICEHP");
+			sysvar.setTipeData("STRING1");
+			sysvar.setLenghtData(7);
+			sysvar.setNilaiString1("0000001");
+			
+			sysvarJpaService.createObject(sysvar);
+			
+		}
 
+		sysvar = sysvarJpaService.findById("_PR_OPENINV");
+		if (sysvar==null){
+			sysvar = new Sysvar();		
+			sysvar.setId("_PR_OPENINV");
+			
+			sysvar.setDeskripsi("Proteksi Open Invoice -> (W)arning, (R)eject, Do (N)othing");
+			sysvar.setGroupSysvar("_PROTEKSI");
+			sysvar.setTipeData("STRING1");
+			sysvar.setLenghtData(2);
+			sysvar.setNilaiString1("N");
+			
+			sysvarJpaService.createObject(sysvar);
+			
+		}
+		sysvar = sysvarJpaService.findById("_PR_CRLMT");
+		if (sysvar==null){
+			sysvar = new Sysvar();		
+			sysvar.setId("_PR_CRLMT");
+			
+			sysvar.setDeskripsi("Proteksi Credit Limit -> (W)arning, (R)eject, Do (N)othing");
+			sysvar.setGroupSysvar("_PROTEKSI");
+			sysvar.setTipeData("STRING1");
+			sysvar.setLenghtData(2);
+			sysvar.setNilaiString1("N");
+			
+			sysvarJpaService.createObject(sysvar);
+			
+		}
+			
 		
 	}
 	
@@ -1120,6 +1162,7 @@ public class SysvarHelper extends CustomComponent{
 //	 * 		_JUDUL_FAKTUR_T	= JUDUL FAKTUR TUNAI
 //	 * 		_JUDUL_FAKTUR_K	= JUDUL FAKTUR KREDIT
 //	 * 		_JUDUL_FAKTUR_R	= JUDUL FAKTUR RETUR
+	
 	public String getCompanyNameFaktur(){
 		return sysvarJpaService.findById("_COMP_NAME_F").getNilaiString1();
 	}
@@ -1182,7 +1225,16 @@ public class SysvarHelper extends CustomComponent{
 	public Boolean isEntryItemPembelianHargaSelelahPPN(){
 		return sysvarJpaService.findById("_ENTRI_BELI_HRGPPN").getNilaiBol1();
 	}
+	public Boolean isRepairMode(){
+		return sysvarJpaService.findById("_REPAIRMODE").getNilaiBol1();
+	}
 	
+	public String getProteksiOpenInvoice(){
+		return sysvarJpaService.findById("_PR_OPENINV").getNilaiString1();		
+	}
+	public String getProteksiCreditLimit(){
+		return sysvarJpaService.findById("_PR_CRLMT").getNilaiString1();		
+	}
 		
 	public static void main(String [] args){
 		SysvarHelper helper = new SysvarHelper();

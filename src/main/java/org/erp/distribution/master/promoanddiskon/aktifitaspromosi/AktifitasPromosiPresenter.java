@@ -1,26 +1,8 @@
 package org.erp.distribution.master.promoanddiskon.aktifitaspromosi;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.erp.distribution.model.FArea;
-import org.erp.distribution.model.FCustomer;
-import org.erp.distribution.model.FCustomersubgroup;
-import org.erp.distribution.model.FProduct;
-import org.erp.distribution.model.FProductgroup;
 import org.erp.distribution.model.FPromo;
-import org.erp.distribution.model.FSubarea;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
 import org.vaadin.dialogs.ConfirmDialog;
 
@@ -28,17 +10,12 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.server.FileDownloader;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
-import com.vaadin.server.VaadinService;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
@@ -190,6 +167,7 @@ public class AktifitasPromosiPresenter implements ClickListener, ValueChangeList
 	
 			model.newItemHeader.setNorek("New");
 			model.newItemHeader.setDescription("");
+			model.newItemHeader.setStatusAktifPromo(true);
 			model.newItemHeader.setPeriodeFrom(tanggalTransaksiBerjalan);
 			model.newItemHeader.setPeriodeTo(tanggalTransaksiBerjalan);
 			model.newItemHeader.setTarget(0.0);
@@ -198,26 +176,8 @@ public class AktifitasPromosiPresenter implements ClickListener, ValueChangeList
 			
 //			model.newItemHeader.setFproductgroupBean(new FProductgroup());
 //			model.newItemHeader.setFcustomersubgroupBean(new FCustomersubgroup());
-			
-			model.newItemHeader.setCashBackGet1(0.0);
-			model.newItemHeader.setCashBackValue1(0.0);
-			model.newItemHeader.setCashBackGet2(0.0);
-			model.newItemHeader.setCashBackValue2(0.0);
-			model.newItemHeader.setCashBackGet3(0.0);
-			model.newItemHeader.setCashBackValue3(0.0);
-			model.newItemHeader.setCashBackGet4(0.0);
-			model.newItemHeader.setCashBackValue4(0.0);
-			
-			model.newItemHeader.setDiscKelipatan(false);
-			model.newItemHeader.setDiscPercentGet1(0.0);
-			model.newItemHeader.setDiscValue1(0.0);
-			model.newItemHeader.setDiscPercentGet2(0.0);
-			model.newItemHeader.setDiscValue2(0.0);
-			model.newItemHeader.setDiscPercentGet3(0.0);
-			model.newItemHeader.setDiscValue3(0.0);
-			model.newItemHeader.setDiscPercentGet4(0.0);
-			model.newItemHeader.setDiscValue4(0.0);
-			
+			model.newItemHeader.setForFproductGroupAkumulasi(false);
+	
 //			model.newItemHeader.setFreeFproductBean(new FProduct());
 			model.newItemHeader.setFreeKelipatan(true);
 			model.newItemHeader.setFreeQty1(0);
@@ -228,6 +188,36 @@ public class AktifitasPromosiPresenter implements ClickListener, ValueChangeList
 			model.newItemHeader.setFreeQtyGet3(0);
 			model.newItemHeader.setFreeQty4(0);
 			model.newItemHeader.setFreeQtyGet4(0);
+			
+			model.newItemHeader.setDiscKelipatan(false);
+			model.newItemHeader.setDiscPercentGet1(0.0);
+			model.newItemHeader.setDiscValue1(0.0);
+			model.newItemHeader.setDiscPercentGet2(0.0);
+			model.newItemHeader.setDiscValue2(0.0);
+			model.newItemHeader.setDiscPercentGet3(0.0);
+			model.newItemHeader.setDiscValue3(0.0);
+			model.newItemHeader.setDiscPercentGet4(0.0);
+			model.newItemHeader.setDiscValue4(0.0);
+
+			model.newItemHeader.setDiscFromItemKelipatan(false);
+			model.newItemHeader.setDiscFromItemFreeQty1(0);
+			model.newItemHeader.setDiscFromItemdiscPercentGet1(0.0);
+			model.newItemHeader.setDiscFromItemFreeQty2(0);
+			model.newItemHeader.setDiscFromItemdiscPercentGet2(0.0);
+			model.newItemHeader.setDiscFromItemFreeQty3(0);
+			model.newItemHeader.setDiscFromItemdiscPercentGet3(0.0);
+			model.newItemHeader.setDiscFromItemFreeQty4(0);
+			model.newItemHeader.setDiscFromItemdiscPercentGet4(0.0);
+			
+			model.newItemHeader.setCashBackGet1(0.0);
+			model.newItemHeader.setCashBackValue1(0.0);
+			model.newItemHeader.setCashBackGet2(0.0);
+			model.newItemHeader.setCashBackValue2(0.0);
+			model.newItemHeader.setCashBackGet3(0.0);
+			model.newItemHeader.setCashBackValue3(0.0);
+			model.newItemHeader.setCashBackGet4(0.0);
+			model.newItemHeader.setCashBackValue4(0.0);
+			
 
 			//2. SET NEW DATA ITEM TO BINDER
 			model.getBinderHeader().setItemDataSource(model.newItemHeader);

@@ -1,6 +1,5 @@
 package org.erp.distribution.ar.sjpenagihan;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,17 +11,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.erp.distribution.DashboardUI;
-import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerModel;
-import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerPresenter;
-import org.erp.distribution.ar.kredittunai.paylist.ArPaymentCustomerView;
-import org.erp.distribution.ar.kredittunai.revisinota.RevisiNotaModel;
-import org.erp.distribution.ar.kredittunai.revisinota.RevisiNotaPresenter;
-import org.erp.distribution.ar.kredittunai.revisinota.RevisiNotaView;
 import org.erp.distribution.model.FtArpaymentd;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.User;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
-import org.springframework.boot.autoconfigure.condition.SearchStrategy;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property;
@@ -52,10 +44,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.Reindeer;
-import com.vaadin.ui.themes.ValoTheme;
 
 public class SjPenagihanView extends CustomComponent {
 	
@@ -524,7 +514,7 @@ public class SjPenagihanView extends CustomComponent {
 		layoutTop.addComponent(layoutTopInner2);
 		panelTop.setContent(layoutTop);
                 
-                //LAYOUT TABLE
+        //LAYOUT TABLE
 		VerticalLayout layoutTable = new VerticalLayout();
 		layoutTable.setSizeFull();
 //        layoutTable.addComponent(table);
@@ -774,6 +764,7 @@ public class SjPenagihanView extends CustomComponent {
 		grid1.getColumn("tunaikredit").setHidden(false);
 		grid1.getColumn("invoicedate").setHidden(false);
 		grid1.getColumn("top").setHidden(false);
+		grid1.getColumn("duedate").setHidden(false);
 		grid1.getColumn("amountafterdiscafterppn").setHidden(false);
 		grid1.getColumn("amountpay").setHidden(false);
 		grid1.getColumn("fsalesmanBean").setHidden(false);
@@ -964,10 +955,8 @@ public class SjPenagihanView extends CustomComponent {
 				for (FtArpaymentd itemArpaymentdetail: listFtarpaymentd){
 					sumAmountDiskonKhususSelected += itemArpaymentdetail.getPotonganamount();
 				}
-				
 			}
 			item.getSelected().setReadOnly(true);
-			
 			
 		}
 		

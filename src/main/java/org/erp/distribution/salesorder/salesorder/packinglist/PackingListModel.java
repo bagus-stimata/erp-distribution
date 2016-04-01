@@ -64,7 +64,13 @@ public class PackingListModel extends CustomComponent implements Serializable{
 				
 		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
 		
-//		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");
+		tableBeanItemContainer.addNestedContainerProperty("fsalesmanBean.spcode");
+		tableBeanItemContainer.addNestedContainerProperty("fsalesmanBean.spname");
+		tableBeanItemContainer.addNestedContainerProperty("fcustomerBean.custno");
+		tableBeanItemContainer.addNestedContainerProperty("fcustomerBean.custname");
+		
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.id");
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.description");
 	};
 
 	public void setFreshDataTable(){		
@@ -79,6 +85,8 @@ public class PackingListModel extends CustomComponent implements Serializable{
 			
 			//COMBOBOX DIVISION
 			beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
+			
+			
 			
 		} catch(Exception ex){
 		

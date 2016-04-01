@@ -31,22 +31,22 @@ public class FtSalesh {
 	@Column(name="REFNO")
 	private Long refno;
 	
-	@Column(name="ORDERNO")
+	@Column(name="ORDERNO", length=15)
 	private String orderno;
-	@Column(name="INVOICENO")
+	@Column(name="INVOICENO", length=15)
 	private String invoiceno;
-	@Column(name="RECAPNO")
+	@Column(name="RECAPNO", length=15)
 	private String recapno;
 	
-	@Column(name="SURATJALANNO")
+	@Column(name="SURATJALANNO", length=15)
 	private String suratjalanno;	
-	@Column(name="SURATJALAN")
+	@Column(name="SURATJALAN", length=15)
 	private Boolean suratjalan;
 	@Column(name="SJDATE")
 	@Temporal(TemporalType.DATE)
 	private Date sjdate;
 	
-	@Column(name="SJPENAGIHANNO")
+	@Column(name="SJPENAGIHANNO", length=15)
 	private String sjpenagihanno;	
 	@Temporal(TemporalType.DATE)
 	private Date sjpenagihandate;

@@ -61,7 +61,6 @@ public class ParamDiskonItemPresenter implements ClickListener, ValueChangeListe
 		Item item = view.getTable().getItem(itemId);
 		boolean entitySelected = item != null;
 		// modify visibility of form and delete button if an item is selected
-		view.getFormLayout().setVisible(entitySelected);
 		view.getBtnDeleteForm().setEnabled(entitySelected);
 		
 		if (entitySelected) {
@@ -134,9 +133,7 @@ public class ParamDiskonItemPresenter implements ClickListener, ValueChangeListe
 				discardForm();
 			} else if (model.getOperationStatus().equals(EnumOperationStatus.ADDING.getStrCode()) || 
 					model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
-				if (view.getFormLayout().isVisible()){
 					discardForm();
-				}				
 			}else{	
 				view.getTable().focus();
 			}		
@@ -162,13 +159,14 @@ public class ParamDiskonItemPresenter implements ClickListener, ValueChangeListe
 			
 			model.newItemHeader.setId((long) 0);
 			
+			model.newItemHeader.setNoRek("");
 			model.newItemHeader.setAllsubgrup(false);
 			model.newItemHeader.setAlltunaikredit(false);
 			model.newItemHeader.setAllvendor(false);
 			model.newItemHeader.setAllproductgrup(true);
 			
 			model.newItemHeader.setStatusActive(true);
-			
+			//NOMINAL
 			model.newItemHeader.setDiskon1(0.0);
 			model.newItemHeader.setDiskon1plus(0.0);
 			model.newItemHeader.setDiskon2(0.0);
@@ -185,18 +183,34 @@ public class ParamDiskonItemPresenter implements ClickListener, ValueChangeListe
 			model.newItemHeader.setNominal3(0.0);
 			model.newItemHeader.setNominal4(0.0);
 			model.newItemHeader.setNominal5(0.0);
+
+			//ITEM
+			model.newItemHeader.setDiskonFromQty1(0.0);
+			model.newItemHeader.setDiskonFromQty1plus(0.0);
+			model.newItemHeader.setDiskonFromQty2(0.0);
+			model.newItemHeader.setDiskonFromQty2plus(0.0);
+			model.newItemHeader.setDiskonFromQty3(0.0);
+			model.newItemHeader.setDiskonFromQty3plus(0.0);
+			model.newItemHeader.setDiskonFromQty4(0.0);
+			model.newItemHeader.setDiskonFromQty4plus(0.0);
+			model.newItemHeader.setDiskonFromQty5(0.0);
+			model.newItemHeader.setDiskonFromQty5plus(0.0);
+			
+			model.newItemHeader.setQtyLebihDari1(0);
+			model.newItemHeader.setQtyLebihDari2(0);
+			model.newItemHeader.setQtyLebihDari3(0);
+			model.newItemHeader.setQtyLebihDari4(0);
+			model.newItemHeader.setQtyLebihDari5(0);
 			
 			//2. SET NEW DATA ITEM TO BINDER
 			model.getBinderHeader().setItemDataSource(model.newItemHeader);
 			
 			//3. REFRESH VIEW AND SHOW FORM LAYOUT
 			view.bindAndBuildFieldGroupComponent();			
-			view.getFormLayout().setVisible(true);
 			
 			//3.SET FORM STATE AND BUTTON STATE
 			model.setOperationStatus(EnumOperationStatus.ADDING.getStrCode());
 			view.setFormButtonAndTextState();
-			
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e);

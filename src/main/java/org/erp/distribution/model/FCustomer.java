@@ -1,8 +1,7 @@
 package org.erp.distribution.model;
 
-import java.util.*;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,31 +24,59 @@ public class FCustomer {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@Column(name="CUSTNO", length=15)
 	private String custno;
+	@Column(name="OUTLETACTIVE")
+	private Boolean outletActive;
 	
+	@Column(name="CUSTNAME", length=100)
 	private String custname;
+	@Column(name="NAMAPADAFAKTURPAJAK", length=150)
 	private String namaPadaFakturPajak;
+	@Column(name="TUNAIKREDIT", length=5)
 	private String tunaikredit;
+	@Column(name="TOP")
 	private Integer top;
+	@Column(name="CREDITLIMIT")
 	private Double creditlimit;
+	@Column(name="OPENINVOICE")
 	private Integer openinvoice;
 	
+	@Column(name="ADDRESS1", length=120)
 	private String address1;
+	@Column(name="CITY1", length=50)
 	private String city1;
+	@Column(name="STATE1", length=50)
 	private String state1;
+	@Column(name="PHONE1", length=50)
 	private String phone1;
+	@Column(name="ADDRESS2", length=120)
 	private String address2;
+	@Column(name="CITY2", length=50)
 	private String city2;
+	@Column(name="STATE2", length=50)
 	private String state2;
+	@Column(name="PHONE2", length=50)
 	private String phone2;
+	@Column(name="NPWP", length=120)
 	private String npwp;
+	@Column(name="EMAIL", length=120)
 	private String email;
+	@Column(name="STATUSACTIVE")
 	private Boolean statusactive;
 
 	@Column(name="HARIKUNJUNGAN")
 	private Integer harikunjungan;
 	@Column(name="PEKANKUNJUNGAN")
 	private Integer pekankunjungan;
+	
+	@Column(name="NOEFFCALL")
+	private boolean noeffcall;
+
+	@Column(name="LATITUDE")
+	private double latitude;
+	@Column(name="LONGITUDE")
+	private double longitude;
 	
 	@ManyToOne
 	@JoinColumn(name="fcustomersubgroupBean", referencedColumnName="id")
@@ -277,6 +304,56 @@ public class FCustomer {
 
 	public void setPdistributorBean(PDistributor pdistributorBean) {
 		this.pdistributorBean = pdistributorBean;
+	}
+	
+
+	public Boolean getOutletActive() {
+		return outletActive;
+	}
+
+	public Integer getHarikunjungan() {
+		return harikunjungan;
+	}
+
+	public Integer getPekankunjungan() {
+		return pekankunjungan;
+	}
+
+	public void setOutletActive(Boolean outletActive) {
+		this.outletActive = outletActive;
+	}
+
+	public void setHarikunjungan(Integer harikunjungan) {
+		this.harikunjungan = harikunjungan;
+	}
+
+	public void setPekankunjungan(Integer pekankunjungan) {
+		this.pekankunjungan = pekankunjungan;
+	}
+
+	
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public boolean isNoeffcall() {
+		return noeffcall;
+	}
+
+	public void setNoeffcall(boolean noeffcall) {
+		this.noeffcall = noeffcall;
 	}
 
 	@Override

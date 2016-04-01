@@ -90,6 +90,7 @@ public class CustomerCreditView extends CustomComponent {
 	private CheckBox checkLihatSemua = new CheckBox("Lihat Semua(Kirim dan Belum)", false);
 	
 	private ComboBox searchComboSalesman = new ComboBox("Salesman");
+	private ComboBox searchComboCustomer = new ComboBox("Customer");
 	private ComboBox searchComboArea = new ComboBox("Area");
 	private ComboBox searchComboSubArea = new ComboBox("Sub Area");
 	
@@ -350,8 +351,9 @@ public class CustomerCreditView extends CustomComponent {
 		
 		fieldAmountReturTampunganFaktur.setImmediate(true);
 
-		searchComboArea.setWidth("120px");
 		searchComboSalesman.setWidth("120px");
+		searchComboCustomer.setWidth("120px");
+		searchComboArea.setWidth("120px");
 		searchComboSubArea.setWidth("120px");
 
 		fieldSearchBySJPenagihan.setStyleName(Reindeer.TEXTFIELD_SMALL);
@@ -373,6 +375,10 @@ public class CustomerCreditView extends CustomComponent {
 		searchComboSalesman.setNullSelectionAllowed(true);
 		searchComboSalesman.setFilteringMode(FilteringMode.CONTAINS);
 		
+		searchComboCustomer.setContainerDataSource(model.getBeanItemContainerCustomer());
+		searchComboCustomer.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		searchComboCustomer.setNullSelectionAllowed(true);
+		searchComboCustomer.setFilteringMode(FilteringMode.CONTAINS);
 		//DEFAULT VIEW
 		fieldSearchComboTunaiKredit.select("S");
 		fieldSearchComboTunaiKredit.setEnabled(true);
@@ -462,6 +468,8 @@ public class CustomerCreditView extends CustomComponent {
 
 		layoutTopInner2.addComponent(searchComboSalesman);
 		layoutTopInner2.setComponentAlignment(searchComboSalesman, Alignment.BOTTOM_CENTER);
+		layoutTopInner2.addComponent(searchComboCustomer);
+		layoutTopInner2.setComponentAlignment(searchComboCustomer, Alignment.BOTTOM_CENTER);
 		layoutTopInner2.addComponent(searchComboArea);
 		layoutTopInner2.setComponentAlignment(searchComboArea, Alignment.BOTTOM_CENTER);
 		layoutTopInner2.addComponent(searchComboSubArea);
@@ -1474,6 +1482,12 @@ public class CustomerCreditView extends CustomComponent {
 	}
 	public void setSearchComboSubArea(ComboBox searchComboSubArea) {
 		this.searchComboSubArea = searchComboSubArea;
+	}
+	public ComboBox getSearchComboCustomer() {
+		return searchComboCustomer;
+	}
+	public void setSearchComboCustomer(ComboBox searchComboCustomer) {
+		this.searchComboCustomer = searchComboCustomer;
 	}
 	
 	

@@ -15,6 +15,8 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.erp.distribution.model.FCustomer;
+import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchasedPK;
 import org.erp.distribution.model.FtPurchaseh;
@@ -22,6 +24,8 @@ import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
+import org.erp.distribution.salesorder.salesorder.printinvoice.SalesOrderPrintHelper;
+import org.erp.distribution.salesorder.salesorder.sales.SalesOrderHelper;
 import org.erp.distribution.util.ProductAndStockHelper;
 import org.erp.distribution.util.ReportJdbcConfigHelper;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -51,13 +55,15 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 	private SalesOrderReturModel model;
 	private SalesOrderReturView view;
 	
-	SalesOrderReturHelper helper;
+	private SalesOrderReturHelper helper;
+	private SalesOrderPrintHelper salesOrderPrintHelper;
 	
 	public SalesOrderReturPresenter(SalesOrderReturModel model, SalesOrderReturView view){
 		this.model = model;
 		this.view = view;
 		helper = new SalesOrderReturHelper(model, view);
-		
+		salesOrderPrintHelper = new SalesOrderPrintHelper(model, view);
+	
 		initListener();
 		
 	}
@@ -841,11 +847,29 @@ public class SalesOrderReturPresenter implements ClickListener, ValueChangeListe
 		model.getBeanItemContainerHeader().addContainerFilter(filter1);
 		model.getBeanItemContainerHeader().addContainerFilter(filter2);
 		
+		String strSpcode ="";
+		try{
+			strSpcode = ((FSalesman) view.getComboSearch1().getValue()).getSpcode();
+		} catch(Exception ex){}
+		String strCustno = "";
+		try{
+			strCustno = ((FCustomer) view.getComboSearch2().getValue()).getCustno();
+		} catch(Exception ex){}
+		
+		Filter filter4 = new Or(new SimpleStringFilter("fsalesmanBean.spcode", strSpcode, true, false));
+		Filter filter5 = new Or(new SimpleStringFilter("fcustomerBean.custno", strCustno, true, false));
+		model.getBeanItemContainerHeader().addContainerFilter(filter4);
+		model.getBeanItemContainerHeader().addContainerFilter(filter5);
+		
+		
 	}
 	
 	public void printForm(){		
 		//STOK UPDATE LANGSUNG SAAT SAVE FORM
-		previewInvoice();
+//		previewInvoice();
+		salesOrderPrintHelper.setJenisFaktur("RETUR");
+		salesOrderPrintHelper.previewInvoice();
+		
 	}
 	
 	public void previewInvoice(){

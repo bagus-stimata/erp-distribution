@@ -3,6 +3,7 @@ package org.erp.distribution.model;
 import java.util.*;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -19,8 +20,10 @@ import org.hibernate.annotations.FetchMode;
 public class FSubarea {
 
 	@Id
+	@Column(name="ID", length=10)
 	private String id;
 	
+	@Column(name="DESCRIPTION", length=100)
 	private String description;
 	
 	@ManyToOne

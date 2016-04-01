@@ -75,9 +75,6 @@ public class CustomerPresenter implements ClickListener, ValueChangeListener, Ha
 
 	@Override
 	public void valueChange(ValueChangeEvent event) {
-		
-		
-		
 	}
 	@Override
 	public void itemClick(ItemClickEvent event) {
@@ -207,6 +204,12 @@ public class CustomerPresenter implements ClickListener, ValueChangeListener, Ha
 			model.newItemHeader.setNpwp("");
 			model.newItemHeader.setEmail("");
 			model.newItemHeader.setStatusactive(true);
+			model.newItemHeader.setNoeffcall(false);
+			
+			model.newItemHeader.setHarikunjungan(0);
+			model.newItemHeader.setPekankunjungan(0);
+			model.newItemHeader.setLatitude(0.0);
+			model.newItemHeader.setLongitude(0.0);
 			
 			//2. SET NEW DATA ITEM TO BINDER
 			model.getBinderHeader().setItemDataSource(model.newItemHeader);

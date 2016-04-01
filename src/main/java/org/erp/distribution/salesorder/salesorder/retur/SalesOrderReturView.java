@@ -50,8 +50,8 @@ public class SalesOrderReturView extends CustomComponent{
 	private TextField fieldSearch1 = new TextField("NO. RETUR");
 	private TextField fieldSearch2 = new TextField("NO. INV RET");
 	private TextField fieldSearch3 = new TextField("NO");
-	private ComboBox comboSearch1 = new ComboBox("SUPPLIER");
-	private ComboBox comboSearch2 = new ComboBox("SUPPLIER");
+	private ComboBox comboSearch1 = new ComboBox("Salesman");
+	private ComboBox comboSearch2 = new ComboBox("Customer");
 	
 	//DETIL
 	private TextField fieldOrderno = new TextField("NO. RETUR");
@@ -307,6 +307,32 @@ public class SalesOrderReturView extends CustomComponent{
 		fieldAmountpayfaterppn.setNullRepresentation("");
 		fieldPpnrp.setNullRepresentation("");
 		
+		comboSalesman.setContainerDataSource(model.getBeanItemContainerSalesman());
+		comboSalesman.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboSalesman.setFilteringMode(FilteringMode.CONTAINS);
+		comboSalesman.setNullSelectionAllowed(false);
+		
+		comboCustomer.setContainerDataSource(model.getBeanItemContainerCustomer());
+		comboCustomer.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboCustomer.setFilteringMode(FilteringMode.CONTAINS);
+		comboCustomer.setNullSelectionAllowed(false);
+
+		comboWarehouse.setContainerDataSource(model.getBeanItemContainerWarehouse());
+		comboWarehouse.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboWarehouse.setFilteringMode(FilteringMode.CONTAINS);
+		comboWarehouse.setNullSelectionAllowed(false);
+
+		
+		comboSearch1.setContainerDataSource(model.getBeanItemContainerSalesman());
+		comboSearch1.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboSearch1.setFilteringMode(FilteringMode.CONTAINS);
+		comboSearch1.setNullSelectionAllowed(true);
+		
+		comboSearch2.setContainerDataSource(model.getBeanItemContainerCustomer());
+		comboSearch2.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboSearch2.setFilteringMode(FilteringMode.CONTAINS);
+		comboSearch2.setNullSelectionAllowed(true);
+		
 	}
 	
 	public void buildView(){
@@ -330,6 +356,8 @@ public class SalesOrderReturView extends CustomComponent{
 		
 		layoutTopList1.addComponent(fieldSearch1);
 		layoutTopList1.addComponent(fieldSearch2);
+		layoutTopList1.addComponent(comboSearch1);
+		layoutTopList1.addComponent(comboSearch2);
 		layoutTopList1.addComponent(btnSearch);
 		layoutTopList1.setComponentAlignment(btnSearch, Alignment.BOTTOM_CENTER);
 		
@@ -552,20 +580,6 @@ public class SalesOrderReturView extends CustomComponent{
 	public void bindAndBuildFieldGroupComponentDetilHeader(){
 		model.getBinderHeader().setBuffered(false);
 		
-		comboSalesman.setContainerDataSource(model.getBeanItemContainerSalesman());
-		comboSalesman.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		comboSalesman.setFilteringMode(FilteringMode.CONTAINS);
-		comboSalesman.setNullSelectionAllowed(false);
-		
-		comboCustomer.setContainerDataSource(model.getBeanItemContainerCustomer());
-		comboCustomer.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		comboCustomer.setFilteringMode(FilteringMode.CONTAINS);
-		comboCustomer.setNullSelectionAllowed(false);
-
-		comboWarehouse.setContainerDataSource(model.getBeanItemContainerWarehouse());
-		comboWarehouse.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		comboWarehouse.setFilteringMode(FilteringMode.CONTAINS);
-		comboWarehouse.setNullSelectionAllowed(false);
 		
 		model.getBinderHeader().bind(fieldOrderno, "orderno");
 		model.getBinderHeader().bind(fieldInvoiceno, "invoiceno");
@@ -642,7 +656,9 @@ public class SalesOrderReturView extends CustomComponent{
 		
 		//set header
 		tableList.setColumnHeader("orderno", "NO. RETUR");
-		tableList.setColumnHeader("fsalesmanBean.custname", "SALESMAN");
+		tableList.setColumnHeader("fsalesmanBean.spcode", "SPCODE");
+		tableList.setColumnHeader("fsalesmanBean.spname", "SALESMAN");
+		tableList.setColumnHeader("fcustomerBean.custno", "CUSTNO");
 		tableList.setColumnHeader("fcustomerBean.custname", "CUSTOMER");
 		tableList.setColumnHeader("fwarehouseBean.custname", "WAREHOUSE");
 		tableList.setColumnHeader("invoiceno", "INV. RETUR");

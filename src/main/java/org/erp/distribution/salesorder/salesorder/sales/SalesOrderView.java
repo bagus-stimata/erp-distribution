@@ -53,8 +53,8 @@ public class SalesOrderView extends CustomComponent{
 	private TextField fieldSearch1 = new TextField("NO. ORDER");
 	private TextField fieldSearch2 = new TextField("NO. INVOICE");
 	private TextField fieldSearch3 = new TextField("NO");
-	private ComboBox comboSearch1 = new ComboBox("SUPPLIER");
-	private ComboBox comboSearch2 = new ComboBox("SUPPLIER");
+	private ComboBox comboSearch1 = new ComboBox("Salesman");
+	private ComboBox comboSearch2 = new ComboBox("Customer");
 	private CheckBox checkSearch1 = new CheckBox("BELUM TERBIT INVOICE SAJA");
 	
 	//DETIL
@@ -350,6 +350,32 @@ public class SalesOrderView extends CustomComponent{
 		fieldAmountpayfaterppn.setNullRepresentation("");
 		fieldPpnrp.setNullRepresentation("");
 
+		comboSalesman.setContainerDataSource(model.getBeanItemContainerSalesman());
+		comboSalesman.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboSalesman.setFilteringMode(FilteringMode.CONTAINS);
+		comboSalesman.setNullSelectionAllowed(false);
+		
+		comboCustomer.setContainerDataSource(model.getBeanItemContainerCustomer());
+		comboCustomer.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboCustomer.setFilteringMode(FilteringMode.CONTAINS);
+		comboCustomer.setNullSelectionAllowed(false);
+
+		comboWarehouse.setContainerDataSource(model.getBeanItemContainerWarehouse());
+		comboWarehouse.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboWarehouse.setFilteringMode(FilteringMode.CONTAINS);
+		comboWarehouse.setNullSelectionAllowed(false);
+		
+		comboSearch1.setContainerDataSource(model.getBeanItemContainerSalesman());
+		comboSearch1.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboSearch1.setFilteringMode(FilteringMode.CONTAINS);
+		comboSearch1.setNullSelectionAllowed(true);
+		
+		comboSearch2.setContainerDataSource(model.getBeanItemContainerCustomer());
+		comboSearch2.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboSearch2.setFilteringMode(FilteringMode.CONTAINS);
+		comboSearch2.setNullSelectionAllowed(true);
+		
+		
 		
 	}
 	
@@ -374,6 +400,8 @@ public class SalesOrderView extends CustomComponent{
 		
 		layoutTopList1.addComponent(fieldSearch1);
 		layoutTopList1.addComponent(fieldSearch2);
+		layoutTopList1.addComponent(comboSearch1);
+		layoutTopList1.addComponent(comboSearch2);
 		layoutTopList1.addComponent(btnSearch);
 		layoutTopList1.addComponent(checkSearch1);
 		layoutTopList1.setComponentAlignment(btnSearch, Alignment.BOTTOM_CENTER);
@@ -607,21 +635,6 @@ public class SalesOrderView extends CustomComponent{
 	
 	public void bindAndBuildFieldGroupComponentDetilHeader(){
 		model.getBinderHeader().setBuffered(false);
-		
-		comboSalesman.setContainerDataSource(model.getBeanItemContainerSalesman());
-		comboSalesman.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		comboSalesman.setFilteringMode(FilteringMode.CONTAINS);
-		comboSalesman.setNullSelectionAllowed(false);
-		
-		comboCustomer.setContainerDataSource(model.getBeanItemContainerCustomer());
-		comboCustomer.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		comboCustomer.setFilteringMode(FilteringMode.CONTAINS);
-		comboCustomer.setNullSelectionAllowed(false);
-
-		comboWarehouse.setContainerDataSource(model.getBeanItemContainerWarehouse());
-		comboWarehouse.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		comboWarehouse.setFilteringMode(FilteringMode.CONTAINS);
-		comboWarehouse.setNullSelectionAllowed(false);
 		
 		model.getBinderHeader().bind(fieldOrderno, "orderno");
 		model.getBinderHeader().bind(fieldInvoiceno, "invoiceno");

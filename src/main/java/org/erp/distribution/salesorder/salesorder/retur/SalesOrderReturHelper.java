@@ -12,6 +12,7 @@ import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchasedPK;
 import org.erp.distribution.model.FtSalesd;
+import org.erp.distribution.model.modelenum.EnumOperationStatus;
 import org.erp.distribution.util.HeaderDetilSalesHelper;
 import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
 
@@ -343,13 +344,13 @@ public class SalesOrderReturHelper {
 			
 		}
 		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
-		if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
-			isValid = false;
-			message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
-			"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+		if ( ! model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
+			if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
+				isValid = false;
+				message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
+				"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+			}
 		}
-		
-		
 		
 		if (isValid==false) {
 			Notification.show(message, Notification.TYPE_TRAY_NOTIFICATION);
@@ -368,9 +369,11 @@ public class SalesOrderReturHelper {
 			message += "::BELUM ADA YANG DIPILIH!";						
 		}
 		try{
-			if (model.getItemHeader().getEndofday()==true){
-				isValid = false;
-				message += "\n::TIDAK BISA EDIT, SUDAH PROSES AKHIR HARI!";			
+			if (model.getSysvarHelper().isRepairMode()==false){
+				if (model.getItemHeader().getEndofday()==true){
+					isValid = false;
+					message += "\n::TIDAK BISA EDIT, SUDAH PROSES AKHIR HARI!";			
+				}
 			}
 		} catch(Exception ex){}
 		
@@ -398,10 +401,12 @@ public class SalesOrderReturHelper {
 		
 		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
 		try{
-			if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
-				isValid = false;
-				message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
-				"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+			if ( ! model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
+				if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
+					isValid = false;
+					message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
+					"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+				}
 			}
 		} catch(Exception ex){}
 		

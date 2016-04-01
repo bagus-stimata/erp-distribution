@@ -36,8 +36,10 @@ public class FPromo {
 	@JoinColumn(name="fProductBean", referencedColumnName="id")
     private FProduct fProductBean;   
 
-	@Column(name="FORFPRODUCTGROUP")
+	@Column(name="FORFPRODUCTGROUP", length=30)
     private String forFproductGroup;
+	@Column(name="FORFPRODUCTGROUPAKUMULASI")
+	private boolean forFproductGroupAkumulasi;
 	
 	@ManyToOne
 	@JoinColumn(name="fproductgroupBean", referencedColumnName="id", nullable=true)
@@ -89,10 +91,8 @@ public class FPromo {
     private Integer freeQty4;
 	@Column(name="FREEQTYGET4")
     private Integer freeQtyGet4;
-
 	
-	
-	//DISCOUNT
+	//DISCOUNT SUBTOTAL DAPAT DISKON
 	private Boolean discKelipatan;
 	@Column(name="DISCVALUE1")
     private Double discValue1;
@@ -110,7 +110,27 @@ public class FPromo {
     private Double discValue4;
 	@Column(name="DISCPERCENTGET4")
     private Double discPercentGet4;
-    
+
+	//DISCOUNT SUBTOTAL DAPAT DISKON
+	private Boolean discFromItemKelipatan;
+	@Column(name="DISCFROMITEM_FREEQTY1")
+    private Integer discFromItemFreeQty1;
+	@Column(name="DISCFROMITEM_DISCPERCENTGET1")
+    private Double discFromItemdiscPercentGet1;
+	@Column(name="DISCFROMITEM_FREEQTY2")
+    private Integer discFromItemFreeQty2;
+	@Column(name="DISCFROMITEM_DISCPERCENTGET2")
+    private Double discFromItemdiscPercentGet2;
+	@Column(name="DISCFROMITEM_FREEQTY3")
+    private Integer discFromItemFreeQty3;
+	@Column(name="DISCFROMITEM_DISCPERCENTGET3")
+    private Double discFromItemdiscPercentGet3;
+	@Column(name="DISCFROMITEM_FREEQTY4")
+    private Integer discFromItemFreeQty4;
+	@Column(name="DISCFROMITEM_DISCPERCENTGET4")
+    private Double discFromItemdiscPercentGet4;
+	
+	//CASHBACK	
 	@Column(name="CASHBACKVALUE1")
     private Double cashBackValue1;
 	@Column(name="CASHBACKGET1")
@@ -141,9 +161,60 @@ public class FPromo {
 	private Set<FtSalesdPromoTpruDisc> ftSalesdPromoTpruDiscSet;
 	
 	
-	
-	
-	
+	public Boolean getDiscFromItemKelipatan() {
+		return discFromItemKelipatan;
+	}
+	public Integer getDiscFromItemFreeQty1() {
+		return discFromItemFreeQty1;
+	}
+	public Double getDiscFromItemdiscPercentGet1() {
+		return discFromItemdiscPercentGet1;
+	}
+	public Integer getDiscFromItemFreeQty2() {
+		return discFromItemFreeQty2;
+	}
+	public Double getDiscFromItemdiscPercentGet2() {
+		return discFromItemdiscPercentGet2;
+	}
+	public Integer getDiscFromItemFreeQty3() {
+		return discFromItemFreeQty3;
+	}
+	public Double getDiscFromItemdiscPercentGet3() {
+		return discFromItemdiscPercentGet3;
+	}
+	public Integer getDiscFromItemFreeQty4() {
+		return discFromItemFreeQty4;
+	}
+	public Double getDiscFromItemdiscPercentGet4() {
+		return discFromItemdiscPercentGet4;
+	}
+	public void setDiscFromItemKelipatan(Boolean discFromItemKelipatan) {
+		this.discFromItemKelipatan = discFromItemKelipatan;
+	}
+	public void setDiscFromItemFreeQty1(Integer discFromItemFreeQty1) {
+		this.discFromItemFreeQty1 = discFromItemFreeQty1;
+	}
+	public void setDiscFromItemdiscPercentGet1(Double discFromItemdiscPercentGet1) {
+		this.discFromItemdiscPercentGet1 = discFromItemdiscPercentGet1;
+	}
+	public void setDiscFromItemFreeQty2(Integer discFromItemFreeQty2) {
+		this.discFromItemFreeQty2 = discFromItemFreeQty2;
+	}
+	public void setDiscFromItemdiscPercentGet2(Double discFromItemdiscPercentGet2) {
+		this.discFromItemdiscPercentGet2 = discFromItemdiscPercentGet2;
+	}
+	public void setDiscFromItemFreeQty3(Integer discFromItemFreeQty3) {
+		this.discFromItemFreeQty3 = discFromItemFreeQty3;
+	}
+	public void setDiscFromItemdiscPercentGet3(Double discFromItemdiscPercentGet3) {
+		this.discFromItemdiscPercentGet3 = discFromItemdiscPercentGet3;
+	}
+	public void setDiscFromItemFreeQty4(Integer discFromItemFreeQty4) {
+		this.discFromItemFreeQty4 = discFromItemFreeQty4;
+	}
+	public void setDiscFromItemdiscPercentGet4(Double discFromItemdiscPercentGet4) {
+		this.discFromItemdiscPercentGet4 = discFromItemdiscPercentGet4;
+	}
 	public Set<FtSalesdPromoTprb> getFtSalesdPromoTprbSet() {
 		return ftSalesdPromoTprbSet;
 	}
@@ -407,6 +478,14 @@ public class FPromo {
 	public void setfProductBean(FProduct fProductBean) {
 		this.fProductBean = fProductBean;
 	}
+	
+
+	public boolean isForFproductGroupAkumulasi() {
+		return forFproductGroupAkumulasi;
+	}
+	public void setForFproductGroupAkumulasi(boolean forFproductGroupAkumulasi) {
+		this.forFproductGroupAkumulasi = forFproductGroupAkumulasi;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -432,7 +511,7 @@ public class FPromo {
 	}
 	@Override
 	public String toString() {
-		return "[" + id + "] " + description;
+		return "[" + norek + "] " + description;
 	}
     
     

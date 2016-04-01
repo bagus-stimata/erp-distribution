@@ -2,22 +2,15 @@ package org.erp.distribution.master.product;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperRunManager;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -33,21 +26,18 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
-import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
-import com.vaadin.server.FileDownloader;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Notification;
@@ -272,6 +262,17 @@ public class ProductPresenter implements ClickListener, ValueChangeListener, Han
 			model.newItemHeader.setWeight(0.0);
 			model.newItemHeader.setMinqtystok(0);
 			model.newItemHeader.setMaxqtystok(0);
+			
+			model.newItemHeader.setBatchCode("");
+			model.newItemHeader.setProductionCode("");
+			
+			//Default Expired Setahun Kemudian
+			Calendar calExpiredDate = Calendar.getInstance();
+			calExpiredDate.setTime(new Date());
+			calExpiredDate.add(Calendar.YEAR, 1);
+			
+			model.newItemHeader.setProductionDate(new Date());
+			model.newItemHeader.setExpiredDate(calExpiredDate.getTime());
 			
 			
 			//2. SET NEW DATA ITEM TO BINDER

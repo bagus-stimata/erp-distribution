@@ -18,6 +18,8 @@ public class LapPembayaranPiutangView extends CustomComponent{
 	private VerticalLayout content = new VerticalLayout();
 	private ComboBox comboGroup1= new ComboBox("TUNAI/KREDIT");
 	private ComboBox comboGroup2= new ComboBox("NOMOR SJ");
+	private ComboBox comboGroup3= new ComboBox("Salesman");
+	private ComboBox comboGroup4= new ComboBox("Customer");
 
 	private TextField fieldSuratJalanPenagihan = new TextField("SJ Penagihan");
 	
@@ -49,6 +51,8 @@ public class LapPembayaranPiutangView extends CustomComponent{
 	public void initComponent(){
 		comboGroup1.setWidth("300px");
 		comboGroup2.setWidth("300px");
+		comboGroup3.setWidth("300px");
+		comboGroup4.setWidth("300px");
 
 		fieldSuratJalanPenagihan.setWidth("300px");
 		
@@ -70,9 +74,14 @@ public class LapPembayaranPiutangView extends CustomComponent{
 		HorizontalLayout layoutBottom = new HorizontalLayout();		
 		layoutBottom.setMargin(true);
 		
+		layoutTop.addComponent(comboGroup3);
+		layoutTop.addComponent(comboGroup4);
+
+		
 		layoutTop.addComponent(fieldSuratJalanPenagihan);
 		layoutTop.addComponent(comboGroup1);
 //		layoutTop.addComponent(comboGroup2);
+		
 		layoutTop.addComponent(dateField1From);
 		layoutTop.addComponent(dateField1To);
 //		layoutTop.addComponent(checkBox1);
@@ -109,7 +118,18 @@ public class LapPembayaranPiutangView extends CustomComponent{
 		comboGroup2.setNewItemsAllowed(false);
 		comboGroup2.setFilteringMode(FilteringMode.CONTAINS);
 		comboGroup2.setNullSelectionAllowed(false);
+
 		
+		comboGroup3.setContainerDataSource(model.getBeanItemContainerSalesman());
+		comboGroup3.setNewItemsAllowed(false);
+		comboGroup3.setFilteringMode(FilteringMode.CONTAINS);
+		comboGroup3.setNullSelectionAllowed(true);
+		
+		comboGroup4.setContainerDataSource(model.getBeanItemContainerCustomer());
+		comboGroup4.setNewItemsAllowed(false);
+		comboGroup4.setFilteringMode(FilteringMode.CONTAINS);
+		comboGroup4.setNullSelectionAllowed(true);
+
 		dateField1From.setValue(model.getTransaksiHelper().getCurrentTransDate());
 		dateField1To.setValue(model.getTransaksiHelper().getCurrentTransDate());
 		
@@ -226,11 +246,22 @@ public class LapPembayaranPiutangView extends CustomComponent{
 	public void setFieldSuratJalanPenagihan(TextField fieldSuratJalanPenagihan) {
 		this.fieldSuratJalanPenagihan = fieldSuratJalanPenagihan;
 	}
-	
-	
-	
-	
-	
+
+	public ComboBox getComboGroup3() {
+		return comboGroup3;
+	}
+
+	public ComboBox getComboGroup4() {
+		return comboGroup4;
+	}
+
+	public void setComboGroup3(ComboBox comboGroup3) {
+		this.comboGroup3 = comboGroup3;
+	}
+
+	public void setComboGroup4(ComboBox comboGroup4) {
+		this.comboGroup4 = comboGroup4;
+	}
 	
 	
 }

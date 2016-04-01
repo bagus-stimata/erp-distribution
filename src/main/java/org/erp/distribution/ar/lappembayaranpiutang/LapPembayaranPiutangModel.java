@@ -4,18 +4,22 @@ import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FProductgroupJpaService;
+import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FStockJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
 import org.erp.distribution.jpaservice.FtSalesdJpaService;
 import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
+import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
+import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FWarehouse;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.util.ProductAndStockHelper;
+import org.erp.distribution.util.SysvarHelper;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
 
@@ -27,12 +31,17 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 	//1. DAO SERVICE
 	private SysvarJpaService sysvarJpaService;
 	private TransaksiHelper transaksiHelper = new TransaksiHelperImpl();
+	private SysvarHelper sysvarHelper;
 
 	private FProductJpaService fProductJpaService;
 	private FWarehouseJpaService fWarehouseJpaService;
 	private FProductgroupJpaService fProductgroupJpaService;
 	private FStockJpaService fStockJpaService;
 
+	
+	private FSalesmanJpaService fSalesmanJpaService;
+	private FCustomerJpaService fCustomerJpaService;
+	
 	private ProductAndStockHelper productAndStockHelper = new ProductAndStockHelper();
 	
 	
@@ -42,6 +51,11 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 			new BeanItemContainer<FWarehouse>(FWarehouse.class);
 	private BeanItemContainer<FProductgroup> beanItemContainerProductgroup = 
 			new BeanItemContainer<FProductgroup>(FProductgroup.class);
+
+	private BeanItemContainer<FSalesman> beanItemContainerSalesman = 
+			new BeanItemContainer<FSalesman>(FSalesman.class);
+	private BeanItemContainer<FCustomer> beanItemContainerCustomer = 
+			new BeanItemContainer<FCustomer>(FCustomer.class);
 	
 //3. LIST >> JIKA PERLU
 //4. BeanItemContainer, Jpa Container
@@ -60,12 +74,16 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 		setSysvarJpaService((((DashboardUI) getUI().getCurrent()).getSysvarJpaService()));
 ////		setTransaksiHelper((((DashboardUI) getUI().getCurrent()).getTransaksiHelper()));
 //		setProductAndStockHelper((((DashboardUI) getUI().getCurrent()).getProductAndStockHelper()));
+		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
 		
 		setfProductgroupJpaService((((DashboardUI) getUI().getCurrent()).getfProductgroupJpaService()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
+
+		setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));
+		setfCustomerJpaService((((DashboardUI) getUI().getCurrent()).getfCustomerJpaService()));
 	}
 
 	public void initVariableData(){
@@ -80,7 +98,9 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 		
 		beanItemContainerProductgroup.addAll(fProductgroupJpaService.findAll());
 		beanItemContainerWarehouse.addAll(fWarehouseJpaService.findAll());
-		
+
+		beanItemContainerSalesman.addAll(fSalesmanJpaService.findAll());
+		beanItemContainerCustomer.addAll(fCustomerJpaService.findAll());
 	}
 	public SysvarJpaService getSysvarJpaService() {
 		return sysvarJpaService;
@@ -144,6 +164,38 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 	}
 	public void setProductAndStockHelper(ProductAndStockHelper productAndStockHelper) {
 		this.productAndStockHelper = productAndStockHelper;
+	}
+	public FSalesmanJpaService getfSalesmanJpaService() {
+		return fSalesmanJpaService;
+	}
+	public FCustomerJpaService getfCustomerJpaService() {
+		return fCustomerJpaService;
+	}
+	public BeanItemContainer<FSalesman> getBeanItemContainerSalesman() {
+		return beanItemContainerSalesman;
+	}
+	public void setfSalesmanJpaService(FSalesmanJpaService fSalesmanJpaService) {
+		this.fSalesmanJpaService = fSalesmanJpaService;
+	}
+	public void setfCustomerJpaService(FCustomerJpaService fCustomerJpaService) {
+		this.fCustomerJpaService = fCustomerJpaService;
+	}
+	public void setBeanItemContainerSalesman(
+			BeanItemContainer<FSalesman> beanItemContainerSalesman) {
+		this.beanItemContainerSalesman = beanItemContainerSalesman;
+	}
+	public BeanItemContainer<FCustomer> getBeanItemContainerCustomer() {
+		return beanItemContainerCustomer;
+	}
+	public void setBeanItemContainerCustomer(
+			BeanItemContainer<FCustomer> beanItemContainerCustomer) {
+		this.beanItemContainerCustomer = beanItemContainerCustomer;
+	}
+	public SysvarHelper getSysvarHelper() {
+		return sysvarHelper;
+	}
+	public void setSysvarHelper(SysvarHelper sysvarHelper) {
+		this.sysvarHelper = sysvarHelper;
 	}
 
 	

@@ -26,9 +26,17 @@ import org.springframework.boot.autoconfigure.condition.SearchStrategy;
 
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.Grid.Column;
+import com.vaadin.ui.Grid.FooterRow;
+import com.vaadin.ui.Grid.HeaderCell;
+import com.vaadin.ui.Grid.HeaderRow;
+import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -36,6 +44,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -44,12 +53,16 @@ import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.Reindeer;
 
 public class LapSaldoHutangVendorView extends CustomComponent {
 	
 	private LapSaldoHutangVendorModel model;
 	private VerticalLayout content = new VerticalLayout();
+
+	private Grid grid1 = new Grid();
+	private FooterRow footerRow;
 
 	private Table table;
 	private Form form;
@@ -390,8 +403,68 @@ public class LapSaldoHutangVendorView extends CustomComponent {
 		table.setFooterVisible(true);
 		
 		fieldAmountReturTampunganFaktur.setImmediate(true);
-                
+      
+		grid1.setContainerDataSource(model.getTableBeanItemContainer());
+		grid1.setSizeFull();
+		grid1.setSelectionMode(SelectionMode.MULTI);
+		
+		footerRow = grid1.appendFooterRow();
+		
+		HeaderRow headerRow = grid1.appendHeaderRow();
+		HeaderCell headerCellOrderNo = headerRow.getCell("nopo");
+		HeaderCell headerCellInvoiceNo = headerRow.getCell("invoiceno");
+		
+		TextField fieldOrderNoFilter = new TextField();
+		fieldOrderNoFilter.setImmediate(true);
+		fieldOrderNoFilter.setSizeFull();
+		TextField fieldInvoiceNoFilter = new TextField();
+		fieldInvoiceNoFilter.setImmediate(true);
+		fieldInvoiceNoFilter.setSizeFull();
+		TextField fieldSjPenagihanNoFilter = new TextField();
+		fieldSjPenagihanNoFilter.setImmediate(true);
+		fieldSjPenagihanNoFilter.setSizeFull();
+		
+		
+		fieldOrderNoFilter.addTextChangeListener(getNopoFilter());
+		fieldInvoiceNoFilter.addTextChangeListener(getInvoiceNoFilter());
+//		fieldSjPenagihanNoFilter.addTextChangeListener(getSjPenagihanNoFilter());
+		headerCellOrderNo.setComponent(fieldOrderNoFilter);		
+		headerCellInvoiceNo.setComponent(fieldInvoiceNoFilter);		
+//		headerCellSjPenagihanNo.setComponent(fieldSjPenagihanNoFilter);		
+		
 	}
+	
+	private TextChangeListener getNopoFilter() {
+		 return new TextChangeListener() {
+			 
+			  @Override
+			  public void textChange(TextChangeEvent event) {
+				   String newValue = (String) event.getText();
+				   model.getTableBeanItemContainer().removeContainerFilters("nopo");
+				   if (null != newValue && !newValue.isEmpty()) {
+					   model.getTableBeanItemContainer().addContainerFilter(new SimpleStringFilter(
+				      "nopo", newValue, true, false));
+				   }
+				   grid1.recalculateColumnWidths();
+			 }
+		};
+	}
+	private TextChangeListener getInvoiceNoFilter() {
+		 return new TextChangeListener() {
+			 
+			  @Override
+			  public void textChange(TextChangeEvent event) {
+				   String newValue = (String) event.getText();
+				   model.getTableBeanItemContainer().removeContainerFilters("invoiceno");
+				   if (null != newValue && !newValue.isEmpty()) {
+					   model.getTableBeanItemContainer().addContainerFilter(new SimpleStringFilter(
+				      "invoiceno", newValue, true, false));
+				   }
+				   grid1.recalculateColumnWidths();
+			 }
+		};
+	}
+	
 	public void initFieldFactory(){
 //		fieldFactory = new FieldFactory();
 //		customFieldFactory = new CustomFieldFactory();		
@@ -416,7 +489,7 @@ public class LapSaldoHutangVendorView extends CustomComponent {
                 //LAYOUT TABLE
 		VerticalLayout layoutTable = new VerticalLayout();
 		layoutTable.setSizeFull();
-        layoutTable.addComponent(table);
+        layoutTable.addComponent(grid1);
                 
                 //LAYOUT BOTTOM
 		VerticalLayout layoutBottom = new VerticalLayout();
@@ -428,7 +501,7 @@ public class LapSaldoHutangVendorView extends CustomComponent {
         //LAYOUT UTAMA
         content.addComponent(panelTop);
         content.addComponent(layoutTable);
-        content.addComponent(layoutBottom);
+//        content.addComponent(layoutBottom);
         setCompositionRoot(content);
         
         //Extended Konfigurasi Size
@@ -594,11 +667,83 @@ public class LapSaldoHutangVendorView extends CustomComponent {
 	}
 	public void setDisplay(){
 		
-		//1. Refresh Table displa
-		table.setContainerDataSource(model.getTableBeanItemContainer());
+//		//1. Refresh Table displa
+//		table.setContainerDataSource(model.getTableBeanItemContainer());
+//		
+//		setTableProperties();
+//		setDisplayFooter();
 		
-		setTableProperties();
-		setDisplayFooter();
+		grid1.setContainerDataSource(model.getTableBeanItemContainer());
+		setGridProperties();
+	}
+	
+	public void setGridProperties(){
+		
+		for (Column c : grid1.getColumns()) {
+        	c.setHidable(true);
+        	c.setHidden(true);
+        }
+		
+		grid1.getColumn("nopo").setHidden(false);
+		grid1.getColumn("invoiceno").setHidden(false);
+		grid1.getColumn("tunaikredit").setHidden(false);
+		grid1.getColumn("invoicedate").setHidden(false);
+//		grid1.getColumn("top").setHidden(false);
+		grid1.getColumn("duedate").setHidden(false);
+		grid1.getColumn("amountafterdiscafterppn").setHidden(false);
+		grid1.getColumn("amountpay").setHidden(false);
+		grid1.getColumn("fvendorBean.vcode").setHidden(false);
+		
+		grid1.getColumn("nopo").setHeaderCaption("NO.ORDER");
+		grid1.getColumn("invoiceno").setHeaderCaption("NO.INV");
+		grid1.getColumn("tunaikredit").setHeaderCaption("T/K");
+		grid1.getColumn("invoicedate").setHeaderCaption("TGL.INV");
+//		grid1.getColumn("top").setHeaderCaption("TOP");
+		grid1.getColumn("duedate").setHeaderCaption("JTH.TEMPO");
+		grid1.getColumn("amountafterdiscafterppn").setHeaderCaption("AMOUNT+PPN");
+		grid1.getColumn("amountpay").setHeaderCaption("BAYAR");
+		grid1.getColumn("fvendorBean.vcode").setHeaderCaption("VENDOR");
+		
+		grid1.setColumnOrder("nopo", "invoiceno",  "tunaikredit", 
+				"invoicedate", "duedate", "amountafterdiscafterppn", "amountpay", "fvendorBean.vcode");
+		
+		grid1.getColumn("nopo").setExpandRatio(3);
+		grid1.getColumn("invoiceno").setExpandRatio(3);
+		grid1.getColumn("tunaikredit").setExpandRatio(1);
+		grid1.getColumn("invoicedate").setExpandRatio(2);
+//		grid1.getColumn("top").setExpandRatio(1);
+		grid1.getColumn("duedate").setExpandRatio(2);
+		grid1.getColumn("amountafterdiscafterppn").setExpandRatio(3);
+		grid1.getColumn("amountpay").setExpandRatio(3);
+		grid1.getColumn("fvendorBean.vcode").setExpandRatio(5);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+		grid1.getColumn("invoicedate").setRenderer(new DateRenderer(sdf));
+		grid1.getColumn("duedate").setRenderer(new DateRenderer(sdf));
+		
+		grid1.setCellStyleGenerator(new Grid.CellStyleGenerator() {
+            @Override
+            public String getStyle(Grid.CellReference cellReference) {
+                if ("amountafterdiscafterppn".equals(cellReference.getPropertyId())) {
+                    // when the current cell is number such as age, align text to right
+                    return "rightAligned";
+                } else if ("amountpay".equals(cellReference.getPropertyId())){                	
+                	return "rightAligned";
+                } else if ("invoicedate".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("duedate".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("top".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("tunaikredit".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else {
+                    // otherwise, align text to left
+                    return "leftAligned";
+                }
+            }
+        });			
+
 	}
 	public void setDisplayFooter(){
 		NumberFormat nf = NumberFormat.getInstance();
@@ -1274,6 +1419,18 @@ public class LapSaldoHutangVendorView extends CustomComponent {
 	}
 	public void setBtnCancel(Button btnCancel) {
 		this.btnCancel = btnCancel;
+	}
+	public Grid getGrid1() {
+		return grid1;
+	}
+	public FooterRow getFooterRow() {
+		return footerRow;
+	}
+	public void setGrid1(Grid grid1) {
+		this.grid1 = grid1;
+	}
+	public void setFooterRow(FooterRow footerRow) {
+		this.footerRow = footerRow;
 	}
 	
 	

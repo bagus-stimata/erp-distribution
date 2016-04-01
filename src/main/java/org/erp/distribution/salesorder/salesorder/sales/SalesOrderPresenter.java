@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.erp.distribution.model.FCustomer;
+import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.FtSalesdPromoTprb;
@@ -15,6 +16,8 @@ import org.erp.distribution.model.FtSalesdPromoTpruCb;
 import org.erp.distribution.model.FtSalesdPromoTpruDisc;
 import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.modelenum.EnumOperationStatus;
+import org.erp.distribution.model.modelenum.EnumProteksiStatus;
+import org.erp.distribution.salesorder.salesorder.printinvoice.SalesOrderPrintHelper;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Container.Filter;
@@ -146,34 +149,42 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 					List<FtSalesh> listFakturBelumTerbayar = model.getFtSaleshJpaService().findAllOpenInvoice(fCustomer);
 					
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-					
-					if (listFakturBelumTerbayar.size()>0){
-						if (model.getOperationStatus().equals(EnumOperationStatus.ADDING.getStrCode()) || 
-								model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
-							view.getBtnSaveForm().setEnabled(false);							
-							view.getBtnPrint().setEnabled(false);
-							view.getBtnPrintRetail().setEnabled(false);
-						}
+					if (model.getSysvarHelper().getProteksiCreditLimit().equals(EnumProteksiStatus.REJECT.getStrCode()) || 
+							model.getSysvarHelper().getProteksiCreditLimit().equals(EnumProteksiStatus.WARNING.getStrCode())){
+						Double crLimit = fCustomer.getCreditlimit();
+						Double saldoPiutang = model.getSaldoPiutangCust().getSaldoPiutangPerCustomerMinRetur(fCustomer);
+						Double sisaKredit = crLimit-saldoPiutang;
 						
-						String messageFakturBelumTerbayar = "NOTA BELUM TERBAYAR: \n";
-						int i=0;
-						for (FtSalesh domain: listFakturBelumTerbayar){
-							messageFakturBelumTerbayar += "NOTA: " + domain.getInvoiceno() + 
-									", TGL: " + sdf.format(domain.getInvoicedate()) + 
-									", JUMLAH: " + domain.getAmountafterdiscafterppn() + 
-									", BAYAR: " + domain.getAmountpay() +", \n";
-						}
-						
-						Notification.show(messageFakturBelumTerbayar, Notification.TYPE_ERROR_MESSAGE);
-						
-					} else {
-						if (model.getOperationStatus().equals(EnumOperationStatus.ADDING.getStrCode()) || 
-								model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
-							view.getBtnSaveForm().setEnabled(true);			
-							if (! model.getItemHeader().getInvoiceno().equals("")){
-								view.getBtnPrint().setEnabled(true);
-								view.getBtnPrintRetail().setEnabled(false);
+						if (sisaKredit < 20000){
+							//JIKA ADA PARAMETER TIDAK BOLEH INPUT
+	//						if (model.getOperationStatus().equals(EnumOperationStatus.ADDING.getStrCode()) || 
+	//								model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
+	//							view.getBtnSaveForm().setEnabled(false);							
+	//							view.getBtnPrint().setEnabled(false);
+	//							view.getBtnPrintRetail().setEnabled(false);
+	//						}
+							
+							String messageFakturBelumTerbayar = "NOTA BELUM TERBAYAR: \n";
+							int i=0;
+							for (FtSalesh domain: listFakturBelumTerbayar){
+								messageFakturBelumTerbayar += "NOTA: " + domain.getInvoiceno() + 
+										", TGL: " + sdf.format(domain.getInvoicedate()) + 
+										", JUMLAH: " + domain.getAmountafterdiscafterppn() + 
+										", BAYAR: " + domain.getAmountpay() +", \n";
 							}
+							
+							Notification.show(messageFakturBelumTerbayar, Notification.TYPE_WARNING_MESSAGE);
+							
+						} else {
+							//JIKA ADA PARAMETER TIDAK BOLEH INPUT
+	//						if (model.getOperationStatus().equals(EnumOperationStatus.ADDING.getStrCode()) || 
+	//								model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
+	//							view.getBtnSaveForm().setEnabled(true);			
+	//							if (! model.getItemHeader().getInvoiceno().equals("")){
+	//								view.getBtnPrint().setEnabled(true);
+	//								view.getBtnPrintRetail().setEnabled(false);
+	//							}
+	//						}
 						}
 					}
 				} catch(Exception ex){}
@@ -302,7 +313,9 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		} else if (event.getButton() == view.getBtnEditForm()) {
 			if (helper.isValidEditForm()==true) {
 				//HAPUS SEMUA  FROMO
-				helper.deleteNonPromoItem();
+				helper.deletePromoItemAndDiskon();
+				view.getTableDetil().refreshRowCache();
+				
 				//JIKA KONDISI NOPO=NEW ::MAKA MODE ADD NEW
 				try{
 					if (model.itemHeader.getOrderno().equals("New")) {
@@ -372,10 +385,14 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			}
 		} else if (event.getButton() == view.getBtnSearch()) {
 			searchForm();
-		} else if (event.getButton() == view.getBtnPrint()){			
-			printForm();
+		} else if (event.getButton() == view.getBtnPrint()){		
+			if (helper.isValidCreditLimitForNewInvoice()){
+					printForm();
+			}
 		} else if (event.getButton() == view.getBtnPrintRetail()){			
-			printFormRetail();
+			if (helper.isValidCreditLimitForNewInvoice()){
+				printFormRetail();
+			}
 		}else if (event.getButton() == view.getBtnHelp()){
 			helpForm();
 		}else if (event.getButton() == view.getItemDetilView().getBtnAddAndSave()){
@@ -990,12 +1007,12 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		//1. VALIDASI
 		if (helper.isValidSaveFormAdding()) {
 
-			//ANTISIPASI RECALCULATE DETIL
-			
 			//CEK DISKON DAN UPDATE DETIL PER SUPPLIER
 			helper.cekAndUpdateParamDiskonItemByVendor();
 			//0. Cek and Update Aktifitas Promo Detail			
-			helper.cekAktifitasPromoItem();
+			helper.cekAktifitasPromo();
+			
+			view.getTableDetil().refreshRowCache();
 			
 			//1.. RECEK  and CALCULATE header :: CUMA KALKULASI
 			helper.updateAndCalculateHeaderByItemDetil();
@@ -1004,8 +1021,6 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			model.itemHeader.setOrderno(model.getTransaksiHelper().getNextFtSaleshRefno());
 			//3. SAVE ULANG HEADER
 			model.getFtSaleshJpaService().updateObject(model.itemHeader);
-			
-			//ANTISIPASI
 			
 			//4. UPDATE STOCK :: UPDATE STOK TERJADI SETELAH DI SAVE ATAU DITERBITKANNYA NOMOR PO			
 			//****update stock saat print dan terbitkan invoice****
@@ -1030,11 +1045,11 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 	public void saveFormEditing(){
 		if (helper.isValidSaveFormEditing()) {
 			//0. Cek and Update Aktifitas Promo Detail
-			helper.cekAktifitasPromoItem();
+			helper.cekAktifitasPromo();
 			
 			//##MUNGKIN INI SOLUSINYA
 			helper.updateAndCalculateHeaderByItemDetil();
-			
+
 			//KITA MENGGUNAKAN AUTO UPDATE STOK UNTUK EDITING
 			model.getFtSaleshJpaService().updateObject(model.getItemHeader());
 			
@@ -1270,7 +1285,7 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 		
 		Filter filter1 = new Or(new SimpleStringFilter("orderno", strSearch1, true, false));
 		Filter filter2 = new Or(new SimpleStringFilter("invoiceno", strSearch2, true, false));
-		
+
 		model.getBeanItemContainerHeader().addContainerFilter(filter1);
 		model.getBeanItemContainerHeader().addContainerFilter(filter2);
 
@@ -1278,12 +1293,26 @@ public class SalesOrderPresenter implements ClickListener, ValueChangeListener, 
 			Filter filter3 = new Or(new Compare.Equal("invoiceno", ""));
 			model.getBeanItemContainerHeader().addContainerFilter(filter3);
 		}
+
+		String strSpcode ="";
+		try{
+			strSpcode = ((FSalesman) view.getComboSearch1().getValue()).getSpcode();
+		} catch(Exception ex){}
+		String strCustno = "";
+		try{
+			strCustno = ((FCustomer) view.getComboSearch2().getValue()).getCustno();
+		} catch(Exception ex){}
+		
+		Filter filter4 = new Or(new SimpleStringFilter("fsalesmanBean.spcode", strSpcode, true, false));
+		Filter filter5 = new Or(new SimpleStringFilter("fcustomerBean.custno", strCustno, true, false));
+		model.getBeanItemContainerHeader().addContainerFilter(filter4);
+		model.getBeanItemContainerHeader().addContainerFilter(filter5);
 		
 	}
 	
 	public void printForm(){		
 		try{
-			//TAMBAH COUNTER ITEM PRINTE
+			//TAMBAH COUNTER ITEM PRINTER
 			if (model.itemHeader.getPrintcounter()==null) model.itemHeader.setPrintcounter(1);
 			if (model.itemHeader.getPrintcounter()==0) model.itemHeader.setPrintcounter(1);
 			model.itemHeader.setPrintcounter(model.getItemHeader().getPrintcounter()+1);        			

@@ -223,12 +223,33 @@ public class FtSaleshJpaServiceImpl extends GenericJpaServiceImpl<FtSalesh, Seri
 	}
 
 	@Override
+	public List<FtSalesh> findAllFakturAndReturBelumLunas(FCustomer fCustomer) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtSalesh a WHERE a.fcustomerBean.id =:customerId "
+	            		+ " AND (a.amountafterdiscafterppn > a.amountpay OR a.amountpay IS NULL) ";
+	            
+	            List<FtSalesh> list = em.createQuery(query)
+	            		.setParameter("customerId", fCustomer.getId())
+	            		 .setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+	            		 .getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+	
+	@Override
 	public List<FtSalesh> findAllReturBelumLunas() {
 	       EntityManager em = getFactory().createEntityManager();
 	        try {
 	            em.getTransaction().begin();
 	            String query = "SELECT a FROM FtSalesh a WHERE a.tipefaktur LIKE 'R' AND (a.amountafterdiscafterppn > a.amountpay OR a.amountpay IS NULL) ";
-//	            String query = "SELECT a FROM FtSalesh a WHERE a.tipefaktur LIKE 'R' ";
 	            
 	            List<FtSalesh> list = em.createQuery(query)
 	            		 .setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)

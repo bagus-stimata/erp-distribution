@@ -2,9 +2,10 @@ package org.erp.distribution.salesorder.salesorder.sales;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.erp.distribution.DashboardUI;
+import org.erp.distribution.ar.util.SaldoPiutangCust;
+import org.erp.distribution.ar.util.SaldoPiutangCustImpl;
 import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FParamDiskonItemVendorJpaService;
 import org.erp.distribution.jpaservice.FParamDiskonJpaService;
@@ -21,7 +22,6 @@ import org.erp.distribution.jpaservice.FtSalesdPromoTpruDiscJpaService;
 import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FCustomer;
-import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FParamDiskonNota;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FSalesman;
@@ -60,6 +60,7 @@ public class SalesOrderModel extends CustomComponent{
 
 		private FtArpaymenthJpaService ftArpaymenthJpaService ;
 		private FtArpaymentdJpaService ftArpaymentdJpaService;
+		private SaldoPiutangCust saldoPiutangCust = new SaldoPiutangCustImpl();
 		
 	//2. ENTITY
 		protected User userActive = new User();
@@ -135,6 +136,8 @@ public class SalesOrderModel extends CustomComponent{
 		
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		userActive = ((DashboardUI) getUI().getCurrent()).getUserActive();
+		
+		
 		
 	}
 	public void initVariableData(){
@@ -499,6 +502,14 @@ public class SalesOrderModel extends CustomComponent{
 	public void setBeanItemContainerProduct(
 			BeanItemContainer<FProduct> beanItemContainerProduct) {
 		this.beanItemContainerProduct = beanItemContainerProduct;
+	}
+
+	public SaldoPiutangCust getSaldoPiutangCust() {
+		return saldoPiutangCust;
+	}
+
+	public void setSaldoPiutangCust(SaldoPiutangCust saldoPiutangCust) {
+		this.saldoPiutangCust = saldoPiutangCust;
 	}
 
 	

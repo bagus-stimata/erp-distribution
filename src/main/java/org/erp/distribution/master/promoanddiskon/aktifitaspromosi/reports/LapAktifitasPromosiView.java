@@ -19,7 +19,7 @@ public class LapAktifitasPromosiView extends CustomComponent{
 	
 	private ComboBox comboGroup2= new ComboBox("GRUP BARANG");
 
-	private CheckBox checkBox1 = new CheckBox("TGL. PEMBAYARAN FROM");
+	private CheckBox checkBox1 = new CheckBox("Format Lengkap");
 	private CheckBox checkBox2 = new CheckBox("S.D");
 	
 	private DateField dateField1From = new DateField("Tgl. Trans From");
@@ -29,6 +29,7 @@ public class LapAktifitasPromosiView extends CustomComponent{
 	
 	private Button btnPreview = new Button("Preview");
 	private Button btnClose = new Button("Close");
+	private Button btnExtractToExel = new Button("Extract To Exel");
 	
 	private Panel panelUtama = new Panel();
 	private Panel panelTop = new Panel();
@@ -70,12 +71,12 @@ public class LapAktifitasPromosiView extends CustomComponent{
 //		layoutTop.addComponent(comboGroup2);
 		layoutTop.addComponent(dateField1From);
 		layoutTop.addComponent(dateField1To);
-//		layoutTop.addComponent(checkBox1);
+		layoutTop.addComponent(checkBox1);
 //		layoutTop.addComponent(checkBox2);
 		
 		layoutBottom.addComponent(btnPreview);
 		layoutBottom.addComponent(btnClose);
-		
+		layoutBottom.addComponent(btnExtractToExel);
 		
 		panelTop.setContent(layoutTop);
 		content.addComponent(panelTop);		
@@ -205,6 +206,14 @@ public class LapAktifitasPromosiView extends CustomComponent{
 
 	public void setCheckBox2(CheckBox checkBox2) {
 		this.checkBox2 = checkBox2;
+	}
+
+	public Button getBtnExtractToExel() {
+		return btnExtractToExel;
+	}
+
+	public void setBtnExtractToExel(Button btnExtractToExel) {
+		this.btnExtractToExel = btnExtractToExel;
 	}
 	
 	

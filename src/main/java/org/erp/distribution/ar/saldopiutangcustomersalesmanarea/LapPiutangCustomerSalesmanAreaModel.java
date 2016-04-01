@@ -95,7 +95,13 @@ public class LapPiutangCustomerSalesmanAreaModel extends CustomComponent impleme
 			
 		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
 		
-//		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");
+		tableBeanItemContainer.addNestedContainerProperty("fsalesmanBean.spcode");
+		tableBeanItemContainer.addNestedContainerProperty("fsalesmanBean.spname");
+		tableBeanItemContainer.addNestedContainerProperty("fcustomerBean.custno");
+		tableBeanItemContainer.addNestedContainerProperty("fcustomerBean.custname");
+		
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.id");
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.description");
 	};
 
 	public void setFreshDataTable(){		

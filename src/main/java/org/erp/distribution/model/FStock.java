@@ -44,9 +44,10 @@ public class FStock {
 	private Integer saldoakhir;
 	
 	
-	@Column(name="TIPESTOK")
+	@Column(name="TIPESTOK", length=5)
 	private String tipestok;
-	
+	@Column(name="DISTRIBUTORCODE", length=15)
+	private String distributorcode;
 	
 	@ManyToOne
 	@JoinColumn(name="fwarehouseBean", referencedColumnName="id")
@@ -60,7 +61,13 @@ public class FStock {
 	@JoinColumn(name="fproductBean", referencedColumnName="id")
 	private FProduct fproductBean;
 
+	public String getDistributorcode() {
+		return distributorcode;
+	}
 
+	public void setDistributorcode(String distributorcode) {
+		this.distributorcode = distributorcode;
+	}
 
 	public Long getRefno() {
 		return refno;

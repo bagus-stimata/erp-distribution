@@ -36,7 +36,7 @@ public class ParameterSystemView extends CustomComponent {
 	private TextField fieldIdSysvar = new TextField("ID SYSVAR");
 	private ComboBox comboDivision = new ComboBox("DIVISI");
 	private TextField fieldGroupSysvar = new TextField("GROUP");
-	private TextField fieldDeskripsi = new TextField("DESCRIPSI");
+	private TextField fieldDeskripsi = new TextField("Deskripsi");
 	private TextField fieldNotes = new TextField("NOTES");
 
 	private ComboBox comboTypeData = new ComboBox("TIPE DATA");
@@ -127,7 +127,7 @@ public class ParameterSystemView extends CustomComponent {
 		fieldIdSysvar.setWidth("200px");
 		comboDivision.setWidth("200px");
 		fieldGroupSysvar.setWidth("200px");
-		fieldDeskripsi.setWidth("400px");
+		fieldDeskripsi.setWidth("600px");
 		fieldNotes.setWidth("400px");
 
 		comboTypeData.setWidth("200px");

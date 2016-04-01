@@ -20,22 +20,22 @@ import org.hibernate.annotations.FetchMode;
 public class FWarehouse {
 
 	@Id
-	@Column(name="ID")
+	@Column(name="ID", length=10)
 	private String id;
 	
 	@Column(name="NUMBERPRIORITY")
 	private Integer numberPriority;
-	@Column(name="DESCRIPTION")
+	@Column(name="DESCRIPTION", length=100)
 	private String description;
 	@Column(name="GUDANGUTAMA")
 	private Boolean gudangutama;
-	@Column(name="ADDRESS1")
+	@Column(name="ADDRESS1", length=100)
 	private String address1;
-	@Column(name="CITY1")
+	@Column(name="CITY1", length=30)
 	private String city1;
-	@Column(name="STATE1")
+	@Column(name="STATE1", length=30)
 	private String state1;
-	@Column(name="PHONE")
+	@Column(name="PHONE", length=50)
 	private String phone;
 	@Column(name="STATUSACTIVE")
 	private Boolean statusactive;

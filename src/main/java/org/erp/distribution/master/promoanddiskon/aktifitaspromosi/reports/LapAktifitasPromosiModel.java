@@ -1,30 +1,19 @@
 package org.erp.distribution.master.promoanddiskon.aktifitaspromosi.reports;
 
 import org.erp.distribution.DashboardUI;
-import org.erp.distribution.jpaservice.FCustomerJpaService;
 import org.erp.distribution.jpaservice.FProductJpaService;
 import org.erp.distribution.jpaservice.FProductgroupJpaService;
 import org.erp.distribution.jpaservice.FPromoJpaService2;
-import org.erp.distribution.jpaservice.FStockJpaService;
-import org.erp.distribution.jpaservice.FWarehouseJpaService;
-import org.erp.distribution.jpaservice.FtSalesdJpaService;
 import org.erp.distribution.jpaservice.FtSalesdPromoTprbJpaService;
 import org.erp.distribution.jpaservice.FtSalesdPromoTpruDiscJpaService;
-import org.erp.distribution.jpaservice.FtSaleshJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.jpaservicerep.LapAktifitasPromoListJpaService;
-import org.erp.distribution.model.FProduct;
-import org.erp.distribution.model.FProductgroup;
 import org.erp.distribution.model.FPromo;
-import org.erp.distribution.model.FWarehouse;
-import org.erp.distribution.model.FtSalesd;
-import org.erp.distribution.model.FtSalesdPK;
-import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.util.ProductAndStockHelper;
+import org.erp.distribution.util.SysvarHelper;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
 
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.CustomComponent;
 
@@ -43,6 +32,7 @@ public class LapAktifitasPromosiModel extends CustomComponent{
 
 	private LapAktifitasPromoListJpaService lapAktifitasPromoListJpaService;
 
+	private SysvarHelper sysvarHelper;
 	
 	
 //2. ENTITY		
@@ -77,6 +67,7 @@ public class LapAktifitasPromosiModel extends CustomComponent{
 		
 		setLapAktifitasPromoListJpaService((((DashboardUI) getUI().getCurrent()).getLapAktifitasPromoListJpaService()));
 		
+		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
 		
 	}
 
@@ -160,6 +151,12 @@ public class LapAktifitasPromosiModel extends CustomComponent{
 	public void setFtSalesdPromoTpruDiscJpaService(
 			FtSalesdPromoTpruDiscJpaService ftSalesdPromoTpruDiscJpaService) {
 		this.ftSalesdPromoTpruDiscJpaService = ftSalesdPromoTpruDiscJpaService;
+	}
+	public SysvarHelper getSysvarHelper() {
+		return sysvarHelper;
+	}
+	public void setSysvarHelper(SysvarHelper sysvarHelper) {
+		this.sysvarHelper = sysvarHelper;
 	}
 	
 	

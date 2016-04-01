@@ -17,11 +17,14 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.Align;
+import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -30,6 +33,7 @@ public class ProductView extends CustomComponent{
 	private ProductModel model;
 
 	private VerticalLayout content = new VerticalLayout();
+	private TabSheet tabSheet = new TabSheet();
 	
 	private Table table;
 	
@@ -38,6 +42,11 @@ public class ProductView extends CustomComponent{
 	private TextField fieldDescription= new TextField("PRODUCT NAME");
 	private TextField fieldReportDesc= new TextField("REPORT DESC");
 	private CheckBox checkStatusActive = new CheckBox("AKTIF", false);
+
+	private TextField fieldBatchCode= new TextField();
+	private TextField fieldProductionCode= new TextField();
+	private DateField dateProductionDate = new DateField();
+	private DateField dateExpiredDate = new DateField();
 	
 	//TAMBAHAN
 	private TextField fieldShortcode = new TextField("SHORT CODE");
@@ -81,13 +90,18 @@ public class ProductView extends CustomComponent{
 	private Button btnHelp = new Button("Help");
 
 	//LAYOUT
-	private FormLayout formLayout = new FormLayout();
+	private FormLayout headerFormLayout = new FormLayout();
+	private FormLayout generalFormLayout = new FormLayout();
+	private FormLayout otherFormLayout = new FormLayout();
+	HorizontalLayout layoutButtonHorizontal = new HorizontalLayout();
 	
 	//Panel
 	private Panel panelUtama = new Panel();
 	private Panel panelTop = new Panel();
 	private Panel panelTabel = new Panel();
-	private Panel panelForm = new Panel();
+	
+	private Panel panelFormGeneralInfo = new Panel();
+	private Panel panelFormGeneralOther = new Panel();
 
 	//Help Manager	
 	
@@ -140,6 +154,9 @@ public class ProductView extends CustomComponent{
 		comboGrup.setWidth("200px");
 		comboGrup.setFilteringMode(FilteringMode.CONTAINS);
 		fieldProdclass.setWidth("100px");
+
+		
+		comboSupplier.setWidth("200px");
 		
 		fieldDescription.setWidth("300px");
 		fieldPackaging.setWidth("100px");
@@ -160,6 +177,13 @@ public class ProductView extends CustomComponent{
 //		btnRemoveItem.setIcon(new ThemeResource("../images/navigation/12x12/Erase.png"));
 		
 		//TAMBAHAN
+
+		fieldBatchCode.setWidth("200px");
+		fieldProductionCode.setWidth("200px");
+		dateProductionDate.setDateFormat("dd/MM/yyyy");
+		dateExpiredDate.setDateFormat("dd/MM/yyyy");
+		
+		
 		fieldDistcode.setWidth("150px");
 		fieldBarcode.setWidth("250px");
 		
@@ -195,9 +219,17 @@ public class ProductView extends CustomComponent{
 		fieldShortname.setCaption(null);
 		fieldShortpackaging.setCaption(null);
 		
-		fieldMinQtyStok.setCaption(null);
-		fieldMaxQtyStok.setCaption(null);
+		fieldBatchCode.setCaption("BATCH Code");
+		fieldProductionCode.setCaption("Production Code");
+		dateProductionDate.setCaption("Production Date");
+		dateExpiredDate.setCaption("EXPIRED Dat");
 		
+		fieldMinQtyStok.setCaption("Min Stock In PCS");
+		fieldMaxQtyStok.setCaption("Max Stock In PCS");
+		
+		fieldBatchCode.setInputPrompt("Batch Code");
+		fieldProductionCode.setInputPrompt("Production Code");
+
 		fieldDescription.setInputPrompt("Nama Barang");
 		fieldPackaging.setInputPrompt("Packaging");
 		comboGrup.setInputPrompt("Grup Barang");
@@ -222,13 +254,19 @@ public class ProductView extends CustomComponent{
 		fieldUom1.setRequired(true);
 		fieldUom2.setRequired(true);
 		fieldUom3.setRequired(true);
+		
+		tabSheet.setSizeFull();
+		tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
+		tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
+		
 	}
 	
 	public void buildView(){
 		
 		//PANEL
 		panelUtama.setSizeFull();
-		panelForm.setSizeFull();
+		panelFormGeneralInfo.setSizeFull();
+		panelFormGeneralOther.setSizeFull();
 		content.setSizeFull();
 		content.setMargin(true);
 		
@@ -269,81 +307,108 @@ public class ProductView extends CustomComponent{
 		layoutTable.addComponent(table);
 
 		//FORM LAYOUT		
-		formLayout.setMargin(true);
-		formLayout.addComponent(fieldId);
-		
+		headerFormLayout.setMargin(true);
+		generalFormLayout.setMargin(true);
+		otherFormLayout.setMargin(true);
+
+		//HEADER-HEADER FORM LAYOUT
+		headerFormLayout.addComponent(fieldId);
+
 		HorizontalLayout descriptionAndPackagingLayout = new HorizontalLayout();	
 		descriptionAndPackagingLayout.setCaption("NAMA-Packaging");
 		descriptionAndPackagingLayout.addComponent(fieldDescription);
 		descriptionAndPackagingLayout.addComponent(fieldPackaging);
+		headerFormLayout.addComponent(descriptionAndPackagingLayout);
+
+		headerFormLayout.addComponent(checkStatusActive);
 		
-		formLayout.addComponent(descriptionAndPackagingLayout);
+		//##GENERAL
+//		Panel panelSupplier = new Panel("Supplier");
+//		FormLayout layoutSupplier = new FormLayout();
+//		layoutSupplier.setMargin(true);
+		generalFormLayout.addComponent(comboSupplier);
+//		otherFormLayout.addComponent(layoutSupplier);
 		
 		HorizontalLayout comboGrupAndProdClassLayout = new HorizontalLayout();	
 		comboGrupAndProdClassLayout.setCaption("Grup Barang-Prod Class");
 		comboGrupAndProdClassLayout.addComponent(comboGrup);
 		comboGrupAndProdClassLayout.addComponent(fieldProdclass);
-		formLayout.addComponent(comboGrupAndProdClassLayout);
+		generalFormLayout.addComponent(comboGrupAndProdClassLayout);
 		
-		formLayout.addComponent(fieldSupplier);
-		formLayout.addComponent(comboSupplier);
 		
-		HorizontalLayout discCodeAndBarcodeLayout = new HorizontalLayout();	
-		discCodeAndBarcodeLayout.setCaption("Dist Code-Bar Code");
-		discCodeAndBarcodeLayout.addComponent(fieldDistcode);
-		discCodeAndBarcodeLayout.addComponent(fieldBarcode);
-		formLayout.addComponent(discCodeAndBarcodeLayout);
 		
 		HorizontalLayout shortCodeAndNameLayout = new HorizontalLayout();	
 		shortCodeAndNameLayout.setCaption("Short Code-Name-Packaging");
 		shortCodeAndNameLayout.addComponent(fieldShortcode);
 		shortCodeAndNameLayout.addComponent(fieldShortname);
 		shortCodeAndNameLayout.addComponent(fieldShortpackaging);
-		formLayout.addComponent(shortCodeAndNameLayout);
+		generalFormLayout.addComponent(shortCodeAndNameLayout);
 		
 		
 		HorizontalLayout layoutUom = new HorizontalLayout();
 		layoutUom.addComponent(fieldUom1);
 		layoutUom.addComponent(fieldUom2);
 		layoutUom.addComponent(fieldUom3);
-		formLayout.addComponent(layoutUom);
+		generalFormLayout.addComponent(layoutUom);
 
-		formLayout.addComponent(fieldConvfact1);
-		formLayout.addComponent(fieldConvfact2);
+		generalFormLayout.addComponent(fieldConvfact1);
+		generalFormLayout.addComponent(fieldConvfact2);
 		
 		HorizontalLayout layoutPprice = new HorizontalLayout();
 		layoutPprice.addComponent(fieldPprice);
 		layoutPprice.addComponent(fieldPpriceafterppn);
-		formLayout.addComponent(layoutPprice);		
+		generalFormLayout.addComponent(layoutPprice);		
 //		formLayout.addComponent(fieldPprice2);
 		
 		HorizontalLayout layoutSprice = new HorizontalLayout();
 		layoutSprice.addComponent(fieldSprice);
 		layoutSprice.addComponent(fieldSpriceafterppn);
-		formLayout.addComponent(layoutSprice);
+		generalFormLayout.addComponent(layoutSprice);
 //		formLayout.addComponent(fieldSprice2);
 		
 		HorizontalLayout volumeAndWeightLayout = new HorizontalLayout();
 		volumeAndWeightLayout.setCaption("Volume And Weight");
 		volumeAndWeightLayout.addComponent(fieldVolume);
 		volumeAndWeightLayout.addComponent(fieldWeight);
+		generalFormLayout.addComponent(volumeAndWeightLayout);
 
-		HorizontalLayout minAndMaxStokLayout = new HorizontalLayout();
-		minAndMaxStokLayout.setCaption("Min and Max Stok In PCS");
+		panelFormGeneralInfo.setContent(generalFormLayout);
+		
+	
+		//##OTHER-PRODUCTION
+		HorizontalLayout discCodeAndBarcodeLayout = new HorizontalLayout();	
+		discCodeAndBarcodeLayout.setCaption("Dist Code-Bar Code");
+		discCodeAndBarcodeLayout.addComponent(fieldDistcode);
+		discCodeAndBarcodeLayout.addComponent(fieldBarcode);
+		otherFormLayout.addComponent(discCodeAndBarcodeLayout);
+		
+		Panel panelProductionCode = new Panel("Production");
+		FormLayout layoutProductionCode = new FormLayout();
+		layoutProductionCode.setMargin(true);
+		layoutProductionCode.addComponent(fieldBatchCode);
+		layoutProductionCode.addComponent(fieldProductionCode);
+		layoutProductionCode.addComponent(dateProductionDate);
+		layoutProductionCode.addComponent(dateExpiredDate);
+		panelProductionCode.setContent(layoutProductionCode);;
+		otherFormLayout.addComponent(panelProductionCode);
+		
+		Panel panelMinAndMaxStok = new Panel("ROP System");
+		FormLayout minAndMaxStokLayout = new FormLayout();
+		minAndMaxStokLayout.setMargin(true);
 		minAndMaxStokLayout.addComponent(fieldMinQtyStok);
 		minAndMaxStokLayout.addComponent(fieldMaxQtyStok);
-	
-		formLayout.addComponent(volumeAndWeightLayout);
-		formLayout.addComponent(minAndMaxStokLayout);
-		formLayout.addComponent(checkStatusActive);
+		panelMinAndMaxStok.setContent(minAndMaxStokLayout);
+		otherFormLayout.addComponent(panelMinAndMaxStok);
 		
-		HorizontalLayout formLayoutHorizontal = new HorizontalLayout();
-		formLayoutHorizontal.setSpacing(true);
-		formLayoutHorizontal.addComponent(btnSaveForm);
-		formLayoutHorizontal.addComponent(btnCancelForm);
-		formLayout.addComponent(formLayoutHorizontal);
+		panelFormGeneralOther.setContent(otherFormLayout);
 		
-		panelForm.setContent(formLayout);
+		//BUTTON
+		layoutButtonHorizontal.setSpacing(true);
+		layoutButtonHorizontal.setMargin(true);
+		layoutButtonHorizontal.addComponent(btnSaveForm);
+		layoutButtonHorizontal.addComponent(btnCancelForm);
+//		formLayout.addComponent(formLayoutHorizontal);
+		
 		
 		//MASUKKAN KE ROOT
 		panelTop.setContent(layoutTop1);
@@ -404,9 +469,9 @@ public class ProductView extends CustomComponent{
 		
 	//	}
 		
-	//	tabSheet.addStyleName("framed compact-tabbar small");
-	//	tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
-	//	tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
+//		tabSheet.addStyleName("framed compact-tabbar small");
+		tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
+		tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
 		
 	}
 
@@ -451,6 +516,9 @@ public class ProductView extends CustomComponent{
 		model.getBinderHeader().bind(fieldId, "pcode");
 		model.getBinderHeader().bind(fieldDescription, "pname");
 		model.getBinderHeader().bind(comboGrup, "fproductgroupBean");
+
+		model.getBinderHeader().bind(fieldBatchCode, "batchCode");
+		model.getBinderHeader().bind(fieldProductionCode, "productionCode");
 		
 		model.getBinderHeader().bind(fieldShortcode, "shortcode");
 		model.getBinderHeader().bind(fieldDistcode, "distcode");
@@ -472,7 +540,6 @@ public class ProductView extends CustomComponent{
 		model.getBinderHeader().bind(fieldSprice2, "sprice2");
 		model.getBinderHeader().bind(fieldVolume, "volume");
 		model.getBinderHeader().bind(fieldWeight, "weight");
-		model.getBinderHeader().bind(fieldSupplier, "supplier");
 		model.getBinderHeader().bind(comboSupplier, "fvendorBean");
 
 		model.getBinderHeader().bind(fieldMinQtyStok, "minqtystok");
@@ -487,9 +554,11 @@ public class ProductView extends CustomComponent{
 	}
 	public void setTableProperties(){
 
-		setVisibleTableProperties("pcode",  "pname", "packaging", "fproductgroupBean", "pprice", "pprice2", "ppriceafterppn",
+		setVisibleTableProperties("pcode",  "pname", "packaging", "fproductgroupBean.id",
+				"fproductgroupBean.description",  "pprice", "pprice2", "ppriceafterppn",
 				"sprice", "sprice2", "spriceafterppn",  "shortname", "shortpackaging",
-				"fvendorBean", "convfact1", "convfact2", "volume", "weight", "statusactive");
+				"fvendorBean.vcode", "fvendorBean.vname", 
+				"convfact1", "convfact2", "volume", "weight", "statusactive");
 		
 		table.setColumnCollapsingAllowed(true);
 		try{
@@ -507,6 +576,10 @@ public class ProductView extends CustomComponent{
 			table.setColumnCollapsed("ppriceafterppn", true);
 			table.setColumnCollapsed("sprice2", true);
 //			table.setColumnCollapsed("spriceafterppn", true);
+
+			table.setColumnCollapsed("fproductgroupBean.id", true);
+			table.setColumnCollapsed("fvendorBean.vcode", true);
+			
 		} catch(Exception ex){}
 		
 		//ALIGNMENT
@@ -521,10 +594,16 @@ public class ProductView extends CustomComponent{
 		table.setColumnHeader("pcode", "PCODE");
 		table.setColumnHeader("pname", "PRODUCT NAME");
 		table.setColumnHeader("packaging", "PACKAGING");
-		table.setColumnHeader("fproductgroupBean", "GROUP");
+		
+		table.setColumnHeader("fproductgroupBean.id", "ID.GROUP");
+		table.setColumnHeader("fproductgroupBean.description", "GROUP");
+
 		table.setColumnHeader("pprice", "H BELI No Ppn");
 		table.setColumnHeader("pprice2", "H BELINoPPnPcs");
 		table.setColumnHeader("pprice", "H BELI+Ppn");
+
+		table.setColumnHeader("fvendorBean.vcode", "ID.VENDOR");
+		table.setColumnHeader("fvendorBean.vname", "VENDOR");
 		
 		table.setColumnHeader("sprice", "H JUAL No Ppn");
 		table.setColumnHeader("sprice2", "H JUALNoPPnPcs");
@@ -580,7 +659,14 @@ public class ProductView extends CustomComponent{
 		VerticalLayout content = new VerticalLayout();
 		content.setMargin(true);
 		content.setSizeFull();
-		content.addComponent(panelForm);
+		
+		tabSheet.addTab(panelFormGeneralInfo, "General Info");
+		tabSheet.addTab(panelFormGeneralOther, "Others");
+		
+		content.addComponent(headerFormLayout);
+		content.addComponent(tabSheet);
+		content.addComponent(layoutButtonHorizontal);
+		content.setExpandRatio(tabSheet, 1);
 		
 		windowForm.setContent(content);
 		windowForm.center();
@@ -759,7 +845,7 @@ public class ProductView extends CustomComponent{
 	}
 
 	public FormLayout getFormLayout() {
-		return formLayout;
+		return generalFormLayout;
 	}
 
 	public Panel getPanelUtama() {
@@ -775,7 +861,7 @@ public class ProductView extends CustomComponent{
 	}
 
 	public Panel getPanelForm() {
-		return panelForm;
+		return panelFormGeneralInfo;
 	}
 
 	public Window getWindowForm() {
@@ -939,7 +1025,7 @@ public class ProductView extends CustomComponent{
 	}
 
 	public void setFormLayout(FormLayout formLayout) {
-		this.formLayout = formLayout;
+		this.generalFormLayout = formLayout;
 	}
 
 	public void setPanelUtama(Panel panelUtama) {
@@ -955,7 +1041,7 @@ public class ProductView extends CustomComponent{
 	}
 
 	public void setPanelForm(Panel panelForm) {
-		this.panelForm = panelForm;
+		this.panelFormGeneralInfo = panelForm;
 	}
 
 	public void setWindowForm(Window windowForm) {

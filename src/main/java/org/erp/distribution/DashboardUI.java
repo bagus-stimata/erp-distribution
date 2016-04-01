@@ -396,7 +396,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			public MenuItem menuSetupMasterDiskonAktifitasSeparator1  = menuSetupMasterDiskon.addSeparator();
 			public MenuItem menuSetupMasterDiskonParameterDiskon = menuSetupMasterDiskon.addItem("Parameter Diskon Nota", this);
 			public MenuItem menuSetupMasterDiskonParameterDiskonItem = menuSetupMasterDiskon.addItem("Parameter Diskon Item", this);
-			public MenuItem menuSetupMasterDiskonParameterDiskonItemVendor = menuSetupMasterDiskon.addItem("Parameter Diskon Item by Vendor", this);
+			public MenuItem menuSetupMasterDiskonParameterDiskonItemVendor = menuSetupMasterDiskon.addItem("Parameter Diskon Item by Vendor (Akumulasi)", this);
 
 		public MenuItem menuSetupMasterProductHargaAlternatif = menuSetupMaster.addItem("Harga Alternatif", this);
 		public MenuItem menuSetupMasterSeparator3 = menuSetupMaster.addSeparator();
@@ -698,7 +698,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			ParamDiskonItemVendorView objView= new ParamDiskonItemVendorView(objModel);
 			ParamDiskonItemVendorPresenter objPresenter = new ParamDiskonItemVendorPresenter(objModel, objView);				
 			
-			workspace1.setCaption("PARAM DISKON ITEM BY VENDOR");
+			workspace1.setCaption("PARAM DISKON ITEM BY VENDOR (Akumulasi)");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);

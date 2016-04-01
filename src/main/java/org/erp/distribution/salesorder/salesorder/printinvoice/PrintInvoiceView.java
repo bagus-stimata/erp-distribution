@@ -12,6 +12,11 @@ import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.Grid.Column;
+import com.vaadin.ui.Grid.FooterRow;
+import com.vaadin.ui.Grid.HeaderCell;
+import com.vaadin.ui.Grid.HeaderRow;
+import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -19,18 +24,23 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Form;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.Reindeer;
 
 public class PrintInvoiceView extends CustomComponent {
 	
 	private PrintInvoiceModel model;
 	private VerticalLayout content = new VerticalLayout();
+
+	private Grid grid1 = new Grid();
+	private FooterRow footerRow;
 
 	private Table table;
 	private Form form;
@@ -291,6 +301,36 @@ public class PrintInvoiceView extends CustomComponent {
 //		table.addActionHandler(this);		
 		table.setFooterVisible(true);
 		
+		
+		grid1.setContainerDataSource(model.getTableBeanItemContainer());
+		grid1.setSizeFull();
+		grid1.setSelectionMode(SelectionMode.MULTI);
+		
+		footerRow = grid1.appendFooterRow();
+		
+//		HeaderRow headerRow = grid1.appendHeaderRow();
+//		HeaderCell headerCellOrderNo = headerRow.getCell("orderno");
+//		HeaderCell headerCellInvoiceNo = headerRow.getCell("invoiceno");
+//		HeaderCell headerCellSjPenagihanNo = headerRow.getCell("sjpenagihanno");
+//		
+//		TextField fieldOrderNoFilter = new TextField();
+//		fieldOrderNoFilter.setImmediate(true);
+//		fieldOrderNoFilter.setSizeFull();
+//		TextField fieldInvoiceNoFilter = new TextField();
+//		fieldInvoiceNoFilter.setImmediate(true);
+//		fieldInvoiceNoFilter.setSizeFull();
+//		TextField fieldSjPenagihanNoFilter = new TextField();
+//		fieldSjPenagihanNoFilter.setImmediate(true);
+//		fieldSjPenagihanNoFilter.setSizeFull();
+//		
+//		
+//		fieldOrderNoFilter.addTextChangeListener(getOrderNoFilter());
+//		fieldInvoiceNoFilter.addTextChangeListener(getInvoiceNoFilter());
+//		fieldSjPenagihanNoFilter.addTextChangeListener(getSjPenagihanNoFilter());
+//		headerCellOrderNo.setComponent(fieldOrderNoFilter);		
+//		headerCellInvoiceNo.setComponent(fieldInvoiceNoFilter);		
+//		headerCellSjPenagihanNo.setComponent(fieldSjPenagihanNoFilter);		
+		
                 
 	}
 	public void initFieldFactory(){
@@ -317,8 +357,10 @@ public class PrintInvoiceView extends CustomComponent {
                 //LAYOUT TABLE
 		VerticalLayout layoutTable = new VerticalLayout();
 		layoutTable.setSizeFull();
-        layoutTable.addComponent(table);
-                
+		
+//        layoutTable.addComponent(table);
+      layoutTable.addComponent(grid1);
+		
                 //LAYOUT BOTTOM
 		VerticalLayout layoutBottom = new VerticalLayout();
 		HorizontalLayout layoutFooter1 = new HorizontalLayout();
@@ -329,7 +371,7 @@ public class PrintInvoiceView extends CustomComponent {
         //LAYOUT UTAMA
         content.addComponent(panelTop);
         content.addComponent(layoutTable);
-        content.addComponent(layoutBottom);
+//        content.addComponent(layoutBottom);
         setCompositionRoot(content);
         
         //Extended Konfigurasi Size
@@ -540,12 +582,94 @@ public class PrintInvoiceView extends CustomComponent {
 	}
 	public void setDisplay(){
 		
-		//1. Refresh Table displa
-		table.setContainerDataSource(model.getTableBeanItemContainer());
+//		//1. Refresh Table displa
+//		table.setContainerDataSource(model.getTableBeanItemContainer());
+//		
+//		setTableProperties();
+//		setDisplayFooter();
 		
-		setTableProperties();
-		setDisplayFooter();
+		grid1.setContainerDataSource(model.getTableBeanItemContainer());
+		setGridProperties();
+		
 	}
+	public void setGridProperties(){
+		for (Column c : grid1.getColumns()) {
+        	c.setHidable(true);
+        	c.setHidden(true);
+        }
+		
+		grid1.getColumn("orderno").setHidden(false);
+		grid1.getColumn("invoiceno").setHidden(false);
+		grid1.getColumn("orderdate").setHidden(false);
+		grid1.getColumn("invoicedate").setHidden(false);
+		grid1.getColumn("fsalesmanBean.spcode").setHidden(false);
+		grid1.getColumn("fcustomerBean.custname").setHidden(false);
+		grid1.getColumn("fwarehouseBean.id").setHidden(false);
+		grid1.getColumn("tunaikredit").setHidden(false);
+		grid1.getColumn("top").setHidden(false);
+		grid1.getColumn("duedate").setHidden(false);
+		grid1.getColumn("amountafterdiscafterppn").setHidden(false);
+		
+		grid1.getColumn("orderno").setHeaderCaption("NO.ORDER");
+		grid1.getColumn("invoiceno").setHeaderCaption("NO.INV");
+		grid1.getColumn("orderdate").setHeaderCaption("TGL.ORDER");
+		grid1.getColumn("invoicedate").setHeaderCaption("TGL.INV");
+		grid1.getColumn("fsalesmanBean.spcode").setHeaderCaption("SALESMAN");
+		grid1.getColumn("fcustomerBean.custname").setHeaderCaption("CUSTOMER");
+		grid1.getColumn("fwarehouseBean.id").setHeaderCaption("GDG");
+		grid1.getColumn("tunaikredit").setHeaderCaption("T/K");
+		grid1.getColumn("top").setHeaderCaption("TOP");
+		grid1.getColumn("duedate").setHeaderCaption("JTH.TEMPO");	
+		grid1.getColumn("amountafterdiscafterppn").setHeaderCaption("AMOUNT+PPN");
+		
+		grid1.setColumnOrder("orderno", "invoiceno", "tunaikredit","orderdate", "invoicedate",
+				"fsalesmanBean.spcode", "fcustomerBean.custname", "fwarehouseBean.id",
+				"top", "duedate", "amountafterdiscafterppn");
+		
+		grid1.getColumn("orderno").setExpandRatio(3);
+		grid1.getColumn("invoiceno").setExpandRatio(3);
+		grid1.getColumn("orderdate").setExpandRatio(3);
+		grid1.getColumn("invoicedate").setExpandRatio(2);
+		grid1.getColumn("fsalesmanBean.spcode").setExpandRatio(2);
+		grid1.getColumn("fcustomerBean.custname").setExpandRatio(4);
+		grid1.getColumn("fwarehouseBean.id").setExpandRatio(2);
+		grid1.getColumn("tunaikredit").setExpandRatio(1);
+		grid1.getColumn("top").setExpandRatio(1);
+		grid1.getColumn("duedate").setExpandRatio(2);
+		grid1.getColumn("amountafterdiscafterppn").setExpandRatio(3);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+		grid1.getColumn("orderdate").setRenderer(new DateRenderer(sdf));
+		grid1.getColumn("invoicedate").setRenderer(new DateRenderer(sdf));
+		grid1.getColumn("duedate").setRenderer(new DateRenderer(sdf));
+		
+		grid1.setCellStyleGenerator(new Grid.CellStyleGenerator() {
+            @Override
+            public String getStyle(Grid.CellReference cellReference) {
+                if ("amountafterdiscafterppn".equals(cellReference.getPropertyId())) {
+                    // when the current cell is number such as age, align text to right
+                    return "rightAligned";
+                } else if ("amountpay".equals(cellReference.getPropertyId())){                	
+                	return "rightAligned";
+                } else if ("orderdate".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("invoicedate".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("duedate".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("top".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else if ("tunaikredit".equals(cellReference.getPropertyId())){                	
+                	return "centerAligned";
+                } else {
+                    // otherwise, align text to left
+                    return "leftAligned";
+                }
+            }
+        });			
+
+	}
+	
 	public void setDisplayFooter(){
 		
 	}
@@ -812,6 +936,18 @@ public class PrintInvoiceView extends CustomComponent {
 	}
 	public void setCheckBelumTerbitInvoice(CheckBox checkBelumTerbitInvoice) {
 		this.checkBelumTerbitInvoice = checkBelumTerbitInvoice;
+	}
+	public Grid getGrid1() {
+		return grid1;
+	}
+	public FooterRow getFooterRow() {
+		return footerRow;
+	}
+	public void setGrid1(Grid grid1) {
+		this.grid1 = grid1;
+	}
+	public void setFooterRow(FooterRow footerRow) {
+		this.footerRow = footerRow;
 	}
 
 	

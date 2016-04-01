@@ -35,6 +35,7 @@ import org.erp.distribution.model.FtArpaymenth;
 import org.erp.distribution.model.FtPurchased;
 import org.erp.distribution.model.FtPurchaseh;
 import org.erp.distribution.model.FtSalesd;
+import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.model.ZLapPackingList;
 import org.erp.distribution.model.ZLapSJPenagihanList;
 import org.erp.distribution.model.ZLapTemplate1;
@@ -490,23 +491,17 @@ public class LapSaldoHutangVendorPresenter implements ClickListener, ValueChange
 
 	private List<ZLapTemplate1> lapTemplate1 = new ArrayList<ZLapTemplate1>();
 	public void fillDatabaseReportLengkap(){
-		//1. HAPUS DATA
-//		Iterator<ZLapTemplate1> iterZLapSJPenagihanListDelete = model.getLapTemplate1JpaService().findAll().iterator();
-//		while (iterZLapSJPenagihanListDelete.hasNext()) {
-//			model.getLapTemplate1JpaService().removeObject(iterZLapSJPenagihanListDelete.next());
-//		}
 		//MENGHINDARI DOUBLE
 		lapTemplate1 = new ArrayList<ZLapTemplate1>();
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
 
 		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
-		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-		for (Object itemId: itemIds){			
+		Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtPurchaseh> iterFtPurchaseh = itemIds.iterator();
+		while (iterFtPurchaseh.hasNext()){
 			FtPurchaseh itemArinvoice = new FtPurchaseh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
-			//Menghindari null
-			
-			if ((itemArinvoice.getSelected().getValue()==true)){
+			itemArinvoice = iterFtPurchaseh.next();
+			//Menghindari null			
 				List<FtPurchased> listFtSalesd = new ArrayList<FtPurchased>(itemArinvoice.getFtpurchasedSet());
 				setInvoiceList.add(itemArinvoice.getInvoiceno());
 				
@@ -531,8 +526,6 @@ public class LapSaldoHutangVendorPresenter implements ClickListener, ValueChange
 				
 //				model.getLapTemplate1JpaService().createObject(domain);
 				lapTemplate1.add(domain);
-				
-			}
 			
 		}
 		

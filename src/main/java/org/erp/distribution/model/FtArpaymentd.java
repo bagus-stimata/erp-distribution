@@ -1,5 +1,6 @@
 package org.erp.distribution.model;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -18,14 +19,27 @@ public class FtArpaymentd {
 	
 	private Integer nourut;
 	
+	@Column(name="CASHAMOUNTPAY")
 	private Double cashamountpay;
+
+	@Column(name="MRVAMOUNTPAY")
+	private Double mrvamountpay;
+	@Column(name="RETURAMOUNTPAY")
 	private Double returamountpay;
+	
+	@Column(name="GIROAMOUNTPAY")
 	private Double giroamountpay;
+	@Column(name="TRANSFERAMOUNTPAY")
 	private Double transferamountpay;
+	
+	@Column(name="KELEBIHANBAYARAMOUNT")
+	private Double kelebihanbayaramount;
+	@Column(name="SUBTOTALPAY")
+	private Double subtotalpay;
+	
+	@Column(name="POTONGANAMOUNT")
 	private Double potonganamount;
 	
-	private Double kelebihanbayaramount;
-	private Double subtotalpay;
 	
 	@ManyToOne
 	@JoinColumn(name="refnopayment", referencedColumnName="refno")

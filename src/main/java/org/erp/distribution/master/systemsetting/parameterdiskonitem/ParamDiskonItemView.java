@@ -32,6 +32,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -40,15 +41,18 @@ import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Table.Align;
+import com.vaadin.ui.themes.Reindeer;
 
 public class ParamDiskonItemView extends CustomComponent{
 	private ParamDiskonItemModel model;
 
 	private VerticalLayout content = new VerticalLayout();
+	private TabSheet tabSheet = new TabSheet();
 	
 	private Table table;
 	
 	private TextField fieldId = new TextField("ID");
+	private TextField fieldNoRek= new TextField("No Rek");
 	private TextField fieldDescription= new TextField("DESKRIPSI");
 	private CheckBox checkStatusActive = new CheckBox("AKTIF", false);
 	
@@ -78,6 +82,27 @@ public class ParamDiskonItemView extends CustomComponent{
 	private TextField field5 = new TextField("Penjualan Rp >");
 	private TextField field55 = new TextField("DISC1");
 	private TextField field55plus = new TextField("+DISC2");
+
+	//DISC FROM ITEM PRODUK
+	private TextField fieldDiscFromItem1 = new TextField("Penjualan in PCS >");
+	private TextField fieldDiscFromItem11 = new TextField("DISC1");
+	private TextField fieldDiscFromItem11plus = new TextField("+DISC2");
+	
+	private TextField fieldDiscFromItem2 = new TextField("Penjualan in PCS >");
+	private TextField fieldDiscFromItem22 = new TextField("DISC1");
+	private TextField fieldDiscFromItem22plus = new TextField("+DISC2");
+
+	private TextField fieldDiscFromItem3 = new TextField("Penjualan in PCS >");
+	private TextField fieldDiscFromItem33 = new TextField("DISC1");
+	private TextField fieldDiscFromItem33plus = new TextField("");
+	
+	private TextField fieldDiscFromItem4 = new TextField("Penjualan in PCS >");
+	private TextField fieldDiscFromItem44 = new TextField("DISC1");
+	private TextField fieldDiscFromItem44plus = new TextField("+DISC2");
+
+	private TextField fieldDiscFromItem5 = new TextField("Penjualan in PCS >");
+	private TextField fieldDiscFromItem55 = new TextField("DISC1");
+	private TextField fieldDiscFromItem55plus = new TextField("+DISC2");
 	
 	private Button btnSaveForm= new Button("Save");
 	private Button btnCancelForm= new Button("Cancel");
@@ -92,15 +117,20 @@ public class ParamDiskonItemView extends CustomComponent{
 	private Button btnSearch = new Button("Search & Reload");
 	private Button btnPrint = new Button("Print");
 	private Button btnHelp = new Button("Help");
-
-	//LAYOUT
-	private FormLayout formLayout = new FormLayout();
 	
 	//Panel
 	private Panel panelUtama = new Panel();
 	private Panel panelTop = new Panel();
 	private Panel panelTabel = new Panel();
-	private Panel panelForm = new Panel();
+	
+	//LAYOUT
+	private FormLayout headerFormLayout = new FormLayout();
+	private FormLayout discFromNominalFormLayout = new FormLayout();
+	private FormLayout discFromQtyFormLayout = new FormLayout();
+	HorizontalLayout layoutButtonHorizontal = new HorizontalLayout();
+
+	private Panel panelFormDiscFromNominal = new Panel();
+	private Panel panelFormDiscFromQty = new Panel();
 
 	//Help Manager	
 	
@@ -148,14 +178,12 @@ public class ParamDiskonItemView extends CustomComponent{
 		fieldDescription.setNullRepresentation("");
 		
 		fieldId.setWidth("100px");
-		comboGrup1.setWidth("400px");
-		comboGrup1.setFilteringMode(FilteringMode.CONTAINS);
 		fieldDescription.setWidth("400px");
-
-		comboVendor.setWidth("400px");
-		comboVendor.setFilteringMode(FilteringMode.CONTAINS);
-		comboVendor.setNullSelectionAllowed(true);
-
+		
+		comboGrup1.setWidth("300px");
+		comboVendor.setWidth("300px");
+		comboProductGrup.setWidth("300px");
+		
 		btnSearch.setIcon(new ThemeResource("../images/navigation/12x12/Find.png"));
 
 		btnNewForm.setIcon(new ThemeResource("../images/navigation/12x12/Create.png"));
@@ -174,13 +202,33 @@ public class ParamDiskonItemView extends CustomComponent{
 //		fieldId.setRequired(true);
 		fieldDescription.setRequired(true);
 		
+		
+		//Init isian combobox
+		comboGrup1.setContainerDataSource(model.getBeanItemContainerSubgroup());
+		comboGrup1.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+		comboGrup1.setFilteringMode(FilteringMode.CONTAINS);
+		comboGrup1.setNullSelectionAllowed(true);
+		
+
+		comboVendor.setContainerDataSource(model.getBeanItemContainerVendor());
+		comboVendor.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+//		comboVendor.setItemCaptionPropertyId("description");
+		comboVendor.setFilteringMode(FilteringMode.CONTAINS);
+		comboVendor.setNullSelectionAllowed(true);
+
+		comboProductGrup.setContainerDataSource(model.getBeanItemContainerProductGroup());
+		comboProductGrup.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+//		comboProductGrup.setItemCaptionPropertyId("description");
+		comboProductGrup.setFilteringMode(FilteringMode.CONTAINS);
+		comboProductGrup.setNullSelectionAllowed(true);
+		
+		
 	}
 	
 	public void buildView(){
 		
 		//PANEL
 		panelUtama.setSizeFull();
-		panelForm.setSizeFull();
 		content.setSizeFull();
 		content.setMargin(true);
 		
@@ -223,35 +271,51 @@ public class ParamDiskonItemView extends CustomComponent{
 		//FORM LAYOUT		
 //		formLayout.setMargin(true);
 
-		HorizontalLayout layoutMidle1 = new HorizontalLayout();
-//		layoutMidle1.setMargin(true);
-		HorizontalLayout layoutMidle2 = new HorizontalLayout();
-//		layoutMidle2.setMargin(true);
-		HorizontalLayout layoutMidle3 = new HorizontalLayout();
-//		layoutMidle3.setMargin(true);
-		HorizontalLayout layoutMidle4 = new HorizontalLayout();
-//		layoutMidle4.setMargin(true);
-		HorizontalLayout layoutMidle5 = new HorizontalLayout();
-//		layoutMidle5.setMargin(true);
 		
 //		formLayout.addComponent(fieldId);
-		formLayout.addComponent(fieldDescription);
-		formLayout.addComponent(checkBox2);
-		formLayout.addComponent(comboVendor);
-		formLayout.addComponent(checkBox3);
-		formLayout.addComponent(comboProductGrup);
-		formLayout.addComponent(checkBox1);
-		formLayout.addComponent(comboGrup1);
-		formLayout.addComponent(checkStatusActive);
-
-		formLayout.addComponent(layoutMidle1);
-		formLayout.addComponent(layoutMidle2);
-		formLayout.addComponent(layoutMidle3);
-		formLayout.addComponent(layoutMidle4);
-		formLayout.addComponent(layoutMidle5);
-
+		HorizontalLayout descriptionAndStatusActiveLayout = new HorizontalLayout();	
+		descriptionAndStatusActiveLayout.setCaption("Deskripsi");
+		descriptionAndStatusActiveLayout.setSpacing(true);
+		fieldDescription.setCaption(null);
+		descriptionAndStatusActiveLayout.addComponent(fieldDescription);
+		descriptionAndStatusActiveLayout.addComponent(checkStatusActive);
+		headerFormLayout.addComponent(descriptionAndStatusActiveLayout);
 		
+		HorizontalLayout supplierLayout = new HorizontalLayout();	
+		supplierLayout.setSpacing(true);
+		supplierLayout.setCaption("Supplier/Vendor");
+		comboVendor.setCaption(null);
+		supplierLayout.addComponent(comboVendor);
+		supplierLayout.addComponent(checkBox2);
+		headerFormLayout.addComponent(supplierLayout);
+		
+		HorizontalLayout productGroupLayout = new HorizontalLayout();	
+		productGroupLayout.setSpacing(true);
+		productGroupLayout.setCaption("Grup Produk");
+		comboProductGrup.setCaption(null);
+		productGroupLayout.addComponent(comboProductGrup);
+		productGroupLayout.addComponent(checkBox3);
+		headerFormLayout.addComponent(productGroupLayout);
+		
+		HorizontalLayout jenisCustomerLayout = new HorizontalLayout();	
+		jenisCustomerLayout.setSpacing(true);
+		jenisCustomerLayout.setCaption("Jenis Customer");
+		comboGrup1.setCaption(null);
+		jenisCustomerLayout.addComponent(comboGrup1);
+		jenisCustomerLayout.addComponent(checkBox1);
+		headerFormLayout.addComponent(jenisCustomerLayout);
 
+		HorizontalLayout layoutMidle1 = new HorizontalLayout();
+		HorizontalLayout layoutMidle2 = new HorizontalLayout();
+		HorizontalLayout layoutMidle3 = new HorizontalLayout();
+		HorizontalLayout layoutMidle4 = new HorizontalLayout();
+		HorizontalLayout layoutMidle5 = new HorizontalLayout();
+		
+		discFromNominalFormLayout.addComponent(layoutMidle1);
+		discFromNominalFormLayout.addComponent(layoutMidle2);
+		discFromNominalFormLayout.addComponent(layoutMidle3);
+		discFromNominalFormLayout.addComponent(layoutMidle4);
+		discFromNominalFormLayout.addComponent(layoutMidle5);
 
 		layoutMidle1.addComponent(field1);
 		layoutMidle1.addComponent(field11);
@@ -273,13 +337,48 @@ public class ParamDiskonItemView extends CustomComponent{
 		layoutMidle5.addComponent(field55);
 //		layoutMidle5.addComponent(field55plus);
 		
-		HorizontalLayout formLayoutHorizontal = new HorizontalLayout();
-		formLayoutHorizontal.setSpacing(true);
-		formLayoutHorizontal.addComponent(btnSaveForm);
-		formLayoutHorizontal.addComponent(btnCancelForm);
-		formLayout.addComponent(formLayoutHorizontal);
+
+		//DISC FROM ITEM
+		HorizontalLayout layoutMidleDiscFromItem1 = new HorizontalLayout();
+		HorizontalLayout layoutMidleDiscFromItem2 = new HorizontalLayout();
+		HorizontalLayout layoutMidleDiscFromItem3 = new HorizontalLayout();
+		HorizontalLayout layoutMidleDiscFromItem4 = new HorizontalLayout();
+		HorizontalLayout layoutMidleDiscFromItem5 = new HorizontalLayout();
 		
-		panelForm.setContent(formLayout);
+		discFromQtyFormLayout.addComponent(layoutMidleDiscFromItem1);
+		discFromQtyFormLayout.addComponent(layoutMidleDiscFromItem2);
+		discFromQtyFormLayout.addComponent(layoutMidleDiscFromItem3);
+		discFromQtyFormLayout.addComponent(layoutMidleDiscFromItem4);
+		discFromQtyFormLayout.addComponent(layoutMidleDiscFromItem5);
+
+		layoutMidleDiscFromItem1.addComponent(fieldDiscFromItem1);
+		layoutMidleDiscFromItem1.addComponent(fieldDiscFromItem11);
+//		layoutMidleDiscFromItem1.addComponent(fieldDiscFromItem11plus);
+		
+		layoutMidleDiscFromItem2.addComponent(fieldDiscFromItem2);
+		layoutMidleDiscFromItem2.addComponent(fieldDiscFromItem22);
+//		layoutMidleDiscFromItem2.addComponent(fieldDiscFromItem22plus);
+
+		layoutMidleDiscFromItem3.addComponent(fieldDiscFromItem3);
+		layoutMidleDiscFromItem3.addComponent(fieldDiscFromItem33);
+//		layoutMidleDiscFromItem3.addComponent(fieldDiscFromItem33plus);
+
+		layoutMidleDiscFromItem4.addComponent(fieldDiscFromItem4);
+		layoutMidleDiscFromItem4.addComponent(fieldDiscFromItem44);
+//		layoutMidleDiscFromItem4.addComponent(fieldDiscFromItem44plus);
+		
+		layoutMidleDiscFromItem5.addComponent(fieldDiscFromItem5);
+		layoutMidleDiscFromItem5.addComponent(fieldDiscFromItem55);
+//		layoutMidleDiscFromItem5.addComponent(fieldDiscFromItem55plus);
+		
+		tabSheet.addTab(discFromNominalFormLayout, "Disc From Nominal");
+		tabSheet.addTab(discFromQtyFormLayout, "Disc From Qty Item *NA");
+		
+		layoutButtonHorizontal.setSpacing(true);
+		layoutButtonHorizontal.setMargin(true);
+		layoutButtonHorizontal.addComponent(btnSaveForm);
+		layoutButtonHorizontal.addComponent(btnCancelForm);
+		
 
 		
 		//MASUKKAN KE ROOT
@@ -299,7 +398,7 @@ public class ParamDiskonItemView extends CustomComponent{
 //		btnHelp.setVisible(false);
 	}
 	
-public void setComponentStyles(){
+	public void setComponentStyles(){
 //	if (! getUI().getTheme().equals("vaadin_theme")) {
 //		tableList.addStyleName("compact small");
 //		tableDetil.addStyleName("compact small");
@@ -340,12 +439,11 @@ public void setComponentStyles(){
 //	}
 	
 //	tabSheet.addStyleName("framed compact-tabbar small");
-//	tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
-//	tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
+	tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
+	tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
 	
 }
 
-	
 	public void setDisplay(){
 		//TABLE
 		table.setContainerDataSource(model.getBeanItemContainerHeader());
@@ -369,25 +467,6 @@ public void setComponentStyles(){
 //		comboSearchByGrup.setContainerDataSource(model.getBeanItemContainerKelompok());
 //		comboSearchByGrup.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
 //		comboSearchByGrup.setNullSelectionAllowed(true);
-//		
-		//Init isian combobox
-		comboGrup1.setContainerDataSource(model.getBeanItemContainerSubgroup());
-		comboGrup1.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		comboGrup1.setFilteringMode(FilteringMode.CONTAINS);
-		comboGrup1.setNullSelectionAllowed(false);
-		
-
-		comboVendor.setContainerDataSource(model.getBeanItemContainerVendor());
-		comboVendor.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-//		comboVendor.setItemCaptionPropertyId("description");
-		comboVendor.setFilteringMode(FilteringMode.CONTAINS);
-		comboVendor.setNullSelectionAllowed(false);
-
-		comboProductGrup.setContainerDataSource(model.getBeanItemContainerProductGroup());
-		comboProductGrup.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-//		comboProductGrup.setItemCaptionPropertyId("description");
-		comboProductGrup.setFilteringMode(FilteringMode.CONTAINS);
-		comboProductGrup.setNullSelectionAllowed(false);
 		
 		model.getBinderHeader().bind(fieldId, "id");
 		model.getBinderHeader().bind(fieldDescription, "description");
@@ -419,6 +498,26 @@ public void setComponentStyles(){
 		model.getBinderHeader().bind(field55, "diskon5");
 		model.getBinderHeader().bind(field55plus, "diskon5plus");
 		
+		//DISC FROM ITEM
+		model.getBinderHeader().bind(fieldDiscFromItem1, "qtyLebihDari1");
+		model.getBinderHeader().bind(fieldDiscFromItem11, "diskonFromQty1");
+		model.getBinderHeader().bind(fieldDiscFromItem11plus, "diskonFromQty1plus");
+
+		model.getBinderHeader().bind(fieldDiscFromItem2, "qtyLebihDari2");
+		model.getBinderHeader().bind(fieldDiscFromItem22, "diskonFromQty2");
+		model.getBinderHeader().bind(fieldDiscFromItem22plus, "diskonFromQty2plus");
+
+		model.getBinderHeader().bind(fieldDiscFromItem3, "qtyLebihDari3");
+		model.getBinderHeader().bind(fieldDiscFromItem33, "diskonFromQty3");
+		model.getBinderHeader().bind(fieldDiscFromItem33plus, "diskonFromQty3plus");
+
+		model.getBinderHeader().bind(fieldDiscFromItem4, "qtyLebihDari4");
+		model.getBinderHeader().bind(fieldDiscFromItem44, "diskonFromQty4");
+		model.getBinderHeader().bind(fieldDiscFromItem44plus, "diskonFromQty4plus");
+
+		model.getBinderHeader().bind(fieldDiscFromItem5, "qtyLebihDari5");
+		model.getBinderHeader().bind(fieldDiscFromItem55, "diskonFromQty5");
+		model.getBinderHeader().bind(fieldDiscFromItem55plus, "diskonFromQty5plus");
 		
 	}
 	
@@ -487,15 +586,19 @@ public void setComponentStyles(){
 		windowForm.setModal(true);
 		windowForm.center();
 //		windowForm.setStyleName("login-layout");
-		windowForm.setWidth("700px");
-		windowForm.setHeight("600px");
+		windowForm.setWidth("720px");
+		windowForm.setHeight("570px");
 		windowForm.setClosable(true);	
 		windowForm.setResizable(false);
 
 		VerticalLayout content = new VerticalLayout();
 		content.setMargin(true);
 		content.setSizeFull();
-		content.addComponent(panelForm);
+		
+		content.addComponent(headerFormLayout);
+		content.addComponent(tabSheet);
+		content.addComponent(layoutButtonHorizontal);
+		content.setExpandRatio(tabSheet, 1);
 		
 		windowForm.setContent(content);
 		windowForm.center();
@@ -660,9 +763,6 @@ public void setComponentStyles(){
 		return btnHelp;
 	}
 
-	public FormLayout getFormLayout() {
-		return formLayout;
-	}
 
 	public Panel getPanelUtama() {
 		return panelUtama;
@@ -674,10 +774,6 @@ public void setComponentStyles(){
 
 	public Panel getPanelTabel() {
 		return panelTabel;
-	}
-
-	public Panel getPanelForm() {
-		return panelForm;
 	}
 
 	public Window getWindowForm() {
@@ -828,10 +924,6 @@ public void setComponentStyles(){
 		this.btnHelp = btnHelp;
 	}
 
-	public void setFormLayout(FormLayout formLayout) {
-		this.formLayout = formLayout;
-	}
-
 	public void setPanelUtama(Panel panelUtama) {
 		this.panelUtama = panelUtama;
 	}
@@ -842,10 +934,6 @@ public void setComponentStyles(){
 
 	public void setPanelTabel(Panel panelTabel) {
 		this.panelTabel = panelTabel;
-	}
-
-	public void setPanelForm(Panel panelForm) {
-		this.panelForm = panelForm;
 	}
 
 	public void setWindowForm(Window windowForm) {

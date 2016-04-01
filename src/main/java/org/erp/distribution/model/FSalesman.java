@@ -25,15 +25,24 @@ public class FSalesman {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@Column(name="SPCODE", length=15)
 	private String spcode;
 	
+	@Column(name="SPNAME", length=50)
 	private String spname;
+	@Column(name="SALESTYPE", length=5)
 	private String salestype;
+	@Column(name="ADDREESS1", length=100)
 	private String address1;
+	@Column(name="CITY1", length=30)
 	private String city1;
+	@Column(name="STATE1", length=30)
 	private String state1;
+	@Column(name="PHONE", length=30)
 	private String phone;
+	@Column(name="MOBILE", length=30)
 	private String mobile;
+	@Column(name="EMAIL", length=100)
 	private String email;
 	@Temporal(TemporalType.DATE)
 	private Date joindate;
@@ -42,7 +51,9 @@ public class FSalesman {
 	private String bornplace;
 	@Temporal(TemporalType.DATE)
 	private Date borndate;
+	@Column(name="RELIGION")
 	private Integer religion;
+	@Column(name="STATUSACTIVE")
 	private Boolean statusactive;
 	
 //	@OneToMany(mappedBy="fsalesmanBean", fetch=FetchType.LAZY, cascade=CascadeType.ALL)

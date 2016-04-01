@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.erp.distribution.ar.util.SaldoPiutangCust;
+import org.erp.distribution.ar.util.SaldoPiutangCustImpl;
+import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FParamDiskonItemVendor;
 import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
@@ -22,8 +25,11 @@ import org.erp.distribution.model.FtArpaymenth;
 import org.erp.distribution.model.FtSalesd;
 import org.erp.distribution.model.FtSalesdPK;
 import org.erp.distribution.model.FtSalesdPromoTprb;
+import org.erp.distribution.model.FtSalesdPromoTpruCb;
 import org.erp.distribution.model.FtSalesdPromoTpruDisc;
 import org.erp.distribution.model.FtSalesh;
+import org.erp.distribution.model.modelenum.EnumOperationStatus;
+import org.erp.distribution.model.modelenum.EnumProteksiStatus;
 import org.erp.distribution.util.FormatAndConvertionUtil;
 import org.erp.distribution.util.HeaderDetilSalesHelper;
 import org.erp.distribution.util.HeaderDetilSalesHelperImpl;
@@ -340,12 +346,13 @@ public class SalesOrderHelper {
 			
 		}
 		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
-		if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
-			isValid = false;
-			message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
-			"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+		if ( ! model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
+			if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
+				isValid = false;
+				message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
+				"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+			}
 		}
-		
 		
 		
 		if (isValid==false) {
@@ -365,9 +372,11 @@ public class SalesOrderHelper {
 			message += "::BELUM ADA YANG DIPILIH!";						
 		}
 		try{
-			if (model.getItemHeader().getEndofday()==true){
-				isValid = false;
-				message += "\n::TIDAK BISA EDIT, SUDAH PROSES AKHIR HARI!";			
+			if (model.getSysvarHelper().isRepairMode()==false){
+				if (model.getItemHeader().getEndofday()==true){
+					isValid = false;
+					message += "\n::TIDAK BISA EDIT, SUDAH PROSES AKHIR HARI!";			
+				}
 			}
 		} catch(Exception ex){}
 		
@@ -395,10 +404,12 @@ public class SalesOrderHelper {
 		
 		//TANGGAL TRANSAKSI TIDAK BOLEH KURANG DARI TANGGAL BERJALAN
 		try{
-			if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
-				isValid = false;
-				message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
-				"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+			if ( ! model.getOperationStatus().equals(EnumOperationStatus.EDITING.getStrCode())){
+				if (model.getTransaksiHelper().getCurrentTransDate().getTime()> view.getDateFieldInvoicedate().getValue().getTime()) {
+					isValid = false;
+					message += " \n::Tanggal INVOICE tidak boleh lebih kecil dari tanggal transaksi berjalan!\n" +
+					"TANGAL TRANSAKSI BERJALAN: " + new SimpleDateFormat("dd/MM/yyyy").format(model.getTransaksiHelper().getCurrentTransDate());						
+				}
 			}
 		} catch(Exception ex){}
 		
@@ -534,266 +545,757 @@ public class SalesOrderHelper {
 			} catch(Exception ex){
 //				ex.printStackTrace();
 			}
-			
 		}
-		
 	}
 	
-	//AKTIFITAS PROMO
-	public void cekAktifitasPromoItem(){
-		List<FtSalesd> listFtSalesdPromoTotal = new ArrayList<FtSalesd>();		
-		List<FtSalesd> listFtSalesdPromoItem = new ArrayList<FtSalesd>();
-		//1. CEK PROMO PADA MASING-MASING ITEM DETIL (FtSalesd) ::: PROMO PER ITEM
+	List<FtSalesd> listTempForTprb = new ArrayList<FtSalesd>();
+	List<FtSalesdPromoTprb> listFtSalesdPromoTprb = new ArrayList<FtSalesdPromoTprb>();
+	List<FtSalesdPromoTpruDisc> listFtSalesdPromoTpruDisc = new ArrayList<FtSalesdPromoTpruDisc>();
+	List<FtSalesdPromoTpruCb> listFtSalesdPromoTpruCb = new ArrayList<FtSalesdPromoTpruCb>();
+	
+	public void cekAktifitasPromo(){
+		listTempForTprb = new ArrayList<FtSalesd>();
+		listFtSalesdPromoTprb = new ArrayList<FtSalesdPromoTprb>();
+		listFtSalesdPromoTpruDisc = new ArrayList<FtSalesdPromoTpruDisc>();
+		listFtSalesdPromoTpruCb = new ArrayList<FtSalesdPromoTpruCb>();
+		
+		//1. Ambil Daftar Promo
+		List<FPromo> listFPromoBerjalanItem = new ArrayList<FPromo>();
+		listFPromoBerjalanItem = model.getfPromoJpaService2().findAllPromoBerjalanItemBarangActive(view.getDateFieldInvoicedate().getValue());
+
+		for (FPromo fPromo: listFPromoBerjalanItem){
+			promoBarangPerPromo(fPromo);			
+		}
+		
+		List<FPromo> listFPromoBerjalanGrup = new ArrayList<FPromo>();
+		listFPromoBerjalanGrup = model.getfPromoJpaService2().findAllPromoBerjalanGrupBarangActive(view.getDateFieldInvoicedate().getValue());
+		for (FPromo fPromo: listFPromoBerjalanGrup){
+			promoGrupBarangPerPromo(fPromo);
+		}
+		
+		
+//		###****SANGAT BERBEDA SEKALI DENGAN DIATAS
+		List<FPromo> listFPromoBerjalanGrupAkumulasi = new ArrayList<FPromo>();
+		listFPromoBerjalanGrupAkumulasi = model.getfPromoJpaService2().findAllPromoBerjalanGrupBarangAkumulasiActive(view.getDateFieldInvoicedate().getValue());
+		for (FPromo fPromo: listFPromoBerjalanGrupAkumulasi){
+			promoGrupBarangAkumulasiPerPromo(fPromo);
+		}
+		
+		//2. Cek Per Daftar Promo pada --> Container
+		//3. Jika Masuk Taruh pada Penampungan Sementara List Item TPRB, Diskon Barang, CashBack
+		//4. Masukkan ke FtSalesdTprb, FtSalesdTprDisc, FtSalesdTprCb
+		
+		//Masukkan ke database dan itemDetil
+		
+	}
+	public void promoBarangPerPromo(FPromo fPromoBean){
 		Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
 		for (Object itemId: itemIds){
 			FtSalesd ftSalesd = new FtSalesd();
-			ftSalesd = model.getBeanItemContainerDetil().getItem(itemId).getBean();
+			ftSalesd = model.getBeanItemContainerDetil().getItem(itemId).getBean();	
+			//TPRBARANG
+			List<FtSalesd> listFtSalesdBonusTobeAddedToDetil = new ArrayList<FtSalesd>();
+			listFtSalesdBonusTobeAddedToDetil = getPromoBonusBarangPerItem(fPromoBean, ftSalesd);
+			if (listFtSalesdBonusTobeAddedToDetil.size()>0){
+				for (FtSalesd ftSalesdBonus:listFtSalesdBonusTobeAddedToDetil){
+					if (ftSalesdBonus.getId().getFreegood()==true){
+						FtSalesd newFtSalesdForTemp = new FtSalesd();
+						HeaderDetilSalesHelper headerDetilSalesHelper = new HeaderDetilSalesHelperImpl(ftSalesdBonus);
+						headerDetilSalesHelper.setRoundedTotal(true);
+						newFtSalesdForTemp = headerDetilSalesHelper.getFillFtSalesdOnly();
+						listTempForTprb.add(newFtSalesdForTemp);
 
-//			List<FtSalesd> listFtSalesdPromoItem  = new ArrayList<FtSalesd>();
-			listFtSalesdPromoItem  = new ArrayList<FtSalesd>();
-			
-			//PILIH ITEM DETIL YANG CANDIDATE PROMO
-			listFtSalesdPromoItem.addAll(getJumlahBonusPromoPerItem(ftSalesd));	//ANGGAP TIDAK ADA DULU					
-			
-		}
-		listFtSalesdPromoTotal.addAll(listFtSalesdPromoItem);//????			
-		
-		//2. CEK SATU FORM JIKA TERDAPAT DISKON PROMO PER GROUP ::: PROMO PER GROUP
-		listFtSalesdPromoTotal.addAll(getJumlahBonusPromoPerItemByGroup());
-		
-		//3. JUMLAH ITEM PROMO :: DAPAT PRODUK PROMO MATENG:: DISATUKAN JUMLAHNYA
-		Set<FtSalesd> ftSalesdPromoBonusSet = new HashSet<FtSalesd>(listFtSalesdPromoTotal);
-		int noUrut = 100;
-		for (FtSalesd domain: ftSalesdPromoBonusSet) {
-			//KALKULASIKAN DAN JUMLAHKAN JIKA TERNYATA SAMA
-			int newQty = 0;
-			for (FtSalesd domain1: listFtSalesdPromoTotal) {
-				if (domain1.getFproductBean().getId() ==domain.getFproductBean().getId()){
-					newQty =newQty +  domain1.getQty();
+						//DATA PROMO
+						FtSalesdPromoTprb ftSalesdPromoTprb = new FtSalesdPromoTprb(); 
+						ftSalesdPromoTprb.setRefnoPromo((long)0);
+						ftSalesdPromoTprb.setNourut(0);
+						
+						ftSalesdPromoTprb.setfProductBean(newFtSalesdForTemp.getFproductBean());
+						ftSalesdPromoTprb.setfPromoBean(fPromoBean);
+						ftSalesdPromoTprb.setFtSalesdBean(ftSalesd);
+						
+						//Hitung Sub total
+						double hargaJualPcs 
+							= newFtSalesdForTemp.getFproductBean().getSprice()/newFtSalesdForTemp.getFproductBean().getConvfact1();
+						double subTotalBeforePpn = hargaJualPcs * newFtSalesdForTemp.getQty();
+						double subTotalAfterPpn = subTotalBeforePpn * 1.1;
+						ftSalesdPromoTprb.setTprbafterppn(subTotalAfterPpn);
+						ftSalesdPromoTprb.setTprbqty(newFtSalesdForTemp.getQty());
+						listFtSalesdPromoTprb.add(ftSalesdPromoTprb);
+					}
 				}
 			}
-
-			domain.setQty(newQty);
-			domain.setQty1(model.getProductAndStockHelper().getBesFromPcs(domain.getQty(), 
-					domain.getFproductBean()));
-			domain.setQty2(model.getProductAndStockHelper().getSedFromPcs(domain.getQty(), 
-					domain.getFproductBean()));
-			domain.setQty3(model.getProductAndStockHelper().getKecFromPcs(domain.getQty(), 
-					domain.getFproductBean()));
 			
-			domain.setNourut(noUrut++);
-			//MASUKKAN KE DATABASE DAN Container::POINT DISINI
-			if (domain.getQty()>0){
-				model.getBeanItemContainerDetil().addItem(domain);
-				model.getFtSalesdJpaService().createObject(domain);
+			//TPRDISC
+			double disc1Persen = getPromoDiscItemBarang(fPromoBean, ftSalesd);
+			if (disc1Persen>0){
+				
+				ftSalesd.setDisc1(ftSalesd.getDisc1() + disc1Persen);
+				model.getFtSalesdJpaService().updateObject(ftSalesd);
+				
+				FtSalesdPromoTpruDisc ftSalesdPromoTprDisc = new FtSalesdPromoTpruDisc(); 
+				ftSalesdPromoTprDisc.setRefnoPromo((long) 0);
+				ftSalesdPromoTprDisc.setNourut(0);
+				
+				ftSalesdPromoTprDisc.setfPromoBean(fPromoBean);
+				ftSalesdPromoTprDisc.setFtSalesdBean(ftSalesd);
+				
+				//Hitung Sub total
+				ftSalesdPromoTprDisc.setTprudiscpersen(disc1Persen);
+				//JUMLAH DISKON
+				double disc1Rp = ftSalesd.getSubtotal() * disc1Persen * 1.1;
+				ftSalesdPromoTprDisc.setTprudiscafterppn(disc1Rp);
+				
+				listFtSalesdPromoTpruDisc.add(ftSalesdPromoTprDisc);
+				
 			}
 			
+//			getPromoCb(fPromoBean);
+			
+		}
+		List<FtSalesd> listFtSalesdBonusToAdd = new ArrayList<FtSalesd>();
+		for (FtSalesd ftSalesdBonusDihitung: listTempForTprb){			
+			if (listFtSalesdBonusToAdd.indexOf(ftSalesdBonusDihitung)>=0) {
+				FtSalesd newFtSalesd = new FtSalesd();
+				int index = listFtSalesdBonusToAdd.indexOf(ftSalesdBonusDihitung);
+				newFtSalesd = listFtSalesdBonusToAdd.get(index);
+				newFtSalesd.setQty(newFtSalesd.getQty()+ftSalesdBonusDihitung.getQty());
+				listFtSalesdBonusToAdd.set(index, newFtSalesd);				
+				model.getFtSalesdJpaService().updateObject(newFtSalesd);
+			}else {
+				listFtSalesdBonusToAdd.add(ftSalesdBonusDihitung);
+				model.getFtSalesdJpaService().updateObject(ftSalesdBonusDihitung);
+			}
+			
+		}
+		model.getBeanItemContainerDetil().addAll(listFtSalesdBonusToAdd);
+				
+		
+		//Save data base TPRB, TPRDisc, TPRCb
+		int nourutTprb=1;
+		for (FtSalesdPromoTprb promoItem: listFtSalesdPromoTprb){
+			promoItem.setNourut(nourutTprb++);
+			try{
+				model.getFtSalesdPromoTprbJpaService().createObject(promoItem);
+			} catch(Exception ex){}
+		}
+		
+		int nourutTprDisc=1;
+		for (FtSalesdPromoTpruDisc promoItem: listFtSalesdPromoTpruDisc){
+			promoItem.setNourut(nourutTprDisc++);
+			try{
+				model.getFtSalesdPromoTpruDiscJpaService().createObject(promoItem);
+			} catch(Exception ex){}
+		}
+		
+		
+	}
+	public void promoGrupBarangPerPromo(FPromo fPromoBean){
+		Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
+		for (Object itemId: itemIds){
+			FtSalesd ftSalesd = new FtSalesd();
+			ftSalesd = model.getBeanItemContainerDetil().getItem(itemId).getBean();	
+			//TPRBARANG
+			List<FtSalesd> listFtSalesdBonusTobeAddedToDetil = new ArrayList<FtSalesd>();
+			listFtSalesdBonusTobeAddedToDetil = getPromoBonusGrupBarangPerItem(fPromoBean, ftSalesd);
+			if (listFtSalesdBonusTobeAddedToDetil.size()>0){
+				for (FtSalesd ftSalesdBonus:listFtSalesdBonusTobeAddedToDetil){
+					if (ftSalesdBonus.getId().getFreegood()==true){
+						FtSalesd newFtSalesdForTemp = new FtSalesd();
+						HeaderDetilSalesHelper headerDetilSalesHelper = new HeaderDetilSalesHelperImpl(ftSalesdBonus);
+						headerDetilSalesHelper.setRoundedTotal(true);
+						newFtSalesdForTemp = headerDetilSalesHelper.getFillFtSalesdOnly();
+						listTempForTprb.add(newFtSalesdForTemp);
+
+						//DATA PROMO
+						FtSalesdPromoTprb ftSalesdPromoTprb = new FtSalesdPromoTprb(); 
+						ftSalesdPromoTprb.setRefnoPromo((long)0);
+						ftSalesdPromoTprb.setNourut(0);
+						
+						ftSalesdPromoTprb.setfProductBean(newFtSalesdForTemp.getFproductBean());
+						ftSalesdPromoTprb.setfPromoBean(fPromoBean);
+						ftSalesdPromoTprb.setFtSalesdBean(ftSalesd);
+						
+						//Hitung Sub total
+						double hargaJualPcs 
+							= newFtSalesdForTemp.getFproductBean().getSprice()/newFtSalesdForTemp.getFproductBean().getConvfact1();
+						double subTotalBeforePpn = hargaJualPcs * newFtSalesdForTemp.getQty();
+						double subTotalAfterPpn = subTotalBeforePpn * 1.1;
+						ftSalesdPromoTprb.setTprbafterppn(subTotalAfterPpn);
+						ftSalesdPromoTprb.setTprbqty(newFtSalesdForTemp.getQty());
+						listFtSalesdPromoTprb.add(ftSalesdPromoTprb);
+					}
+				}
+			}
+			
+			//TPRDISC
+			double disc1Persen = getPromoDiscGrupBarang(fPromoBean, ftSalesd);
+			if (disc1Persen>0){
+				ftSalesd.setDisc1(ftSalesd.getDisc1() + disc1Persen);
+				model.getFtSalesdJpaService().updateObject(ftSalesd);
+				
+				FtSalesdPromoTpruDisc ftSalesdPromoTprDisc = new FtSalesdPromoTpruDisc(); 
+				ftSalesdPromoTprDisc.setRefnoPromo((long) 0);
+				ftSalesdPromoTprDisc.setNourut(0);
+				
+				ftSalesdPromoTprDisc.setfPromoBean(fPromoBean);
+				ftSalesdPromoTprDisc.setFtSalesdBean(ftSalesd);
+				
+				//Hitung Sub total
+				ftSalesdPromoTprDisc.setTprudiscpersen(disc1Persen);
+				//JUMLAH DISKON
+				double disc1Rp = ftSalesd.getSubtotal() * disc1Persen * 1.1;
+				ftSalesdPromoTprDisc.setTprudiscafterppn(disc1Rp);
+				
+				listFtSalesdPromoTpruDisc.add(ftSalesdPromoTprDisc);
+				
+			}
+			
+//			getPromoCb(fPromoBean);
+			
+		}
+		List<FtSalesd> listFtSalesdBonusToAdd = new ArrayList<FtSalesd>();
+		for (FtSalesd ftSalesdBonusDihitung: listTempForTprb){
+			
+			if (listFtSalesdBonusToAdd.indexOf(ftSalesdBonusDihitung)>=0) {
+				FtSalesd newFtSalesd = new FtSalesd();
+				int index = listFtSalesdBonusToAdd.indexOf(ftSalesdBonusDihitung);
+				newFtSalesd = listFtSalesdBonusToAdd.get(index);
+				newFtSalesd.setQty(newFtSalesd.getQty()+ftSalesdBonusDihitung.getQty());
+				listFtSalesdBonusToAdd.set(index, newFtSalesd);				
+				model.getFtSalesdJpaService().updateObject(newFtSalesd);
+			}else {
+				listFtSalesdBonusToAdd.add(ftSalesdBonusDihitung);
+				model.getFtSalesdJpaService().updateObject(ftSalesdBonusDihitung);
+			}
+		}
+		model.getBeanItemContainerDetil().addAll(listFtSalesdBonusToAdd);
+		
+		//Save data base TPRB, TPRDisc, TPRCb
+		int nourutTprb=1;
+		for (FtSalesdPromoTprb promoItem: listFtSalesdPromoTprb){
+			promoItem.setNourut(nourutTprb++);
+			try{
+				model.getFtSalesdPromoTprbJpaService().createObject(promoItem);
+			} catch(Exception ex){}
+		}
+		
+		int nourutTprDisc=1;
+		for (FtSalesdPromoTpruDisc promoItem: listFtSalesdPromoTpruDisc){
+			promoItem.setNourut(nourutTprDisc++);
+			try{
+				model.getFtSalesdPromoTpruDiscJpaService().createObject(promoItem);
+			} catch(Exception ex){}
 		}
 		
 	}
-	public List<FtSalesd> getJumlahBonusPromoPerItemByGroup(){
+	public void promoGrupBarangAkumulasiPerPromo(FPromo fPromoBean){
+		Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
+		Set<FProductgroup> setFProductGroup = new HashSet<FProductgroup>();
+		List<FtSalesd> listFtSalesdPerGroup = new ArrayList<FtSalesd>();
+		for (Object itemId: itemIds){
+			FtSalesd ftSalesd = new FtSalesd();
+			ftSalesd = model.getBeanItemContainerDetil().getItem(itemId).getBean();	
+			//HITUNG BARANG YANG MASUK KE GRUP
+			List<FtSalesd> listFtSalesdPerGroupItem = new ArrayList<FtSalesd>();
+			listFtSalesdPerGroupItem = getPromoBonusGrupBarangAkumulasiPerItem(fPromoBean, ftSalesd);			
+	
+			if (listFtSalesdPerGroupItem.size()>0){
+				listFtSalesdPerGroup.add(ftSalesd);
+				setFProductGroup.add(ftSalesd.getFproductBean().getFproductgroupBean());
+			}
+			
+			//TPRDISC
+//			double disc1Persen = getPromoDiscGrupBarang(fPromoBean, ftSalesd);
+//			if (disc1Persen>0){
+//				ftSalesd.setDisc1(ftSalesd.getDisc1() + disc1Persen);
+//				model.getBeanItemContainerDetil().addBean(ftSalesd);
+//				model.getFtSalesdJpaService().updateObject(ftSalesd);
+//				
+//				FtSalesdPromoTpruDisc ftSalesdPromoTprDisc = new FtSalesdPromoTpruDisc(); 
+//				ftSalesdPromoTprDisc.setRefnoPromo((long) 0);
+//				ftSalesdPromoTprDisc.setNourut(0);
+//				
+//				ftSalesdPromoTprDisc.setfPromoBean(fPromoBean);
+//				ftSalesdPromoTprDisc.setFtSalesdBean(ftSalesd);
+//				
+//				//Hitung Sub total
+//				ftSalesdPromoTprDisc.setTprudiscpersen(disc1Persen);
+//				//JUMLAH DISKON
+//				double disc1Rp = ftSalesd.getSubtotal() * disc1Persen * 1.1;
+//				ftSalesdPromoTprDisc.setTprudiscafterppn(disc1Rp);
+//				
+//				listFtSalesdPromoTpruDisc.add(ftSalesdPromoTprDisc);
+//				
+//			}
+			
+			
+		}
+		
+		List<FtSalesd> listFtSalesdBonusTobeAddedToDetil = new ArrayList<FtSalesd>();			
+		listFtSalesdBonusTobeAddedToDetil = 
+				getPromoBonusGrupBarangAkumulasiPerGroup(fPromoBean, setFProductGroup, listFtSalesdPerGroup);
+		
+		for (FtSalesd ftSalesdBonus: listFtSalesdBonusTobeAddedToDetil){
+			FtSalesd newFtSalesdForTemp = new FtSalesd();
+			HeaderDetilSalesHelper headerDetilSalesHelper = new HeaderDetilSalesHelperImpl(ftSalesdBonus);
+			headerDetilSalesHelper.setRoundedTotal(true);
+			newFtSalesdForTemp = headerDetilSalesHelper.getFillFtSalesdOnly();
+			listTempForTprb.add(newFtSalesdForTemp);
+			
+		}
 		
 		
-		List<FtSalesd> listFtSalesdPromoTotal = new ArrayList<FtSalesd>();		
+		List<FtSalesd> listFtSalesdBonusToAdd = new ArrayList<FtSalesd>();
+		for (FtSalesd ftSalesdBonusDihitung: listTempForTprb){
+			
+			if (listFtSalesdBonusToAdd.indexOf(ftSalesdBonusDihitung)>=0) {
+				FtSalesd newFtSalesd = new FtSalesd();
+				int index = listFtSalesdBonusToAdd.indexOf(ftSalesdBonusDihitung);
+				newFtSalesd = listFtSalesdBonusToAdd.get(index);
+				newFtSalesd.setQty(newFtSalesd.getQty()+ftSalesdBonusDihitung.getQty());
+				listFtSalesdBonusToAdd.set(index, newFtSalesd);				
+				model.getFtSalesdJpaService().updateObject(newFtSalesd);
+			}else {
+				listFtSalesdBonusToAdd.add(ftSalesdBonusDihitung);
+				model.getFtSalesdJpaService().updateObject(ftSalesdBonusDihitung);
+			}
+		}
+		model.getBeanItemContainerDetil().addAll(listFtSalesdBonusToAdd);
+				
+		//###** TIDAK DI PAKE KARENA SUDAH DI DEFINISIAN DI SUB
+//		//Save data base TPRB, TPRDisc, TPRCb
+//		int nourutTprb=1;
+//		for (FtSalesdPromoTprb promoItem: listFtSalesdPromoTprb){
+//			promoItem.setNourut(nourutTprb++);
+//			try{
+//				model.getFtSalesdPromoTprbJpaService().createObject(promoItem);
+//			} catch(Exception ex){}
+//		}
 		
-		/*
-		 * */
-		double discItem1 = 0.0;
-		//1. CEK PARAMETER DISKON VENDOR YANG AKTIF :: HAMPIR SAMA DENGAN PER SUPPLIER
-		List<FPromo> listFPromoByGroup = new ArrayList<FPromo>();
-		try{
-			listFPromoByGroup = model.getfPromoJpaService2().findAllPromoActiveByProductGroup();
-		} catch(Exception ex){}
+//		int nourutTprDisc=1;
+//		for (FtSalesdPromoTpruDisc promoItem: listFtSalesdPromoTpruDisc){
+//			promoItem.setNourut(nourutTprDisc++);
+//			try{
+//				model.getFtSalesdPromoTpruDiscJpaService().createObject(promoItem);
+//			} catch(Exception ex){}
+//		}
 		
 		
-		int sumTprbItem = 0;
-		int nomorUrut=0;
+	}
+	
+	public List<FtSalesd> getPromoBonusBarangPerItem(FPromo fPromoBean, FtSalesd ftSalesd){
+		List<FtSalesd> listFtSalesdTobeAdded = new ArrayList<FtSalesd>();
+		if (fPromoBean.getfProductBean().getId()==ftSalesd.getFproductBean().getId()){
+			if (fPromoBean.getForFcustomersubgroup().equals("ALL") 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("IN") && 
+							ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("EX") && 
+							! ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+							){
+				
+					int tprbItem = 0;
+					//:: JIKA FREE GOOD MAKA YA TIDAK BERLAKU
+					if (! ftSalesd.getId().getFreegood()==true){
+	
+						//::PROMO BARANG TPRB
+						if (ftSalesd.getQty() > fPromoBean.getFreeQty4() && fPromoBean.getFreeQty4()>0) {
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet4() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty4());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet4();	
+							}
+						}else if (ftSalesd.getQty() > fPromoBean.getFreeQty3() && fPromoBean.getFreeQty3()>0) {						
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet3() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty3());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet3();	
+							}
+						}else if (ftSalesd.getQty() > fPromoBean.getFreeQty2() && fPromoBean.getFreeQty2()>0) {
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet2() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty2());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet2();	
+							}
+						}else if (ftSalesd.getQty() > fPromoBean.getFreeQty1() && fPromoBean.getFreeQty1()>0) {
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet1() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty1());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet1();	
+							}
+						}
+						
+					}
+					
+					//BERARTI JIKA DAPAT DISKON
+					if (tprbItem>0){
+						FtSalesd ftSalesdTobeAdded = new FtSalesd();					
+						ftSalesdTobeAdded = resetFtSalesd(ftSalesdTobeAdded);
+						//PERBAIKI ID
+						FtSalesdPK id = new FtSalesdPK();
+						id.setRefno(ftSalesd.getFtsaleshBean().getRefno());
+						id.setFreegood(true);
+						id.setId(fPromoBean.getFreeFproductBean().getId());					
+						ftSalesdTobeAdded.setId(id);
+						
+						ftSalesdTobeAdded.setPromo(true);
+						
+						ftSalesdTobeAdded.setFproductBean(fPromoBean.getFreeFproductBean());
+						ftSalesdTobeAdded.setFtsaleshBean(ftSalesd.getFtsaleshBean());
+						ftSalesdTobeAdded.setQty(tprbItem);
+						
+						listFtSalesdTobeAdded.add(ftSalesdTobeAdded);
+						
+					}
+					
+			}
+		}
+		return listFtSalesdTobeAdded;		
+	}
+	public List<FtSalesd> getPromoBonusGrupBarangPerItem(FPromo fPromoBean, FtSalesd ftSalesd){
+		List<FtSalesd> listFtSalesdTobeAdded = new ArrayList<FtSalesd>();
+		if (fPromoBean.getFproductgroupBean().getId().equals(ftSalesd.getFproductBean().getFproductgroupBean().getId())){
+			if (fPromoBean.getForFcustomersubgroup().equals("ALL") 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("IN") && 
+							ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("EX") && 
+							! ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+							){
+				
+					int tprbItem = 0;
+					//:: JIKA FREE GOOD MAKA YA TIDAK BERLAKU
+					if (! ftSalesd.getId().getFreegood()==true){
+	
+						//::PROMO BARANG TPRB
+						if (ftSalesd.getQty() > fPromoBean.getFreeQty4() && fPromoBean.getFreeQty4()>0) {
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet4() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty4());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet4();	
+							}
+						}else if (ftSalesd.getQty() > fPromoBean.getFreeQty3() && fPromoBean.getFreeQty3()>0) {						
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet3() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty3());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet3();	
+							}
+						}else if (ftSalesd.getQty() > fPromoBean.getFreeQty2() && fPromoBean.getFreeQty2()>0) {
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet2() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty2());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet2();	
+							}
+						}else if (ftSalesd.getQty() > fPromoBean.getFreeQty1() && fPromoBean.getFreeQty1()>0) {
+							if (fPromoBean.getFreeKelipatan()==true){
+								tprbItem = fPromoBean.getFreeQtyGet1() * Math.round(ftSalesd.getQty()/fPromoBean.getFreeQty1());
+							}else {
+								tprbItem = fPromoBean.getFreeQtyGet1();	
+							}
+						}
+						
+					}
+					
+					//BERARTI JIKA DAPAT DISKON
+					if (tprbItem>0){
+						FtSalesd ftSalesdTobeAdded = new FtSalesd();					
+						ftSalesdTobeAdded = resetFtSalesd(ftSalesdTobeAdded);
+						//PERBAIKI ID
+						FtSalesdPK id = new FtSalesdPK();
+						id.setRefno(ftSalesd.getFtsaleshBean().getRefno());
+						id.setFreegood(true);
+						id.setId(fPromoBean.getFreeFproductBean().getId());					
+						ftSalesdTobeAdded.setId(id);
+						
+						ftSalesdTobeAdded.setPromo(true);
+						ftSalesdTobeAdded.setFproductBean(fPromoBean.getFreeFproductBean());
+						ftSalesdTobeAdded.setFtsaleshBean(ftSalesd.getFtsaleshBean());
+						ftSalesdTobeAdded.setQty(tprbItem);
+						
+						listFtSalesdTobeAdded.add(ftSalesdTobeAdded);
+						
+					}
+					
+			}
+		}
+		return listFtSalesdTobeAdded;		
+	}
+	public List<FtSalesd> getPromoBonusGrupBarangAkumulasiPerItem(FPromo fPromoBean, FtSalesd ftSalesd){
+		List<FtSalesd> listFtSalesdTobeAdded = new ArrayList<FtSalesd>();
+		if (fPromoBean.getFproductgroupBean().getId().equals(ftSalesd.getFproductBean().getFproductgroupBean().getId())){
+			if (fPromoBean.getForFcustomersubgroup().equals("ALL") 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("IN") && 
+							ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("EX") && 
+							! ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+							){
+						if (! ftSalesd.getId().getFreegood()==true){
+							listFtSalesdTobeAdded.add(ftSalesd);
+						}
+						
+			}
+					
+		}
+		return listFtSalesdTobeAdded;		
+	}
+	public List<FtSalesd> getPromoBonusGrupBarangAkumulasiPerGroup(FPromo fPromoBean, 
+				Set<FProductgroup> setFProductGroup, List<FtSalesd> listFtSalesdGroup){
 		
-		//3. CARI PADA MASING-MASING DISKON VENDOR UNTUK BARANG TERSEBUT
-		Iterator<FPromo> fPromoByGroupIter = listFPromoByGroup.iterator();		
-		while (fPromoByGroupIter.hasNext()) {
+		List<FtSalesd> listFtSalesdTobeAdded = new ArrayList<FtSalesd>();
+		
+		for (FProductgroup fProductGroup: setFProductGroup){
+			//HITUNG JUMLAH QTY PER GROUP
+			int qtyFtSalesdSum = 0;
+			double subTotalAfterPpnSum = 0;
+			FtSalesd ftSalesdTobeToGivePromo = new FtSalesd();
+			for (FtSalesd ftSalesd:listFtSalesdGroup){
+				if (ftSalesd.getFproductBean().getFproductgroupBean().equals(fPromoBean.getFproductgroupBean())){
+					//:: JIKA FREE GOOD MAKA YA TIDAK BERLAKU
+					qtyFtSalesdSum += ftSalesd.getQty();
+					//DIAMBIL URUTAN YANG PALING AKHIR
+					ftSalesdTobeToGivePromo = new FtSalesd();	
+					ftSalesdTobeToGivePromo = ftSalesd;
+					
+					//Untuk Dikon
+					subTotalAfterPpnSum += ftSalesd.getSubtotalafterppn();
+				}
+			}
+			//HITUNG JUMLAH FREE QTYNYA
 			int tprbItem = 0;
-
-			FPromo fPromoByGroupItem = new FPromo();
-			fPromoByGroupItem = fPromoByGroupIter.next();
-			if (fPromoByGroupItem.getPeriodeFrom().getTime() <= model.getTransaksiHelper().getCurrentTransDate().getTime()
-					&& fPromoByGroupItem.getPeriodeTo().getTime() >= model.getTransaksiHelper().getCurrentTransDate().getTime()) {
-				
-//				System.out.println("MASUK: " + fPromoByGroupItem.getDescription());
-				
-				FProductgroup fProductgroupBean = new FProductgroup();
-				fProductgroupBean = fPromoByGroupItem.getFproductgroupBean();
-				double sumTotalItemDetilPerProductGroup =0.0;
-				int sumQtyItemDetilPerProductGroup =0;
-				//3.1 # Cari Item per Vendor :: LANGSUNG CALKULASIKAN
-				Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
-				for (Object itemId: itemIds) {
-					FtSalesd ftSalesdBean = new FtSalesd();
-					ftSalesdBean = model.getBeanItemContainerDetil().getItem(itemId).getBean();
-					if (ftSalesdBean.getFproductBean().getFproductgroupBean().equals(fProductgroupBean)) {
-						sumTotalItemDetilPerProductGroup += ftSalesdBean.getSubtotalafterppn();
-						sumQtyItemDetilPerProductGroup += ftSalesdBean.getQty();
-					}
+			//::PROMO BARANG TPRB
+			if (qtyFtSalesdSum > fPromoBean.getFreeQty4() && fPromoBean.getFreeQty4()>0) {
+				if (fPromoBean.getFreeKelipatan()==true){
+					tprbItem = fPromoBean.getFreeQtyGet4() * Math.round(qtyFtSalesdSum/fPromoBean.getFreeQty4());
+				}else {
+					tprbItem = fPromoBean.getFreeQtyGet4();	
 				}
-
-//				System.out.println("Rupiah Produk: " + sumTotalItemDetilPerProductGroup);
-//				System.out.println("Jumlah Produk: " + sumQtyItemDetilPerProductGroup + ":" 
-//						+ fPromoByGroupItem.getFreeQty1() +":" 
-//						+ fPromoByGroupItem.getFreeQty2() +":" 
-//						+ fPromoByGroupItem.getFreeQty3() +":" 
-//						+ fPromoByGroupItem.getFreeQty4() +":");
-				
-				//::PROMO BARANG TPRB
-				if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty4() && fPromoByGroupItem.getFreeQty4()>0) {
-					if (fPromoByGroupItem.getFreeKelipatan()==true){
-						tprbItem = fPromoByGroupItem.getFreeQtyGet4() * Math.round(sumQtyItemDetilPerProductGroup/fPromoByGroupItem.getFreeQty4());
-					}else {
-						tprbItem = fPromoByGroupItem.getFreeQtyGet4();	
-					}
-					sumTprbItem += tprbItem;
-					
-//					System.out.println("MASUK SINI LHO 4");
-					
-				}else if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty3() && fPromoByGroupItem.getFreeQty3()>0) {						
-					if (fPromoByGroupItem.getFreeKelipatan()==true){
-						tprbItem = fPromoByGroupItem.getFreeQtyGet3() * Math.round(sumQtyItemDetilPerProductGroup/fPromoByGroupItem.getFreeQty3());
-					}else {
-						tprbItem = fPromoByGroupItem.getFreeQtyGet3();	
-					}
-					sumTprbItem += tprbItem;
-					
-//					System.out.println("MASUK SINI LHO 3");
-					
-				}else if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty2() && fPromoByGroupItem.getFreeQty2()>0) {
-					if (fPromoByGroupItem.getFreeKelipatan()==true){
-						tprbItem = fPromoByGroupItem.getFreeQtyGet2() * Math.round(sumQtyItemDetilPerProductGroup/fPromoByGroupItem.getFreeQty2());
-					}else {
-						tprbItem = fPromoByGroupItem.getFreeQtyGet2();	
-					}
-					sumTprbItem += tprbItem;
-					
-//					System.out.println("MASUK SINI LHO 2");
-					
-				}else if (sumQtyItemDetilPerProductGroup > fPromoByGroupItem.getFreeQty1() && fPromoByGroupItem.getFreeQty1()>0) {
-					if (fPromoByGroupItem.getFreeKelipatan()==true){
-						tprbItem = fPromoByGroupItem.getFreeQtyGet1() * Math.round(sumQtyItemDetilPerProductGroup/fPromoByGroupItem.getFreeQty1());
-					}else {
-						tprbItem = fPromoByGroupItem.getFreeQtyGet1();	
-					}
-					sumTprbItem += tprbItem;
-					
-//					System.out.println("MASUK SINI LHO 1");
+			}else if (qtyFtSalesdSum > fPromoBean.getFreeQty3() && fPromoBean.getFreeQty3()>0) {						
+				if (fPromoBean.getFreeKelipatan()==true){
+					tprbItem = fPromoBean.getFreeQtyGet3() * Math.round(qtyFtSalesdSum/fPromoBean.getFreeQty3());
+				}else {
+					tprbItem = fPromoBean.getFreeQtyGet3();	
 				}
-				
-				//3.2 # HASIL KALKULASI DIATAS :: Tentukan diskonnnya
-				if (sumTotalItemDetilPerProductGroup > fPromoByGroupItem.getDiscValue4() && fPromoByGroupItem.getDiscValue4()>0){
-					discItem1 = fPromoByGroupItem.getDiscPercentGet4();
-				}else if (sumTotalItemDetilPerProductGroup > fPromoByGroupItem.getDiscValue3() && fPromoByGroupItem.getDiscValue3()>0){
-					discItem1 = fPromoByGroupItem.getDiscPercentGet3();
-				}else if (sumTotalItemDetilPerProductGroup > fPromoByGroupItem.getDiscValue2() && fPromoByGroupItem.getDiscValue2()>0){
-					discItem1 = fPromoByGroupItem.getDiscPercentGet2();
-				}else if  (sumTotalItemDetilPerProductGroup > fPromoByGroupItem.getDiscValue1() && fPromoByGroupItem.getDiscValue1()>0){
-					discItem1 = fPromoByGroupItem.getDiscPercentGet1();
+			}else if (qtyFtSalesdSum > fPromoBean.getFreeQty2() && fPromoBean.getFreeQty2()>0) {
+				if (fPromoBean.getFreeKelipatan()==true){
+					tprbItem = fPromoBean.getFreeQtyGet2() * Math.round(qtyFtSalesdSum/fPromoBean.getFreeQty2());
+					
+				}else {
+					tprbItem = fPromoBean.getFreeQtyGet2();	
 				}
-				
-//				System.out.println("Jumlah Diskon: " + discItem1);
-				
-				//3.3 # UPDATE DETIL SETELAH ADA DISKON		
-				Collection itemIds2 = model.getBeanItemContainerDetil().getItemIds();
-				for (Object itemId: itemIds2) {
-					FtSalesd ftSalesdBean = new FtSalesd();
-					ftSalesdBean = model.getBeanItemContainerDetil().getItem(itemId).getBean();
-					if (ftSalesdBean.getFproductBean().getFproductgroupBean().equals(fProductgroupBean)) {
-						ftSalesdBean.setDisc1(ftSalesdBean.getDisc1() + discItem1);
-						
-						//UPDATE KE ITEM TABLE DAN DATABASE
-						model.getFtSalesdJpaService().updateObject(ftSalesdBean);
-						model.getBeanItemContainerDetil().addItem(ftSalesdBean);
-						view.getTableDetil().addItem(ftSalesdBean);
-						
-					}					
+			}else if (qtyFtSalesdSum > fPromoBean.getFreeQty1() && fPromoBean.getFreeQty1()>0) {
+				if (fPromoBean.getFreeKelipatan()==true){
+					tprbItem = fPromoBean.getFreeQtyGet1() * Math.round(qtyFtSalesdSum/fPromoBean.getFreeQty1());
+				}else {
+					tprbItem = fPromoBean.getFreeQtyGet1();	
 				}
-				
-				
-				
-				
 			}
-
-			nomorUrut++;
-			//HITUNG DISKON BARANG
-			if (sumTprbItem>0){
-				
-//				FtSalesdPromoTprb ftSalesdPromoTprb = new FtSalesdPromoTprb();
-//				ftSalesdPromoTprb.setfProductBean(fPromoByGroupItem.getFreeFproductBean());
-//				ftSalesdPromoTprb.setfPromoBean(fPromoByGroupItem);
-//				ftSalesdPromoTprb.setFtSalesdBean(ftSalesd);
-////								ftSalesdPromoTprb.setRefnoPromo((long) nomorUrut);
-//				ftSalesdPromoTprb.setNourut(nomorUrut);
-//				
-//				ftSalesdPromoTprb.setTprbqty(tprbItem);
-//
-//				double itemPriceAfterPpn = fPromoByGroupItem.getFreeFproductBean().getSprice() * pecahanPpn;
-//				double itemPricePcsAfterPpn = itemPriceAfterPpn / fProduct.getConvfact1();
-//				
-//				double valueTprbAfterppn = tprbItem * itemPricePcsAfterPpn;
-//				ftSalesdPromoTprb.setTprbafterppn(valueTprbAfterppn); 		
-//				
-//				//TAMBAHKAN KE LIST
-//				ftSalesdPromoTprbSet.add(ftSalesdPromoTprb);
-//				sumTprbAfterppn += valueTprbAfterppn;
-
-				//TAMBAH ITEM KE DETAIL
-				FtSalesd ftSalesdPromo = new FtSalesd();
+			
+			//BERARTI JIKA DAPAT DISKON
+			if (tprbItem>0){
+				FtSalesd ftSalesdTobeAdded = new FtSalesd();					
+				ftSalesdTobeAdded = resetFtSalesd(ftSalesdTobeAdded);
+				//PERBAIKI ID
 				FtSalesdPK id = new FtSalesdPK();
-				id.setFreegood(true);
 				id.setRefno(model.getItemHeader().getRefno());
-				id.setId(fPromoByGroupItem.getFreeFproductBean().getId());
-				ftSalesdPromo.setId(id);
+				id.setFreegood(true);
+				id.setId(fPromoBean.getFreeFproductBean().getId());					
+				ftSalesdTobeAdded.setId(id);
 				
-				ftSalesdPromo.setPromo(true);
-				ftSalesdPromo.setFproductBean(fPromoByGroupItem.getFreeFproductBean());
-				ftSalesdPromo.setFtsaleshBean(model.getItemHeader());
+				ftSalesdTobeAdded.setPromo(true);
+				ftSalesdTobeAdded.setFproductBean(fPromoBean.getFreeFproductBean());
+				ftSalesdTobeAdded.setFtsaleshBean(model.getItemHeader());
+				ftSalesdTobeAdded.setQty(tprbItem);
 				
-				ftSalesdPromo.setQty(tprbItem);
-				ftSalesdPromo.setQty1(model.getProductAndStockHelper().getBesFromPcs(tprbItem, 
-						ftSalesdPromo.getFproductBean()));
-				ftSalesdPromo.setQty2(model.getProductAndStockHelper().getSedFromPcs(tprbItem, 
-						ftSalesdPromo.getFproductBean()));
-				ftSalesdPromo.setQty3(model.getProductAndStockHelper().getKecFromPcs(tprbItem, 
-						ftSalesdPromo.getFproductBean()));
-
-				ftSalesdPromo.setDisc1(0.0);
-				ftSalesdPromo.setDisc1rp(0.0);
-				ftSalesdPromo.setDisc1rpafterppn(0.0);
-				ftSalesdPromo.setDisc2(0.0);
-				ftSalesdPromo.setDisc2rp(0.0);
-				ftSalesdPromo.setDisc2rpafterppn(0.0);
-				ftSalesdPromo.setSprice(0.0);
-				ftSalesdPromo.setSpriceafterppn(0.0);
-				ftSalesdPromo.setSubtotal(0.0);
-				ftSalesdPromo.setSubtotalafterppn(0.0);
-				ftSalesdPromo.setSubtotalafterdisc(0.0);
-				ftSalesdPromo.setSubtotalafterdiscafterppn(.0);
+				//###NILAI BALIK
+				listFtSalesdTobeAdded.add(ftSalesdTobeAdded);
 				
-				ftSalesdPromo.setTprb(0.0);
-				ftSalesdPromo.setTprucashback(0.0);
-				ftSalesdPromo.setTprudisc(0.0);
+//				//simpan langsung ke database
+				//DATA PROMO
+				FtSalesdPromoTprb ftSalesdPromoTprb = new FtSalesdPromoTprb(); 
+				ftSalesdPromoTprb.setRefnoPromo((long)0);
+				ftSalesdPromoTprb.setNourut(0);
 				
-				//TAMBAH KE CONTAINER
-				listFtSalesdPromoTotal.add(ftSalesdPromo);
+				ftSalesdPromoTprb.setfProductBean(fPromoBean.getFreeFproductBean());
+				ftSalesdPromoTprb.setfPromoBean(fPromoBean);
+				
+				ftSalesdPromoTprb.setFtSalesdBean(ftSalesdTobeToGivePromo);
+				
+				//Hitung Sub total
+				double hargaJualPcs 
+					= fPromoBean.getFreeFproductBean().getSprice()/fPromoBean.getFreeFproductBean().getConvfact1();
+				double subTotalBeforePpn = hargaJualPcs * tprbItem;
+				double subTotalAfterPpn = subTotalBeforePpn * 1.1;
+				ftSalesdPromoTprb.setTprbafterppn(subTotalAfterPpn);
+				ftSalesdPromoTprb.setTprbqty(tprbItem);
+				
+				listFtSalesdPromoTprb.add(ftSalesdPromoTprb);
 				
 			}
+			//Save data base TPRB, TPRDisc, TPRCb
+			int nourutTprb=1;
+			for (FtSalesdPromoTprb promoItem: listFtSalesdPromoTprb){
+				promoItem.setNourut(nourutTprb++);
+				try{
+					model.getFtSalesdPromoTprbJpaService().createObject(promoItem);
+				} catch(Exception ex){}
+			}
+	
+			double disc1Persen=0;
+			//::PROMO DISKON TPRUDISC
+			if (subTotalAfterPpnSum > fPromoBean.getDiscValue4() && fPromoBean.getDiscValue4()>0) {
+				disc1Persen = fPromoBean.getDiscPercentGet4();
+			}else if (subTotalAfterPpnSum>fPromoBean.getDiscValue3() && fPromoBean.getDiscValue3()>0){
+				disc1Persen = fPromoBean.getDiscPercentGet3();						
+			}else if (subTotalAfterPpnSum>fPromoBean.getDiscValue2() && fPromoBean.getDiscValue2()>0){
+				disc1Persen = fPromoBean.getDiscPercentGet2();
+			}else if (subTotalAfterPpnSum>fPromoBean.getDiscValue1() && fPromoBean.getDiscValue1()>0){
+				disc1Persen = fPromoBean.getDiscPercentGet1();
+			}
+			
+			List<FtSalesdPromoTpruDisc> listFtSalesdPromoTpruDisc = new ArrayList<FtSalesdPromoTpruDisc>();
+			if (disc1Persen>0) {
+				for (FtSalesd ftSalesd:listFtSalesdGroup){
+					if (ftSalesd.getFproductBean().getFproductgroupBean().equals(fPromoBean.getFproductgroupBean())){
+//						TPRDISC
+						ftSalesd.setDisc1(ftSalesd.getDisc1() + disc1Persen);
+						model.getFtSalesdJpaService().updateObject(ftSalesd);
 						
-			//4 PERBAIKI TAMPILAN ITEM DETIL
-			view.getTableDetil().setContainerDataSource(model.getBeanItemContainerDetil());
-
+						FtSalesdPromoTpruDisc ftSalesdPromoTprDisc = new FtSalesdPromoTpruDisc(); 
+						ftSalesdPromoTprDisc.setRefnoPromo((long) 0);
+						ftSalesdPromoTprDisc.setNourut(0);
+						
+						ftSalesdPromoTprDisc.setfPromoBean(fPromoBean);
+						ftSalesdPromoTprDisc.setFtSalesdBean(ftSalesd);
+						
+						//Hitung Sub total
+						ftSalesdPromoTprDisc.setTprudiscpersen(disc1Persen);
+						//JUMLAH DISKON
+						double disc1Rp = ftSalesd.getSubtotal() * disc1Persen * 1.1;
+						ftSalesdPromoTprDisc.setTprudiscafterppn(disc1Rp);
+						
+						listFtSalesdPromoTpruDisc.add(ftSalesdPromoTprDisc);
+						
+					
+					}
+				}
+				
+				int nourutTprDisc=1;
+				for (FtSalesdPromoTpruDisc promoItem: listFtSalesdPromoTpruDisc){
+					promoItem.setNourut(nourutTprDisc++);
+					try{
+						model.getFtSalesdPromoTpruDiscJpaService().createObject(promoItem);
+					} catch(Exception ex){}
+				}
+				
+			}
+			
+			
+			
 		}
 		
-		view.setDisplayDetil();
-
-		return listFtSalesdPromoTotal;
-		
+		return listFtSalesdTobeAdded;				
 	}
+
+	public double getPromoDiscGrupBarang(FPromo fPromoBean, FtSalesd ftSalesd){
+		double disc1PromoPercent=0;
+		if (fPromoBean.getFproductgroupBean().getId().equals(ftSalesd.getFproductBean().getFproductgroupBean().getId())){
+			if (fPromoBean.getForFcustomersubgroup().equals("ALL") 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("IN") && 
+							ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("EX") && 
+							! ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+							){
+				
+				//::PROMO DISKON TPRUDISC
+				if (ftSalesd.getSubtotalafterppn() > fPromoBean.getDiscValue4() && fPromoBean.getDiscValue4()>0) {
+					disc1PromoPercent = fPromoBean.getDiscPercentGet4();
+				}else if (ftSalesd.getSubtotalafterppn()>fPromoBean.getDiscValue3() && fPromoBean.getDiscValue3()>0){
+					disc1PromoPercent = fPromoBean.getDiscPercentGet3();						
+				}else if (ftSalesd.getSubtotalafterppn()>fPromoBean.getDiscValue2() && fPromoBean.getDiscValue2()>0){
+					disc1PromoPercent = fPromoBean.getDiscPercentGet2();
+				}else if (ftSalesd.getSubtotalafterppn()>fPromoBean.getDiscValue1() && fPromoBean.getDiscValue1()>0){
+					disc1PromoPercent = fPromoBean.getDiscPercentGet1();
+				}
+			}
+		}
+		return disc1PromoPercent;
+	}
+	public double getPromoDiscItemBarang(FPromo fPromoBean, FtSalesd ftSalesd){
+		double disc1PromoPercent=0;
+		if (fPromoBean.getfProductBean().getId()==ftSalesd.getFproductBean().getId()){
+			if (fPromoBean.getForFcustomersubgroup().equals("ALL") 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("IN") && 
+							ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+					|| 
+					( fPromoBean.getForFcustomersubgroup().equals("EX") && 
+							! ftSalesd.getFtsaleshBean().getFcustomerBean()
+							.getFcustomersubgroupBean().equals(fPromoBean.getFcustomersubgroupBean())) 
+							){
+				
+				//::PROMO DISKON TPRUDISC
+				if (ftSalesd.getSubtotalafterppn() > fPromoBean.getDiscValue4() && fPromoBean.getDiscValue4()>0) {
+					disc1PromoPercent = fPromoBean.getDiscPercentGet4();
+				}else if (ftSalesd.getSubtotalafterppn()>fPromoBean.getDiscValue3() && fPromoBean.getDiscValue3()>0){
+					disc1PromoPercent = fPromoBean.getDiscPercentGet3();						
+				}else if (ftSalesd.getSubtotalafterppn()>fPromoBean.getDiscValue2() && fPromoBean.getDiscValue2()>0){
+					disc1PromoPercent = fPromoBean.getDiscPercentGet2();
+				}else if (ftSalesd.getSubtotalafterppn()>fPromoBean.getDiscValue1() && fPromoBean.getDiscValue1()>0){
+					disc1PromoPercent = fPromoBean.getDiscPercentGet1();
+				}
+			}
+		}
+		return disc1PromoPercent;
+	}
+	public double getPromoCb(FPromo fPromo){
+		return 0;
+	}
+
+	public FtSalesd resetFtSalesd(FtSalesd ftSalesd){
+		ftSalesd.setPromo(false);
+		
+		ftSalesd.setFproductBean(new FProduct());
+		ftSalesd.setFtsaleshBean(model.getItemHeader());
+		
+		ftSalesd.setDisc1(0.0);
+		ftSalesd.setDisc1rp(0.0);
+		ftSalesd.setDisc2(0.0);
+		ftSalesd.setDisc2rp(0.0);
+		
+		ftSalesd.setNourut(0);
+		ftSalesd.setSprice(0.0);
+		ftSalesd.setSpriceafterppn(0.0);
+		ftSalesd.setQty(0);
+		ftSalesd.setQty1(0);
+		ftSalesd.setQty2(0);
+		ftSalesd.setQty3(0);
+		ftSalesd.setSubtotal(0.0);
+		ftSalesd.setSubtotalafterppn(0.0);
+		
+		ftSalesd.setTprb(0.0);
+		ftSalesd.setTprudisc(0.0);
+		ftSalesd.setTprucashback(0.0);
+		
+		return ftSalesd;
+	}
+
+	//AKTIFITAS PROMO
 
 	//PARAMETER DISKON ITEM BY VENDOR
 	public void cekAndUpdateParamDiskonItemByVendor(){
@@ -863,8 +1365,9 @@ public class SalesOrderHelper {
 
 	}
 		
-	public void deleteNonPromoItem(){
+	public void deletePromoItemAndDiskon(){
 		try{
+			
 			List<FtSalesd> listFtSalesdNonPromo = new ArrayList<FtSalesd>();
 			Collection itemIds = model.getBeanItemContainerDetil().getItemIds();
 			for (Object itemId: itemIds){
@@ -876,21 +1379,50 @@ public class SalesOrderHelper {
 					listFtSalesdNonPromo.add(ftSalesd);
 				}
 			}
-			model.getBeanItemContainerDetil().removeAllItems();
-			model.getBeanItemContainerDetil().addAll(listFtSalesdNonPromo);
 	
+			//HAPUS TPRB
 			List<FtSalesdPromoTprb> listFtSalesdPromoTprbToDelete = model.getFtSalesdPromoTprbJpaService().findAllByFtSaleshRefno(model.getItemHeader().getRefno());
 			for (FtSalesdPromoTprb domain: listFtSalesdPromoTprbToDelete){
 				model.getFtSalesdPromoTprbJpaService().removeObject(domain);
+				deleteItemTablePromo(domain.getfProductBean());
 			}
+			//HAPUS TPRUDISC
 			List<FtSalesdPromoTpruDisc> listFtSalesdPromoTpruDiscToDelete = model.getFtSalesdPromoTpruDiscJpaService().findAllByFtSaleshRefno(model.getItemHeader().getRefno());
 			for (FtSalesdPromoTpruDisc domain: listFtSalesdPromoTpruDiscToDelete){
 				model.getFtSalesdPromoTpruDiscJpaService().removeObject(domain);
+				FtSalesd ftSalesdToFind = new FtSalesd();
+				FtSalesdPK id = new FtSalesdPK();
+				id.setFreegood(false);
+				id.setRefno(model.getItemHeader().getRefno());
+				id.setId(domain.getFtSalesdBean().getFproductBean().getId());
+				ftSalesdToFind.setId(id);
+				
+				int index = listFtSalesdNonPromo.indexOf(ftSalesdToFind);
+				if (index >= 0){
+					 FtSalesd ftSalesdFound = new FtSalesd();
+					 ftSalesdFound = listFtSalesdNonPromo.get(index);
+					 ftSalesdFound.setDisc1(ftSalesdFound.getDisc1()-domain.getTprudiscpersen());
+					 listFtSalesdNonPromo.set(index, ftSalesdFound);
+				}
 			}
-		} catch(Exception ex){}
+			
+			model.getBeanItemContainerDetil().removeAllItems();
+			model.getBeanItemContainerDetil().addAll(listFtSalesdNonPromo);
+			
+			Collection itemIdsToUpdate = model.getBeanItemContainerDetil().getItemIds();
+			for (Object itemId: itemIdsToUpdate){
+				FtSalesd ftSalesd = new FtSalesd();
+				ftSalesd = model.getBeanItemContainerDetil().getItem(itemId).getBean();
+				model.getFtSalesdJpaService().updateObject(ftSalesd);
+			}
+		} catch(Exception ex){
+			ex.printStackTrace();
+		}
 		
 	}
-
+	public void deleteItemTablePromo(FProduct fProductBean){
+	}
+	
 	public List<FtSalesd>  getJumlahBonusPromoPerItem(FtSalesd ftSalesd){
 		
 			FProduct fProduct = new FProduct();
@@ -1074,8 +1606,7 @@ public class SalesOrderHelper {
 									}
 									
 								}
-						}
-					
+						}					
 				}
 					
 			}
@@ -1094,14 +1625,12 @@ public class SalesOrderHelper {
 				
 				//::UPDATE ITEM (FtSales) ke DATABASE 
 				model.getFtSalesdJpaService().updateObject(ftSalesd);
-			}
-			
+			}			
 			return listFtSalesdPromo;
 					
 	}
 		
 	public List<FtSalesd>  getJumlahBonusPromoPerItemByGroup(FtSalesd ftSalesdParam){
-		
 		
 			FProduct fProduct = new FProduct();
 			fProduct = ftSalesdParam.getFproductBean();
@@ -1115,7 +1644,7 @@ public class SalesOrderHelper {
 			listFPromoProductGroup = model.getfPromoJpaService2().findAllPromoActiveByProductGroup(fProduct.getFproductgroupBean());
 				
 			listFPromo.addAll(listFPromoProductGroup);
-//			
+			
 //			System.out.println("AKTIFITAS PROMO GROUP >> UKURAN PRODUCT:GROUP = " + " : " + listFPromoProductGroup.size() + " TOTAL UKURAN: " + listFPromo.size());
 			
 			List<FtSalesd> listFtSalesdPromo = new ArrayList<FtSalesd>();
@@ -1160,6 +1689,61 @@ public class SalesOrderHelper {
 			
 		
 	}
-	
+	public boolean isValidCreditLimitForNewInvoice(){
+		boolean isValid=true;
+		FCustomer fCustomer = new FCustomer();
+		fCustomer = model.getItemHeader().getFcustomerBean();
+		Double crLimit = fCustomer.getCreditlimit();
+		Double saldoPiutang = model.getSaldoPiutangCust().getSaldoPiutangPerCustomerMinRetur(fCustomer);
+		Double sisaKredit = crLimit-saldoPiutang;
+		
+		Double nilaiNota = model.getItemHeader().getAmountafterdiscafterppn();
+		
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMinimumFractionDigits(0);
+		nf.setMinimumIntegerDigits(0);
+		//Print Invoice baru
+		if (fCustomer.getCreditlimit()!=0 &&  model.itemHeader.getInvoiceno().trim().equals("")){
+			if (crLimit<=(saldoPiutang+nilaiNota)) { //HARUS DITAMBAH NOTA SEKARAN
+				if (model.getSysvarHelper().getProteksiCreditLimit().equals(EnumProteksiStatus.REJECT.getStrCode())){
+					Notification.show("Sisa Kredit: " + nf.format(sisaKredit)
+							+ "\nCredit Limit: " + nf.format(fCustomer.getCreditlimit()), Notification.TYPE_ERROR_MESSAGE);
+					isValid=false;
+				}else if (model.getSysvarHelper().getProteksiCreditLimit().equals(EnumProteksiStatus.WARNING.getStrCode())){
+					Notification.show("Sisa Kredit: " + nf.format(sisaKredit) 
+							+ "\nCredit Limit: " + nf.format(fCustomer.getCreditlimit()), Notification.TYPE_WARNING_MESSAGE);
+					
+				}
+			}
+		}
+		return isValid;
+	}
+	public boolean isValidOpenInvoiceForNewInvoice(){
+		boolean isValid=true;
+		FCustomer fCustomer = new FCustomer();
+		fCustomer = model.getItemHeader().getFcustomerBean();
+		int openInvoiceCustomer = fCustomer.getOpeninvoice();
+		int openInvoiceNota =  model.getSaldoPiutangCust().getOpenInvoicePerCustomer(fCustomer);
+		int sisaOpenInvoice = openInvoiceCustomer-openInvoiceNota;
+		
+		NumberFormat nf = NumberFormat.getInstance();
+		nf.setMinimumFractionDigits(0);
+		nf.setMinimumIntegerDigits(0);
+		//Print Invoice baru
+		if (fCustomer.getCreditlimit()!=0 &&  model.itemHeader.getInvoiceno().trim().equals("")){
+			if (openInvoiceNota<=(openInvoiceNota+1)) { //HARUS DITAMBAH NOTA SEKARAN
+				if (model.getSysvarHelper().getProteksiCreditLimit().equals(EnumProteksiStatus.REJECT.getStrCode())){
+					Notification.show("Sisa Open Invoice: " + nf.format(sisaOpenInvoice) 
+							+ "\nOpen Invoice Customer: " + nf.format(fCustomer.getOpeninvoice()), Notification.TYPE_ERROR_MESSAGE);
+					isValid=false;
+				}else if (model.getSysvarHelper().getProteksiCreditLimit().equals(EnumProteksiStatus.WARNING.getStrCode())){
+					Notification.show("Sisa Open Invoice: " + nf.format(sisaOpenInvoice) 
+							+ "\nOpen Invoice Customer: " + nf.format(fCustomer.getOpeninvoice()), Notification.TYPE_WARNING_MESSAGE);
+				}
+			}
+		}
+		return isValid;
+	}
 					
 }
+

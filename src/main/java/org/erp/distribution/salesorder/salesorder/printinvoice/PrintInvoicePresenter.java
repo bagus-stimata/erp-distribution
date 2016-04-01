@@ -540,36 +540,36 @@ public class PrintInvoicePresenter implements ClickListener, ValueChangeListener
 		//0. HITUNG
 		int jumlahMaxSelected = 40;
 		int hitungJumlahSelected = 0;
-		Collection itemIdsHitung = model.getTableBeanItemContainer().getItemIds();
-		for (Object itemId: itemIdsHitung){
+		Collection itemIdsHitung = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSaleshHitung = itemIdsHitung.iterator();
+		while (iterFtSaleshHitung.hasNext()){
 			FtSalesh itemFtSalesh = new FtSalesh();
-			itemFtSalesh = model.getTableBeanItemContainer().getItem(itemId).getBean();
-			if (itemFtSalesh.getSelected().getValue()==true){
-				hitungJumlahSelected++;
-			}
+			itemFtSalesh = iterFtSaleshHitung.next();
+			hitungJumlahSelected++;
 		}	
 		
 		if(hitungJumlahSelected < jumlahMaxSelected){
 			//1. TERBITKAN INVOICE
-			Collection itemIds = model.getTableBeanItemContainer().getItemIds();
-			for (Object itemId: itemIds){
+			Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+			Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+			while (iterFtSalesh.hasNext()){
 				FtSalesh itemFtSalesh = new FtSalesh();
-				itemFtSalesh = model.getTableBeanItemContainer().getItem(itemId).getBean();
-				if (itemFtSalesh.getSelected().getValue()==true){
-					terbitkanInvoice(itemFtSalesh);
-				}
+				itemFtSalesh = iterFtSalesh.next();
+				terbitkanInvoice(itemFtSalesh);
+				model.getTableBeanItemContainer().addItem(itemFtSalesh);
 				
 			}
-			
+			//REFRESH TAMPILAN
+			view.setDisplay();
+
 			//2. CETAK
 			List<FtSalesh> listFtSaleshPreview = new ArrayList<FtSalesh>();
-			Collection itemIdsPreview = model.getTableBeanItemContainer().getItemIds();
-			for (Object itemId: itemIdsPreview){
+			Collection itemIdsPreview = view.getGrid1().getSelectionModel().getSelectedRows();
+			Iterator<FtSalesh> iterFtSaleshPreview = itemIdsPreview.iterator();
+			while (iterFtSaleshPreview.hasNext()){
 				FtSalesh itemFtSalesh = new FtSalesh();
-				itemFtSalesh = model.getTableBeanItemContainer().getItem(itemId).getBean();
-				if (itemFtSalesh.getSelected().getValue()==true){
-					listFtSaleshPreview.add(itemFtSalesh);
-				}
+				itemFtSalesh = iterFtSaleshPreview.next();
+				listFtSaleshPreview.add(itemFtSalesh);
 			}	
 			if (model.getSysvarHelper().getFormatFaktur()>=21 && model.getSysvarHelper().getFormatFaktur()<=100){
 				previewInvoicePenjualanNew(model.getSysvarHelper().getFormatFaktur(), listFtSaleshPreview);
@@ -896,7 +896,6 @@ public class PrintInvoicePresenter implements ClickListener, ValueChangeListener
 	
 	
 	public void previewInvoicePenjualanNew(int formatFaktur, List<FtSalesh> listFtSalesh){
-//		model.getItemHeader().setRefno((long) 273889);
 		fillDatabaseReport(listFtSalesh);
 		//2. PREVIEW LAPORAN
 		if (formatFaktur==21) {

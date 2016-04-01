@@ -52,12 +52,14 @@ public class CustomerView extends CustomComponent{
 	
 	private Table table;
 	
-	private TextField fieldId = new TextField("ID");
+	private TextField fieldId = new TextField("CUSTNO");
+	private CheckBox checkOutletActive = new CheckBox("Outlet Active", false);
 	private ComboBox comboGrup = new ComboBox("JENIS CUSTOMER");
 	private TextField fieldDescription= new TextField("NAMA CUSTOMER");
 	private TextField fieldNamaPadaFakturPajak= new TextField("Nama pada F. Pajak");
 	private TextField fieldReportDesc= new TextField("REPORT DESC");
 	private CheckBox checkStatusActive = new CheckBox("AKTIF", false);
+	private CheckBox checkNoEffCall = new CheckBox("Tidak dihitung Eff.Call", false);
 
 	private ComboBox comboChannel = new ComboBox("CHANNEL CUSTOMER");
 	private ComboBox comboTerritory = new ComboBox("TERRITORY");
@@ -67,8 +69,8 @@ public class CustomerView extends CustomComponent{
 	private ComboBox comboTunaiKredit = new ComboBox("TUNAI/KREDIT");
 	
 	private TextField fieldTop = new TextField("TOP");
-	private TextField fieldCreditlimit = new TextField("LIMIT KREDIT");
-	private TextField fieldOpenlnvoice = new TextField("OPEN INVOICE");
+	private TextField fieldCreditlimit = new TextField("CR.LIMIT");
+	private TextField fieldOpenlnvoice = new TextField("OPEN INV");
 	
 	private ComboBox comboHargaAlternatif = new ComboBox("HRG. ALT");
 	
@@ -87,6 +89,9 @@ public class CustomerView extends CustomComponent{
 	
 	private TextField fieldHariKunjungan = new TextField("HARI KUNJUNGAN(1-7)");
 	private TextField fieldPekanKunjungan = new TextField("PEKAN KUNJUNGAN(1-5)");
+
+	private TextField fieldLatitude = new TextField("LATITUDE");
+	private TextField fieldLongitude = new TextField("LONGITUDE");
 	
 	private Button btnSaveForm= new Button("Save");
 	private Button btnCancelForm= new Button("Cancel");
@@ -189,9 +194,9 @@ public class CustomerView extends CustomComponent{
 //		btnRemoveItem.setIcon(new ThemeResource("../images/navigation/12x12/Erase.png"));
 		
 		//TAMBAHAN
-		fieldTop.setWidth("200px");		
-		fieldCreditlimit.setWidth("200px");		
-		fieldOpenlnvoice.setWidth("200px");		
+		fieldTop.setWidth("100px");		
+		fieldCreditlimit.setWidth("100px");		
+		fieldOpenlnvoice.setWidth("100px");		
 
 		comboHargaAlternatif.setWidth("200px");
 		comboHargaAlternatif.setFilteringMode(FilteringMode.CONTAINS);
@@ -199,10 +204,10 @@ public class CustomerView extends CustomComponent{
 		
 		fieldAddress1.setWidth("400px");		
 		fieldAddress2.setWidth("400px");		
-		fieldCity1.setWidth("400px");		
-		fieldCity2.setWidth("400px");		
-		fieldState1.setWidth("400px");		
-		fieldState2.setWidth("400px");		
+		fieldCity1.setWidth("200px");		
+		fieldCity2.setWidth("200px");		
+		fieldState1.setWidth("200px");		
+		fieldState2.setWidth("200px");		
 		fieldPhone1.setWidth("400px");		
 		fieldPhone2.setWidth("400px");		
 		fieldNpwp.setWidth("400px");		
@@ -210,6 +215,9 @@ public class CustomerView extends CustomComponent{
 
 		fieldHariKunjungan.setWidth("200px");		
 		fieldPekanKunjungan.setWidth("200px");		
+
+		fieldLatitude.setWidth("200px");		
+		fieldLongitude.setWidth("200px");		
 		
 		//VALIDATOR
 		fieldId.setRequired(true);
@@ -218,7 +226,7 @@ public class CustomerView extends CustomComponent{
 		comboGrup2.setRequired(true);
 		comboTunaiKredit.setRequired(true);
 		
-		comboChannel.setRequired(true);
+//		comboChannel.setRequired(true);
 //		comboTerritory.setRequired(true);
 		
 	}
@@ -271,20 +279,34 @@ public class CustomerView extends CustomComponent{
 
 		//FORM LAYOUT		
 		formLayout.setMargin(true);
-		formLayout.addComponent(fieldId);
+	
+		HorizontalLayout outletActiveLayout = new HorizontalLayout();
+		outletActiveLayout.setCaption("CUSTNO-OA");
+		fieldId.setCaption(null);
+		outletActiveLayout.addComponent(fieldId);
+		outletActiveLayout.addComponent(checkStatusActive);
+		outletActiveLayout.addComponent(checkOutletActive);
+		formLayout.addComponent(outletActiveLayout);
+		
 		formLayout.addComponent(fieldDescription);
 		formLayout.addComponent(fieldNamaPadaFakturPajak);
-		formLayout.addComponent(comboGrup);
+		HorizontalLayout tunaiKreditAndTipeCustLayout = new HorizontalLayout();
+		tunaiKreditAndTipeCustLayout.setCaption("T/K-TIPE CUSTOMER");
+		comboTunaiKredit.setCaption(null);comboGrup.setCaption(null);
+		tunaiKreditAndTipeCustLayout.addComponent(comboTunaiKredit);
+		tunaiKreditAndTipeCustLayout.addComponent(comboGrup);
+		formLayout.addComponent(tunaiKreditAndTipeCustLayout);
+		
 		formLayout.addComponent(comboGrup2);
 		
-		formLayout.addComponent(comboChannel);
-		formLayout.addComponent(comboTerritory);
+		HorizontalLayout channelAndTerritoryLayout = new HorizontalLayout();
+		channelAndTerritoryLayout.setCaption("CHANNEL-TERRITORY");
+		comboChannel.setCaption(null);comboTerritory.setCaption(null);
+		channelAndTerritoryLayout.addComponent(comboChannel);
+		channelAndTerritoryLayout.addComponent(comboTerritory);
+		formLayout.addComponent(channelAndTerritoryLayout);
 		
-		formLayout.addComponent(comboTunaiKredit);
 
-//		formLayout.addComponent(fieldTop);
-//		formLayout.addComponent(fieldCreditlimit);
-//		formLayout.addComponent(fieldOpenlnvoice);
 
 		HorizontalLayout topCreditLimitLayout = new HorizontalLayout();
 		topCreditLimitLayout.setCaption("TOP/CR.LIMIT/OPEN INV");
@@ -296,13 +318,15 @@ public class CustomerView extends CustomComponent{
 		formLayout.addComponent(comboHargaAlternatif);
 		
 		formLayout.addComponent(fieldAddress1);
-//		formLayout.addComponent(fieldAddress2);
-		formLayout.addComponent(fieldCity1);
-//		formLayout.addComponent(fieldCity2);
-		formLayout.addComponent(fieldState1);
-//		formLayout.addComponent(fieldState2);
+
+		HorizontalLayout cityAndStateLayout = new HorizontalLayout();
+		cityAndStateLayout.setCaption("KOTA-PROPINSI");
+		fieldCity1.setCaption(null);fieldState1.setCaption(null);
+		cityAndStateLayout.addComponent(fieldCity1);
+		cityAndStateLayout.addComponent(fieldState1);
+		formLayout.addComponent(cityAndStateLayout);
+		
 		formLayout.addComponent(fieldPhone1);
-//		formLayout.addComponent(fieldPhone2);
 		formLayout.addComponent(fieldNpwp);
 		formLayout.addComponent(fieldEmail);
 
@@ -311,8 +335,15 @@ public class CustomerView extends CustomComponent{
 		kunjunganLayout.addComponent(fieldHariKunjungan);
 		kunjunganLayout.addComponent(fieldPekanKunjungan);		
 		formLayout.addComponent(kunjunganLayout);
+
+		HorizontalLayout spasialLayout = new HorizontalLayout();
+		spasialLayout.setCaption("Geo Tag");
+		spasialLayout.addComponent(fieldLatitude);		
+		spasialLayout.addComponent(fieldLongitude);
+		formLayout.addComponent(spasialLayout);
 		
-		formLayout.addComponent(checkStatusActive);
+		
+		formLayout.addComponent(checkNoEffCall);
 		
 		HorizontalLayout formLayoutHorizontal = new HorizontalLayout();
 		formLayoutHorizontal.setSpacing(true);
@@ -440,6 +471,7 @@ public class CustomerView extends CustomComponent{
 		comboHargaAlternatif.setNullSelectionAllowed(true);
 		
 		model.getBinderHeader().bind(fieldId, "custno");
+		model.getBinderHeader().bind(checkOutletActive, "outletActive");
 		model.getBinderHeader().bind(fieldDescription, "custname");
 		model.getBinderHeader().bind(fieldNamaPadaFakturPajak, "namaPadaFakturPajak");
 		model.getBinderHeader().bind(comboGrup, "fcustomersubgroupBean");
@@ -461,7 +493,13 @@ public class CustomerView extends CustomComponent{
 		model.getBinderHeader().bind(fieldNpwp, "npwp");
 		model.getBinderHeader().bind(fieldEmail, "email");
 		
+		model.getBinderHeader().bind(fieldHariKunjungan, "harikunjungan");
+		model.getBinderHeader().bind(fieldPekanKunjungan, "pekankunjungan");
+		model.getBinderHeader().bind(fieldLatitude, "latitude");
+		model.getBinderHeader().bind(fieldLongitude, "longitude");
+		
 		model.getBinderHeader().bind(checkStatusActive, "statusactive");
+		model.getBinderHeader().bind(checkNoEffCall, "noeffcall");
 		
 	}
 	

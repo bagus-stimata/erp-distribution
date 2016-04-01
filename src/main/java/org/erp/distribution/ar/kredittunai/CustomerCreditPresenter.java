@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.erp.distribution.model.FArea;
+import org.erp.distribution.model.FCustomer;
 import org.erp.distribution.model.FDivision;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FSubarea;
@@ -520,6 +521,9 @@ public class CustomerCreditPresenter implements ClickListener, ValueChangeListen
 		}catch(Exception ex){}
 		String spname = "%";
 		String custno = "%";
+		try{
+			custno = ((FCustomer) view.getSearchComboCustomer().getValue()).getCustno();
+		}catch(Exception ex){}
 		String custname = "%";
 		
 		Date invoicedateFrom = null;

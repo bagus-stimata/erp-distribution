@@ -33,9 +33,13 @@ public class FtSaleshRekapTampungan {
 	@Temporal(TemporalType.DATE)
 	private Date tanggalsetor;
 	
+	@Column(name="AMOUNTRETUR")
 	private double amountRetur;
+	@Column(name="AMOUNTDISKONKHUSUS")
 	private double amountDiskonKhusus;
+	@Column(name="AMOUNTGIRO")
 	private double amountGiro;
+	@Column(name="AMOUNTTRANSFER")
 	private double amountTransfer;
 	
 	public long getRefno() {

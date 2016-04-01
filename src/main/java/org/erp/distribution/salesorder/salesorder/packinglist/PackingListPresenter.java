@@ -129,9 +129,6 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 		
 		view.getPanelTop().addActionHandler(this);
 		
-		
-
-		
 		HeaderClickListener listenerHeaderTableUtama = new HeaderClickListener() {			
 			@Override
 			public void headerClick(HeaderClickEvent event) {
@@ -668,10 +665,11 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
 
 		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
-		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-		for (Object itemId: itemIds){			
+		Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+		while (iterFtSalesh.hasNext()){
 			FtSalesh itemArinvoice = new FtSalesh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
+			itemArinvoice = iterFtSalesh.next();
 			//Menghindari null
 			try{
 				if (itemArinvoice.getSuratjalanno().equals(null)) {
@@ -681,7 +679,7 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 				itemArinvoice.setSuratjalanno("");				
 			}			
 			
-			if ((itemArinvoice.getSelected().getValue()==true) && (! itemArinvoice.getSuratjalanno().equals(""))){
+			if (! itemArinvoice.getSuratjalanno().equals("")){
 				List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>(itemArinvoice.getFtsalesdSet());
 				setSuratJalanList.add(itemArinvoice.getSuratjalanno());
 				setInvoiceList.add(itemArinvoice.getInvoiceno());
@@ -823,12 +821,11 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 		
 		List<Object> listItemProses = new ArrayList<Object>();				
 		int nomorUrut=0;
-		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-		FtSalesh itemDummyArinvoice = new FtSalesh();
-		for (Object itemId: itemIds){
-			
+		Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+		while (iterFtSalesh.hasNext()){
 			FtSalesh itemArinvoice = new FtSalesh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
+			itemArinvoice = iterFtSalesh.next();
 			//Menghindari null
 			try{
 				if (itemArinvoice.getSuratjalanno().equals(null)) {
@@ -838,7 +835,7 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 				itemArinvoice.setSuratjalanno("");				
 			}
 			
-			if ((itemArinvoice.getSelected().getValue()==true) && (itemArinvoice.getSuratjalanno().equals(""))){
+			if (itemArinvoice.getSuratjalanno().equals("")){
 				//UPDATE 
 				itemArinvoice.setSuratjalan(true);
 				itemArinvoice.setSuratjalanno(newSuratJalanNo);
@@ -851,11 +848,11 @@ public class PackingListPresenter implements ClickListener, ValueChangeListener,
 				model.getFtSaleshJpaService().updateObject(itemArinvoice);
 				//REFRESH TAMPILAH
 				model.getTableBeanItemContainer().addItem(itemArinvoice);
-				view.getTable().refreshRowCache();
+//				view.getTable().refreshRowCache();
 			}
 		}
 		
-		
+		view.setDisplay();
 	}
 	
 	private static final ShortcutAction ENTER = new ShortcutAction("Enter",

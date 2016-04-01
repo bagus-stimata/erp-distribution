@@ -1,57 +1,23 @@
 package org.erp.distribution.master.promoanddiskon.aktifitaspromo.daftarpromoberjalan;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import ognl.ListPropertyAccessor;
-
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.eclipse.jdt.core.compiler.ITerminalSymbols;
-import org.erp.distribution.model.FCustomer;
-import org.erp.distribution.model.FProductgroup;
-import org.erp.distribution.model.FPromo;
-import org.erp.distribution.model.FWarehouse;
-import org.erp.distribution.model.FtSalesd;
-import org.erp.distribution.model.FtSalesh;
-import org.erp.distribution.model.STeknisi;
-import org.erp.distribution.model.StService;
-import org.erp.distribution.model.ZLapPackingList;
-import org.erp.distribution.model.ZLapTemplate1;
-import org.erp.distribution.model.ZLapTemplate2;
-import org.erp.distribution.util.ReportJdbcConfigHelper;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 
-import com.vaadin.data.Item;
-import com.vaadin.server.FileDownloader;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
+import org.erp.distribution.model.FPromo;
+import org.erp.distribution.model.ZLapTemplate2;
+
 import com.vaadin.server.StreamResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;

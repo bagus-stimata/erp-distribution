@@ -1,5 +1,6 @@
 package org.erp.distribution.model;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -16,17 +17,25 @@ public class FtAppaymentd {
 	@EmbeddedId
 	protected FtAppaymentdPK id;
 	
+	@Column(name="NOURUT")
 	private Integer nourut;
 	
+	@Column(name="CASHAMOUNTPAY")
 	private Double cashamountpay;
 
+	@Column(name="MRVAMOUNTPAY")
 	private Double mrvamountpay;
+	@Column(name="DCVAMOUNTPAY")
 	private Double dcvamountpay;
 	
+	@Column(name="GIROAMOUNTPAY")
 	private Double giroamountpay;
+	@Column(name="TRANSFERAMOUNTPAY")
 	private Double transferamountpay;
 	
+	@Column(name="KELEBIHANBAYARAMOUNT")
 	private Double kelebihanbayaramount;
+	@Column(name="SUBTOTALPAY")
 	private Double subtotalpay;
 	
 	@ManyToOne

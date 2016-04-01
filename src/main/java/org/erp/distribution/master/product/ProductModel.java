@@ -65,8 +65,12 @@ public class ProductModel extends CustomComponent{
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		setfProductgroupJpaService((((DashboardUI) getUI().getCurrent()).getfProductgroupJpaService()));
 		setfVendorJpaService((((DashboardUI) getUI().getCurrent()).getfVendorJpaService()));
+
+		beanItemContainerHeader.addNestedContainerProperty("fvendorBean.vcode");
+		beanItemContainerHeader.addNestedContainerProperty("fvendorBean.vname");
 		
-		
+		beanItemContainerHeader.addNestedContainerProperty("fproductgroupBean.id");
+		beanItemContainerHeader.addNestedContainerProperty("fproductgroupBean.description");
 		
 	}
 	public void initVariableData(){

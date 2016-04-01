@@ -25,9 +25,13 @@ public class FParamDiskonItem implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
+	@Column(name="NOREK", length=15)
+	private String noRek;
+	
 	@Column(name="DESCRIPTION", length=300)
 	private String description;
-	
+
+	//Value
 	private Double nominal1;
 	private Double diskon1;
 	private Double diskon1plus;
@@ -47,8 +51,28 @@ public class FParamDiskonItem implements Serializable {
 	private Double nominal5;
 	private Double diskon5;
 	private Double diskon5plus;
-	
 
+	//Qty In PCS
+	private Integer qtyLebihDari1;
+	private Double diskonFromQty1;
+	private Double diskonFromQty1plus;
+	
+	private Integer qtyLebihDari2;
+	private Double diskonFromQty2;
+	private Double diskonFromQty2plus;
+	
+	private Integer qtyLebihDari3;
+	private Double diskonFromQty3;
+	private Double diskonFromQty3plus;
+
+	private Integer qtyLebihDari4;
+	private Double diskonFromQty4;
+	private Double diskonFromQty4plus;
+
+	private Integer qtyLebihDari5;
+	private Double diskonFromQty5;
+	private Double diskonFromQty5plus;
+	
 	private Boolean allvendor;
 	@ManyToOne
 	@JoinColumn(name="fvendorBean", referencedColumnName="id")
@@ -70,9 +94,105 @@ public class FParamDiskonItem implements Serializable {
 
 	private Boolean statusActive;
 	
+
 	
 	
-	
+	public Integer getQtyLebihDari5() {
+		return qtyLebihDari5;
+	}
+	public Double getDiskonFromQty5() {
+		return diskonFromQty5;
+	}
+	public Double getDiskonFromQty5plus() {
+		return diskonFromQty5plus;
+	}
+	public void setQtyLebihDari5(Integer qtyLebihDari5) {
+		this.qtyLebihDari5 = qtyLebihDari5;
+	}
+	public void setDiskonFromQty5(Double diskonFromQty5) {
+		this.diskonFromQty5 = diskonFromQty5;
+	}
+	public void setDiskonFromQty5plus(Double diskonFromQty5plus) {
+		this.diskonFromQty5plus = diskonFromQty5plus;
+	}
+	public String getNoRek() {
+		return noRek;
+	}
+	public void setNoRek(String noRek) {
+		this.noRek = noRek;
+	}
+	public Integer getQtyLebihDari1() {
+		return qtyLebihDari1;
+	}
+	public Double getDiskonFromQty1() {
+		return diskonFromQty1;
+	}
+	public Double getDiskonFromQty1plus() {
+		return diskonFromQty1plus;
+	}
+	public Integer getQtyLebihDari2() {
+		return qtyLebihDari2;
+	}
+	public Double getDiskonFromQty2() {
+		return diskonFromQty2;
+	}
+	public Double getDiskonFromQty2plus() {
+		return diskonFromQty2plus;
+	}
+	public Integer getQtyLebihDari3() {
+		return qtyLebihDari3;
+	}
+	public Double getDiskonFromQty3() {
+		return diskonFromQty3;
+	}
+	public Double getDiskonFromQty3plus() {
+		return diskonFromQty3plus;
+	}
+	public Integer getQtyLebihDari4() {
+		return qtyLebihDari4;
+	}
+	public Double getDiskonFromQty4() {
+		return diskonFromQty4;
+	}
+	public Double getDiskonFromQty4plus() {
+		return diskonFromQty4plus;
+	}
+	public void setQtyLebihDari1(Integer qtyLebihDari1) {
+		this.qtyLebihDari1 = qtyLebihDari1;
+	}
+	public void setDiskonFromQty1(Double diskonFromQty1) {
+		this.diskonFromQty1 = diskonFromQty1;
+	}
+	public void setDiskonFromQty1plus(Double diskonFromQty1plus) {
+		this.diskonFromQty1plus = diskonFromQty1plus;
+	}
+	public void setQtyLebihDari2(Integer qtyLebihDari2) {
+		this.qtyLebihDari2 = qtyLebihDari2;
+	}
+	public void setDiskonFromQty2(Double diskonFromQty2) {
+		this.diskonFromQty2 = diskonFromQty2;
+	}
+	public void setDiskonFromQty2plus(Double diskonFromQty2plus) {
+		this.diskonFromQty2plus = diskonFromQty2plus;
+	}
+	public void setQtyLebihDari3(Integer qtyLebihDari3) {
+		this.qtyLebihDari3 = qtyLebihDari3;
+	}
+	public void setDiskonFromQty3(Double diskonFromQty3) {
+		this.diskonFromQty3 = diskonFromQty3;
+	}
+	public void setDiskonFromQty3plus(Double diskonFromQty3plus) {
+		this.diskonFromQty3plus = diskonFromQty3plus;
+	}
+	public void setQtyLebihDari4(Integer qtyLebihDari4) {
+		this.qtyLebihDari4 = qtyLebihDari4;
+	}
+	public void setDiskonFromQty4(Double diskonFromQty4) {
+		this.diskonFromQty4 = diskonFromQty4;
+	}
+	public void setDiskonFromQty4plus(Double diskonFromQty4plus) {
+		this.diskonFromQty4plus = diskonFromQty4plus;
+	}
 	public Boolean getAllproductgrup() {
 		return allproductgrup;
 	}

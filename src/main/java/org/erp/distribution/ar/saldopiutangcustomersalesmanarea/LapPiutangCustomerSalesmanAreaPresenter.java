@@ -625,10 +625,11 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 		Set<String> setInvoiceList = new LinkedHashSet<String>();
 
 		//2. MASUKKAN YANG DISELEKSI KE DALAM TABLE REPORT TEMPORER TAHAP1
-		Collection itemIds =  model.getTableBeanItemContainer().getItemIds();				
-		for (Object itemId: itemIds){			
+		Collection itemIds = view.getGrid1().getSelectionModel().getSelectedRows();
+		Iterator<FtSalesh> iterFtSalesh = itemIds.iterator();
+		while (iterFtSalesh.hasNext()){
 			FtSalesh itemArinvoice = new FtSalesh();
-			itemArinvoice = model.getTableBeanItemContainer().getItem(itemId).getBean();
+			itemArinvoice = iterFtSalesh.next();
 			//Menghindari null
 			try{	
 				if (itemArinvoice.getSjpenagihanno().equals(null)) {
@@ -638,44 +639,42 @@ public class LapPiutangCustomerSalesmanAreaPresenter implements ClickListener, V
 				itemArinvoice.setSjpenagihanno("");				
 			}			
 			
-			if ((itemArinvoice.getSelected().getValue()==true)){
-				List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>(itemArinvoice.getFtsalesdSet());
-				setSuratJalanList.add(itemArinvoice.getSjpenagihanno());
-				setInvoiceList.add(itemArinvoice.getInvoiceno());
-				
-				ZLapSJPenagihanList domain = new ZLapSJPenagihanList();
+			List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>(itemArinvoice.getFtsalesdSet());
+			setSuratJalanList.add(itemArinvoice.getSjpenagihanno());
+			setInvoiceList.add(itemArinvoice.getInvoiceno());
+			
+			ZLapSJPenagihanList domain = new ZLapSJPenagihanList();
 //				domain.setGrup1(itemArinvoice.getSjpenagihanno());
-				domain.setGrup1("Grup1");
-				domain.setGrup2("Grup2");
-				domain.setGrup3("Grup3");
-				
-				domain.setSpcode(itemArinvoice.getFsalesmanBean().getSpcode());
-				domain.setSpname(itemArinvoice.getFsalesmanBean().getSpname());
-				
-				domain.setCustno(itemArinvoice.getFcustomerBean().getCustno());
-				domain.setCustname(domain.getCustno().trim() + " " +itemArinvoice.getFcustomerBean().getCustname().trim());
+			domain.setGrup1("Grup1");
+			domain.setGrup2("Grup2");
+			domain.setGrup3("Grup3");
+			
+			domain.setSpcode(itemArinvoice.getFsalesmanBean().getSpcode());
+			domain.setSpname(itemArinvoice.getFsalesmanBean().getSpname());
+			
+			domain.setCustno(itemArinvoice.getFcustomerBean().getCustno());
+			domain.setCustname(domain.getCustno().trim() + " " +itemArinvoice.getFcustomerBean().getCustname().trim());
 
-				domain.setInvoiceno(itemArinvoice.getInvoiceno());
-				domain.setTunaikredit(itemArinvoice.getTunaikredit());
-				domain.setInvoicedate(itemArinvoice.getInvoicedate());
-				domain.setDuedate(itemArinvoice.getDuedate());
+			domain.setInvoiceno(itemArinvoice.getInvoiceno());
+			domain.setTunaikredit(itemArinvoice.getTunaikredit());
+			domain.setInvoicedate(itemArinvoice.getInvoicedate());
+			domain.setDuedate(itemArinvoice.getDuedate());
+			
+			long datediff = view.getDateFieldPiutangPertanggal().getValue().getTime() - itemArinvoice.getInvoicedate().getTime();
+			double umurPiutang = datediff / (24*60*60*1000);
 				
-				long datediff = view.getDateFieldPiutangPertanggal().getValue().getTime() - itemArinvoice.getInvoicedate().getTime();
-				double umurPiutang = datediff / (24*60*60*1000);
-					
-				domain.setPrice4(umurPiutang);
-				
+			domain.setPrice4(umurPiutang);
+			
 
-				domain.setSjpenagihanno(itemArinvoice.getSjpenagihanno());
-				domain.setSjpenagihandate(itemArinvoice.getSjpenagihandate());
-				
-				domain.setPrice1(itemArinvoice.getAmountafterdiscafterppn());
-				domain.setPrice2(itemArinvoice.getAmountafterdiscafterppn() - itemArinvoice.getAmountpay());
-				
+			domain.setSjpenagihanno(itemArinvoice.getSjpenagihanno());
+			domain.setSjpenagihandate(itemArinvoice.getSjpenagihandate());
+			
+			domain.setPrice1(itemArinvoice.getAmountafterdiscafterppn());
+			domain.setPrice2(itemArinvoice.getAmountafterdiscafterppn() - itemArinvoice.getAmountpay());
+			
 //				model.getLapSJPenagihanListJpaService().createObject(domain);
-				lapSJPenagihanList.add(domain);
+			lapSJPenagihanList.add(domain);
 				
-			}
 			
 		}
 //		Collections.sort(lapSJPenagihanList, new Comparator<ZLapSJPenagihanList>() {

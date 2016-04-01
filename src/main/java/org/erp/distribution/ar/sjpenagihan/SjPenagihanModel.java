@@ -53,7 +53,6 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 	private FSubareaJpaService fSubareaJpaService;
 	private FSalesmanJpaService fSalesmanJpaService;
 	private FCustomerJpaService fCustomerJpaService;
-
 	
 	private String operationStatus="";	
 	private TransaksiHelper transaksiHelper = new TransaksiHelperImpl();
@@ -67,7 +66,6 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 	private BeanItemContainer<FSubarea> beanItemContainerSubArea = new BeanItemContainer<FSubarea>(FSubarea.class);
 	private BeanItemContainer<FSalesman> beanItemContainerSalesman = new BeanItemContainer<FSalesman>(FSalesman.class);
 	private BeanItemContainer<FCustomer> beanItemContainerCustomer = new BeanItemContainer<FCustomer>(FCustomer.class);
-
 	
 	public SjPenagihanModel(){
 		initData();
@@ -95,7 +93,14 @@ public class SjPenagihanModel extends CustomComponent implements Serializable{
 		
 		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
 		
-//		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");
+		tableBeanItemContainer.addNestedContainerProperty("fsalesmanBean.spcode");
+		tableBeanItemContainer.addNestedContainerProperty("fsalesmanBean.spname");
+		tableBeanItemContainer.addNestedContainerProperty("fcustomerBean.custno");
+		tableBeanItemContainer.addNestedContainerProperty("fcustomerBean.custname");
+		
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.id");
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.description");
+		
 	};
 
 	public void setFreshDataTable(){		

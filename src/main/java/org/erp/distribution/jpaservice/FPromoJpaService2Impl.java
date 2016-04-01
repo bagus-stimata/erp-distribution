@@ -141,7 +141,89 @@ public class FPromoJpaService2Impl extends GenericJpaServiceImpl<FPromo, Seriali
 		
 		
 	}
+
+	@Override
+	public List<FPromo> findAllPromoBerjalanItemBarangActive(Date periode) {
+		EntityManager em = getFactory().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			String query = "";
+			query = "SELECT a FROM FPromo a WHERE a.periodeFrom <= :periode "
+					+ " AND  a.periodeTo >= :periode "
+					+ " AND  a.fproductgroupBean.id = null "
+					+ " AND  a.fProductBean.id != null "
+					+ " AND  a.statusAktifPromo = true "
+					+ " ORDER BY a.id ASC";
+
+			List<FPromo> list = em.createQuery(query)
+					.setParameter("periode", periode)
+					.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+					.getResultList();
+			em.getTransaction().commit();
+			return list;
+		} catch (PersistenceException exception) {
+			em.getTransaction().rollback();
+			throw exception;
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public List<FPromo> findAllPromoBerjalanGrupBarangActive(Date periode) {
+		EntityManager em = getFactory().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			String query = "";
+			query = "SELECT a FROM FPromo a WHERE a.periodeFrom <= :periode "
+					+ " AND  a.periodeTo >= :periode "
+					+ " AND  a.fproductgroupBean.id != null "
+//					+ " AND  a.fproductBean != null "
+					+ " AND  a.forFproductGroupAkumulasi != true "
+					+ " AND  a.statusAktifPromo = true "
+					+ " ORDER BY a.id ASC";
+
+			List<FPromo> list = em.createQuery(query)
+					.setParameter("periode", periode)
+					.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+					.getResultList();
+			em.getTransaction().commit();
+			return list;
+		} catch (PersistenceException exception) {
+			em.getTransaction().rollback();
+			throw exception;
+		} finally {
+			em.close();
+		}
+	}
 	
+	@Override
+	public List<FPromo> findAllPromoBerjalanGrupBarangAkumulasiActive(Date periode) {
+		EntityManager em = getFactory().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			String query = "";
+			query = "SELECT a FROM FPromo a WHERE a.periodeFrom <= :periode "
+					+ " AND  a.periodeTo >= :periode "
+					+ " AND  a.fproductgroupBean.id != null "
+//					+ " AND  a.fproductBean != null "
+					+ " AND  a.forFproductGroupAkumulasi = true "
+					+ " AND  a.statusAktifPromo = true "
+					+ " ORDER BY a.id ASC";
+
+			List<FPromo> list = em.createQuery(query)
+					.setParameter("periode", periode)
+					.setHint(QueryHints.MAINTAIN_CACHE, HintValues.TRUE)
+					.getResultList();
+			em.getTransaction().commit();
+			return list;
+		} catch (PersistenceException exception) {
+			em.getTransaction().rollback();
+			throw exception;
+		} finally {
+			em.close();
+		}
+	}
 
 
 }

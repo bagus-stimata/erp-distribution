@@ -89,7 +89,10 @@ public class LapSaldoHutangVendorModel extends CustomComponent implements Serial
 		
 		beanItemContainerDivision.addAll(fDivisionJpaService.findAll());
 		
-//		tableBeanItemContainer.addNestedContainerProperty("id.tipefaktur");
+		tableBeanItemContainer.addNestedContainerProperty("fvendorBean.vcode");
+		tableBeanItemContainer.addNestedContainerProperty("fvendorBean.vname");
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.id");
+		tableBeanItemContainer.addNestedContainerProperty("fwarehouseBean.description");
 	};
 
 	public void initVariableData(){		

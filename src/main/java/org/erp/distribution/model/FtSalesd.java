@@ -26,6 +26,7 @@ public class FtSalesd implements Serializable{
 	@EmbeddedId
 	protected FtSalesdPK id;
 	
+	@Column(name="PROMO")
 	private Boolean promo;
 	
 	@Column(name="NOURUT")

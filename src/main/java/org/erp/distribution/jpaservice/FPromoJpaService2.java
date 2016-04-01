@@ -19,5 +19,8 @@ public interface FPromoJpaService2 extends GenericJpaService<FPromo, Serializabl
 	public List<FPromo> findAllPromoActiveByProductGroup();
 	
 	public List<FPromo> findAllPromoBerjalan(Date periode);
+	public List<FPromo> findAllPromoBerjalanItemBarangActive(Date periode);
+	public List<FPromo> findAllPromoBerjalanGrupBarangActive(Date periode);
+	public List<FPromo> findAllPromoBerjalanGrupBarangAkumulasiActive(Date periode);
 	
 }

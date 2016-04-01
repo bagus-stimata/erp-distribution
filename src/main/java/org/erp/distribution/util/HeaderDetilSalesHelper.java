@@ -68,5 +68,7 @@ public interface HeaderDetilSalesHelper {
 	public void setRoundedDiscRp(boolean roundedDiscRp);
 	public void setRoundedTotal(boolean roundedTotal);
 	
+	public void setSprice(double newSPrice);
+	
 	
 }

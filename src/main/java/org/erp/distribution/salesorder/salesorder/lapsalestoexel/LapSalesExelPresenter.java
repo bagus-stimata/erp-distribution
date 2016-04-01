@@ -75,7 +75,6 @@ public class LapSalesExelPresenter implements ClickListener{
 	}
 	
 	
-	
 	public void extractToExel(){
 		//INISIALISASI DAN HEADER
 	       String [] hari = {"Minggu", "Senin", "Selasa", "Rabo", "Kamis", "Jumat", "Sabtu"};
@@ -97,7 +96,7 @@ public class LapSalesExelPresenter implements ClickListener{
         		"WAREHOUSEID", 
         		"Grup Barang", "Departement", "Divisi Barang",
         		"KODE BRG", "NAMA BRG","PACKAGING", "CONVFACT1", "CONVFACT2", "QTY IN PCS","KRT UTUH",
-        		"HRG JUAL-PPN", "TOTAL BRUTO", "DISC BARANG RP", "DISC NOTA RP", "TOTAL DPP", "HARI", "BULAN", "TAHUN"});
+        		"HRG JUAL-PPN", "TOTAL BRUTO", "DISC BARANG RP", "DISC NOTA RP", "TOTAL DPP", "HARI", "BULAN", "TAHUN", "FreeGood", "PromoProduct"});
 		
         //ISI
 		List<FtSalesd> listFtSalesd = new ArrayList<FtSalesd>();
@@ -144,7 +143,14 @@ public class LapSalesExelPresenter implements ClickListener{
 				
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(ftSalesd.getFtsaleshBean().getInvoicedate());
-				
+				int isFreeGood=0;
+				if (ftSalesd.getId().getFreegood()){
+					isFreeGood=1;
+				}
+				int isPromo=0;
+				if (ftSalesd.getPromo()){
+					isPromo=1;
+				}
 				//JIKA DIPOTONG RETUR MAKA RETUR MASUK SEMUA --> JIKA TIDAK MAKA YANG DI ADD YANG FAKTUR SAJA
       			boolean tulis = false;
 				if (view.getCheckBox1().getValue()==true) {
@@ -170,7 +176,8 @@ public class LapSalesExelPresenter implements ClickListener{
 				    		ftSalesd.getFproductBean().getPcode(), ftSalesd.getFproductBean().getPname(), ftSalesd.getFproductBean().getPackaging(),
 				    		ftSalesd.getFproductBean().getConvfact1(), ftSalesd.getFproductBean().getConvfact2(),
 				    		ftSalesd.getQty(), newFtSalesd.getQty1(), ftSalesd.getSprice(), totalBrutoDpp, totalDiscBarangDpp, totalDiscNotaDpp, 
-				    		totalDpp, hari[cal.get(Calendar.DAY_OF_WEEK)-1], bulan[cal.get(Calendar.MONTH)], cal.get(Calendar.YEAR)
+				    		totalDpp, hari[cal.get(Calendar.DAY_OF_WEEK)-1], bulan[cal.get(Calendar.MONTH)], cal.get(Calendar.YEAR),
+				    		isFreeGood, isPromo
 			    		});
 				}
 				

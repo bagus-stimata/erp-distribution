@@ -519,11 +519,12 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 				//REFRESH TAMPILAH
 				model.getTableBeanItemContainer().addItem(itemArinvoice);
 //				view.getTable().refreshRowCache();
-				view.setDisplay();
 				
 			}
 		}
-		
+		//REFRESH TAMPILAN
+		view.setDisplay();
+
 		
 	}
 	
@@ -557,12 +558,13 @@ public class SjPenagihanPresenter implements ClickListener, ValueChangeListener,
 						model.getFtSaleshJpaService().updateObject(itemArinvoice);
 						//REFRESH TAMPILAH
 						model.getTableBeanItemContainer().addItem(itemArinvoice);
-						view.setDisplay();
 //						view.getTable().refreshRowCache();
 				}
 			
 		}
-		
+		//REFRESH TAMPILAN
+		view.setDisplay();
+
 		
 	}
 	

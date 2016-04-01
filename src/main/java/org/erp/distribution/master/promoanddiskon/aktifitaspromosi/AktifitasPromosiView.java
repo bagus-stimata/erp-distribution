@@ -1,50 +1,31 @@
 package org.erp.distribution.master.promoanddiskon.aktifitaspromosi;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.erp.distribution.master.customer.utility.CustomerUtilityModel;
 import org.erp.distribution.master.customer.utility.CustomerUtilityPresenter;
 import org.erp.distribution.master.customer.utility.CustomerUtilityView;
-import org.erp.distribution.model.modelenum.EnumOperationStatus;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
-import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
-import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
-import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Form;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.themes.Reindeer;
 
 public class AktifitasPromosiView extends CustomComponent{
@@ -56,8 +37,8 @@ public class AktifitasPromosiView extends CustomComponent{
 	
 	private TextField fieldId = new TextField("ID");
 	
-	private ComboBox comboProduct = new ComboBox("PRODUCT");			
-	private TextField fieldDescription= new TextField("DESKRIPSI");
+	private ComboBox comboProduct = new ComboBox("Product");			
+	private TextField fieldDescription= new TextField("Nama Akt. Promo");
 	private TextField fieldReportDesc= new TextField("REPORT DESC");
 	private DateField dateFieldperiodeDateFrom = new DateField("PERIODE MULAI");
 	private DateField dateFieldperiodeDateTo = new DateField("S.D");
@@ -66,6 +47,7 @@ public class AktifitasPromosiView extends CustomComponent{
 	
 	private ComboBox comboProductGrupKriteria = new ComboBox();
 	private ComboBox comboProductGroup = new ComboBox("PRODUCT GRUP");
+	private CheckBox checkProductGroupAkumulasi = new CheckBox("AKUMULASI?");
 
 	private ComboBox comboJenisCustKrieria = new ComboBox();
 	private ComboBox comboJenisCust = new ComboBox("JENIS CUSTOMER");
@@ -76,27 +58,38 @@ public class AktifitasPromosiView extends CustomComponent{
 	
 	//BONUS BARANG
 	private ComboBox comboBonusProduct = new ComboBox("MENDAPAT PRODUK");		
-	private TextField fieldFreeLebihDari1 = new TextField("> (lebih dari pcs)");
+	private TextField fieldFreeLebihDari1 = new TextField("> (Lebih dari in PCS)");
 	private TextField fieldFreeGet1 = new TextField("Qty Pcs");
-	private TextField fieldFreeLebihDari2 = new TextField("> (lebih dari pcs)");
+	private TextField fieldFreeLebihDari2 = new TextField("> (Lebih dari in PCS)");
 	private TextField fieldFreeGet2 = new TextField("Qty Pcs");
-	private TextField fieldFreeLebihDari3 = new TextField("> (lebih dari pcs)");
+	private TextField fieldFreeLebihDari3 = new TextField("> (Lebih dari in PCS)");
 	private TextField fieldFreeGet3 = new TextField("Qty Pcs");
-	private TextField fieldFreeLebihDari4 = new TextField("> (lebih dari pcs)");
+	private TextField fieldFreeLebihDari4 = new TextField("> (Lebih dari in PCS)");
 	private TextField fieldFreeGet4 = new TextField("Qty Pcs");
 	private CheckBox checkFreeKelipatan = new CheckBox("BERLAKU KELIPATAN?");
 
-	//DISKON
-	private TextField fieldDiskonLebihDari1 = new TextField("> (rupiah lebih dari)");
+	//DISKON FROM SUBTOTAL
+	private TextField fieldDiskonLebihDari1 = new TextField("> (Rupiah lebih dari)");
 	private TextField fieldDiskonGet1 = new TextField("Persen disc");
-	private TextField fieldDiskonLebihDari2 = new TextField("> (rupiah lebih dari)");
+	private TextField fieldDiskonLebihDari2 = new TextField("> (Rupiah lebih dari)");
 	private TextField fieldDiskonGet2 = new TextField("Persen disc");
-	private TextField fieldDiskonLebihDari3 = new TextField("> (rupiah lebih dari)");
+	private TextField fieldDiskonLebihDari3 = new TextField("> (Rupiah lebih dari)");
 	private TextField fieldDiskonGet3 = new TextField("Persen disc");
-	private TextField fieldDiskonLebihDari4 = new TextField("> (rupiah lebih dari)");
+	private TextField fieldDiskonLebihDari4 = new TextField("> (Rupiah lebih dari)");
 	private TextField fieldDiskonGet4 = new TextField("Persen disc");
 	private CheckBox checkDiscKelipatan = new CheckBox("BERLAKU KELIPATAN?");
 
+	//DISKON FROM SUBTOTAL
+	private TextField fieldDiscFromItemFreeQty1 = new TextField("> (Lebih dari in PCS)");
+	private TextField fieldDiscFromItemdiscPercentGet1 = new TextField("Persen disc");
+	private TextField fieldDiscFromItemFreeQty2 = new TextField("> (Lebih dari in PCS)");
+	private TextField fieldDiscFromItemdiscPercentGet2 = new TextField("Persen disc");
+	private TextField fieldDiscFromItemFreeQty3 = new TextField("> (Lebih dari in PCS)");
+	private TextField fieldDiscFromItemdiscPercentGet3 = new TextField("Persen disc");
+	private TextField fieldDiscFromItemFreeQty4 = new TextField("> (ILebih dari in PCS)");
+	private TextField fieldDiscFromItemdiscPercentGet4 = new TextField("Persen disc");
+	private CheckBox checkDiscFromItemKelipatan = new CheckBox("BERLAKU KELIPATAN?");
+	
 	//CASH BACK
 	private TextField fieldCashBackLebihDari1 = new TextField("> (rupiah lebih dari)");
 	private TextField fieldCashBackGet1 = new TextField("Cash Back");
@@ -125,16 +118,24 @@ public class AktifitasPromosiView extends CustomComponent{
 	TabSheet tabSheet = new TabSheet();
 	
 	//LAYOUT
-	private FormLayout formLayoutPromo = new FormLayout();
+	private FormLayout headerFormLayoutPromo = new FormLayout();
+	
+	private FormLayout kriteria1FormLayout = new FormLayout();	
 	private FormLayout formLayoutBonusBarang = new FormLayout();
 	private FormLayout formLayoutDiscount = new FormLayout();
+	private FormLayout formLayoutDiscountFromItem = new FormLayout();
 	private FormLayout formLayoutCashBack = new FormLayout();
 
 	
 	private Panel panelBudget = new Panel("BUDGET");
 	private VerticalLayout layoutBudget = new VerticalLayout();
-	private Panel panelDiskon = new Panel("DISKON");
-	private VerticalLayout layoutDiskon = new VerticalLayout();
+
+	private Panel panelBonusBarang = new Panel("BONUS BARANG/TPRB");
+	private VerticalLayout layoutBonusBarang = new VerticalLayout();
+	private Panel panelDiskonFromSubtotal = new Panel("DISKON FROM SUBTOTAL");
+	private VerticalLayout layoutDiskonFromSubtotal = new VerticalLayout();
+	private Panel panelDiskonFromItem = new Panel("DISKON FROM ITEM");
+	private VerticalLayout layoutDiskonFromItem = new VerticalLayout();
 	private Panel panelCashBack = new Panel("CASH BACK");
 	private VerticalLayout layoutCashBack = new VerticalLayout();
 
@@ -142,15 +143,30 @@ public class AktifitasPromosiView extends CustomComponent{
 	private Panel panelCustomerCriteria = new Panel("FOR CUSTOMER");
 	private VerticalLayout layoutCustomerCriteria = new VerticalLayout();
 	
-	private Panel panelBonusBarang = new Panel("BONUS BARANG/TPRB");
-	private VerticalLayout layoutBonusBarang = new VerticalLayout();
 	
+	//LAYOUT
+//	private FormLayout headerFormLayout = new FormLayout();
+//	private FormLayout kriteria1FormLayout = new FormLayout();
+//	private FormLayout kriteria2FormLayout = new FormLayout();
+//	private FormLayout bonusBarangFormLayout = new FormLayout();
+//	private FormLayout subtotalDiskonFormLayout = new FormLayout();
+//	private FormLayout JumlahItemDiskonFormLayout = new FormLayout();
+//	private FormLayout cashBackFormLayout = new FormLayout();
+	
+	HorizontalLayout layoutButtonHorizontal = new HorizontalLayout();
+
 	//Panel
 	private Panel panelUtama = new Panel();
 	private Panel panelTop = new Panel();
 	private Panel panelTabel = new Panel();
-	private Panel panelForm = new Panel();
 
+	private Panel panelFormKriteria1 = new Panel();
+	private Panel panelFormKriteria2 = new Panel();
+	private Panel panelFormBonusBarang = new Panel();
+	private Panel panelFormSubtotalDiskon = new Panel();
+	private Panel panelFormJumlahItemDiskon = new Panel();
+	private Panel panelFormCashBack = new Panel();
+	
 	//Help Manager	
 	
 	public AktifitasPromosiView(AktifitasPromosiModel model){
@@ -202,7 +218,7 @@ public class AktifitasPromosiView extends CustomComponent{
 		comboBonusProduct.setFilteringMode(FilteringMode.CONTAINS);
 		comboProductGroup.setWidth("300px");
 		comboProductGroup.setFilteringMode(FilteringMode.CONTAINS);
-		fieldDescription.setWidth("600px");
+		fieldDescription.setWidth("550px");
 		
 
 		btnSearch.setIcon(new ThemeResource("../images/navigation/12x12/Find.png"));
@@ -230,7 +246,7 @@ public class AktifitasPromosiView extends CustomComponent{
 		fieldFreeLebihDari2.setWidth("200px");		
 		fieldFreeLebihDari3.setWidth("200px");		
 		fieldFreeLebihDari4.setWidth("200px");		
-		
+
 		comboProduct.setWidth("300px");
 		comboProduct.setFilteringMode(FilteringMode.CONTAINS);
 		comboProduct.setNullSelectionAllowed(true);
@@ -239,6 +255,7 @@ public class AktifitasPromosiView extends CustomComponent{
 		comboBonusProduct.setFilteringMode(FilteringMode.CONTAINS);
 		comboBonusProduct.setNullSelectionAllowed(true);
 
+		comboJenisCustKrieria.setWidth("100px");
 		comboJenisCustKrieria.addItem("ALL");
 		comboJenisCustKrieria.setItemCaption("ALL", "All");
 		comboJenisCustKrieria.addItem("IN");
@@ -247,7 +264,7 @@ public class AktifitasPromosiView extends CustomComponent{
 		comboJenisCustKrieria.setItemCaption("EX", "Exclude");
 		comboJenisCustKrieria.setNullSelectionAllowed(false);
 
-		comboJenisCust.setWidth("300px");
+		comboJenisCust.setWidth("250px");
 		comboJenisCust.setFilteringMode(FilteringMode.CONTAINS);
 		comboJenisCust.setNullSelectionAllowed(true);
 
@@ -283,7 +300,14 @@ public class AktifitasPromosiView extends CustomComponent{
 		
 		//PANEL
 		panelUtama.setSizeFull();
-		panelForm.setSizeFull();
+		
+		panelFormKriteria1.setSizeFull();
+		panelFormKriteria2.setSizeFull();
+		panelFormBonusBarang.setSizeFull();
+		panelFormSubtotalDiskon.setSizeFull();
+		panelFormJumlahItemDiskon.setSizeFull();
+		panelFormCashBack.setSizeFull();
+		
 		content.setSizeFull();
 		content.setMargin(true);
 		
@@ -326,22 +350,59 @@ public class AktifitasPromosiView extends CustomComponent{
 		layoutTable.setSizeFull();
 		layoutTable.addComponent(table);
 
-		//#####FORM LAYOUT####		
-		
+		//***#####FORM LAYOUT####				
 		tabSheet.setSizeFull();
 
-		formLayoutPromo.setMargin(true);
+		headerFormLayoutPromo.setMargin(true);
+		
 		formLayoutBonusBarang.setMargin(true);
 		formLayoutDiscount.setMargin(true);
+		formLayoutDiscountFromItem.setMargin(true);
 		formLayoutCashBack.setMargin(true);
+		//##HEADER FORM
+		HorizontalLayout idAndActiveLayout = new HorizontalLayout();
+		idAndActiveLayout.setCaption("PROMO ID");
+		fieldId.setCaption(null);
+		idAndActiveLayout.addComponent(fieldId);
+		idAndActiveLayout.addComponent(checkStatusActive);
+		headerFormLayoutPromo.addComponent(idAndActiveLayout);
+		headerFormLayoutPromo.addComponent(fieldDescription);
 		
-		formLayoutPromo.addComponent(fieldId);
-		formLayoutPromo.addComponent(comboProduct);
-		formLayoutPromo.addComponent(comboProductGroup);
-		formLayoutPromo.addComponent(fieldDescription);
-		formLayoutPromo.addComponent(dateFieldperiodeDateFrom);
-		formLayoutPromo.addComponent(dateFieldperiodeDateTo);
-		formLayoutPromo.addComponent(checkStatusActive);
+		//##KRITERIA FORM
+		Panel panelCriteria = new Panel("KRITERIA");
+		FormLayout layoutCriteria = new FormLayout();
+		layoutCriteria.setSizeFull();
+		layoutCriteria.setMargin(true);
+		panelCriteria.setContent(layoutCriteria);		
+		kriteria1FormLayout.addComponent(panelCriteria);
+		
+		layoutCriteria.addComponent(comboProduct);
+
+		HorizontalLayout productGroupLayout = new HorizontalLayout();
+		productGroupLayout.setCaption("Atau Product Group");
+		comboProductGroup.setCaption(null);
+		productGroupLayout.addComponent(comboProductGroup);
+		productGroupLayout.addComponent(checkProductGroupAkumulasi);
+		layoutCriteria.addComponent(productGroupLayout);
+		
+		
+		HorizontalLayout periodeMulaiLayout = new HorizontalLayout();
+		periodeMulaiLayout.setCaption("Periode Mulai-S.D");
+		dateFieldperiodeDateFrom.setCaption(null);
+		dateFieldperiodeDateTo.setCaption(null);
+		periodeMulaiLayout.addComponent(dateFieldperiodeDateFrom);
+		periodeMulaiLayout.addComponent(new Label("S.D"));
+		periodeMulaiLayout.addComponent(dateFieldperiodeDateTo);
+		layoutCriteria.addComponent(periodeMulaiLayout);
+		
+		HorizontalLayout customerCriteriaLayout = new HorizontalLayout();
+		customerCriteriaLayout.setCaption("Untuk Jns.Customer");
+		comboJenisCustKrieria.setCaption(null);
+		comboJenisCust.setCaption(null);
+		customerCriteriaLayout.addComponent(comboJenisCustKrieria);
+		customerCriteriaLayout.addComponent(comboJenisCust);
+		layoutCriteria.addComponent(customerCriteriaLayout);
+		
 		
 		//BUDGET
 //		panelBudget.setSizeFull();
@@ -350,21 +411,15 @@ public class AktifitasPromosiView extends CustomComponent{
 		panelBudget.setContent(layoutBudget);
 		
 		layoutBudget.addComponent(checkClaimPabrik);
-		layoutBudget.addComponent(fieldTarget);
-		layoutBudget.addComponent(fieldTargetApplied);
+		HorizontalLayout budgetTargetAndAppliedLayout = new HorizontalLayout();
+//		fieldTarget.setCaption(null);fieldTargetApplied.setCaption(null);
+		budgetTargetAndAppliedLayout.addComponent(fieldTarget);
+		budgetTargetAndAppliedLayout.addComponent(fieldTargetApplied);
+		layoutBudget.addComponent(budgetTargetAndAppliedLayout);
 		
-		formLayoutPromo.addComponent(panelBudget);
+		headerFormLayoutPromo.addComponent(panelBudget);
 
-		//GRUP CUSTOMER
-//		panelCustomerCriteria.setSizeFull();
-		layoutCustomerCriteria.setSizeFull();
-		layoutCustomerCriteria.setMargin(true);
-		panelCustomerCriteria.setContent(layoutCustomerCriteria);
 		
-		layoutCustomerCriteria.addComponent(comboJenisCustKrieria);
-		layoutCustomerCriteria.addComponent(comboJenisCust);
-		
-		formLayoutPromo.addComponent(panelCustomerCriteria);
 		//BONUS BARANG
 //		panelBonusBarang.setSizeFull();
 		layoutBonusBarang.setSizeFull();
@@ -376,8 +431,10 @@ public class AktifitasPromosiView extends CustomComponent{
 		HorizontalLayout layoutFreeLebihDari3 = new HorizontalLayout();
 		HorizontalLayout layoutFreeLebihDari4 = new HorizontalLayout();
 		
-		layoutBonusBarang.addComponent(comboBonusProduct);
-		layoutBonusBarang.addComponent(checkFreeKelipatan);
+		HorizontalLayout bonusProductAndFreeKelipatanLayout = new HorizontalLayout();
+		bonusProductAndFreeKelipatanLayout.addComponent(comboBonusProduct);
+		bonusProductAndFreeKelipatanLayout.addComponent(checkFreeKelipatan);
+		layoutBonusBarang.addComponent(bonusProductAndFreeKelipatanLayout);
 		
 		layoutFreeLebihDari1.addComponent(fieldFreeLebihDari1);
 		layoutFreeLebihDari1.addComponent(fieldFreeGet1);
@@ -394,11 +451,11 @@ public class AktifitasPromosiView extends CustomComponent{
 		formLayoutBonusBarang.addComponent(layoutFreeLebihDari3);
 		formLayoutBonusBarang.addComponent(layoutFreeLebihDari4);
 
-		//DISKON
+		//DISKON from subtotal
 //		panelBonusBarang.setSizeFull();
-		layoutDiskon.setSizeFull();
-		layoutDiskon.setMargin(true);
-		panelDiskon.setContent(layoutDiskon);
+		layoutDiskonFromSubtotal.setSizeFull();
+		layoutDiskonFromSubtotal.setMargin(true);
+		panelDiskonFromSubtotal.setContent(layoutDiskonFromSubtotal);
 		
 		HorizontalLayout layoutDiskonLebihDari1 = new HorizontalLayout();
 		HorizontalLayout layoutDiskonLebihDari2 = new HorizontalLayout();
@@ -421,18 +478,36 @@ public class AktifitasPromosiView extends CustomComponent{
 		formLayoutDiscount.addComponent(layoutDiskonLebihDari2);
 		formLayoutDiscount.addComponent(layoutDiskonLebihDari3);
 		formLayoutDiscount.addComponent(layoutDiskonLebihDari4);
-		
-		tabSheet.addTab(formLayoutPromo, "PROMO");
-		tabSheet.addTab(formLayoutBonusBarang, "Bonus Barang");
-		tabSheet.addTab(formLayoutDiscount, "Discount");
-		tabSheet.addTab(formLayoutCashBack, "Cash Back");
-		
-		HorizontalLayout formLayoutHorizontal = new HorizontalLayout();
-		formLayoutHorizontal.setSpacing(true);
-		formLayoutHorizontal.addComponent(btnSaveForm);
-		formLayoutHorizontal.addComponent(btnCancelForm);
-		formLayoutPromo.addComponent(formLayoutHorizontal);
 
+		//DISKON from Item
+//		panelBonusBarang.setSizeFull();
+		layoutDiskonFromItem.setSizeFull();
+		layoutDiskonFromItem.setMargin(true);
+		panelDiskonFromItem.setContent(layoutDiskonFromItem);
+		
+		HorizontalLayout layoutDiskonFromItemLebihDari1 = new HorizontalLayout();
+		HorizontalLayout layoutDiskonFromItemLebihDari2 = new HorizontalLayout();
+		HorizontalLayout layoutDiskonFromItemLebihDari3 = new HorizontalLayout();
+		HorizontalLayout layoutDiskonFromItemLebihDari4 = new HorizontalLayout();
+		
+//		layoutDiskon.addComponent(comboBonusProduct);		
+//		formLayoutDiscount.addComponent(checkDiscKelipatan);
+		
+		layoutDiskonFromItemLebihDari1.addComponent(fieldDiscFromItemFreeQty1);
+		layoutDiskonFromItemLebihDari1.addComponent(fieldDiscFromItemdiscPercentGet1);
+		layoutDiskonFromItemLebihDari2.addComponent(fieldDiscFromItemFreeQty2);
+		layoutDiskonFromItemLebihDari2.addComponent(fieldDiscFromItemdiscPercentGet2);
+		layoutDiskonFromItemLebihDari3.addComponent(fieldDiscFromItemFreeQty3);
+		layoutDiskonFromItemLebihDari3.addComponent(fieldDiscFromItemdiscPercentGet3);
+		layoutDiskonFromItemLebihDari4.addComponent(fieldDiscFromItemFreeQty4);
+		layoutDiskonFromItemLebihDari4.addComponent(fieldDiscFromItemdiscPercentGet4);
+		
+		formLayoutDiscountFromItem.addComponent(layoutDiskonFromItemLebihDari1);
+		formLayoutDiscountFromItem.addComponent(layoutDiskonFromItemLebihDari2);
+		formLayoutDiscountFromItem.addComponent(layoutDiskonFromItemLebihDari3);
+		formLayoutDiscountFromItem.addComponent(layoutDiskonFromItemLebihDari4);
+		
+		
 		//CASH BACK
 //		panelBonusBarang.setSizeFull();
 		layoutCashBack.setSizeFull();
@@ -460,10 +535,16 @@ public class AktifitasPromosiView extends CustomComponent{
 //		formLayoutCashBack.addComponent(layoutCashBackLebihDari3);
 //		formLayoutCashBack.addComponent(layoutCashBackLebihDari4);
 		
-		tabSheet.addTab(formLayoutPromo, "PROMO");
+		tabSheet.addTab(kriteria1FormLayout, "Kriteria 1");
 		tabSheet.addTab(formLayoutBonusBarang, "Bonus Barang");
-		tabSheet.addTab(formLayoutDiscount, "Discount");
-		tabSheet.addTab(formLayoutCashBack, "Cash Back");
+		tabSheet.addTab(formLayoutDiscount, "Discount from Value");
+		tabSheet.addTab(formLayoutDiscountFromItem, "Discount from Qty Item *NA");
+		tabSheet.addTab(formLayoutCashBack, "Cash Back *NA");
+		
+		//###TOMBOL
+		layoutButtonHorizontal.setSpacing(true);
+		layoutButtonHorizontal.addComponent(btnSaveForm);
+		layoutButtonHorizontal.addComponent(btnCancelForm);
 		
 //		panelForm.setContent(formLayoutPromo);
 		
@@ -513,6 +594,7 @@ public class AktifitasPromosiView extends CustomComponent{
 			btnCancelForm.addStyleName("small");
 			btnUtility.addStyleName("small");
 
+			tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
 			tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
 			
 //			btnAddItem.addStyleName("small");
@@ -561,6 +643,7 @@ public class AktifitasPromosiView extends CustomComponent{
 		model.getBinderHeader().bind(fieldId, "norek");
 		model.getBinderHeader().bind(comboProduct, "fProductBean");
 		model.getBinderHeader().bind(comboProductGroup, "fproductgroupBean");
+		model.getBinderHeader().bind(checkProductGroupAkumulasi, "forFproductGroupAkumulasi");
 		model.getBinderHeader().bind(fieldDescription, "description");
 		model.getBinderHeader().bind(dateFieldperiodeDateFrom, "periodeFrom");
 		model.getBinderHeader().bind(dateFieldperiodeDateTo, "periodeTo");
@@ -573,7 +656,6 @@ public class AktifitasPromosiView extends CustomComponent{
 		model.getBinderHeader().bind(comboJenisCustKrieria, "forFcustomersubgroup");
 		model.getBinderHeader().bind(comboJenisCust, "fcustomersubgroupBean");
 		
-		
 		model.getBinderHeader().bind(comboBonusProduct, "freeFproductBean");
 		model.getBinderHeader().bind(checkFreeKelipatan, "freeKelipatan");
 		model.getBinderHeader().bind(fieldFreeLebihDari1, "freeQty1");
@@ -585,7 +667,6 @@ public class AktifitasPromosiView extends CustomComponent{
 		model.getBinderHeader().bind(fieldFreeLebihDari4, "freeQty4");
 		model.getBinderHeader().bind(fieldFreeGet4, "freeQtyGet4");
 
-		
 		model.getBinderHeader().bind(checkDiscKelipatan, "discKelipatan");
 		model.getBinderHeader().bind(fieldDiskonLebihDari1, "discValue1");
 		model.getBinderHeader().bind(fieldDiskonGet1, "discPercentGet1");
@@ -596,6 +677,16 @@ public class AktifitasPromosiView extends CustomComponent{
 		model.getBinderHeader().bind(fieldDiskonLebihDari4, "discValue4");
 		model.getBinderHeader().bind(fieldDiskonGet4, "discPercentGet4");
 
+		model.getBinderHeader().bind(checkDiscFromItemKelipatan, "discFromItemKelipatan");
+		model.getBinderHeader().bind(fieldDiscFromItemFreeQty1, "discFromItemFreeQty1");
+		model.getBinderHeader().bind(fieldDiscFromItemdiscPercentGet1, "discFromItemdiscPercentGet1");
+		model.getBinderHeader().bind(fieldDiscFromItemFreeQty2, "discFromItemFreeQty2");
+		model.getBinderHeader().bind(fieldDiscFromItemdiscPercentGet2, "discFromItemdiscPercentGet2");
+		model.getBinderHeader().bind(fieldDiscFromItemFreeQty3, "discFromItemFreeQty3");
+		model.getBinderHeader().bind(fieldDiscFromItemdiscPercentGet3, "discFromItemdiscPercentGet3");
+		model.getBinderHeader().bind(fieldDiscFromItemFreeQty4, "discFromItemFreeQty4");
+		model.getBinderHeader().bind(fieldDiscFromItemdiscPercentGet4, "discFromItemdiscPercentGet4");
+		
 		model.getBinderHeader().bind(fieldCashBackLebihDari1, "cashBackValue1");
 		model.getBinderHeader().bind(fieldCashBackGet1, "cashBackGet1");
 		model.getBinderHeader().bind(fieldCashBackLebihDari2, "cashBackValue2");
@@ -676,15 +767,18 @@ public class AktifitasPromosiView extends CustomComponent{
 		windowForm.center();
 //		windowForm.setStyleName("login-layout");
 		windowForm.setWidth("800px");
-		windowForm.setHeight("700px");
+		windowForm.setHeight("640px");
 		windowForm.setClosable(true);	
 		windowForm.setResizable(false);
 
 		VerticalLayout content = new VerticalLayout();
 		content.setMargin(true);
 		content.setSizeFull();
-//		content.addComponent(panelForm);
+		
+		content.addComponent(headerFormLayoutPromo);
 		content.addComponent(tabSheet);
+		content.addComponent(layoutButtonHorizontal);
+		content.setExpandRatio(tabSheet, 1);
 		
 		windowForm.setContent(content);
 		windowForm.center();
@@ -888,7 +982,7 @@ public class AktifitasPromosiView extends CustomComponent{
 	}
 
 	public FormLayout getFormLayout() {
-		return formLayoutPromo;
+		return headerFormLayoutPromo;
 	}
 
 	public Panel getPanelBudget() {
@@ -925,10 +1019,6 @@ public class AktifitasPromosiView extends CustomComponent{
 
 	public Panel getPanelTabel() {
 		return panelTabel;
-	}
-
-	public Panel getPanelForm() {
-		return panelForm;
 	}
 
 	public Window getWindowForm() {
@@ -1100,7 +1190,7 @@ public class AktifitasPromosiView extends CustomComponent{
 	}
 
 	public FormLayout getFormLayoutPromo() {
-		return formLayoutPromo;
+		return headerFormLayoutPromo;
 	}
 
 	public FormLayout getFormLayoutBonusBarang() {
@@ -1116,11 +1206,11 @@ public class AktifitasPromosiView extends CustomComponent{
 	}
 
 	public Panel getPanelDiskon() {
-		return panelDiskon;
+		return panelDiskonFromSubtotal;
 	}
 
 	public VerticalLayout getLayoutDiskon() {
-		return layoutDiskon;
+		return layoutDiskonFromSubtotal;
 	}
 
 	public Panel getPanelCashBack() {
@@ -1220,7 +1310,7 @@ public class AktifitasPromosiView extends CustomComponent{
 	}
 
 	public void setFormLayoutPromo(FormLayout formLayoutPromo) {
-		this.formLayoutPromo = formLayoutPromo;
+		this.headerFormLayoutPromo = formLayoutPromo;
 	}
 
 	public void setFormLayoutBonusBarang(FormLayout formLayoutBonusBarang) {
@@ -1236,11 +1326,11 @@ public class AktifitasPromosiView extends CustomComponent{
 	}
 
 	public void setPanelDiskon(Panel panelDiskon) {
-		this.panelDiskon = panelDiskon;
+		this.panelDiskonFromSubtotal = panelDiskon;
 	}
 
 	public void setLayoutDiskon(VerticalLayout layoutDiskon) {
-		this.layoutDiskon = layoutDiskon;
+		this.layoutDiskonFromSubtotal = layoutDiskon;
 	}
 
 	public void setPanelCashBack(Panel panelCashBack) {
@@ -1336,7 +1426,7 @@ public class AktifitasPromosiView extends CustomComponent{
 	}
 
 	public void setFormLayout(FormLayout formLayout) {
-		this.formLayoutPromo = formLayout;
+		this.headerFormLayoutPromo = formLayout;
 	}
 
 	public void setPanelBudget(Panel panelBudget) {
@@ -1374,11 +1464,6 @@ public class AktifitasPromosiView extends CustomComponent{
 	public void setPanelTabel(Panel panelTabel) {
 		this.panelTabel = panelTabel;
 	}
-
-	public void setPanelForm(Panel panelForm) {
-		this.panelForm = panelForm;
-	}
-
 	public void setWindowForm(Window windowForm) {
 		this.windowForm = windowForm;
 	}
@@ -1398,6 +1483,14 @@ public class AktifitasPromosiView extends CustomComponent{
 	public void setProductUtilityPresenter(
 			CustomerUtilityPresenter productUtilityPresenter) {
 		this.productUtilityPresenter = productUtilityPresenter;
+	}
+
+	public CheckBox getCheckProductGroupAkumulasi() {
+		return checkProductGroupAkumulasi;
+	}
+
+	public void setCheckProductGroupAkumulasi(CheckBox checkProductGroupAkumulasi) {
+		this.checkProductGroupAkumulasi = checkProductGroupAkumulasi;
 	}
 
 

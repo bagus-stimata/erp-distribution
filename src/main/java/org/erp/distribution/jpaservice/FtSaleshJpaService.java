@@ -26,6 +26,8 @@ public interface FtSaleshJpaService extends GenericJpaService<FtSalesh, Serializ
 	public List<FtSalesh> findAllBySJPenagihanNo(String sjpenagihanno, String tipefaktur);
 	public List<FtSalesh> findAll(FWarehouse fWarehouse, Date trDate, String tipefaktur);
 	
+	public List<FtSalesh> findAllFakturAndReturBelumLunas(FCustomer fCustomer);
+	
 	public List<FtSalesh> findAllReturBelumLunas();
 	public List<FtSalesh> findAllReturBelumLunas(FtSalesh exceptRetur);
 	

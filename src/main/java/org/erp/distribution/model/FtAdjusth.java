@@ -35,13 +35,17 @@ public class FtAdjusth {
 	@Temporal(TemporalType.DATE)
 	private Date entrydate;
 	
+	@Column(name="NOTES", length=150)
 	private String notes;
 	
+	@Column(name="ENDOFDAY")
 	private Boolean endofday;
+	@Column(name="PRINTCOUNTER")
 	private Integer printcounter;
 	
 	@Column(name="USERID", length=50)
 	private String userid;
+	@Column(name="CLOSING")
 	private Boolean closing;
 
 	@ManyToOne

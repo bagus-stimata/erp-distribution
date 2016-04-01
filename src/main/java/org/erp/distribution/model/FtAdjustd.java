@@ -14,7 +14,7 @@ public class FtAdjustd {
 
 	@EmbeddedId
 	protected FtAdjustdPK id;
-	
+	@Column(name="NOURUT")
 	private Integer nourut;
 	
 	@Transient

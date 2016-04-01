@@ -31,9 +31,9 @@ public class FtPurchaseh {
 	@Column(name="REFNO")
 	private Long refno;
 	
-	@Column(name="NOPO")
+	@Column(name="NOPO", length=20)
 	private String nopo;
-	@Column(name="INVOICENO")
+	@Column(name="INVOICENO", length=20)
 	private String invoiceno;
 	@Temporal(TemporalType.DATE)
 	@Column(name="INVOICEDATE")

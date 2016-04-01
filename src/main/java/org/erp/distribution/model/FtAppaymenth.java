@@ -3,6 +3,7 @@ package org.erp.distribution.model;
 import java.util.*;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ public class FtAppaymenth {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long refno;
 	
+	@Column(name="NOREK", length=15)
 	private String norek;
 	
 	@Temporal(TemporalType.DATE)
@@ -31,12 +33,17 @@ public class FtAppaymenth {
 	@Temporal(TemporalType.DATE)
 	private Date entrydate;
 	
+	@Column(name="NOTES", length=150)
 	private String notes;
 	
+	@Column(name="ENDOFDAY")
 	private Boolean endofday;
+	@Column(name="PRINTCOUNTER")
 	private Integer printcounter;
 	
+	@Column(name="USERID", length=40)
 	private String userid;
+	@Column(name="CLOSING")
 	private Boolean closing;
 	
 	@OneToMany(mappedBy="ftappaymenthBean", fetch=FetchType.LAZY, cascade=CascadeType.ALL)

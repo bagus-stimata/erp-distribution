@@ -108,7 +108,6 @@ public class SalesmanView extends CustomComponent{
 	Table tableAreaCoverDetail = new Table();	
 	Button btnAddArea = new Button("Add");
 	Button btnRemoveArea = new Button("Rem");
-
 	
 	//LAYOUT
 	private FormLayout formLayout = new FormLayout();
@@ -214,16 +213,17 @@ public class SalesmanView extends CustomComponent{
 		//VENDOR COVERED
 		tableVendorCoverDetail.setSelectable(true);
 		tableAreaCoverDetail.setSelectable(true);
+		
+		tabSheet.setSizeFull();
+		tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
+		tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
+		
 	}
 	
 	public void buildView(){
 		
 		//PANEL
 		panelUtama.setSizeFull();
-		tabSheet.setSizeFull();
-		tabSheet.addStyleName(Reindeer.TABSHEET_SMALL);
-		tabSheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
-		
 		panelForm.setSizeFull();
 		content.setSizeFull();
 		content.setMargin(true);
