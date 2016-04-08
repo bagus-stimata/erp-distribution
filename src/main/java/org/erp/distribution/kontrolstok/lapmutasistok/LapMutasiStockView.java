@@ -85,8 +85,8 @@ public class LapMutasiStockView extends CustomComponent{
 		layoutTop.addComponent(checkBox4);
 		layoutTop.addComponent(checkBox6);
 		
-		layoutBottom.addComponent(btnExtractToExel);
 		layoutBottom.addComponent(btnPreview);
+		layoutBottom.addComponent(btnExtractToExel);
 		layoutBottom.addComponent(btnClose);
 		
 

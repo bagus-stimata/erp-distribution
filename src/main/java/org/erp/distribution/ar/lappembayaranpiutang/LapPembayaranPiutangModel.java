@@ -7,23 +7,17 @@ import org.erp.distribution.jpaservice.FProductgroupJpaService;
 import org.erp.distribution.jpaservice.FSalesmanJpaService;
 import org.erp.distribution.jpaservice.FStockJpaService;
 import org.erp.distribution.jpaservice.FWarehouseJpaService;
-import org.erp.distribution.jpaservice.FtSalesdJpaService;
-import org.erp.distribution.jpaservice.FtSaleshJpaService;
+import org.erp.distribution.jpaservice.FtArpaymentdJpaService;
 import org.erp.distribution.jpaservice.SysvarJpaService;
 import org.erp.distribution.model.FCustomer;
-import org.erp.distribution.model.FProduct;
 import org.erp.distribution.model.FProductgroup;
 import org.erp.distribution.model.FSalesman;
 import org.erp.distribution.model.FWarehouse;
-import org.erp.distribution.model.FtSalesd;
-import org.erp.distribution.model.FtSalesdPK;
-import org.erp.distribution.model.FtSalesh;
 import org.erp.distribution.util.ProductAndStockHelper;
 import org.erp.distribution.util.SysvarHelper;
 import org.erp.distribution.util.TransaksiHelper;
 import org.erp.distribution.util.TransaksiHelperImpl;
 
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.CustomComponent;
 
@@ -33,6 +27,8 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 	private TransaksiHelper transaksiHelper = new TransaksiHelperImpl();
 	private SysvarHelper sysvarHelper;
 
+	private FtArpaymentdJpaService ftArpaymentdJpaService;
+	
 	private FProductJpaService fProductJpaService;
 	private FWarehouseJpaService fWarehouseJpaService;
 	private FProductgroupJpaService fProductgroupJpaService;
@@ -75,6 +71,8 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 ////		setTransaksiHelper((((DashboardUI) getUI().getCurrent()).getTransaksiHelper()));
 //		setProductAndStockHelper((((DashboardUI) getUI().getCurrent()).getProductAndStockHelper()));
 		setSysvarHelper((((DashboardUI) getUI().getCurrent()).getSysvarHelper()));
+
+		setFtArpaymentdJpaService((((DashboardUI) getUI().getCurrent()).getFtArpaymentdJpaService()));
 		
 		setfProductgroupJpaService((((DashboardUI) getUI().getCurrent()).getfProductgroupJpaService()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
@@ -196,6 +194,13 @@ public class LapPembayaranPiutangModel extends CustomComponent{
 	}
 	public void setSysvarHelper(SysvarHelper sysvarHelper) {
 		this.sysvarHelper = sysvarHelper;
+	}
+	public FtArpaymentdJpaService getFtArpaymentdJpaService() {
+		return ftArpaymentdJpaService;
+	}
+	public void setFtArpaymentdJpaService(
+			FtArpaymentdJpaService ftArpaymentdJpaService) {
+		this.ftArpaymentdJpaService = ftArpaymentdJpaService;
 	}
 
 	

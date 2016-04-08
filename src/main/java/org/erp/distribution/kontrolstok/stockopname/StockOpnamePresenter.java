@@ -913,7 +913,7 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 			
 			//1. ISI DATABASE UNTUK TEMP
 			fillDatabaseReportSelisih();
-			//2. PREVIEW LAPORAN
+			//2. PREVIEW LAPORAN			
 			showPreviewSelisih("/erp/distribution/reports/kontrolstock/lapstockopname/lapstockopname1Ds.jasper", "lapstockopname1Ds");
 		} else {
 			Notification.show("Dokumen belum diposting atau di lakukan kalkulasi stok!", Notification.TYPE_TRAY_NOTIFICATION);
@@ -1230,9 +1230,6 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 
 			Iterator<FStock> iterStock = model.getfStockJpaService().findAll(strParamWarehouseId, fProduct ,trDate, trDate).iterator();			
 //			System.out.println("Fstok: " + model.getfStockJpaService().findAll(strParamWarehouseId, fProduct ,trDate, trDate).size());
-
-		
-
 			
 			int penerimaanPembelianPcs =0 ;
 			int penerimaanReturjualPcs =0;
@@ -1326,8 +1323,7 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 					adjustPenambahanPcs += Math.abs(adjustPcs);
 					
 				} else if (adjustPcs<0) {
-					adjustPenguranganPcs += Math.abs(adjustPcs);
-					
+					adjustPenguranganPcs += Math.abs(adjustPcs);					
 				}
 				
 				//::SALDO AKHIR :: AKAN DIUBAHUBAH SAMPAI YANG TERAKHIR
@@ -1434,7 +1430,7 @@ public class StockOpnamePresenter implements ClickListener, ValueChangeListener,
 			domain.setFisikBes(model.getProductAndStockHelper().getBesFromPcs(ftOpnamed.getQty(), fProduct));
 			domain.setFisikSed(model.getProductAndStockHelper().getSedFromPcs(ftOpnamed.getQty(), fProduct));
 			domain.setFisikKec(model.getProductAndStockHelper().getKecFromPcs(ftOpnamed.getQty(), fProduct));
-		
+			
 //			System.out.println("" + ftOpnamed.getFproductBean().getPcode()+":"+fProduct.getPcode()+":"+ftOpnamed.getFproductBean().getPname()+
 //					">>"+ftOpnamed.getQty() +
 //					":" + model.getProductAndStockHelper().getBesFromPcs(ftOpnamed.getQty(), fProduct)+

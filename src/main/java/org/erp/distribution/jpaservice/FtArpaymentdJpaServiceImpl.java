@@ -1,6 +1,7 @@
 package org.erp.distribution.jpaservice;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -62,5 +63,81 @@ public class FtArpaymentdJpaServiceImpl extends GenericJpaServiceImpl<FtArpaymen
 	            em.close();
 	        }    
 	}
+
+	@Override
+	public List<FtArpaymentd> findAllByArpaydateAndSJ(Date arPaymentDateFrom,
+			Date arPaymentDateTo, String SJPengiriman, String SJPenagihan) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtArpaymentd a WHERE "
+	            		+ "	a.ftarpaymenthBean.trdate >= :arPaymentDateFrom "
+	            		+ " AND a.ftarpaymenthBean.trdate <= :arPaymentDateTo "
+	            		+ " AND a.ftsaleshBean.suratjalanno LIKE :suratjalanno "
+	            		+ " AND a.ftsaleshBean.sjpenagihanno LIKE :sjpenagihanno "
+	            		+ " ";
+	            
+	            List<FtArpaymentd> list = em.createQuery(query)
+	            		.setParameter("arPaymentDateFrom", arPaymentDateFrom)
+	            		.setParameter("arPaymentDateTo", arPaymentDateTo)
+	            		.setParameter("suratjalanno", SJPengiriman)
+	            		.setParameter("sjpenagihanno", SJPenagihan)
+	            		.setHint(QueryHints.REFRESH, HintValues.TRUE)
+	            		.getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+	@Override
+	public List<FtArpaymentd> findAllByArpaydateAndSJ(Date arPaymentDateFrom,
+			Date arPaymentDateTo, String SJPengiriman, String SJPenagihan,
+			String tunaikredit, String spcode, String custno) {
+	       EntityManager em = getFactory().createEntityManager();
+	        try {
+	            em.getTransaction().begin();
+	            String query = "SELECT a FROM FtArpaymentd a WHERE "
+	            		+ "	a.ftarpaymenthBean.trdate >= :arPaymentDateFrom "
+	            		+ " AND a.ftarpaymenthBean.trdate <= :arPaymentDateTo "
+	            		+ " AND a.ftsaleshBean.suratjalanno LIKE :suratjalanno "
+	            		+ " AND a.ftsaleshBean.sjpenagihanno LIKE :sjpenagihanno "
+	            		+ " AND a.ftsaleshBean.tunaikredit LIKE :tunaikredit "
+	            		+ " AND a.ftsaleshBean.fsalesmanBean.spcode LIKE :spcode "
+	            		+ " AND a.ftsaleshBean.fcustomerBean.custno LIKE :custno "
+	            		+ " ";
+	            
+	            List<FtArpaymentd> list = em.createQuery(query)
+	            		.setParameter("arPaymentDateFrom", arPaymentDateFrom)
+	            		.setParameter("arPaymentDateTo", arPaymentDateTo)
+	            		.setParameter("suratjalanno", SJPengiriman)
+	            		.setParameter("sjpenagihanno", SJPenagihan)
+	            		.setParameter("tunaikredit", tunaikredit)
+	            		.setParameter("spcode", spcode)
+	            		.setParameter("custno", custno)
+	            		.setHint(QueryHints.REFRESH, HintValues.TRUE)
+	            		.getResultList();
+	            em.getTransaction().commit();
+	            return list;
+	        } catch (PersistenceException exception) {
+	            em.getTransaction().rollback();
+	            throw exception;
+	        } finally {
+	            em.close();
+	        }    
+	}
+
+	@Override
+	public List<FtArpaymentd> findAllByInvdateAndInvnoAndArpaydateAndSJ(
+			Date invDateFrom, Date invDateTo, String InvoiceNo,
+			Date arPaymentDateFrom, Date arPaymentDateTo, String SJPengiriman,
+			String SJPenagihan) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

@@ -19,6 +19,11 @@
                   <param-value>org.erp.distribution.DashboardUI</param-value>
         </init-param>
         
+		<init-param>
+		    <param-name>widgetset</param-name>
+		    <param-value>org.erp.distribution.MyAppWidgetSet</param-value>
+		</init-param>   
+        
         <load-on-startup>1</load-on-startup>
     </servlet>
   

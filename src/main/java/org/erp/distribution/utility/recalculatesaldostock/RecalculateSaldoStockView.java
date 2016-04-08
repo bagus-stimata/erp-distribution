@@ -13,7 +13,7 @@ public class RecalculateSaldoStockView extends CustomComponent{
 	private RecalculateSaldoStockModel model;
 
 	private VerticalLayout content = new VerticalLayout();
-	private ComboBox comboGroup1= new ComboBox("SALESMAN");
+	private ComboBox comboGroup1= new ComboBox("WAREHOUSE/GUDANG");
 	private ComboBox comboGroup2= new ComboBox("GRUP BARANG");
 
 	private DateField dateField1From = new DateField("TANGGAL TRANSAKSI");
@@ -58,7 +58,7 @@ public class RecalculateSaldoStockView extends CustomComponent{
 		HorizontalLayout layoutBottom = new HorizontalLayout();		
 		layoutBottom.setMargin(true);
 		
-//		layoutTop.addComponent(comboGroup1);
+		layoutTop.addComponent(comboGroup1);
 //		layoutTop.addComponent(comboGroup2);
 		layoutTop.addComponent(dateField1From);
 		layoutTop.addComponent(dateField1To);

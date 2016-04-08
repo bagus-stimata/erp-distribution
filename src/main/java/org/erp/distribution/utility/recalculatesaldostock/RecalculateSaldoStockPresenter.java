@@ -52,7 +52,11 @@ public class RecalculateSaldoStockPresenter implements ClickListener{
 				@Override
 				public void onClose(ConfirmDialog dialog) {
                     if (dialog.isConfirmed()) {
-            			model.getProductAndStockHelper().recalculateSaldoStock(null, view.getDateField1From().getValue(), view.getDateField1To().getValue());
+                    	FWarehouse fWarehouseBean = new FWarehouse();
+                    	try{
+                    		fWarehouseBean = (FWarehouse) view.getComboGroup1().getValue();
+                    	} catch(Exception ex){}
+            			model.getProductAndStockHelper().recalculateSaldoStock(fWarehouseBean, view.getDateField1From().getValue(), view.getDateField1To().getValue());
             			Notification.show("PERBAIKAN STOCK SELESAI!", Notification.TYPE_TRAY_NOTIFICATION);
                     } else {
                     // User did not confirm

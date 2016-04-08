@@ -32,9 +32,13 @@ public class LapPrestasiKerjaView extends CustomComponent{
 	
 	private CheckBox checkBox1= new CheckBox("TOTAL DIPOTONG RETUR", true);
 	private CheckBox checkBox2= new CheckBox("CHECK2");
+
+	private CheckBox checkLengkap= new CheckBox("Laporan Lengkap");
+	private CheckBox checkKomulatif= new CheckBox("Komulatif");
 	
 	private Button btnPreview = new Button("Preview");
 	private Button btnClose = new Button("Close");
+	private Button btnPreviewInExel = new Button("Preview In Exel");
 	
 	private Panel panelUtama = new Panel();
 	private Panel panelTop = new Panel();
@@ -71,7 +75,8 @@ public class LapPrestasiKerjaView extends CustomComponent{
 	public void buildView(){
 		//Inisialisasi Panel 
 		setSizeFull();
-		content.setSizeFull();
+//		content.setSizeFull();
+		content.setHeight("800px");
 		content.setMargin(true);
 		panelTop.setSizeFull();
 		panelBottom.setSizeFull();
@@ -89,8 +94,11 @@ public class LapPrestasiKerjaView extends CustomComponent{
 		layoutTop.addComponent(dateField1To);
 		
 		layoutTop.addComponent(checkBox1);
+		layoutTop.addComponent(checkLengkap);
+		layoutTop.addComponent(checkKomulatif);
 		
 		layoutBottom.addComponent(btnPreview);
+		layoutBottom.addComponent(btnPreviewInExel);
 		layoutBottom.addComponent(btnClose);
 		
 		
@@ -240,6 +248,30 @@ public class LapPrestasiKerjaView extends CustomComponent{
 
 	public void setGridSalesman(Grid gridSalesman) {
 		this.gridSalesman = gridSalesman;
+	}
+
+	public CheckBox getCheckLengkap() {
+		return checkLengkap;
+	}
+
+	public CheckBox getCheckKomulatif() {
+		return checkKomulatif;
+	}
+
+	public void setCheckLengkap(CheckBox checkLengkap) {
+		this.checkLengkap = checkLengkap;
+	}
+
+	public void setCheckKomulatif(CheckBox checkKomulatif) {
+		this.checkKomulatif = checkKomulatif;
+	}
+
+	public Button getBtnPreviewInExel() {
+		return btnPreviewInExel;
+	}
+
+	public void setBtnPreviewInExel(Button btnPreviewInExel) {
+		this.btnPreviewInExel = btnPreviewInExel;
 	}
 	
 	

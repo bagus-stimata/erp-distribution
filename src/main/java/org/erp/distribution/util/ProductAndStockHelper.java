@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.erp.distribution.DashboardUI;
 import org.erp.distribution.jpaservice.FProductJpaService;
@@ -73,15 +75,13 @@ public class ProductAndStockHelper extends CustomComponent{
 	private FtOpnamehJpaService ftOpnamehJpaService;
 	private FtOpnamedJpaService ftOpnamedJpaService;
 	
-	
 	public ProductAndStockHelper(){		
 		
 		setSysvarJpaService((((DashboardUI) getUI().getCurrent()).getSysvarJpaService()));
 		setfStockJpaService((((DashboardUI) getUI().getCurrent()).getfStockJpaService()));
 		setfProductJpaService((((DashboardUI) getUI().getCurrent()).getfProductJpaService()));
 		setfWarehouseJpaService((((DashboardUI) getUI().getCurrent()).getfWarehouseJpaService()));
-		setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));
-		
+		setfSalesmanJpaService((((DashboardUI) getUI().getCurrent()).getfSalesmanJpaService()));		
 
 		setfSalesmanJpaService(fSalesmanJpaService);
 		setFtSaleshJpaService((((DashboardUI) getUI().getCurrent()).getFtSaleshJpaService()));
@@ -154,8 +154,7 @@ public class ProductAndStockHelper extends CustomComponent{
 				newStock.setQtyhold(item.getQty());
 				newStock.setQtyin(item.getQty());
 				newStock.setQtyout(0);
-				newStock.setQtyadjust(0);
-				
+				newStock.setQtyadjust(0);				
 
 			}
 			
@@ -858,38 +857,52 @@ public class ProductAndStockHelper extends CustomComponent{
 		List<FWarehouse> listFWarehouse  = new ArrayList<FWarehouse>();
 		
 		if (fWarehouse==null){
-			listFWarehouse = fWarehouseJpaService.findAll();		
+			listFWarehouse = fWarehouseJpaService.findAll();	
 		} else {
 			listFWarehouse.add(fWarehouse);
 		}
 		
 		for (FWarehouse itemWarehouse: listFWarehouse) {
 			List<FProduct> listFproduct = fProductJpaService.findAll();
-			//untuk yang proses manual saja
-			if (fWarehouse==null){
-//				Notification.show("Recalculate Stock of  " + itemWarehouse.getDescription(), Notification.TYPE_TRAY_NOTIFICATION);
+			//Barang Aktif Saja dan stok 0
+			Set<FProduct> listFproductActiveAndWithStock = new HashSet<FProduct>();
+			for (FProduct itemFproduct: listFproduct) {				
+				if (itemFproduct.getStatusactive()!=null){
+					if (itemFproduct.getStatusactive()==true){
+						listFproductActiveAndWithStock.add(itemFproduct);
+					}else {
+						int jumlahStok = 0;
+						try{
+							jumlahStok = fStockJpaService.findAll(itemFproduct, dateFrom).get(0).getSaldoakhir();
+						}catch (Exception ex){}
+						if (jumlahStok>0) {
+							listFproductActiveAndWithStock.add(itemFproduct);
+						}
+					}
+				}
 			}
 			
-			for (FProduct itemFproduct: listFproduct) {				
-				recalculateSaldoStockProcess(itemWarehouse, itemFproduct, dateFrom, dateTo);
+			
+			for (FProduct itemFproduct: listFproductActiveAndWithStock) {				
+				recalculateSaldoStockProcess(itemWarehouse, itemFproduct, dateFrom, dateTo, true);
 			}
 		}
 		
 	}
 	
-	public void recalculateSaldoStockProcess(FWarehouse itemWareHouse, FProduct itemFproduct, Date dateFrom, Date dateTo){
+	public void recalculateSaldoStockProcess(FWarehouse itemWareHouse, FProduct itemFproduct, Date dateFrom, Date dateTo, boolean recalculateAfter){
 		/*
 		 * MENGKALULASI SALDO STOK PADA GUDANG->PRODUCT --> Mulai tanggal sampai tanggal tertentu
 		 */
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dateFrom);
-		while (cal.getTime().getTime()<= dateTo.getTime()) {
+		while (cal.getTime().getTime() <= dateTo.getTime()) {
 			FStock newFStock = new FStock();
 			try{
 				try{
 					newFStock = fStockJpaService.findAll(itemWareHouse, itemFproduct, cal.getTime()).get(0);			
 				} catch(Exception ex){
-					//STOK AWAL
+					//JIKA TIDAK ADA MAKA STOK AWAL 0 
 					newFStock.setFwarehouseBean(itemWareHouse);
 					newFStock.setFproductBean(itemFproduct);
 					newFStock.setStockdate(cal.getTime());
@@ -928,8 +941,9 @@ public class ProductAndStockHelper extends CustomComponent{
 				fStockJpaService.updateObject(newFStock);
 				
 				//##UPDATE STOCK SETELAHNYA SETELAH DIMASUKKAN>>KESANA TERUSSSS
-				updateStockAfterdate(itemWareHouse, itemFproduct, cal.getTime(), newFStock);
-				
+				if (recalculateAfter){
+					updateStockAfterdate(itemWareHouse, itemFproduct, cal.getTime(), newFStock);
+				}
 			
 			} catch(Exception ex){
 				ex.printStackTrace();

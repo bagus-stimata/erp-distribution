@@ -8,6 +8,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -26,12 +27,15 @@ public class LapPembayaranPiutangView extends CustomComponent{
 	private CheckBox checkBox1 = new CheckBox("TGL. PEMBAYARAN FROM");
 	private CheckBox checkBox2 = new CheckBox("S.D");
 	
+	private OptionGroup optionGroup1 = new OptionGroup("Kelompokkan/Urut Berdasar: ");
+	
 	private DateField dateField1From = new DateField("TGL. PEMBAYARAN FROM");
 	private DateField dateField1To = new DateField("S.D");
 
 	
 	
 	private Button btnPreview = new Button("Preview");
+	private Button btnPreviewInExel = new Button("Export To Exel");
 	private Button btnClose = new Button("Close");
 	
 	private Panel panelUtama = new Panel();
@@ -49,6 +53,8 @@ public class LapPembayaranPiutangView extends CustomComponent{
 	}
 
 	public void initComponent(){
+		content.setHeight("770px");
+		
 		comboGroup1.setWidth("300px");
 		comboGroup2.setWidth("300px");
 		comboGroup3.setWidth("300px");
@@ -59,12 +65,15 @@ public class LapPembayaranPiutangView extends CustomComponent{
 		dateField1From.setDateFormat("dd/MM/yyyy");
 		dateField1To.setDateFormat("dd/MM/yyyy");
 		
+		optionGroup1.addItems("Salesman", "Customer", "Surat Jalan");
+		optionGroup1.setMultiSelect(false);
+		optionGroup1.select("Surat Jalan");
+		
 	}
 
 	public void buildView(){
 		//Inisialisasi Panel 
 		setSizeFull();
-		content.setSizeFull();
 		content.setMargin(true);
 		panelTop.setSizeFull();
 		panelBottom.setSizeFull();
@@ -86,8 +95,10 @@ public class LapPembayaranPiutangView extends CustomComponent{
 		layoutTop.addComponent(dateField1To);
 //		layoutTop.addComponent(checkBox1);
 //		layoutTop.addComponent(checkBox2);
+		layoutTop.addComponent(optionGroup1);
 		
 		layoutBottom.addComponent(btnPreview);
+		layoutBottom.addComponent(btnPreviewInExel);
 		layoutBottom.addComponent(btnClose);
 		
 		
@@ -261,6 +272,22 @@ public class LapPembayaranPiutangView extends CustomComponent{
 
 	public void setComboGroup4(ComboBox comboGroup4) {
 		this.comboGroup4 = comboGroup4;
+	}
+
+	public Button getBtnPreviewInExel() {
+		return btnPreviewInExel;
+	}
+
+	public void setBtnPreviewInExel(Button btnPreviewInExel) {
+		this.btnPreviewInExel = btnPreviewInExel;
+	}
+
+	public OptionGroup getOptionGroup1() {
+		return optionGroup1;
+	}
+
+	public void setOptionGroup1(OptionGroup optionGroup1) {
+		this.optionGroup1 = optionGroup1;
 	}
 	
 	

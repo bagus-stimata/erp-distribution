@@ -131,17 +131,18 @@ public class ProsesAkhirHariPresenter implements ClickListener{
 			Calendar calDateNow = Calendar.getInstance();
 			Calendar calDateTomorrow = Calendar.getInstance();
 
-			calDateYesterday.setTime(tanggalTransaksi);
-			calDateNow.setTime(tanggalTransaksi);
-			calDateTomorrow.setTime(tanggalTransaksi);
-
-			calDateYesterday.add(Calendar.DATE, -1);
-			//TOMORROW 2 HARI SESUDAH SAJA BIAR TIDAK TERLALU LAMA
-			calDateTomorrow.add(Calendar.DATE, 2);
+//			calDateYesterday.setTime(tanggalTransaksi);
+//			calDateNow.setTime(tanggalTransaksi);
+//			calDateTomorrow.setTime(tanggalTransaksi);
+//
+//			calDateYesterday.add(Calendar.DATE, -1);
+//			//TOMORROW 2 HARI SESUDAH SAJA BIAR TIDAK TERLALU LAMA
+//			calDateTomorrow.add(Calendar.DATE, 2);
 			
 			
-			model.getProductAndStockHelper().recalculateSaldoStock(null, calDateYesterday.getTime(), calDateTomorrow.getTime());
-			//2. CLOSING TRANSAKSI DAN MEMAJUKAN TANGGAL
+			model.getProductAndStockHelper().recalculateSaldoStock(null, view.getDateRekalkulasiFrom().getValue(),
+					view.getDateRekalkulasiTo().getValue());
+//			//2. CLOSING TRANSAKSI DAN MEMAJUKAN TANGGAL
 			model.getTransaksiHelper().prosesAkhirHari();
 			
 			//3. HAPUS TRANSAKSI YANG MASIH NEW :: IKUT DI PROSES AKHIR HARI DIATASNYA

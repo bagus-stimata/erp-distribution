@@ -8,5 +8,8 @@ import org.erp.distribution.model.FArea;
 import org.erp.distribution.model.FWarehouse;
 
 public interface FWarehouseJpaService extends GenericJpaService<FWarehouse, Serializable>{
+	
 	public List<FWarehouse> findAllMainWareHouseActive();
+	public List<FWarehouse> findAllActive();
+	
 }

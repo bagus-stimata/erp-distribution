@@ -52,6 +52,9 @@ public class LapSalesOrderView extends CustomComponent{
 	private CheckBox checkBoxOutput11= new CheckBox("LAP. PENJUALAN CUSTOMER");
 	private CheckBox checkBoxOutput12= new CheckBox("LAP. PENJUALAN BARANG");
 	private CheckBox checkBoxOutput13= new CheckBox("LAP. PENJUALAN SALESMAN");
+	
+	private CheckBox checkBoxOutputPenjTotFormatTirta = new CheckBox("Lap. Penjualan Tototal Barang Format Tirta Raharja");
+	
 
 	private Button btnPreviewInExel = new Button("Preview In Exel");
 	private Button btnPreview = new Button("Print");
@@ -158,13 +161,15 @@ public class LapSalesOrderView extends CustomComponent{
 		layoutOutput3.addComponent(checkBoxOutput11);
 		layoutOutput3.addComponent(checkBoxOutput12);
 		layoutOutput3.addComponent(checkBoxOutput13);
+
+		layoutOutput3.addComponent(checkBoxOutputPenjTotFormatTirta);
 		
 		layoutOutput.addComponent(panelOutput1);
 		layoutOutput.addComponent(panelOutput2);
 		layoutOutput.addComponent(panelOutput3);
 		
-		layoutBottom.addComponent(btnPreviewInExel);
 		layoutBottom.addComponent(btnPreview);
+		layoutBottom.addComponent(btnPreviewInExel);
 		layoutBottom.addComponent(btnClose);
 		
 		panelFilter.setContent(layoutFilter);
@@ -505,9 +510,16 @@ public class LapSalesOrderView extends CustomComponent{
 		this.btnPreviewInExel = btnPreviewInExel;
 	}
 
-	
-	
-	
+	public CheckBox getCheckBoxOutputPenjTotFormatTirta() {
+		return checkBoxOutputPenjTotFormatTirta;
+	}
+
+	public void setCheckBoxOutputPenjTotFormatTirta(
+			CheckBox checkBoxOutputPenjTotFormatTirta) {
+		this.checkBoxOutputPenjTotFormatTirta = checkBoxOutputPenjTotFormatTirta;
+	}
+
+
 	
 	
 }

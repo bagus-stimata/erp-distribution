@@ -1,6 +1,7 @@
 package org.erp.distribution.proses.akhirhari;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.vaadin.data.Property;
@@ -35,6 +36,9 @@ public class ProsesAkhirHariView extends CustomComponent{
 	private ComboBox comboDivision = new ComboBox("DIVISION");
 	private Button btnProsesAkhirHari = new Button("PROSES");
 	
+	private DateField dateRekalkulasiFrom = new DateField("Rekalkulasi Mulai");
+	private DateField dateRekalkulasiTo = new DateField("S.D");
+	
 	//Panel
 	private Panel panelUtama;
 	private Panel panelTop;
@@ -68,6 +72,21 @@ public class ProsesAkhirHariView extends CustomComponent{
 		btnProsesAkhirHari.setIcon(new ThemeResource("../images/navigation/16x16/Sync.png") );
 		
 		
+		Date trDate = model.getTransaksiHelper().getCurrentTransDate();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(trDate);
+		
+		Calendar calAfterNow = Calendar.getInstance();
+		calAfterNow.setTime(trDate);
+		calAfterNow.add(Calendar.DATE, 2);
+		
+		dateRekalkulasiFrom.setDateFormat("dd/MM/yyyy");
+		dateRekalkulasiTo.setDateFormat("dd/MM/yyyy");
+		dateRekalkulasiFrom.setValue(cal.getTime());
+		dateRekalkulasiTo.setValue(calAfterNow.getTime());
+//		dateRekalkulasiFrom.setWidth("100px");
+//		dateRekalkulasiTo.setWidth("100px");
+		dateRekalkulasiFrom.setEnabled(false);
 	}
 	public void buildView(){
 		VerticalLayout content = new VerticalLayout();
@@ -90,32 +109,16 @@ public class ProsesAkhirHariView extends CustomComponent{
 		HorizontalLayout layoutTop3 = new HorizontalLayout();		
 		layoutTop3.setMargin(true);
 		layoutTop3.setSpacing(true);
-		HorizontalLayout layoutTop4 = new HorizontalLayout();		
-		layoutTop4.setMargin(true);
-		layoutTop4.setSpacing(true);
-		HorizontalLayout layoutTop5 = new HorizontalLayout();		
-		layoutTop5.setMargin(true);
-		layoutTop5.setSpacing(true);
-		HorizontalLayout layoutTop6 = new HorizontalLayout();		
-		layoutTop6.setMargin(true);
-		layoutTop6.setSpacing(true);	
-		HorizontalLayout layoutTop7 = new HorizontalLayout();		
-		layoutTop7.setMargin(true);
-		layoutTop7.setSpacing(true);
-
-		HorizontalLayout layoutTop8 = new HorizontalLayout();		
-		layoutTop8.setMargin(true);
-		layoutTop8.setSpacing(true);
 		
-		layoutTopProsesAkhirHari.addComponent(layoutTop1);
-		layoutTopProsesAkhirHari.addComponent(layoutTop2);
+		Panel panelTop1 = new Panel("TANGGAL TRANSAKSI BERJALAN");
+		panelTop1.setContent(layoutTop1);
+		layoutTopProsesAkhirHari.addComponent(panelTop1);
+		
+		Panel panelTop2 = new Panel("Kriteria");
+		panelTop2.setContent(layoutTop2);
+		layoutTopProsesAkhirHari.addComponent(panelTop2);
+		
 		layoutTopProsesAkhirHari.addComponent(layoutTop3);
-		layoutTopProsesAkhirHari.addComponent(layoutTop4);
-		layoutTopProsesAkhirHari.addComponent(layoutTop5);
-		layoutTopProsesAkhirHari.addComponent(layoutTop6);
-		layoutTopProsesAkhirHari.addComponent(layoutTop7);
-		layoutTopProsesAkhirHari.addComponent(layoutTop8);
-
 		
 		tabSheet.addTab(layoutTopProsesAkhirHari, "PROSES AKHIR HARI", null);
 //		tabSheet.addTab(layoutTopPelunasan, "Pelunasan Report", null);
@@ -124,9 +127,13 @@ public class ProsesAkhirHariView extends CustomComponent{
 		
 		setCompositionRoot(content);	
 		
+		layoutTop1.addComponent(labelTanggalTransaksiDivisi);	
 
-		layoutTop1.addComponent(labelTanggalTransaksiDivisi);
-//		layoutTop2.addComponent(comboDivision);
+		
+		layoutTop2.setCaption("Kriteria Tanggal Rekalkulasi Stok");
+		layoutTop2.addComponent(dateRekalkulasiFrom);
+		layoutTop2.addComponent(dateRekalkulasiTo);
+		
 		layoutTop3.addComponent(btnProsesAkhirHari);
 		
 		
@@ -203,6 +210,18 @@ public class ProsesAkhirHariView extends CustomComponent{
 	}
 	public void setBtnProsesAkhirHari(Button btnProsesAkhirHari) {
 		this.btnProsesAkhirHari = btnProsesAkhirHari;
+	}
+	public DateField getDateRekalkulasiFrom() {
+		return dateRekalkulasiFrom;
+	}
+	public DateField getDateRekalkulasiTo() {
+		return dateRekalkulasiTo;
+	}
+	public void setDateRekalkulasiFrom(DateField dateRekalkulasiFrom) {
+		this.dateRekalkulasiFrom = dateRekalkulasiFrom;
+	}
+	public void setDateRekalkulasiTo(DateField dateRekalkulasiTo) {
+		this.dateRekalkulasiTo = dateRekalkulasiTo;
 	}
 	
 	

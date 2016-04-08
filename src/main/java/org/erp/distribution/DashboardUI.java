@@ -63,6 +63,9 @@ import org.erp.distribution.master.customer.channel.CustomerChannelView;
 import org.erp.distribution.master.division.DivisionModel;
 import org.erp.distribution.master.division.DivisionPresenter;
 import org.erp.distribution.master.division.DivisionView;
+import org.erp.distribution.master.geomaps.GeoMapsModel;
+import org.erp.distribution.master.geomaps.GeoMapsPresenter;
+import org.erp.distribution.master.geomaps.GeoMapsView;
 import org.erp.distribution.master.principal.area.PrincipalAreaModel;
 import org.erp.distribution.master.principal.area.PrincipalAreaPresenter;
 import org.erp.distribution.master.principal.area.PrincipalAreaView;
@@ -170,9 +173,6 @@ import org.erp.distribution.salesorder.salesorder.lapprestasikerja.LapPrestasiKe
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderModel;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalesorder.LapSalesOrderView;
-import org.erp.distribution.salesorder.salesorder.lapsalesorder2.LapSalesOrder2Model;
-import org.erp.distribution.salesorder.salesorder.lapsalesorder2.LapSalesOrder2Presenter;
-import org.erp.distribution.salesorder.salesorder.lapsalesorder2.LapSalesOrder2View;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerModel;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerPresenter;
 import org.erp.distribution.salesorder.salesorder.lapsalespercustomer.LapSalesPerCustomerView;
@@ -414,7 +414,9 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			public MenuItem menuSetupPrincipalRegion = menuSetupPrincipal.addItem("P. Region", this);
 			public MenuItem menuSetupPrincipalArea = menuSetupPrincipal.addItem("P. Area", this);
 			public MenuItem menuSetupPrincipalDistributor = menuSetupPrincipal.addItem("P. Distributor", this);
-			
+
+		public MenuItem menuSetupGeoMaps = menuSetupMaster.addItem("GEO MAPS", this);
+		
 	public MenuItem menuWarehouseStock = menuBar1.addItem("Kontrol Stok Gudang", FontAwesome.DROPBOX, null);
 		public MenuItem menuWarehouseStockTransfer = menuWarehouseStock.addItem("Mutasi/Stock Transfer", FontAwesome.EXCHANGE, this);
 		public MenuItem menuWarehouseStockOpname = menuWarehouseStock.addItem("Stock Opname", FontAwesome.ADJUST, this);
@@ -889,14 +891,14 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			
 			workspace1.setContent(objView);
 		}else if (selectedItem == menuSalesOrderRep) {
-			LapSalesOrder2Model objModel = new LapSalesOrder2Model();
-			LapSalesOrder2View objView = new LapSalesOrder2View(objModel);
-			LapSalesOrder2Presenter objPresenter = new LapSalesOrder2Presenter(objModel, objView);				
-			
-			workspace1.setCaption("LAP. SALES ORDER");
-			objView.setSizeFull();
-			
-			workspace1.setContent(objView);
+//			LapSalesOrder2Model objModel = new LapSalesOrder2Model();
+//			LapSalesOrder2View objView = new LapSalesOrder2View(objModel);
+//			LapSalesOrder2Presenter objPresenter = new LapSalesOrder2Presenter(objModel, objView);				
+//			
+//			workspace1.setCaption("LAP. SALES ORDER");
+//			objView.setSizeFull();
+//			
+//			workspace1.setContent(objView);
 		}else if (selectedItem == menuSalesPerCustomer) {
 			LapSalesPerCustomerModel objModel = new LapSalesPerCustomerModel();
 			LapSalesPerCustomerView objView = new LapSalesPerCustomerView(objModel);
@@ -929,7 +931,7 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			LapSalesOrderView objView = new LapSalesOrderView(objModel);
 			LapSalesOrderPresenter objPresenter = new LapSalesOrderPresenter(objModel, objView);				
 			
-			workspace1.setCaption("LAP. SALES SUPPLIER PER BARANG");
+			workspace1.setCaption("LAP. SALES ORDER");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);
@@ -1164,6 +1166,15 @@ public class DashboardUI extends UI implements Command, Handler, ClickListener{
 			PrincipalTerritoryPresenter objPresenter = new PrincipalTerritoryPresenter(objModel, objView);				
 			
 			workspace1.setCaption("P. TERRITORY/DISTRIBUTOR");
+			objView.setSizeFull();
+			
+			workspace1.setContent(objView);
+		}else if (selectedItem == menuSetupGeoMaps) {
+			GeoMapsModel objModel = new GeoMapsModel();
+			GeoMapsView objView = new GeoMapsView(objModel);
+			GeoMapsPresenter objPresenter = new GeoMapsPresenter(objModel, objView);				
+			
+			workspace1.setCaption("GEO MAPS");
 			objView.setSizeFull();
 			
 			workspace1.setContent(objView);

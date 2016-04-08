@@ -168,6 +168,13 @@ public class LapSalesOrderPresenter implements ClickListener{
 				showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/denganbarang/lapsalesordertotal1Ds.jasper", "lapsalesordertotal1Ds");
 			}
 		}
+		if (view.getCheckBoxOutputPenjTotFormatTirta().getValue()==true){
+			fillDatabaseReport(12);
+			paramJudulLaporan = "Laporan Penjualan Total Barang";
+			//2. PREVIEW LAPORAN
+			showPreview("/erp/distribution/reports/salesorder/lapsalesordertotal/denganbarang/lapsalesordertotal1LengkapTirtaDs.jasper", "lapsalesordertotal1LengkapDs");			
+		}
+		
 		if (view.getCheckBoxOutput13().getValue()==true){
 			fillDatabaseReport(13);
 			paramJudulLaporan = "Laporan Penjualan Total Salesman";

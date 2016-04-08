@@ -1643,7 +1643,6 @@ public class TransaksiHelperImpl extends CustomComponent implements TransaksiHel
 				 }
 				 
 				 
-				 
 			 //2. MAJUKAN SATU HARI:: SEMENTARA PAKE DATE SYSTEM
 				 Calendar cal = Calendar.getInstance();
 				 cal.setTime(transDate);

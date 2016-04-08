@@ -22,14 +22,21 @@ public class ZLapPrestasiKerja {
 	String grup1;
 	@Column(name="GRUP2")
 	String grup2;
+	@Column(name="GRUP3")
+	String grup3;
 	
 	@Column(name="HARI")
 	String hari;
 	@Temporal(TemporalType.DATE)
 	Date tanggal;
 	
+	//OUTLET ACTIVE
 	@Column(name="JUMLAHTOKO")
 	Integer jumlahToko;
+	
+	@Column(name="JUMLAHNOTA")
+	Integer jumlahNota;
+	
 	@Column(name="EFECTIVECALL")
 	Integer efectiveCall;
 	@Column(name="SKUSOLD")
@@ -49,6 +56,10 @@ public class ZLapPrestasiKerja {
 	Double discPerbarang;
 	@Column(name="DISCNOTA")
 	Double discNota;
+	@Column(name="RETURDPP")
+	Double returdpp;
+	@Column(name="RETURPPN")
+	Double returppn;
 	@Column(name="DPP")
 	Double dpp;
 	@Column(name="PPN")
@@ -233,6 +244,32 @@ public class ZLapPrestasiKerja {
 	}
 	
 	
+	public Double getReturdpp() {
+		return returdpp;
+	}
+	public Double getReturppn() {
+		return returppn;
+	}
+	public void setReturdpp(Double returdpp) {
+		this.returdpp = returdpp;
+	}
+	public void setReturppn(Double returppn) {
+		this.returppn = returppn;
+	}
+	public String getGrup3() {
+		return grup3;
+	}
+	public void setGrup3(String grup3) {
+		this.grup3 = grup3;
+	}
+	
+	
+	public Integer getJumlahNota() {
+		return jumlahNota;
+	}
+	public void setJumlahNota(Integer jumlahNota) {
+		this.jumlahNota = jumlahNota;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
